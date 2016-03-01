@@ -1,0 +1,15 @@
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\obj\Release\Repository.Pattern.Ef6.csprojResolveAssemblyReference.cache
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\Repository.Pattern.Ef6.dll.config
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\Repository.Pattern.Ef6.dll
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\Repository.Pattern.Ef6.pdb
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\EntityFramework.dll
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\EntityFramework.SqlServer.dll
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\Newtonsoft.Json.dll
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\Repository.Pattern.dll
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\System.Net.Http.dll
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\Repository.Pattern.pdb
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\EntityFramework.xml
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\EntityFramework.SqlServer.xml
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Release\Newtonsoft.Json.xml
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\obj\Release\Repository.Pattern.Ef6.dll
+F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\obj\Release\Repository.Pattern.Ef6.pdb

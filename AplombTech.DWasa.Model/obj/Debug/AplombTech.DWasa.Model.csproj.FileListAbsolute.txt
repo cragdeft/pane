@@ -1,0 +1,13 @@
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\AplombTech.DWasa.Model.dll
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\AplombTech.DWasa.Model.pdb
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\EntityFramework.dll
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\Repository.Pattern.Ef6.dll
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\Repository.Pattern.dll
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\LinqKit.dll
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\Repository.Pattern.Ef6.pdb
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\EntityFramework.xml
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\bin\Debug\Repository.Pattern.pdb
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\obj\Debug\AplombTech.DWasa.Model.csprojResolveAssemblyReference.cache
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\obj\Debug\AplombTech.DWasa.Model.dll
+c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Model\obj\Debug\AplombTech.DWasa.Model.pdb

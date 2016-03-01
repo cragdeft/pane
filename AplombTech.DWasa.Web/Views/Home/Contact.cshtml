@@ -1,0 +1,160 @@
+﻿
+@*@using Jmelosegui.Mvc.GoogleMap
+@using System.Drawing*@
+
+@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+@*@(Html.GoogleMap()
+                      .Name("map")
+                      .Center(m => m.Latitude(23.751284).Longitude(90.393570))
+                  .Markers(m => m.Add().Title("Zone 1").Latitude(23.781089).Longitude(90.391704))
+                  .Polygons(
+                pf => pf.Add()
+                .Points(ptn =>
+                {
+                    ptn.Add(23.784850, 90.389999);
+                    ptn.Add(23.784676, 90.393992);
+                    ptn.Add(23.784421, 90.394196);
+                    ptn.Add(23.785295, 90.397071);
+                    ptn.Add(23.785108, 90.398809);
+                    ptn.Add(23.785108, 90.398809);
+                    ptn.Add(23.775901, 90.393132);
+                    ptn.Add(23.775371, 90.389860);
+                    ptn.Add(23.781862, 90.389291);
+                    ptn.Add(23.784850, 90.389999);
+                })
+
+                .FillColor(Color.Blue)
+                .StrokeColor(Color.DarkBlue)
+
+                ).Height(500)
+                .Zoom(13)
+)*@
+
+<style>
+    
+
+    #map {
+        height: 500px;
+    }
+
+     #legend {
+    background: white;
+    padding: 10px;
+  }
+</style>
+
+<div id="map">
+
+</div>
+
+<div id="legend">
+    My first legend!
+</div>
+
+@section scripts
+{
+    @*@(Html.GoogleMap().ScriptRegistrar())*@
+
+<script>
+    var map;
+    var myLatLng = { lat: 23.751284, lng: 90.393570 };
+
+    var polyGonCoords = [
+
+        {lat:23.784850, lng:90.389999},
+        {lat: 23.784676, lng:90.393992},
+        {lat: 23.784421,lng: 90.394196},
+        {lat: 23.785295, lng:90.397071},
+        {lat: 23.785108, lng:90.398809},
+        {lat: 23.785108, lng:90.398809},
+        {lat: 23.775901, lng:90.393132},
+        {lat: 23.775371, lng:90.389860},
+        {lat: 23.781862, lng:90.389291},
+        {lat: 23.784850, lng:90.389999}
+    ];
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 13
+        });
+
+        var marker = new google.maps.Marker({
+            position: { lat: 23.781089, lng: 90.391704 },
+            icon: {
+                path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+                scale: 4
+            },
+            map: map,
+            label:"fd",
+            title: 'Zone 1'
+        });
+
+        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+        var icons = {
+            parking: {
+                name: 'Parking',
+                icon: iconBase + 'parking_lot_maps.png'
+            },
+            library: {
+                name: 'Library',
+                icon: iconBase + 'library_maps.png'
+            },
+            info: {
+                name: 'Info',
+                icon: iconBase + 'info-i_maps.png'
+            }
+        };
+
+        function addMarker(feature) {
+            var marker = new google.maps.Marker({
+                
+                position: feature.position,
+                icon: icons[feature.type].icon,
+                
+                map: map
+            });
+        }
+
+        var features = [
+        {
+            position: new google.maps.LatLng(23.781089, 90.391704),
+            type: 'info'
+        }];
+
+        for (var i = 0, feature; feature = features[i]; i++) {
+            addMarker(feature);
+        }
+
+          // Construct the polygon.
+        var zone1 = new google.maps.Polygon({
+            paths: polyGonCoords,
+            strokeColor: 'green',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: 'green',
+            fillOpacity: 0.35
+        });
+        zone1.setMap(map);
+
+        var legend = document.getElementById('legend');
+        for (var key in icons) {
+          var type = icons[key];
+          var name = type.name;
+          var icon = type.icon;
+          var div = document.createElement('div');
+          div.innerHTML = '<img src="' + icon + '"> ' + name;
+          legend.appendChild(div);
+        }
+
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+      }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
+        async defer></script>
+}
