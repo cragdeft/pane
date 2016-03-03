@@ -9,139 +9,338 @@ using AplombTech.DWasa.Json;
 using AplombTech.DWasa.Model.Enums;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
+using System.Configuration;
+using AplombTech.DWasa.Logging;
 
 namespace AplombTech.DWasa.MQTT.Client
 {
     public class MqttClientWrapper
     {
+        #region delegate event
 
-        static MqttClientWrapper()
+        #region MqttMsg-Publish-Received-Notification
+        public delegate void NotifyMqttMsgPublishReceivedDelegate(CustomEventArgs customEventArgs);
+        public event NotifyMqttMsgPublishReceivedDelegate NotifyMqttMsgPublishReceivedEvent;
+        #endregion
+
+        #region MqttMsg-Published-Notification
+        public delegate void NotifyMqttMsgPublishedDelegate(CustomEventArgs customEventArgs);
+        public event NotifyMqttMsgPublishedDelegate NotifyMqttMsgPublishedEvent;
+        #endregion
+
+        #region MqttMsg-Subscribed-Notification
+        public delegate void NotifyMqttMsgSubscribedDelegate(CustomEventArgs customEventArgs);
+        public event NotifyMqttMsgSubscribedDelegate NotifyMqttMsgSubscribedEvent;
+        #endregion
+
+        #endregion
+
+        #region constructor
+        public MqttClientWrapper()
         {
-            ClientId = string.Empty;
+
+
         }
-
-        public static void MakeConnection(string brokerAddress) // the global controlled variable
+        public void MakeConnection()
         {
-            if (BDemoMQTT == null)
+
+
+            #region MyRegion
+
+            try
             {
-                LocalBrokerConnection(brokerAddress);
+                if (DWasaMQTT == null || !DWasaMQTT.IsConnected)
+                {
+                    if (BrokerAddress == "192.168.11.162")
+                    {
+                        LocalBrokerConnection(BrokerAddress);
+                    }
+                    else if (BrokerAddress == "192.168.11.150")
+                    {
+                        BrokerConnectionWithoutCertificate(BrokerAddress);
+                    }
+                    else
+                    {
+                        BrokerConnectionWithCertificate(BrokerAddress);
+                    }
 
-                DefinedMQTTCommunicationEvents();
+                    DefinedMQTTCommunicationEvents();
+                }
+
             }
+            catch (Exception ex)
+            {
+
+                //Logger.LogError(ex, string.Format("Could not stablished connection to MQ broker: {1}", ex.Message));
+
+                //don't leave the client connected
+                if (DWasaMQTT != null && DWasaMQTT.IsConnected)
+                    try
+                    {
+                        DWasaMQTT.Disconnect();
+                    }
+                    catch
+                    {
+                        //Logger.LogError(ex, string.Format("Could not disconnect to MQ broker: {1}", ex.Message));
+                    }
+            }
+            #endregion
+
         }
-
-
-
-        public static bool client_RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        public bool client_RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
             // logic for validation here
         }
+        #endregion
 
         #region Properties
 
-        public static string BrokerAddress
+        public string WillTopic { get; set; }
+        readonly object locker = new object();
+        public string BrokerAddress
         {
-            get;
-        }
-        public static MqttClient BDemoMQTT { get; set; }
-        public static string ClientId { get; set; }
-        public static string MQTT_BROKER_ADDRESS { get; set; }
+            get
+            {
+                if (ConfigurationManager.AppSettings["BrokerAddress"] == null)
+                {
+                    return string.Empty;
+                }
+                return ConfigurationManager.AppSettings["BrokerAddress"].ToString();
+            }
 
-        public static string ClientResponce { get; set; }
+        }
+        public int BrokerPort
+        {
+            get
+            {
+                if (ConfigurationManager.AppSettings["BrokerPort"] == null)
+                {
+                    return 1883;
+                }
+                return Convert.ToInt32(ConfigurationManager.AppSettings["BrokerPort"]);
+            }
+
+        }
+        public UInt16 BrokerKeepAlivePeriod
+        {
+            get
+            {
+                if (ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"] == null)
+                {
+                    return 3600;
+                }
+                return Convert.ToUInt16(ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"]);
+            }
+
+        }
+        public string ClientId
+        {
+            get
+            {
+                if (ConfigurationManager.AppSettings["BrokerAccessClientId"] == null)
+                {
+                    return Guid.NewGuid().ToString();
+                }
+                return ConfigurationManager.AppSettings["BrokerAccessClientId"].ToString();
+            }
+
+        }
+        public MqttClient DWasaMQTT { get; set; }
+        public string ClientResponce { get; set; }
         #endregion
 
         #region Methods
 
-
-
-        public static string Publish(string messgeTopic, string publishMessage)
+        public string Publish(string messgeTopic, string publishMessage)
         {
-
-            ushort msgId = BDemoMQTT.Publish(messgeTopic, // topic
+            if (DWasaMQTT != null)
+            {
+                try
+                {
+                    lock (locker)
+                    {
+                        ushort msgId = DWasaMQTT.Publish(messgeTopic, // topic
                                           Encoding.UTF8.GetBytes(publishMessage), // message body
                                           MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, // QoS level
                                           true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                      // log.Warn("Error while publishing: " + ex.Message, ex);
+                }
+            }
             return "Success";
+
+
         }
 
-        public static string Subscribe(string messgeTopic)
+        public string Subscribe(string messgeTopic)
         {
-            ushort msgId = BDemoMQTT.Subscribe(new string[] { messgeTopic },
-                new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }
-                );
-            return "Success";
-        }
-
-        private static void client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
-        {
-            //e.IsPublished //it's defined confirmation message is published or not.
-            // Debug.WriteLine("MessageId = " + e.MessageId + " Published = " + e.IsPublished);
-            ClientResponce = "Success";
-        }
-
-
-
-        public static void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
-        {
-            //Debug.WriteLine("Subscribed for id = " + e.MessageId);
-            // write your code
-        }
-
-        public static void client_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
-        {
-            ClientResponce = "Success";
-        }
-
-        public static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-        {
-            var jsonString = Encoding.UTF8.GetString(e.Message);
-            if (e.Topic == CommandType.Feedback.ToString())
+            if (DWasaMQTT != null)
             {
-                LogJsonManager manager = new LogJsonManager(jsonString);
-                manager.Parse();
+                ushort msgId = DWasaMQTT.Subscribe(new string[] { messgeTopic },
+                     new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }
+                     );
+                Logger.Log(string.Format("Subscription to topic {0}", messgeTopic));
+            }
+            return "Success";
+        }
+
+        /// <summary>
+        /// Subscribe to a list of topics
+        /// </summary>
+        public void Subscribe(IEnumerable<string> messgeTopics)
+        {
+            foreach (var item in messgeTopics)
+                Subscribe(item);
+        }
+
+        private void client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
+        {
+            NotifyMessage("MqttMsgPublished", e.IsPublished.ToString(), string.Empty);
+            Logger.Log(string.Format("Mqtt-Msg-Published to topic {0}", e.IsPublished.ToString()));
+            ClientResponce = "Success";
+        }
+
+
+
+        public void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
+        {
+            NotifyMessage("MqttMsgSubscribed", e.MessageId.ToString(), string.Empty);
+            Logger.Log(string.Format("Mqtt-Msg-Subscribed to topic {0}", e.MessageId.ToString()));
+
+        }
+
+        public void client_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
+        {
+            ClientResponce = "Success";
+        }
+
+        public void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        {
+
+            NotifyMessage("MqttMsgPublishReceived", Encoding.UTF8.GetString(e.Message), e.Topic.ToString());
+            Logger.Log(string.Format("Mqtt-Msg-Publish-Received to topic {0}", e.Topic.ToString()));
+        }
+
+        public void client_ConnectionClosed(object sender, EventArgs e)
+        {
+
+            if (!(sender as MqttClient).IsConnected || DWasaMQTT == null)
+            {
+                HandleReconnect();
+            }
+            Logger.Log("Connection has been closed");
+        }
+
+
+        void HandleReconnect()
+        {
+            MakeConnection();
+        }
+
+
+
+
+        //
+        #region Delegate and event implementation
+        public void NotifyMessage(string NotifyType, string receivedMessage, string receivedTopic)
+        {
+            if (NotifyType == "MqttMsgPublishReceived")
+            {
+                InvokeEvents<NotifyMqttMsgPublishReceivedDelegate>(receivedMessage, receivedTopic, NotifyMqttMsgPublishReceivedEvent);
             }
 
+            if (NotifyType == "MqttMsgPublished")
+            {
+                InvokeEvents<NotifyMqttMsgPublishedDelegate>(receivedMessage, receivedTopic, NotifyMqttMsgPublishedEvent);
+            }
+
+            if (NotifyType == "MqttMsgSubscribed")
+            {
+                InvokeEvents<NotifyMqttMsgSubscribedDelegate>(receivedMessage, receivedTopic, NotifyMqttMsgSubscribedEvent);
+
+            }
         }
+
+        private static void InvokeEvents<T>(string receivedMessage, string receivedTopic, T eventDelegate)
+        {
+            if (eventDelegate != null)
+            {
+                var customEventArgs = new CustomEventArgs(receivedMessage, receivedTopic);
+                ((Delegate)(object)eventDelegate).DynamicInvoke(customEventArgs);
+            }
+        }
+        #endregion
+
         #endregion
 
         #region MQTT connection events
 
-        private static void DefinedMQTTCommunicationEvents()
+        private void DefinedMQTTCommunicationEvents()
         {
-            BDemoMQTT.MqttMsgPublished += client_MqttMsgPublished;//publish
-            BDemoMQTT.MqttMsgSubscribed += client_MqttMsgSubscribed;//subscribe confirmation
-            BDemoMQTT.MqttMsgUnsubscribed += client_MqttMsgUnsubscribed;
-            BDemoMQTT.MqttMsgPublishReceived += client_MqttMsgPublishReceived;//received message.
 
-            //ushort submsgId = BDemoMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback" },
-            //                  new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
-            //                          MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            DWasaMQTT.MqttMsgPublished += client_MqttMsgPublished;//publish
+            DWasaMQTT.MqttMsgSubscribed += client_MqttMsgSubscribed;//subscribe confirmation
+            DWasaMQTT.MqttMsgUnsubscribed += client_MqttMsgUnsubscribed;
+            DWasaMQTT.MqttMsgPublishReceived += client_MqttMsgPublishReceived;//received message.
+            DWasaMQTT.ConnectionClosed += client_ConnectionClosed;
+
+            ushort submsgId = DWasaMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback" },
+                              new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
+                                      MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
         }
 
-        private static void BrokerConnectionWithCertificate(string brokerAddress)
+        private void BrokerConnectionWithCertificate(string brokerAddress)
         {
-            BDemoMQTT = new MqttClient(brokerAddress, MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, new X509Certificate(Resource.ca), null, MqttSslProtocols.TLSv1_2, client_RemoteCertificateValidationCallback);
-            BDemoMQTT.Connect(Guid.NewGuid().ToString(), "mosharraf", "mosharraf", false, 3600);
+            DWasaMQTT = new MqttClient(brokerAddress, MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, new X509Certificate(Resource.ca), null, MqttSslProtocols.TLSv1_2, client_RemoteCertificateValidationCallback);
+            DWasaMQTT.Connect(ClientId, "mosharraf", "mosharraf", false, BrokerKeepAlivePeriod);
         }
 
-        private static void BrokerConnectionWithoutCertificate(string brokerAddress)
+        private void BrokerConnectionWithoutCertificate(string brokerAddress)
         {
-            BDemoMQTT = new MqttClient(brokerAddress, 18830, false, null, null, MqttSslProtocols.None, null);
+            DWasaMQTT = new MqttClient(brokerAddress, BrokerPort, false, null, null, MqttSslProtocols.None, null);
             MQTTConnectiobn();
         }
 
-        private static void LocalBrokerConnection(string brokerAddress)
+        private void LocalBrokerConnection(string brokerAddress)
         {
-            BDemoMQTT = new MqttClient(brokerAddress);
+            DWasaMQTT = new MqttClient(brokerAddress);
             MQTTConnectiobn();
         }
 
-        private static void MQTTConnectiobn()
+        private void MQTTConnectiobn()
         {
-            BDemoMQTT.Connect(Guid.NewGuid().ToString());
+            DWasaMQTT.Connect(ClientId, null, null, false, BrokerKeepAlivePeriod);
         }
         #endregion
+        
+    }
+
+    public class CustomEventArgs : EventArgs
+    {
+        public CustomEventArgs(string receivedMessage, string receivedTopic)
+        {
+            _receivedMessage = receivedMessage;
+            _receivedTopic = receivedTopic;
+        }
+        private string _receivedMessage;
+
+        public string ReceivedMessage
+        {
+            get { return _receivedMessage; }
+            set { _receivedMessage = value; }
+        }
+
+
+        private string _receivedTopic;
+        public string ReceivedTopic
+        {
+            get { return _receivedTopic; }
+            set { _receivedTopic = value; }
+        }
     }
 }

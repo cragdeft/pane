@@ -97,3 +97,6 @@ c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTec
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Web\obj\Debug\AplombTech.DWasa.Web.dll
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Web\obj\Debug\AplombTech.DWasa.Web.pdb
 C:\Users\APL-40\Documents\Visual Studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Web\bin\Jmelosegui.Mvc.GoogleMap.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Web\bin\AplombTech.DWasa.Logging.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Web\bin\Elmah.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Web\bin\AplombTech.DWasa.Logging.pdb

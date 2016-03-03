@@ -23,3 +23,6 @@ c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTec
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.csproj.GenerateResource.Cache
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.dll
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.pdb
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Logging.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\bin\Debug\Elmah.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Logging.pdb

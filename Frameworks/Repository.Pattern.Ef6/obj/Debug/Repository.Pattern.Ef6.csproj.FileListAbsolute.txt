@@ -135,3 +135,18 @@ F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\bin\Debug\Newtonsoft.Json.xm
 F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\obj\Debug\Repository.Pattern.Ef6.csprojResolveAssemblyReference.cache
 F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\obj\Debug\Repository.Pattern.Ef6.dll
 F:\Projects\BDemo\Frameworks\Repository.Pattern.Ef6\obj\Debug\Repository.Pattern.Ef6.pdb
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\Repository.Pattern.Ef6.dll.config
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\Repository.Pattern.Ef6.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\Repository.Pattern.Ef6.pdb
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\EntityFramework.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\Newtonsoft.Json.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\Repository.Pattern.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\System.Net.Http.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\Repository.Pattern.pdb
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\EntityFramework.xml
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\bin\Debug\Newtonsoft.Json.xml
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\obj\Debug\Repository.Pattern.Ef6.csprojResolveAssemblyReference.cache
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\obj\Debug\Repository.Pattern.Ef6.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern.Ef6\obj\Debug\Repository.Pattern.Ef6.pdb

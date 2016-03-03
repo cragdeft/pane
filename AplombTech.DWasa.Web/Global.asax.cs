@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using AplombTech.DWasa.MQTT.Client;
+using AplombTech.DWasa.Web.MqTTAdapter;
 
 namespace AplombTech.DWasa.Web
 {
@@ -14,7 +15,7 @@ namespace AplombTech.DWasa.Web
     {
         protected void Application_Start()
         {
-            MqttClientWrapper.MakeConnection(ConfigurationManager.AppSettings["BrokerAddress"]);
+            MqttClientWrapperAdapter.WrapperInstance.MakeConnection();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

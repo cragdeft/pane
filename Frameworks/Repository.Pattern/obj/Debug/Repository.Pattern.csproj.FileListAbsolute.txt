@@ -52,3 +52,9 @@ F:\Projects\BDemo\Frameworks\Repository.Pattern\bin\Debug\Repository.Pattern.pdb
 F:\Projects\BDemo\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.dll
 F:\Projects\BDemo\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.pdb
 F:\Projects\BDemo\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.csprojResolveAssemblyReference.cache
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\bin\Debug\Repository.Pattern.dll.config
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\bin\Debug\Repository.Pattern.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\bin\Debug\Repository.Pattern.pdb
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.csprojResolveAssemblyReference.cache
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.dll
+C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.pdb

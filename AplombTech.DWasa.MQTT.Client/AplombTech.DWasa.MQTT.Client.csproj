@@ -35,6 +35,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\AplombTech.DWasa.Json\AplombTech.DWasa.Json.csproj">
       <Project>{a64bcfe7-9ee1-4f7c-b1dd-5da0cb9c0bef}</Project>
       <Name>AplombTech.DWasa.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AplombTech.DWasa.Logging\AplombTech.DWasa.Logging.csproj">
+      <Project>{1f31636b-9bb0-4650-ac19-b5b154d84d78}</Project>
+      <Name>AplombTech.DWasa.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\AplombTech.DWasa.Model\AplombTech.DWasa.Model.csproj">
       <Project>{4719881e-0890-4734-b68b-c874f12a13f4}</Project>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AplombTech.DWasa.MQTT.Client;
 using AplombTech.DWasa.Web.Models;
+using AplombTech.DWasa.Web.MqTTAdapter;
 
 namespace AplombTech.DWasa.Web.Controllers
 {
@@ -34,9 +35,8 @@ namespace AplombTech.DWasa.Web.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            model.PublishMessageStatus = MqttClientWrapperAdapter.WrapperInstance.Publish(model.MessgeTopic, model.PublishMessage);
 
-
-            model.PublishMessageStatus = MqttClientWrapper.Publish(model.MessgeTopic, model.PublishMessage);
             return View("Index", model);
 
         }
@@ -46,7 +46,7 @@ namespace AplombTech.DWasa.Web.Controllers
         public ActionResult SubscribeMessage(M2MMessageViewModel model)
         {
             ViewBag.Message = "Your contact page.";
-            model.SubscribehMessageStatus = MqttClientWrapper.Subscribe(model.MessgeTopic);
+            model.PublishMessageStatus = MqttClientWrapperAdapter.WrapperInstance.Subscribe(model.MessgeTopic);
             return View("Index", model);
         }
     }
