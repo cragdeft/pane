@@ -22,3 +22,13 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+#map {
+    height: 500px;
+}
+
+#legend {
+    background: white;
+    padding: 10px;
+}
