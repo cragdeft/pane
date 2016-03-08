@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Map</h2>
+
+<link href="~/Content/themes/default/style.css" rel="stylesheet" />
+
+
+
+<style>
+    #map {
+        height: 500px;
+    }
+
+    #legend {
+        background: white;
+        padding: 10px;
+    }
+</style>
+
+<div id="map">
+
+</div>
+
+<div id="legend">
+    <ul>
+        <li data-jstree='{"icon":"../../Content/Image/zone.png"}' id="zone1">
+            Zone 1
+            <ul>
+                <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>
+                    DMA 1
+                    <ul>
+
+                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}' id="pump1">Pump 1</li>
+                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 2</a></li>
+                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 3</a></li>
+                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 4</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <li data-jstree='{"icon":"../../Content/Image/zone.png"}'>
+            Zone 2
+            <ul>
+                <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>DMA 3</li>
+                <li data-jstree='{"icon":"../../Content/Image/dma.png"}'><a href="#">DMA 4</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/dist/jstree.min.js"></script>
+    <script src="https://www.google.com/jsapi?.js"></script>
+
+    <script src="~/Scripts/Map.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
+            async defer></script>
+
+}
