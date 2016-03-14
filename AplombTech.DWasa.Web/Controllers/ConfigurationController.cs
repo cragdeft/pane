@@ -23,7 +23,8 @@ namespace AplombTech.DWasa.Web.Controllers
 
         public ActionResult AddZone()
         {
-            return View(new ZoneEntity());
+            ZoneEntity zone = new ZoneEntity();
+            return View(zone);
         }
 
         [HttpPost]
@@ -59,11 +60,11 @@ namespace AplombTech.DWasa.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ZoneDMAEntity entity)
+        public ActionResult CreateDMA(ZoneDMAEntity entity)
         {
             if (ModelState.IsValid)
             {
-                _configurationService.AddZone(entity);
+                //_configurationService.AddZone(entity);
             }
             return View(entity);
         }
