@@ -115,7 +115,15 @@ namespace AplombTech.DWasa.Service
             return  Mapper.Map<IEnumerable<Zone>, IEnumerable<ZoneEntity>>(zoneList).ToList();
         }
 
-        
+        public bool IsZoneExists(string name)
+        {
+            return _zoneRepository
+                .Queryable()
+                .Where(u => u.Name == name)
+                .AsEnumerable().Count() == 0 ? false : true;
+        }
+
+
 
         //public DMA FindDMA(int dmaId)
         //{
