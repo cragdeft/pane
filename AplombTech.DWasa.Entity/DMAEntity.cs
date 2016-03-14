@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace AplombTech.DWasa.Entity
 {
-    public class DMAEntity
+    public class DMAEntity:AreaEntity
     {
         #region Primitive Properties
-        public int DMAId { get; set; }
-        public string DMAName { get; set; }
-        public string Address { get; set; }
-        public string Locations { get; set; }
+        public ZoneEntity Zone { get; set; }
         #endregion
     }
 }
