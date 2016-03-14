@@ -16,38 +16,38 @@ namespace AplombTech.DWasa.Json
 {
     public class LogJsonManager
     {
-        private IUnitOfWorkAsync _unitOfWorkAsync;
-        private IJsonParserManagerService _jsonParserManagerService;
-        public DataLog DataLog { get; }
+        //private IUnitOfWorkAsync _unitOfWorkAsync;
+        //private IJsonParserManagerService _jsonParserManagerService;
+        //public DataLog DataLog { get; }
 
-        private T JsonDesrialized<T>(string jsonString)
-        {
-            return JsonConvert.DeserializeObject<T>(jsonString);
-        }
+        //private T JsonDesrialized<T>(string jsonString)
+        //{
+        //    return JsonConvert.DeserializeObject<T>(jsonString);
+        //}
 
-        public LogJsonManager(string jsonString)
-        {
-            DataLog = JsonDesrialized<DataLog>(jsonString);
-            InitializeParameters();
-        }
+        //public LogJsonManager(string jsonString)
+        //{
+        //    DataLog = JsonDesrialized<DataLog>(jsonString);
+        //    InitializeParameters();
+        //}
 
-        public LogJsonManager(string jsonString, IJsonParserManagerService jsonParserManagerService)
-        {
-            _jsonParserManagerService = jsonParserManagerService;
-            DataLog = JsonDesrialized<DataLog>(jsonString);
-        }
+        //public LogJsonManager(string jsonString, IJsonParserManagerService jsonParserManagerService)
+        //{
+        //    _jsonParserManagerService = jsonParserManagerService;
+        //    DataLog = JsonDesrialized<DataLog>(jsonString);
+        //}
 
-        private void InitializeParameters()
-        {
-            IDataContextAsync context = new DWasaDataContext();
-            _unitOfWorkAsync = new UnitOfWork(context);
-            _jsonParserManagerService = new JsonParserManagerService(_unitOfWorkAsync);
-        }
+        //private void InitializeParameters()
+        //{
+        //    IDataContextAsync context = new DWasaDataContext();
+        //    _unitOfWorkAsync = new UnitOfWork(context);
+        //    _jsonParserManagerService = new JsonParserManagerService(_unitOfWorkAsync);
+        //}
 
-        public void Parse()
-        {
-            IEnumerable<DataLog> list = new List<DataLog>() { DataLog };
-            _jsonParserManagerService.AddOrUpdateDataLogGraphRange(list);
-        }
+        //public void Parse()
+        //{
+        //    IEnumerable<DataLog> list = new List<DataLog>() { DataLog };
+        //    _jsonParserManagerService.AddOrUpdateDataLogGraphRange(list);
+        //}
     }
 }

@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "LeafLetMap";
+}
+
+<h2>LeafLetMap</h2>
+
+<style>
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+
+<div id="map"></div>
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.15.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.15.0/mapbox-gl.css' rel='stylesheet' />
+
+@section scripts
+{
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2Ryb25uaWUiLCJhIjoiY2lsaXpzNTFmM3R1cnVoa3Boeml6aDZ0NCJ9.Ad7ei3pUI5Q6XP5Jf67abQ';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v8', //stylesheet location
+            //center: [23.50, 90], // starting position
+            zoom: 13 // starting zoom
+        });
+
+        map.fitBounds([[
+        23.751284, 90
+        ], [
+        23,90
+        ]]);
+    </script>
+}
+

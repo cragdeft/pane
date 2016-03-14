@@ -25,10 +25,11 @@ namespace AplombTech.DWasa.Model.ModelDataContext
         {
             return base.Set<T>();
         }
+        public IDbSet<Zone> Zones { get; set; }
 
-        public IDbSet<DataLog> DataLoges { get; set; }
+        public IDbSet<DMA> DMAs { get; set; }
 
-
+        public IDbSet<PumpStation> PumpStations { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

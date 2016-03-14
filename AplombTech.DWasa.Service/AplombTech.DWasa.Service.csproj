@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,11 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationService.cs" />
+    <Compile Include="Interfaces\IConfigurationService.cs" />
     <Compile Include="Interfaces\IJsonParserManagerService.cs" />
     <Compile Include="JsonParserManagerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AplombTech.DWasa.Entity\AplombTech.DWasa.Entity.csproj">
+      <Project>{9805b916-4979-4d84-96e0-ca8a129352c8}</Project>
+      <Name>AplombTech.DWasa.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AplombTech.DWasa.Model\AplombTech.DWasa.Model.csproj">
       <Project>{4719881E-0890-4734-B68B-C874F12A13F4}</Project>
       <Name>AplombTech.DWasa.Model</Name>
@@ -57,6 +67,9 @@
       <Project>{479425D1-E376-4E3A-9FFF-31121CE8A5D3}</Project>
       <Name>Repository.Pattern</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

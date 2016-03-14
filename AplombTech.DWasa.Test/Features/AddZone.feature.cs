@@ -18,20 +18,20 @@ namespace AplombTech.DWasa.Test.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("ParseCommand for Feedback")]
-    public partial class ParseCommandForFeedbackFeature
+    [NUnit.Framework.DescriptionAttribute("Add Zone")]
+    public partial class AddZoneFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "ParseCommand.feature"
+#line 1 "AddZone.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ParseCommand for Feedback", "\tIn order to parse commands\r\n\tAs a records manager\r\n\tI want to Parse Json", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Add Zone", "\tIn order to add zone\r\n\tAs a records manager\r\n\tI want to add a new Zone", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -64,10 +64,10 @@ namespace AplombTech.DWasa.Test.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Parse Command")]
-        public virtual void ParseCommand()
+        [NUnit.Framework.DescriptionAttribute("Add Zone")]
+        public virtual void AddZone()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Parse Command", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add Zone", ((string[])(null)));
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line hidden
@@ -75,16 +75,26 @@ this.ScenarioSetup(scenarioInfo);
                         "field",
                         "value"});
             table1.AddRow(new string[] {
-                        "JsonString",
-                        "{ \"DataLogId\": 1, \"Production\": \"00\", \"Energy\": \"45\", \"Pressure\": \"209\",\"WaterLev" +
-                            "el\": \"32769\", \"NetworkType\":1, \"LogDateTime\":\"1/1/2015\",\"CheckSum\": \"123\",\"Clori" +
-                            "nation\": \"58\"}"});
+                        "Name",
+                        "\"Zone 8\""});
+            table1.AddRow(new string[] {
+                        "Location",
+                        "\"11.12,11.13\""});
+            table1.AddRow(new string[] {
+                        "Line1",
+                        "Road 1"});
+            table1.AddRow(new string[] {
+                        "Line2",
+                        "House 1"});
+            table1.AddRow(new string[] {
+                        "Line3",
+                        "Dhaka"});
 #line 8
- testRunner.Given("I have entered following property", ((string)(null)), table1, "Given ");
-#line 11
- testRunner.And("I created a parser with that string", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 12
- testRunner.When("I parse It will save the data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Given I have entered following property", ((string)(null)), table1, "Given ");
+#line 15
+ testRunner.When("I Add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+ testRunner.Then("then I will check the name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

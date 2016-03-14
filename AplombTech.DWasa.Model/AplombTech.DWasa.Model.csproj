@@ -30,8 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\Frameworks\Repository.Pattern.Ef6\bin\Debug\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -45,17 +50,43 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\DWasaEnumDataType.cs" />
+    <Compile Include="Migrations\201603140438217_initialCreate.cs" />
+    <Compile Include="Migrations\201603140438217_initialCreate.Designer.cs">
+      <DependentUpon>201603140438217_initialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelDataContext\DWasaDataContext.cs" />
     <Compile Include="ModelDataContext\IDWasaDataContext.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Area.cs" />
     <Compile Include="Models\AuditFields.cs" />
-    <Compile Include="Models\DataLog.cs" />
+    <Compile Include="Models\DMA.cs" />
+    <Compile Include="Models\PumpStation.cs" />
+    <Compile Include="Models\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AplombTech.DWasa.Entity\AplombTech.DWasa.Entity.csproj">
+      <Project>{9805b916-4979-4d84-96e0-ca8a129352c8}</Project>
+      <Name>AplombTech.DWasa.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Frameworks\Repository.Pattern.Ef6\Repository.Pattern.Ef6.csproj">
       <Project>{F68A1D19-93FB-47C1-A22B-42BEA3E4FD8C}</Project>
       <Name>Repository.Pattern.Ef6</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Frameworks\Repository.Pattern\Repository.Pattern.csproj">
+      <Project>{479425d1-e376-4e3a-9fff-31121ce8a5d3}</Project>
+      <Name>Repository.Pattern</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603140438217_initialCreate.resx">
+      <DependentUpon>201603140438217_initialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
