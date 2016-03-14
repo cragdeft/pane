@@ -8,5 +8,9 @@ namespace AplombTech.DWasa.Entity
 {
     public class ZoneEntity:AreaEntity
     {
+        public ZoneEntity()
+        {
+            this.Address=new AddressEntity();
+        }
     }
 }
