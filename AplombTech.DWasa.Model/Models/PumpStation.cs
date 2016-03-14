@@ -9,7 +9,7 @@ namespace AplombTech.DWasa.Model.Models
         #endregion
 
         #region  Complex Properties
-        public virtual DMA Dma { get; set; }
+        public virtual DMA DMA { get; set; }
         #endregion
     }
 }
