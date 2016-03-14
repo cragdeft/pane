@@ -32,7 +32,10 @@ namespace AplombTech.DWasa.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _configurationService.AddZone(entity);
+                if(!_configurationService.IsZoneExists(entity.Name))
+                    _configurationService.AddZone(entity);
+                else
+                    ModelState.AddModelError("Name", "Zone name already exists");
             }
             return View(entity);
         }
