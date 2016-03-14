@@ -23,5 +23,6 @@ namespace AplombTech.DWasa.Service.Interfaces
 
         List<ZoneEntity> GetAllZone();
 
+        bool IsZoneExists(string name);
     }
 }
