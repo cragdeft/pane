@@ -43,12 +43,12 @@ namespace AplombTech.DWasa.Model.ModelDataContext
 
             base.OnModelCreating(modelBuilder);
 
-            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SmartHomeDataContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DWasaDataContext>());
         }
 
         public void ExecuteCommand(string command, params object[] parameters)
         {
-            base.Database.ExecuteSqlCommand(command, parameters);
+            //base.Database.ExecuteSqlCommand(command, parameters);
         }
     }
 }

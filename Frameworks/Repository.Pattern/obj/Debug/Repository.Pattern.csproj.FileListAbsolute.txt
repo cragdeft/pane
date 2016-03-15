@@ -58,3 +58,9 @@ C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Framework
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.csprojResolveAssemblyReference.cache
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.dll
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Repository.Pattern\bin\Debug\Repository.Pattern.dll.config
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Repository.Pattern\bin\Debug\Repository.Pattern.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Repository.Pattern\bin\Debug\Repository.Pattern.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.csprojResolveAssemblyReference.cache
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Repository.Pattern\obj\Debug\Repository.Pattern.pdb

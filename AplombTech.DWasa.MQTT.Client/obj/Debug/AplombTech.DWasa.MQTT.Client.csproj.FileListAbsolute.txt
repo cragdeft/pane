@@ -26,3 +26,28 @@ c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTec
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Logging.dll
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\bin\Debug\Elmah.dll
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Logging.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.MQTT.Client.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.MQTT.Client.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Json.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Logging.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Model.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\M2Mqtt.Net.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\Elmah.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\Repository.Pattern.Ef6.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\EntityFramework.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\System.Data.SqlServerCe.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\Repository.Pattern.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\LinqKit.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Json.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Logging.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\AplombTech.DWasa.Model.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\M2Mqtt.Net.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\Repository.Pattern.Ef6.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\EntityFramework.xml
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\bin\Debug\Repository.Pattern.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.csprojResolveAssemblyReference.cache
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.Resource.resources
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.csproj.GenerateResource.Cache
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.MQTT.Client\obj\Debug\AplombTech.DWasa.MQTT.Client.pdb
