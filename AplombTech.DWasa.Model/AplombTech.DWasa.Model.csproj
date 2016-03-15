@@ -50,9 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\DWasaEnumDataType.cs" />
-    <Compile Include="Migrations\201603140607376_initialCreate.cs" />
-    <Compile Include="Migrations\201603140607376_initialCreate.Designer.cs">
-      <DependentUpon>201603140607376_initialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201603150330408_initialCreate.cs" />
+    <Compile Include="Migrations\201603150330408_initialCreate.Designer.cs">
+      <DependentUpon>201603150330408_initialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelDataContext\DWasaDataContext.cs" />
@@ -60,16 +60,21 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Area.cs" />
     <Compile Include="Models\AuditFields.cs" />
+    <Compile Include="Models\Camera.cs" />
+    <Compile Include="Models\CholorinationSensor.cs" />
+    <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DMA.cs" />
+    <Compile Include="Models\EnergySensor.cs" />
+    <Compile Include="Models\PressureSensor.cs" />
+    <Compile Include="Models\ProductionSensor.cs" />
     <Compile Include="Models\PumpStation.cs" />
+    <Compile Include="Models\Router.cs" />
+    <Compile Include="Models\Sensor.cs" />
+    <Compile Include="Models\WaterLevelSensor.cs" />
     <Compile Include="Models\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AplombTech.DWasa.Entity\AplombTech.DWasa.Entity.csproj">
-      <Project>{9805b916-4979-4d84-96e0-ca8a129352c8}</Project>
-      <Name>AplombTech.DWasa.Entity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Frameworks\Repository.Pattern.Ef6\Repository.Pattern.Ef6.csproj">
       <Project>{F68A1D19-93FB-47C1-A22B-42BEA3E4FD8C}</Project>
       <Name>Repository.Pattern.Ef6</Name>
@@ -84,8 +89,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603140607376_initialCreate.resx">
-      <DependentUpon>201603140607376_initialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201603150330408_initialCreate.resx">
+      <DependentUpon>201603150330408_initialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
