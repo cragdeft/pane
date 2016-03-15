@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace AplombTech.DWasa.Entity
 {
-    public class PumpStationEntity:AreaEntity
+    public class CameraEntity : DeviceEntity
     {
-        #region Primitive Properties
-        public DMAEntity DMAEntity { get; set; }
-        #endregion
     }
 }

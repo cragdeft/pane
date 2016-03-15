@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace AplombTech.DWasa.Entity
 {
-    public class ZoneDMAEntity
+    public class DMAPumpEntity
     {
-        [Required(ErrorMessage = "Please select Zone")]
         public int ZoneId { get; set; }
+        [Required(ErrorMessage = "Please select DMA")]
+        public int DMAId { get; set; }
         public List<ZoneEntity> ZoneList { get; set; }
-        public DMAEntity DmaEntity { get; set; } 
+        public List<DMAEntity> DMAList { get; set; }
+        public PumpStationEntity PumpStationEntity { get; set; }
     }
 }
