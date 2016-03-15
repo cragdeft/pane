@@ -32,8 +32,11 @@ namespace AplombTech.DWasa.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(!_configurationService.IsZoneExists(entity.Name))
+                if (!_configurationService.IsZoneExists(entity.Name))
+                {
                     _configurationService.AddZone(entity);
+                    return View("Success");
+                }
                 else
                     ModelState.AddModelError("Name", "Zone name already exists");
             }
@@ -55,20 +58,61 @@ namespace AplombTech.DWasa.Web.Controllers
         //    return View(entity);
         //}
 
-        public ActionResult CreateDMA()
+        public ActionResult AddDMA()
         {
-            ZoneDMAEntity model = new ZoneDMAEntity();
-            model.ZoneList = _configurationService.GetAllZone();
-            return View(new ZoneDMAEntity());
+            ZoneDMAEntity model = new ZoneDMAEntity { ZoneList = _configurationService.GetAllZone() };
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateDMA(ZoneDMAEntity entity)
+        public ActionResult AddDMA(ZoneDMAEntity entity)
         {
             if (ModelState.IsValid)
             {
-                //_configurationService.AddZone(entity);
+                DMAEntity model = entity.DmaEntity;
+                model.Zone = new ZoneEntity() { Id = entity.ZoneId };//_configurationService.FindZone(entity.ZoneId);
+                _configurationService.AddDMA(model);
+                return View("Success");
             }
+            entity.ZoneList = _configurationService.GetAllZone();
+            return View(entity);
+        }
+
+        public ActionResult AddPumpStation()
+        {
+            DMAPumpEntity model = new DMAPumpEntity { ZoneList = _configurationService.GetAllZone(), DMAList = _configurationService.GetAllDMA() };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddPumpStation(DMAPumpEntity entity)
+        {
+            if (ModelState.IsValid)
+            {
+                PumpStationEntity model = entity.PumpStationEntity;
+                model.DMAEntity = new DMAEntity() { Id = entity.DMAId };//_configurationService.FindZone(entity.ZoneId);
+                _configurationService.AddPumpStation(model);
+                return View("Success");
+            }
+            entity.DMAList = _configurationService.GetAllDMA();
+            return View(entity);
+        }
+
+        public ActionResult AddSensor()
+        {
+            PumpStationSensorEntity model = new PumpStationSensorEntity { PumpStationList = _configurationService.GetAllPumpStation() };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddSensor(PumpStationSensorEntity entity)
+        {
+            if (ModelState.IsValid)
+            {
+                _configurationService.AddSensor(entity);
+                return View("Success");//Show dynamically
+            }
+            entity.PumpStationList = _configurationService.GetAllPumpStation();
             return View(entity);
         }
 
