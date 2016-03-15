@@ -22,6 +22,8 @@ namespace AplombTech.DWasa.Service
         private readonly IRepositoryAsync<DMA> _dmaRepository;
         private readonly IRepositoryAsync<PumpStation> _pumpRepository;
         private readonly IRepositoryAsync<Sensor> _sensorRepository;
+        private readonly IRepositoryAsync<Camera> _cameraRepository;
+        private readonly IRepositoryAsync<Router> _routerRepository;
         private IMapper mapper;
         #endregion
 
@@ -32,6 +34,8 @@ namespace AplombTech.DWasa.Service
             _dmaRepository = _unitOfWorkAsync.RepositoryAsync<DMA>();
             _pumpRepository = _unitOfWorkAsync.RepositoryAsync<PumpStation>();
             _sensorRepository = _unitOfWorkAsync.RepositoryAsync<Sensor>();
+            _cameraRepository = _unitOfWorkAsync.RepositoryAsync<Camera>();
+            _routerRepository = _unitOfWorkAsync.RepositoryAsync<Router>();
             ConfigMapper();
         }
 
@@ -46,6 +50,8 @@ namespace AplombTech.DWasa.Service
                 cfg.CreateMap<Address, AddressEntity>(); 
                 cfg.CreateMap<PumpStation, PumpStationEntity>();
                 cfg.CreateMap<PumpStationEntity, PumpStation>();
+                cfg.CreateMap<CameraEntity, Camera>();
+                cfg.CreateMap<RouterEntity, Router>();
 
             });
 
@@ -217,6 +223,7 @@ namespace AplombTech.DWasa.Service
         public PumpStationEntity AddPumpStation(PumpStationEntity entity)
         {
             PumpStation pump = mapper.Map<PumpStationEntity, PumpStation>(entity);
+            
             SavePumpStation(pump);
             return entity;
         }
@@ -293,6 +300,56 @@ namespace AplombTech.DWasa.Service
             sensor.PumpStation = new PumpStation() { Id = entity.PumpStationId};
 
             SaveSensor(sensor);
+        }
+
+        public void AddCamera(PumpStationCameraEntity entity)
+        {
+            Camera camera = mapper.Map<CameraEntity, Camera>(entity.Camera);
+
+            camera.PumpStation = new PumpStation() { Id = entity.PumpStationId };
+            SaveCamera(camera);
+        }
+
+        private void SaveCamera(Camera camera)
+        {
+            _unitOfWorkAsync.BeginTransaction();
+            try
+            {
+                camera.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                camera.ObjectState = ObjectState.Added;
+                _cameraRepository.Insert(camera);
+                var changes = _unitOfWorkAsync.SaveChanges();
+                _unitOfWorkAsync.Commit();
+            }
+            catch (Exception ex)
+            {
+                _unitOfWorkAsync.Rollback();
+            }
+        }
+
+        public void AddRouter(PumpStationRouterEntity entity)
+        {
+            Router router = mapper.Map<RouterEntity, Router>(entity.Router);
+
+            router.PumpStation = new PumpStation() { Id = entity.PumpStationId };
+            SaveRouter(router);
+        }
+
+        private void SaveRouter(Router router)
+        {
+            _unitOfWorkAsync.BeginTransaction();
+            try
+            {
+                router.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                router.ObjectState = ObjectState.Added;
+                _routerRepository.Insert(router);
+                var changes = _unitOfWorkAsync.SaveChanges();
+                _unitOfWorkAsync.Commit();
+            }
+            catch (Exception ex)
+            {
+                _unitOfWorkAsync.Rollback();
+            }
         }
 
         private void SaveSensor(Sensor sensor)

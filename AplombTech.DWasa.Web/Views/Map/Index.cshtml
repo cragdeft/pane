@@ -1,4 +1,4 @@
-﻿
+﻿@model AplombTech.DWasa.Entity.MapEntity
 
 @{
     ViewBag.Title = "Map";
@@ -14,6 +14,27 @@
 
 <div id="legend">
     <ul>
+        @*@foreach (var zone in Model.ZoneList)
+        {
+            <li data-jstree='{"icon":"../../Content/Image/zone.png"}'>
+                @Model.Name
+                @foreach (var zone in Model.DMAList)
+                {
+                    <ul>
+                        <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>
+                            @Model.Name
+                            @foreach (var zone in Model.PumpStationList)
+                            {
+                                <li data-jstree='{"icon":"../../Content/Image/pump.png"}'>
+                                    @Model.Name
+                                </li>
+                            }
+                    </li>
+                </ul>
+                }
+
+                </li>
+        }*@
         <li data-jstree='{"icon":"../../Content/Image/zone.png"}' id="zone1">
             Zone 1
             <ul>
@@ -36,14 +57,14 @@
                 <li data-jstree='{"icon":"../../Content/Image/dma.png"}'><a href="#">DMA 4</a></li>
             </ul>
         </li>
-    </ul>
-</div>
+        </ul>
+    </div>
 
-@section scripts
+    @section scripts
 {
-    <script src="~/Scripts/dist/jstree.min.js"></script>
-    <script src="https://www.google.com/jsapi?.js"></script>
-    <script src="~/Scripts/Map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
-            async defer></script>
-}
+        <script src="~/Scripts/dist/jstree.min.js"></script>
+        <script src="https://www.google.com/jsapi?.js"></script>
+        <script src="~/Scripts/Map.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
+                async defer></script>
+    }

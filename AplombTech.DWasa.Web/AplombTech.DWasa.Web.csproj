@@ -338,6 +338,8 @@
     <Content Include="Views\Configuration\AddPumpStation.cshtml" />
     <Content Include="Views\Configuration\Success.cshtml" />
     <Content Include="Views\Configuration\AddSensor.cshtml" />
+    <Content Include="Views\Configuration\AddCamera.cshtml" />
+    <Content Include="Views\Configuration\AddRouter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
