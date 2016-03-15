@@ -10,14 +10,19 @@ namespace AplombTech.DWasa.Service.Interfaces
 {
     public interface IConfigurationService
     {
-        Zone AddZone(ZoneEntity zone);
+        ZoneEntity AddZone(ZoneEntity zone);
         void EditZone(ZoneEntity zone);
         //void DeleteZone(Zone zone);
-        DMA AddDMA(DMA dma);
+        DMAEntity AddDMA(DMAEntity dma);
+        ZoneEntity FindZone(int zoneId);
+
+        List<DMAEntity> GetAllDMA();
+        List<PumpStationEntity> GetAllPumpStation();
+        void AddSensor(PumpStationSensorEntity entity);
         //void EditDMA(DMA dma);
         //void DeleteDMA(int dmaId);
 
-        //PumpStation AddPumpStation(PumpStation pump);
+        PumpStationEntity AddPumpStation(PumpStationEntity pump);
         //void EditPump(PumpStation pump);
         //void DeletePump( int pumpId);
 
