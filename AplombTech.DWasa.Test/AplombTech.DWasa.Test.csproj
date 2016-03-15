@@ -91,15 +91,30 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Features\AddCamera.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddCamera.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\AddDma.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AddDma.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\AddPump.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddPump.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\AddPumpStation.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AddPumpStation.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\AddRouter.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddRouter.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\AddSensor.feature.cs">
       <AutoGen>True</AutoGen>
@@ -112,20 +127,35 @@
       <DependentUpon>AddZone.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\AddCameraSteps.cs" />
     <Compile Include="Steps\AddDmaSteps.cs" />
     <Compile Include="Steps\AddPumpStationSteps.cs" />
+    <Compile Include="Steps\AddPumpSteps.cs" />
+    <Compile Include="Steps\AddRouterSteps.cs" />
     <Compile Include="Steps\AddSensorSteps.cs" />
     <Compile Include="Steps\AddZoneSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Features\AddCamera.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddCamera.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\AddDma.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AddDma.feature.cs</LastGenOutput>
     </None>
+    <None Include="Features\AddPump.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddPump.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\AddPumpStation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AddPumpStation.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\AddRouter.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddRouter.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\AddSensor.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.DWasa.Model.Models
+namespace AplombTech.DWasa.Entity
 {
-    public class Router:Device
+    public class PumpStationPumpEntity: PumpStationDeviceEntity
     {
-        #region  Navigation Properties
-        #endregion
+        public PumpEntity Pump { get; set; }
     }
 }

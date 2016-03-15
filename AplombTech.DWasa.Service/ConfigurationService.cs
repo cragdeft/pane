@@ -20,10 +20,11 @@ namespace AplombTech.DWasa.Service
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly IRepositoryAsync<Zone> _zoneRepository;
         private readonly IRepositoryAsync<DMA> _dmaRepository;
-        private readonly IRepositoryAsync<PumpStation> _pumpRepository;
+        private readonly IRepositoryAsync<PumpStation> _pumpStationRepository;
         private readonly IRepositoryAsync<Sensor> _sensorRepository;
         private readonly IRepositoryAsync<Camera> _cameraRepository;
         private readonly IRepositoryAsync<Router> _routerRepository;
+        private readonly IRepositoryAsync<Pump> _pumpRepository;
         private IMapper mapper;
         #endregion
 
@@ -32,10 +33,11 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync = unitOfWorkAsync;
             _zoneRepository = _unitOfWorkAsync.RepositoryAsync<Zone>();
             _dmaRepository = _unitOfWorkAsync.RepositoryAsync<DMA>();
-            _pumpRepository = _unitOfWorkAsync.RepositoryAsync<PumpStation>();
+            _pumpStationRepository = _unitOfWorkAsync.RepositoryAsync<PumpStation>();
             _sensorRepository = _unitOfWorkAsync.RepositoryAsync<Sensor>();
             _cameraRepository = _unitOfWorkAsync.RepositoryAsync<Camera>();
             _routerRepository = _unitOfWorkAsync.RepositoryAsync<Router>();
+            _pumpRepository = _unitOfWorkAsync.RepositoryAsync<Pump>();
             ConfigMapper();
         }
 
@@ -51,6 +53,7 @@ namespace AplombTech.DWasa.Service
                 cfg.CreateMap<PumpStation, PumpStationEntity>();
                 cfg.CreateMap<PumpStationEntity, PumpStation>();
                 cfg.CreateMap<CameraEntity, Camera>();
+                cfg.CreateMap<RouterEntity, Router>();
                 cfg.CreateMap<RouterEntity, Router>();
 
             });
@@ -166,7 +169,7 @@ namespace AplombTech.DWasa.Service
 
         public List<PumpStationEntity> GetAllPumpStation()
         {
-            IEnumerable<PumpStation> pumpStationList = _pumpRepository
+            IEnumerable<PumpStation> pumpStationList = _pumpStationRepository
                 .Query()
                 .Select();
 
@@ -235,7 +238,7 @@ namespace AplombTech.DWasa.Service
             {
                 pump.AuditField = new AuditFields(null, DateTime.Now, null, null);
                 pump.ObjectState = ObjectState.Added;
-                _pumpRepository.Insert(pump);
+                _pumpStationRepository.Insert(pump);
                 var changes = _unitOfWorkAsync.SaveChanges();
                 _unitOfWorkAsync.Commit();
             }
@@ -343,6 +346,31 @@ namespace AplombTech.DWasa.Service
                 router.AuditField = new AuditFields(null, DateTime.Now, null, null);
                 router.ObjectState = ObjectState.Added;
                 _routerRepository.Insert(router);
+                var changes = _unitOfWorkAsync.SaveChanges();
+                _unitOfWorkAsync.Commit();
+            }
+            catch (Exception ex)
+            {
+                _unitOfWorkAsync.Rollback();
+            }
+        }
+
+        public void AddPump(PumpStationPumpEntity entity)
+        {
+            Pump pump = mapper.Map<PumpEntity, Pump>(entity.Pump);
+
+            pump.PumpStation = new PumpStation() { Id = entity.PumpStationId };
+            SavePump(pump);
+        }
+
+        private void SavePump(Pump pump)
+        {
+            _unitOfWorkAsync.BeginTransaction();
+            try
+            {
+                pump.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                pump.ObjectState = ObjectState.Added;
+                _pumpRepository.Insert(pump);
                 var changes = _unitOfWorkAsync.SaveChanges();
                 _unitOfWorkAsync.Commit();
             }

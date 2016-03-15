@@ -152,6 +152,24 @@ namespace AplombTech.DWasa.Web.Controllers
             return View(entity);
         }
 
+        public ActionResult AddPump()
+        {
+            PumpStationPumpEntity model = new PumpStationPumpEntity { PumpStationList = _configurationService.GetAllPumpStation() };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddPump(PumpStationPumpEntity entity)
+        {
+            if (ModelState.IsValid)
+            {
+                _configurationService.AddPump(entity);
+                return View("Success");//Show dynamically
+            }
+            entity.PumpStationList = _configurationService.GetAllPumpStation();
+            return View(entity);
+        }
+
         //[HttpPost]
         //public ActionResult Edit(Zone entity)
         //{

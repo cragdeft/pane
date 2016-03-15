@@ -22,6 +22,8 @@ namespace AplombTech.DWasa.Service.Interfaces
 
         void AddRouter(PumpStationRouterEntity entity);
         void AddCamera(PumpStationCameraEntity entity);
+
+        void AddPump(PumpStationPumpEntity entity);
         //void EditDMA(DMA dma);
         //void DeleteDMA(int dmaId);
 

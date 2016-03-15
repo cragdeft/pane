@@ -340,6 +340,7 @@
     <Content Include="Views\Configuration\AddSensor.cshtml" />
     <Content Include="Views\Configuration\AddCamera.cshtml" />
     <Content Include="Views\Configuration\AddRouter.cshtml" />
+    <Content Include="Views\Configuration\AddPump.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

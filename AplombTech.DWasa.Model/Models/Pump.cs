@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace AplombTech.DWasa.Model.Models
 {
-    public class Router:Device
+    public class Pump : Device
     {
-        #region  Navigation Properties
-        #endregion
     }
 }

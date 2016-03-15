@@ -63,6 +63,7 @@
     <Compile Include="Models\EnergySensor.cs" />
     <Compile Include="Models\PressureSensor.cs" />
     <Compile Include="Models\ProductionSensor.cs" />
+    <Compile Include="Models\Pump.cs" />
     <Compile Include="Models\PumpStation.cs" />
     <Compile Include="Models\Router.cs" />
     <Compile Include="Models\Sensor.cs" />
