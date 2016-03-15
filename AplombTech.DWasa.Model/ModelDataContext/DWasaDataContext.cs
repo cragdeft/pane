@@ -37,7 +37,7 @@ namespace AplombTech.DWasa.Model.ModelDataContext
 
             base.OnModelCreating(modelBuilder);
 
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DWasaDataContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DWasaDataContext>());
         }
 
         public void ExecuteCommand(string command, params object[] parameters)
