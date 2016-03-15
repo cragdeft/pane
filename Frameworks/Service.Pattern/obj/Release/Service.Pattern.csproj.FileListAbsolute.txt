@@ -1,7 +1,0 @@
-F:\Projects\BDemo\Frameworks\Service.Pattern\bin\Release\Service.Pattern.dll
-F:\Projects\BDemo\Frameworks\Service.Pattern\bin\Release\Service.Pattern.pdb
-F:\Projects\BDemo\Frameworks\Service.Pattern\bin\Release\Repository.Pattern.dll
-F:\Projects\BDemo\Frameworks\Service.Pattern\bin\Release\Repository.Pattern.pdb
-F:\Projects\BDemo\Frameworks\Service.Pattern\obj\Release\Service.Pattern.csprojResolveAssemblyReference.cache
-F:\Projects\BDemo\Frameworks\Service.Pattern\obj\Release\Service.Pattern.dll
-F:\Projects\BDemo\Frameworks\Service.Pattern\obj\Release\Service.Pattern.pdb
