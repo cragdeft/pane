@@ -14,7 +14,6 @@ namespace AplombTech.DWasa.Model.Models
         #endregion
 
         #region  Navigation Properties
-
         public virtual Zone Zone { get; set; }
         #endregion
         
