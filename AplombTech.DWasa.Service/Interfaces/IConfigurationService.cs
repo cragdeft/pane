@@ -19,6 +19,9 @@ namespace AplombTech.DWasa.Service.Interfaces
         List<DMAEntity> GetAllDMA();
         List<PumpStationEntity> GetAllPumpStation();
         void AddSensor(PumpStationSensorEntity entity);
+
+        void AddRouter(PumpStationRouterEntity entity);
+        void AddCamera(PumpStationCameraEntity entity);
         //void EditDMA(DMA dma);
         //void DeleteDMA(int dmaId);
 

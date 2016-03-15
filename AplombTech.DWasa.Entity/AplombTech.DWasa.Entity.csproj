@@ -55,7 +55,9 @@
     <Compile Include="PumpStationCameraEntity.cs" />
     <Compile Include="PumpStationDeviceEntity.cs" />
     <Compile Include="PumpStationEntity.cs" />
+    <Compile Include="PumpStationRouterEntity.cs" />
     <Compile Include="PumpStationSensorEntity.cs" />
+    <Compile Include="RouterEntity.cs" />
     <Compile Include="SensorEntity.cs" />
     <Compile Include="ZoneDMAEntity.cs" />
     <Compile Include="ZoneEntity.cs" />

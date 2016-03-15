@@ -116,10 +116,41 @@ namespace AplombTech.DWasa.Web.Controllers
             return View(entity);
         }
 
-        //public ActionResult CreateZone()
-        //{
-        //    return View(new Zone());
-        //}
+        public ActionResult AddCamera()
+        {
+            PumpStationCameraEntity model = new PumpStationCameraEntity { PumpStationList = _configurationService.GetAllPumpStation() };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddCamera(PumpStationCameraEntity entity)
+        {
+            if (ModelState.IsValid)
+            {
+                _configurationService.AddCamera(entity);
+                return View("Success");//Show dynamically
+            }
+            entity.PumpStationList = _configurationService.GetAllPumpStation();
+            return View(entity);
+        }
+
+        public ActionResult AddRouter()
+        {
+            PumpStationRouterEntity model = new PumpStationRouterEntity { PumpStationList = _configurationService.GetAllPumpStation() };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddRouter(PumpStationRouterEntity entity)
+        {
+            if (ModelState.IsValid)
+            {
+                _configurationService.AddRouter(entity);
+                return View("Success");//Show dynamically
+            }
+            entity.PumpStationList = _configurationService.GetAllPumpStation();
+            return View(entity);
+        }
 
         //[HttpPost]
         //public ActionResult Edit(Zone entity)

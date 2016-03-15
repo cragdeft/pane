@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace AplombTech.DWasa.Entity
 {
-    public class PumpStationCameraEntity: PumpStationDeviceEntity
+    public class RouterEntity: DeviceEntity
     {
-        public CameraEntity Camera { get; set; }
     }
 }
