@@ -1,0 +1,4 @@
+G:\DWasa\AplombTech.DWasa.Utility\bin\Debug\AplombTech.DWasa.Utility.dll
+G:\DWasa\AplombTech.DWasa.Utility\bin\Debug\AplombTech.DWasa.Utility.pdb
+G:\DWasa\AplombTech.DWasa.Utility\obj\Debug\AplombTech.DWasa.Utility.dll
+G:\DWasa\AplombTech.DWasa.Utility\obj\Debug\AplombTech.DWasa.Utility.pdb
