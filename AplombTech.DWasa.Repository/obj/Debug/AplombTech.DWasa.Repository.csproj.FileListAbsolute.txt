@@ -1,5 +1,0 @@
-E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Repository\bin\Debug\AplombTech.DWasa.Repository.dll
-E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Repository\bin\Debug\AplombTech.DWasa.Repository.pdb
-E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Repository\obj\Debug\AplombTech.DWasa.Repository.csprojResolveAssemblyReference.cache
-E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Repository\obj\Debug\AplombTech.DWasa.Repository.dll
-E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Repository\obj\Debug\AplombTech.DWasa.Repository.pdb

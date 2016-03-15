@@ -1,5 +1,0 @@
-F:\Projects\BDemo\Frameworks\Repository.Pattern\bin\Release\Repository.Pattern.dll.config
-F:\Projects\BDemo\Frameworks\Repository.Pattern\bin\Release\Repository.Pattern.dll
-F:\Projects\BDemo\Frameworks\Repository.Pattern\bin\Release\Repository.Pattern.pdb
-F:\Projects\BDemo\Frameworks\Repository.Pattern\obj\Release\Repository.Pattern.dll
-F:\Projects\BDemo\Frameworks\Repository.Pattern\obj\Release\Repository.Pattern.pdb
