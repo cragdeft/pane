@@ -334,7 +334,10 @@
     <Content Include="Views\Map\Index.cshtml" />
     <Content Include="Views\Map\LeafLetMap.cshtml" />
     <Content Include="Views\Configuration\AddZone.cshtml" />
-    <Content Include="Views\Configuration\CreateDMA.cshtml" />
+    <Content Include="Views\Configuration\AddDMA.cshtml" />
+    <Content Include="Views\Configuration\AddPumpStation.cshtml" />
+    <Content Include="Views\Configuration\Success.cshtml" />
+    <Content Include="Views\Configuration\AddSensor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -366,6 +369,10 @@
     <ProjectReference Include="..\AplombTech.DWasa.Service\AplombTech.DWasa.Service.csproj">
       <Project>{73B9FD25-9082-48C3-AC99-7225C03916E4}</Project>
       <Name>AplombTech.DWasa.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AplombTech.DWasa.Utility\AplombTech.DWasa.Utility.csproj">
+      <Project>{c2061026-76be-4f54-b772-1a131cf4f488}</Project>
+      <Name>AplombTech.DWasa.Utility</Name>
     </ProjectReference>
     <ProjectReference Include="..\Frameworks\Repository.Pattern.Ef6\Repository.Pattern.Ef6.csproj">
       <Project>{F68A1D19-93FB-47C1-A22B-42BEA3E4FD8C}</Project>
