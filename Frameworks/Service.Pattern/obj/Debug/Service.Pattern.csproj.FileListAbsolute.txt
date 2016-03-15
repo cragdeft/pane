@@ -68,3 +68,10 @@ C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Framework
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Service.Pattern\obj\Debug\Service.Pattern.csprojResolveAssemblyReference.cache
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Service.Pattern\obj\Debug\Service.Pattern.dll
 C:\Users\APL-40\documents\visual studio 2015\Projects\AplombTech.DWasa\Frameworks\Service.Pattern\obj\Debug\Service.Pattern.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Service.Pattern\bin\Debug\Service.Pattern.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Service.Pattern\bin\Debug\Service.Pattern.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Service.Pattern\bin\Debug\Repository.Pattern.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Service.Pattern\bin\Debug\Repository.Pattern.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Service.Pattern\obj\Debug\Service.Pattern.csprojResolveAssemblyReference.cache
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Service.Pattern\obj\Debug\Service.Pattern.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\Frameworks\Service.Pattern\obj\Debug\Service.Pattern.pdb

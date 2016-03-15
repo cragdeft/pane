@@ -17,3 +17,26 @@ c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTec
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Json\obj\Debug\AplombTech.DWasa.Json.csprojResolveAssemblyReference.cache
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Json\obj\Debug\AplombTech.DWasa.Json.dll
 c:\users\apl-40\documents\visual studio 2015\Projects\AplombTech.DWasa\AplombTech.DWasa.Json\obj\Debug\AplombTech.DWasa.Json.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Json.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Json.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Model.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Service.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\EntityFramework.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\Newtonsoft.Json.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\Repository.Pattern.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\Repository.Pattern.Ef6.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Entity.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AutoMapper.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\LinqKit.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Model.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Service.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\Repository.Pattern.Ef6.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\Repository.Pattern.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\EntityFramework.xml
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\Newtonsoft.Json.xml
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AplombTech.DWasa.Entity.pdb
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\bin\Debug\AutoMapper.xml
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\obj\Debug\AplombTech.DWasa.Json.csprojResolveAssemblyReference.cache
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\obj\Debug\AplombTech.DWasa.Json.dll
+E:\MHossain\Source\DotNet\DhakaWasa\DWasaProject\AplombTech.DWasa.Json\obj\Debug\AplombTech.DWasa.Json.pdb
