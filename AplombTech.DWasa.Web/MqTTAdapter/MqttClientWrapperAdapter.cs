@@ -1,5 +1,5 @@
 ﻿using AplombTech.DWasa.MQTT.Client;
-using AplombTech.DWasa.Model.Enums;
+using AplombTech.DWasa.Utility.Enums;
 using AplombTech.DWasa.Json;
 
 namespace AplombTech.DWasa.Web.MqTTAdapter
