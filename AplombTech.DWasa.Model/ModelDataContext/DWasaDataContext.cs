@@ -31,6 +31,12 @@ namespace AplombTech.DWasa.Model.ModelDataContext
 
         public IDbSet<PumpStation> PumpStations { get; set; }
 
+        public IDbSet<Camera> Cameras { get; set; }
+
+        public IDbSet<Router> Routers { get; set; }
+
+        public IDbSet<Sensor> Sensors { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
