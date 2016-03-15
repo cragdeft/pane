@@ -70,6 +70,10 @@
       <Project>{4719881e-0890-4734-b68b-c874f12a13f4}</Project>
       <Name>AplombTech.DWasa.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AplombTech.DWasa.Utility\AplombTech.DWasa.Utility.csproj">
+      <Project>{c2061026-76be-4f54-b772-1a131cf4f488}</Project>
+      <Name>AplombTech.DWasa.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">

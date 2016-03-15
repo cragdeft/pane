@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AplombTech.DWasa.Json;
-using AplombTech.DWasa.Model.Enums;
+using AplombTech.DWasa.Utility.Enums;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Configuration;
