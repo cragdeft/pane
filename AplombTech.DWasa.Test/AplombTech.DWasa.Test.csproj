@@ -91,16 +91,46 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Features\AddDma.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddDma.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\AddPumpStation.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddPumpStation.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\AddSensor.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddSensor.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\AddZone.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AddZone.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\AddDmaSteps.cs" />
+    <Compile Include="Steps\AddPumpStationSteps.cs" />
+    <Compile Include="Steps\AddSensorSteps.cs" />
     <Compile Include="Steps\AddZoneSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Features\AddDma.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddDma.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\AddPumpStation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddPumpStation.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\AddSensor.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddSensor.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\AddZone.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AddZone.feature.cs</LastGenOutput>

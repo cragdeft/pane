@@ -76,25 +76,28 @@ this.ScenarioSetup(scenarioInfo);
                         "value"});
             table1.AddRow(new string[] {
                         "Name",
-                        "\"Zone 8\""});
+                        "Zone 8"});
             table1.AddRow(new string[] {
                         "Location",
                         "\"11.12,11.13\""});
             table1.AddRow(new string[] {
-                        "Line1",
+                        "Street1",
                         "Road 1"});
             table1.AddRow(new string[] {
-                        "Line2",
+                        "Street2",
                         "House 1"});
             table1.AddRow(new string[] {
-                        "Line3",
+                        "Zip",
+                        "1230"});
+            table1.AddRow(new string[] {
+                        "City",
                         "Dhaka"});
 #line 8
- testRunner.Given("Given I have entered following property", ((string)(null)), table1, "Given ");
-#line 15
- testRunner.When("I Add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I have entered following property", ((string)(null)), table1, "Given ");
 #line 16
- testRunner.Then("then I will check the name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I Add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("I will check the Zone name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

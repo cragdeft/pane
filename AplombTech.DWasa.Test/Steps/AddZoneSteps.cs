@@ -18,9 +18,8 @@ namespace AplombTech.DWasa.Test.Steps
         public Mock<IConfigurationService> ConfigurationService { get; set; }
         public Zone Zone { get; set; }
 
-
-        [Given(@"Given I have entered following property")]
-        public void GivenGivenIHaveEnteredFollowingProperty(Table table)
+        [Given(@"I have entered following property")]
+        public void GivenIHaveEnteredFollowingProperty(Table table)
         {
             ConfigurationService = new Mock<IConfigurationService>();
             foreach (string zoneName in table.Rows.Select(row => row["value"]))
@@ -29,17 +28,27 @@ namespace AplombTech.DWasa.Test.Steps
             }
         }
         
+        
         [When(@"I Add")]
         public void WhenIAdd()
         {
             Zone = ScenarioContext.Current.Get<Zone>();
         }
+        
 
-        [Then(@"then I will check the name")]
-        public void ThenThenIWillCheckTheName()
+        [Then(@"I will check the Zone name")]
+        public void ThenIWillCheckTheZoneName()
         {
             Assert.AreEqual(Zone.Name, "Zone 8");
         }
+
+        [Then(@"I will check the Zone name and DMA name")]
+        public void ThenIWillCheckTheZoneNameAndDMAName()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
 
     }
 }
