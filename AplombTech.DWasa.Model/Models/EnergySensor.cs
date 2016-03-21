@@ -8,5 +8,6 @@ namespace AplombTech.DWasa.Model.Models
 {
     public class EnergySensor:Sensor
     {
+        
     }
 }

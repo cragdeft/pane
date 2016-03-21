@@ -90,7 +90,7 @@ namespace AplombTech.DWasa.Web.Controllers
             if (ModelState.IsValid)
             {
                 PumpStationEntity model = entity.PumpStationEntity;
-                model.DMAEntity = new DMAEntity() { Id = entity.DMAId };//_configurationService.FindZone(entity.ZoneId);
+                model.DMA = new DMAEntity() { Id = entity.DMAId };//_configurationService.FindZone(entity.ZoneId);
                 _configurationService.AddPumpStation(model);
                 return View("Success");
             }

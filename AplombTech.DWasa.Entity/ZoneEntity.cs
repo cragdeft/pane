@@ -12,5 +12,7 @@ namespace AplombTech.DWasa.Entity
         {
             this.Address=new AddressEntity();
         }
+
+        public virtual ICollection<DMAEntity> DMAList { get; set; }
     }
 }

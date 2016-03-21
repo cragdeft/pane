@@ -1,4 +1,4 @@
-﻿@model AplombTech.DWasa.Entity.MapEntity
+﻿@model List<AplombTech.DWasa.Entity.ZoneEntity>
 
 @{
     ViewBag.Title = "Map";
@@ -13,58 +13,73 @@
 </div>
 
 <div id="legend">
-    <ul>
-        @*@foreach (var zone in Model.ZoneList)
-        {
-            <li data-jstree='{"icon":"../../Content/Image/zone.png"}'>
-                @Model.Name
-                @foreach (var zone in Model.DMAList)
-                {
-                    <ul>
-                        <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>
-                            @Model.Name
-                            @foreach (var zone in Model.PumpStationList)
-                            {
-                                <li data-jstree='{"icon":"../../Content/Image/pump.png"}'>
-                                    @Model.Name
-                                </li>
-                            }
-                    </li>
-                </ul>
-                }
+   
 
-                </li>
-        }*@
-        <li data-jstree='{"icon":"../../Content/Image/zone.png"}' id="zone1">
-            Zone 1
+        @foreach (var zone in Model)
+        {
             <ul>
-                <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>
-                    DMA 1
+                <li data-jstree='{"icon":"../../Content/Image/zone.png"}'>
+                    @zone.Name
                     <ul>
-                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}' id="pump1">Pump 1</li>
-                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 2</a></li>
-                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 3</a></li>
-                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 4</a></li>
+                        @foreach (var dma in zone.DMAList)
+                        {
+                            <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>
+                                @dma.Name
+                                <ul>
+                                    @foreach (var pumpStation in dma.PumpStationList)
+                                    {
+                                        <li data-jstree='{"icon":"../../Content/Image/pump.png"}'>
+                                            @pumpStation.Name
+                                            <ul>
+                                                @foreach (var device in pumpStation.DeviceList)
+                                                {
+                                                    <li data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
+                                                        @device.Name
+                                                    </li>
+                                                }
+                                            </ul>
+
+                                        </li>
+
+                                    }
+                                </ul>
+
+                            </li>
+                        }
                     </ul>
                 </li>
             </ul>
-        </li>
+        }
+        @*<li data-jstree='{"icon":"../../Content/Image/zone.png"}' id="zone1">
+                Zone 1
+                <ul>
+                    <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>
+                        DMA 1
+                        <ul>
+                            <li data-jstree='{"icon":"../../Content/Image/pump.png"}' id="pump1">Pump 1</li>
+                            <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 2</a></li>
+                            <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 3</a></li>
+                            <li data-jstree='{"icon":"../../Content/Image/pump.png"}'><a href="#">Pump 4</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
 
-        <li data-jstree='{"icon":"../../Content/Image/zone.png"}'>
-            Zone 2
-            <ul>
-                <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>DMA 3</li>
-                <li data-jstree='{"icon":"../../Content/Image/dma.png"}'><a href="#">DMA 4</a></li>
-            </ul>
-        </li>
-        </ul>
-    </div>
+            <li data-jstree='{"icon":"../../Content/Image/zone.png"}'>
+                Zone 2
+                <ul>
+                    <li data-jstree='{"icon":"../../Content/Image/dma.png"}'>DMA 3</li>
+                    <li data-jstree='{"icon":"../../Content/Image/dma.png"}'><a href="#">DMA 4</a></li>
+                </ul>
+            </li>*@
+    </ul>
+</div>
 
-    @section scripts
+@section scripts
 {
-        <script src="~/Scripts/dist/jstree.min.js"></script>
-        <script src="https://www.google.com/jsapi?.js"></script>
-        <script src="~/Scripts/Map.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
-                async defer></script>
-    }
+    <script src="~/Scripts/dist/jstree.min.js"></script>
+    <script src="https://www.google.com/jsapi?.js"></script>
+    <script src="~/Scripts/Map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
+            async defer></script>
+}

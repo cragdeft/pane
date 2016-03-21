@@ -59,7 +59,9 @@
     <Compile Include="PumpStationPumpEntity.cs" />
     <Compile Include="PumpStationRouterEntity.cs" />
     <Compile Include="PumpStationSensorEntity.cs" />
+    <Compile Include="ReportEntity.cs" />
     <Compile Include="RouterEntity.cs" />
+    <Compile Include="SensorStatusEntity.cs" />
     <Compile Include="SensorEntity.cs" />
     <Compile Include="ZoneDMAEntity.cs" />
     <Compile Include="ZoneEntity.cs" />

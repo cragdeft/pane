@@ -1,0 +1,105 @@
+﻿@model AplombTech.DWasa.Entity.ReportEntity
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Show</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ReportEntity</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReportType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(m => m.ReportType, "- Please select your industry -", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.ReportType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ToDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ToDateTime, new { htmlAttributes = new { @class = "form-control jqueryui-marker-datepicker" } })
+                @Html.ValidationMessageFor(model => model.ToDateTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Show" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+</div>
+<div id="chart_div"></div>
+
+@section Scripts {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $('.jqueryui-marker-datepicker').datepicker(); //Initialise any date pickers
+        });
+        $(function() {
+
+
+            var categories = @Html.Raw(Json.Encode(@Model.XaxisCategory));
+            $('#chart_div').highcharts({
+                title: {
+                    text: '@Model.GraphTitle',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: '@Model.GraphSubTitle',
+                    x: -20
+                },
+                xAxis: {
+                    categories: categories,
+                    gridLineWidth: 1,
+                },
+                yAxis: {
+                    title: {
+                        text: 'Pressure (m3/h)'
+                    },
+                    lineWidth: 0,
+                    gridLineWidth: 0,
+                    lineColor: 'transparent',
+                    plotLines: [
+                        {
+                            value: 5,
+                            color: 'red',
+                            dashStyle: 'shortdash',
+                            width: 2,
+                            label: {
+                                text: 'minimum pressure'
+                            }
+                        }
+                    ]
+                },
+                tooltip: {
+                    valueSuffix: 'm3/h'
+                },
+                legend: {
+                    layout: 'horizontal',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: @Html.Raw(@Model.Series)
+            });
+        });
+    </script>
+
+    
+}

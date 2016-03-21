@@ -27,4 +27,13 @@ namespace AplombTech.DWasa.Utility.Enums
         Production,
         Pressure
     }
+
+    public enum ReportType
+    {
+        Daily,
+        Weekly,
+        Monthly,
+        Hourly,
+        Realtime
+    }
 }

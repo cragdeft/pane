@@ -9,7 +9,8 @@ namespace AplombTech.DWasa.Entity
     public class MapEntity
     {
         public List<ZoneEntity> ZoneList { get; set; }
-        public List<DMAEntity> DMAList { get; set; }
-        public List<PumpStationEntity> PumpStationList { get; set; }
+        //public List<DMAEntity> DMAList { get; set; }
+        //public List<PumpStationEntity> PumpStationList { get; set; }
+        //public List<DeviceEntity> DeviceList { get; set; }
     }
 }

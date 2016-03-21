@@ -24,15 +24,14 @@ namespace AplombTech.DWasa.Service.Interfaces
         void AddCamera(PumpStationCameraEntity entity);
 
         void AddPump(PumpStationPumpEntity entity);
-        //void EditDMA(DMA dma);
-        //void DeleteDMA(int dmaId);
 
         PumpStationEntity AddPumpStation(PumpStationEntity pump);
-        //void EditPump(PumpStation pump);
-        //void DeletePump( int pumpId);
+        List<DeviceEntity> GetAllDevice();
+
+        //List<SensorStatusEntity> GetSensorStatus(int deviceId);
 
         List<ZoneEntity> GetAllZone();
-
+        List<ZoneEntity> GetAll();
         bool IsZoneExists(string name);
     }
 }

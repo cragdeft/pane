@@ -9,7 +9,8 @@ namespace AplombTech.DWasa.Entity
     public class PumpStationEntity:AreaEntity
     {
         #region Primitive Properties
-        public DMAEntity DMAEntity { get; set; }
+        public DMAEntity DMA { get; set; }
+        public virtual ICollection<DeviceEntity> DeviceList { get; set; }
         #endregion
     }
 }

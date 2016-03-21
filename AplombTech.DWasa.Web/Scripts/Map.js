@@ -43,8 +43,8 @@ function initMap() {
     z2marker = new window.google.maps.Marker({
         position: { lat: 23.782989, lng: 90.391704 },
         map: map,
-        label: "Pump2",
-        title: 'Pump 2'
+        label: "Sensor values",
+        title: 'Over view'
     });
 
     z3marker = new window.google.maps.Marker({
@@ -62,19 +62,19 @@ function initMap() {
     });
 
     marker.addListener('mouseover', function () {
-        drawChart(this);
+        //drawChart(this);
     });
 
     z2marker.addListener('mouseover', function () {
-        drawChart(this);
+        //drawChart(this);
     });
 
     z3marker.addListener('mouseover', function () {
-        drawChart(this);
+        //drawChart(this);
     });
 
     z4marker.addListener('mouseover', function () {
-        drawChart(this);
+        //drawChart(this);
     });
 
 
@@ -102,14 +102,19 @@ function initMap() {
     map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 }
 
-
 $('#legend').on("changed.jstree", function (e, data) {
 
     zone1.setOptions({ strokeColor: 'green' });
 
-    if ($('.jstree-clicked').text().trim() === 'Pump 1') {
+    if ($('.jstree-clicked').text().trim()) {
 
-        drawChart(marker);
+        if (data.node.parents.length == 3) {
+            drawChart(z2marker);
+        }
+
+        if (data.node.parents.length == 4) {
+            drawSensorData(marker);
+        }
     }
 
     if ($('.jstree-clicked').text().trim() === 'Pump 2') {
@@ -134,7 +139,7 @@ $('#legend').on("changed.jstree", function (e, data) {
 });
 
 function drawChart(marker) {
-
+    
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
@@ -150,6 +155,33 @@ function drawChart(marker) {
     // Set chart options
     var options = {
         'title': marker.title + ' ' +
+            marker.getPosition().toString(),
+        'width': 400,
+        'height': 150
+    };
+
+    node = document.createElement('div');
+    infoWindow = new google.maps.InfoWindow();
+    barchart = new google.visualization.BarChart(node);
+
+    barchart.draw(data, options);
+    infoWindow.setContent(node);
+    infoWindow.open(marker.getMap(), marker);
+}
+
+function drawSensorData(marker) {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    data.addRows([
+        ['Energy', 3]
+    ]);
+
+    // Set chart options
+    var options = {
+        'title': 'Sensor Information ' + ' ' +
             marker.getPosition().toString(),
         'width': 400,
         'height': 150

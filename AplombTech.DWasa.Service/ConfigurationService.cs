@@ -43,18 +43,21 @@ namespace AplombTech.DWasa.Service
 
         private void ConfigMapper()
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<ZoneEntity, Zone>();
                 cfg.CreateMap<Zone, ZoneEntity>();
                 cfg.CreateMap<AddressEntity, Address>();
                 cfg.CreateMap<DMAEntity, DMA>();
                 cfg.CreateMap<DMA, DMAEntity>();
-                cfg.CreateMap<Address, AddressEntity>(); 
+                cfg.CreateMap<Address, AddressEntity>();
                 cfg.CreateMap<PumpStation, PumpStationEntity>();
                 cfg.CreateMap<PumpStationEntity, PumpStation>();
                 cfg.CreateMap<CameraEntity, Camera>();
                 cfg.CreateMap<RouterEntity, Router>();
-                cfg.CreateMap<RouterEntity, Router>();
+                cfg.CreateMap<PumpEntity, Pump>();
+                cfg.CreateMap<Device, DeviceEntity>();
+                cfg.CreateMap<SensorStatus, SensorStatusEntity>();
 
             });
 
@@ -108,18 +111,18 @@ namespace AplombTech.DWasa.Service
             throw new NotImplementedException();
         }
 
-        public DMAEntity AddDMA( DMAEntity entity)
+        public DMAEntity AddDMA(DMAEntity entity)
         {
             DMA dma = mapper.Map<DMAEntity, DMA>(entity);
 
-            Zone zone = new Zone() { Id = entity.Zone.Id};
-            dma.Zone = zone;//Mapper.Map<ZoneEntity, Zone>(entity.Zone);
+            Zone zone = new Zone() { Id = entity.Zone.Id };
+            dma.Zone = zone;
 
             SaveDMA(dma);
             return entity;
         }
 
-        private void SaveDMA( DMA dma)
+        private void SaveDMA(DMA dma)
         {
             _unitOfWorkAsync.BeginTransaction();
             try
@@ -137,13 +140,15 @@ namespace AplombTech.DWasa.Service
             }
         }
 
+
+
         public ZoneEntity FindZone(int zoneId)
         {
             Zone zone = _zoneRepository
                 .Query(u => u.Id == zoneId)
-                
+
                 .Select()
-                
+
                 .FirstOrDefault();
 
             return mapper.Map<Zone, ZoneEntity>(zone);
@@ -156,6 +161,44 @@ namespace AplombTech.DWasa.Service
                 .Select();
 
             return mapper.Map<IEnumerable<Zone>, IEnumerable<ZoneEntity>>(zoneList).ToList();
+        }
+
+        public List<ZoneEntity> GetAll()
+        {
+            IEnumerable<Zone> zoneList = _zoneRepository
+                .Query()
+                .Select();
+
+            List<ZoneEntity> zoneEntityList = mapper.Map<IEnumerable<Zone>, IEnumerable<ZoneEntity>>(zoneList).ToList();
+
+            foreach (var zoneEntity in zoneEntityList)
+            {
+                IEnumerable<DMA> dmaList = _dmaRepository
+                .Query(x => x.Zone.Id == zoneEntity.Id)
+                .Select();
+                List<DMAEntity> dmaEntityList = mapper.Map<IEnumerable<DMA>, IEnumerable<DMAEntity>>(dmaList).ToList();
+                zoneEntity.DMAList = dmaEntityList;
+                foreach (var dmaEntity in dmaEntityList)
+                {
+                    IEnumerable<PumpStation> pumpStationList = _pumpStationRepository
+                    .Query(y => y.DMA.Id == dmaEntity.Id)
+                    .Select();
+
+                    List<PumpStationEntity> pumpStationEntityList = mapper.Map<IEnumerable<PumpStation>, IEnumerable<PumpStationEntity>>(pumpStationList).ToList();
+                    dmaEntity.PumpStationList = pumpStationEntityList;
+                    foreach (var pumpStationEntity in pumpStationEntityList)
+                    {
+                        IEnumerable<Device> deviceList = _sensorRepository
+                        .Query(z => z.PumpStation.Id == pumpStationEntity.Id)
+                        .Select();
+
+                        pumpStationEntity.DeviceList = mapper.Map<IEnumerable<Device>, IEnumerable<DeviceEntity>>(deviceList).ToList();
+
+                    }
+                }
+            }
+
+            return zoneEntityList;
         }
 
         public List<DMAEntity> GetAllDMA()
@@ -176,12 +219,30 @@ namespace AplombTech.DWasa.Service
             return mapper.Map<IEnumerable<PumpStation>, IEnumerable<PumpStationEntity>>(pumpStationList).ToList();
         }
 
+        public List<DeviceEntity> GetAllDevice()
+        {
+            IEnumerable<Device> deviceList = _sensorRepository
+                .Query()
+                .Select();
+
+            return mapper.Map<IEnumerable<Device>, IEnumerable<DeviceEntity>>(deviceList).ToList();
+        }
+
+        //public List<SensorStatusEntity> GetSensorStatus(int deviceId)
+        //{
+        //    //IEnumerable<SensorStatus> sensorStatusList = _sensorStatusRepository
+        //    //    .Query(x=>x.Device.Id == deviceId)
+        //    //    .Select();
+
+        //    //return mapper.Map<IEnumerable<SensorStatus>, IEnumerable<SensorStatusEntity>>(sensorStatusList).ToList();
+        //}
+
         public bool IsZoneExists(string name)
         {
             return _zoneRepository
                 .Queryable()
                 .Where(u => u.Name == name)
-                .AsEnumerable().Count() == 0 ? false : true;
+                .AsEnumerable().Count() != 0;
         }
 
         //public DMA FindDMA(int dmaId)
@@ -226,12 +287,13 @@ namespace AplombTech.DWasa.Service
         public PumpStationEntity AddPumpStation(PumpStationEntity entity)
         {
             PumpStation pump = mapper.Map<PumpStationEntity, PumpStation>(entity);
-            
+            DMA dma = new DMA() { Id = entity.DMA.Id };
+            pump.DMA = dma;
             SavePumpStation(pump);
             return entity;
         }
 
-        private void SavePumpStation( PumpStation pump)
+        private void SavePumpStation(PumpStation pump)
         {
             _unitOfWorkAsync.BeginTransaction();
             try
@@ -248,59 +310,12 @@ namespace AplombTech.DWasa.Service
             }
         }
 
-        //public void EditPump(PumpStation pump)
-        //{
-        //    _unitOfWorkAsync.BeginTransaction();
-        //    try
-        //    {
-        //        pump.AuditField = new AuditFields(pump.AuditField.InsertedBy, pump.AuditField.InsertedDateTime, null, DateTime.Now);
-        //        pump.ObjectState = ObjectState.Modified;
-        //        _pumpRepository.Update(pump);
-        //        var changes = _unitOfWorkAsync.SaveChanges();
-        //        _unitOfWorkAsync.Commit();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        _unitOfWorkAsync.Rollback();
-        //    }
-        //}
 
-        //public void DeletePump(int pumpId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public DMAEntity AddCamera(CameraEntity entity)
-        //{
-        //    DMA dma = Mapper.Map<DMAEntity, DMA>(entity);
-
-        //    Zone zone = new Zone() { Id = entity.Zone.Id };
-        //    dma.Zone = zone;//Mapper.Map<ZoneEntity, Zone>(entity.Zone);
-
-        //    SaveDMA(dma);
-        //    return entity;
-        //}
-
-        //public DMAEntity AddRouter(DMAEntity entity)
-        //{
-
-        //    Mapper.CreateMap<DMAEntity, DMA>();
-        //    Mapper.CreateMap<AddressEntity, Address>();
-
-        //    Mapper.CreateMap<ZoneEntity, Zone>();
-        //    DMA dma = Mapper.Map<DMAEntity, DMA>(entity);
-
-        //    Zone zone = new Zone() { Id = entity.Zone.Id };
-        //    dma.Zone = zone;//Mapper.Map<ZoneEntity, Zone>(entity.Zone);
-
-        //    SaveDMA(dma);
-        //    return entity;
-        //}
 
         public void AddSensor(PumpStationSensorEntity entity)
         {
             Sensor sensor = GetSensor(entity);
-            sensor.PumpStation = new PumpStation() { Id = entity.PumpStationId};
+            sensor.PumpStation = new PumpStation() { Id = entity.PumpStationId };
 
             SaveSensor(sensor);
         }

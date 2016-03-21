@@ -11,6 +11,7 @@ namespace AplombTech.DWasa.Entity
     {
         #region Primitive Properties
         public ZoneEntity Zone { get; set; }
+        public virtual ICollection<PumpStationEntity> PumpStationList { get; set; }
         #endregion
     }
 }
