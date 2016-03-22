@@ -231,6 +231,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603220333212_initialCreate.cs" />
+    <Compile Include="Migrations\201603220333212_initialCreate.Designer.cs">
+      <DependentUpon>201603220333212_initialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\M2MMessageViewModel.cs" />
@@ -425,6 +430,11 @@
       <Project>{479425D1-E376-4E3A-9FFF-31121CE8A5D3}</Project>
       <Name>Repository.Pattern</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603220333212_initialCreate.resx">
+      <DependentUpon>201603220333212_initialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

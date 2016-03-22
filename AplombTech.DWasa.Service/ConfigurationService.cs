@@ -25,6 +25,7 @@ namespace AplombTech.DWasa.Service
         private readonly IRepositoryAsync<Camera> _cameraRepository;
         private readonly IRepositoryAsync<Router> _routerRepository;
         private readonly IRepositoryAsync<Pump> _pumpRepository;
+        private readonly IRepositoryAsync<SensorStatus> _sensorStatusRepository;
         private IMapper mapper;
         #endregion
 
@@ -38,6 +39,7 @@ namespace AplombTech.DWasa.Service
             _cameraRepository = _unitOfWorkAsync.RepositoryAsync<Camera>();
             _routerRepository = _unitOfWorkAsync.RepositoryAsync<Router>();
             _pumpRepository = _unitOfWorkAsync.RepositoryAsync<Pump>();
+            _sensorStatusRepository = _unitOfWorkAsync.RepositoryAsync<SensorStatus>();
             ConfigMapper();
         }
 
@@ -76,7 +78,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                zone.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                zone.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
                 zone.ObjectState = ObjectState.Added;
                 _zoneRepository.Insert(zone);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -94,7 +96,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                zone.AuditField = new AuditFields(zone.AuditField.InsertedBy, zone.AuditField.InsertedDateTime, null, DateTime.Now);
+                zone.AuditField = new AuditFields(zone.AuditField.InsertedBy, zone.AuditField.InsertedDateTime, string.Empty, DateTime.Now);
                 zone.ObjectState = ObjectState.Modified;
                 _zoneRepository.Update(zone);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -127,7 +129,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                dma.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                dma.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now); ;
                 dma.ObjectState = ObjectState.Added;
 
                 _dmaRepository.Insert(dma);
@@ -152,6 +154,18 @@ namespace AplombTech.DWasa.Service
                 .FirstOrDefault();
 
             return mapper.Map<Zone, ZoneEntity>(zone);
+        }
+
+        public PumpStationEntity FindPumpStation(int pumpStationId)
+        {
+            PumpStation pumpStation = _pumpStationRepository
+                .Query(u => u.Id == pumpStationId)
+
+                .Select()
+
+                .FirstOrDefault();
+
+            return mapper.Map<PumpStation, PumpStationEntity>(pumpStation);
         }
 
         public List<ZoneEntity> GetAllZone()
@@ -228,14 +242,15 @@ namespace AplombTech.DWasa.Service
             return mapper.Map<IEnumerable<Device>, IEnumerable<DeviceEntity>>(deviceList).ToList();
         }
 
-        //public List<SensorStatusEntity> GetSensorStatus(int deviceId)
-        //{
-        //    //IEnumerable<SensorStatus> sensorStatusList = _sensorStatusRepository
-        //    //    .Query(x=>x.Device.Id == deviceId)
-        //    //    .Select();
+        public List<DeviceEntity> GetPumpStationDevice(int pumpStationId)
+        {
+            IEnumerable<Device> deviceList = _sensorRepository
+                .Query(x=>x.PumpStation.Id == pumpStationId)
+                .Select();
 
-        //    //return mapper.Map<IEnumerable<SensorStatus>, IEnumerable<SensorStatusEntity>>(sensorStatusList).ToList();
-        //}
+            return mapper.Map<IEnumerable<Device>, IEnumerable<DeviceEntity>>(deviceList).ToList();
+        }
+
 
         public bool IsZoneExists(string name)
         {
@@ -298,7 +313,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                pump.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                pump.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now); ;
                 pump.ObjectState = ObjectState.Added;
                 _pumpStationRepository.Insert(pump);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -310,7 +325,32 @@ namespace AplombTech.DWasa.Service
             }
         }
 
+        public List<SensorStatusEntity> GetOverViewDataOfPumpStation(int pumpStationId)
+        {
+            List<SensorStatusEntity> sensorStatusEntities = new List<SensorStatusEntity>();
+            List<DeviceEntity> deviceList = GetPumpStationDevice(pumpStationId);
 
+            foreach (var deviceEntity in deviceList)
+            {
+                 SensorStatus sensorStatus = _sensorStatusRepository
+                .Query(x=>x.Device.Id==deviceEntity.Id)
+                .Select().FirstOrDefault();
+                sensorStatusEntities.Add(mapper.Map<SensorStatus,SensorStatusEntity> (sensorStatus));
+            }
+            return sensorStatusEntities;
+
+        }
+
+        public SensorStatusEntity GetSinleSensorStatus(int sensorId)
+        {
+            SensorStatus sensorStatus = 
+            _sensorStatusRepository
+                .Query(x => x.Device.Id == sensorId)
+                .Select().FirstOrDefault();
+
+            return mapper.Map<SensorStatus, SensorStatusEntity>(sensorStatus);
+
+        }
 
         public void AddSensor(PumpStationSensorEntity entity)
         {
@@ -333,7 +373,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                camera.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                camera.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
                 camera.ObjectState = ObjectState.Added;
                 _cameraRepository.Insert(camera);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -358,7 +398,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                router.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                router.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
                 router.ObjectState = ObjectState.Added;
                 _routerRepository.Insert(router);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -383,7 +423,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                pump.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                pump.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
                 pump.ObjectState = ObjectState.Added;
                 _pumpRepository.Insert(pump);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -400,7 +440,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                sensor.AuditField = new AuditFields(null, DateTime.Now, null, null);
+                sensor.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
                 sensor.ObjectState = ObjectState.Added;
 
                 _sensorRepository.Insert(sensor);

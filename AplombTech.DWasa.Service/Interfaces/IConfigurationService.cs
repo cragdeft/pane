@@ -15,6 +15,7 @@ namespace AplombTech.DWasa.Service.Interfaces
         //void DeleteZone(Zone zone);
         DMAEntity AddDMA(DMAEntity dma);
         ZoneEntity FindZone(int zoneId);
+        PumpStationEntity FindPumpStation(int pumpStationId);
 
         List<DMAEntity> GetAllDMA();
         List<PumpStationEntity> GetAllPumpStation();
@@ -29,6 +30,9 @@ namespace AplombTech.DWasa.Service.Interfaces
         List<DeviceEntity> GetAllDevice();
 
         //List<SensorStatusEntity> GetSensorStatus(int deviceId);
+        List<SensorStatusEntity> GetOverViewDataOfPumpStation(int pumpStationId);
+
+        SensorStatusEntity GetSinleSensorStatus(int sensorId);
 
         List<ZoneEntity> GetAllZone();
         List<ZoneEntity> GetAll();

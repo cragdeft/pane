@@ -28,6 +28,27 @@ namespace AplombTech.DWasa.Web.Controllers
             return View(model);
         }
 
+        public JsonResult GetOverViewDataOfPumpStation(int pumpStationId)
+        {
+            List<SensorStatusEntity> sensorStatusList = _configurationService.GetOverViewDataOfPumpStation(pumpStationId);
+
+            return Json(new { Data = sensorStatusList,IsSuccess=true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSingleSensorStatus(int sensorId)
+        {
+            SensorStatusEntity sensorStatus = _configurationService.GetSinleSensorStatus(sensorId);
+
+            return Json(new { Data = sensorStatus, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPumpStationLocation(int pumpStationId)
+        {
+            PumpStationEntity pumpStation = _configurationService.FindPumpStation(pumpStationId);
+            
+            return Json(new { Data = pumpStation, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult Show(ReportEntity model)
         {

@@ -8,7 +8,8 @@ var z2marker;
 var z3marker;
 var z4marker;
 var zone1;
-var node, infoWindow, barchart;
+var markers = {};
+var pumpStations = $('*[id^="pump_"]');
 
 var zone1PolyGonCoords = [
     { lat: 23.784850, lng: 90.389999 },
@@ -32,6 +33,7 @@ function initMap() {
         zoom: 13
     });
 
+    
 
     marker = new window.google.maps.Marker({
         position: { lat: 23.781089, lng: 90.391704 },
@@ -108,75 +110,82 @@ $('#legend').on("changed.jstree", function (e, data) {
 
     if ($('.jstree-clicked').text().trim()) {
 
-        if (data.node.parents.length == 3) {
-            drawChart(z2marker);
+        var stationName = $('.jstree-clicked').text().trim;
+        var depth=data.node.parents.length;
+        var node_id = data.node.id;
+
+        if (depth == 3) {
+            node_id = node_id.split("_")[1];
+
+            $.ajax({
+                type: "POST",
+                url: '/Report/GetOverViewDataOfPumpStation',
+                contentType: "application/json; charset=utf-8",
+                data:  JSON.stringify({ pumpStationId: node_id }),
+                dataType: "json",
+                success: function(model) {
+                    if (model.IsSuccess) {
+                        var contentString = '<h2>Overview</h2> <div >';
+                        //drawChart(z2marker, model.data, stationName);
+                        for (var key in model.Data) {
+                            if (model.Data.hasOwnProperty(key)) {
+                                var val = model.Data[key];
+                                if (val !== null) {
+                                    contentString += '<p>' + val.Device.Name + ' = '+ val.Value+' </p>';
+                                }
+                                
+                            }
+                        }
+                        drawChart(z2marker,contentString+'</div>');
+                    }
+
+                },
+                error: function() {}
+            });
         }
 
-        if (data.node.parents.length == 4) {
-            drawSensorData(marker);
+        if (depth == 4) {
+            node_id = node_id.split("_")[1];
+
+            $.ajax({
+                type: "POST",
+                url: '/Report/GetSingleSensorStatus',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ sensorId: node_id }),
+                dataType: "json",
+                success: function (model) {
+                    if (model.IsSuccess) {
+
+                        //drawChart(z2marker, model.data, stationName);
+                        
+                        drawSensorData(z2marker,'FT', model.Data.Value );
+                    }
+
+                },
+                error: function () { }
+            });
         }
-    }
 
-    if ($('.jstree-clicked').text().trim() === 'Pump 2') {
-
-        drawChart(z2marker);
-    }
-
-    if ($('.jstree-clicked').text().trim() === 'Pump 3') {
-
-        drawChart(z3marker);
-    }
-
-    if ($('.jstree-clicked').text().trim() === 'Pump 4') {
-
-        drawChart(z4marker);
-    }
-
-    if ($('.jstree-clicked').text().trim() === 'Zone 1' || $('.jstree-clicked').text().trim() === 'DMA 1' || $('.jstree-clicked').text().trim() === 'Pump 1') {
-
-        highlightPolyGon(zone1);
     }
 });
 
-function drawChart(marker) {
+function drawChart(marker, content) {
+
+    var infowindow2 = new google.maps.InfoWindow({
+        content: content
+    });
     
-    // Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topping');
-    data.addColumn('number', 'Slices');
-    data.addRows([
-        ['Production', 3],
-        ['Energy', 1],
-        ['Pressure', 1],
-        ['WaterLevel', 1],
-        ['Clorination', 2]
-    ]);
-
-    // Set chart options
-    var options = {
-        'title': marker.title + ' ' +
-            marker.getPosition().toString(),
-        'width': 400,
-        'height': 150
-    };
-
-    node = document.createElement('div');
-    infoWindow = new google.maps.InfoWindow();
-    barchart = new google.visualization.BarChart(node);
-
-    barchart.draw(data, options);
-    infoWindow.setContent(node);
-    infoWindow.open(marker.getMap(), marker);
+    infowindow2.open(marker.getMap(), marker);
 }
 
-function drawSensorData(marker) {
+function drawSensorData(marker,sensorName,sensorValue) {
 
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
     data.addRows([
-        ['Energy', 3]
+        [sensorName, parseFloat(sensorValue)]
     ]);
 
     // Set chart options

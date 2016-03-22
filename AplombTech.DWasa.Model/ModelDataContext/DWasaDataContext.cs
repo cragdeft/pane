@@ -38,6 +38,8 @@ namespace AplombTech.DWasa.Model.ModelDataContext
         public IDbSet<Sensor> Sensors { get; set; }
         public IDbSet<Pump> Pumps { get; set; }
 
+        public IDbSet<SensorStatus> SensorStatuses { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -25,10 +26,13 @@ namespace AplombTech.DWasa.Model.Models
         }
 
         #region Primitive Properties
-
+        [Required]
         public string InsertedBy { get; set; }
+        [Required]
         public DateTime? InsertedDateTime { get; set; }
+        [Required]
         public string LastUpdatedBy { get; set; }
+        [Required]
         public DateTime? LastUpdatedDateTime { get; set; }
 
         #endregion

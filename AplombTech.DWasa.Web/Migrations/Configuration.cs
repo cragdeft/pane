@@ -1,18 +1,18 @@
-namespace AplombTech.DWasa.Model.Migrations
+namespace AplombTech.DWasa.Web.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<AplombTech.DWasa.Model.ModelDataContext.DWasaDataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AplombTech.DWasa.Web.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(AplombTech.DWasa.Model.ModelDataContext.DWasaDataContext context)
+        protected override void Seed(AplombTech.DWasa.Web.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

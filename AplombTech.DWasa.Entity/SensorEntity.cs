@@ -8,5 +8,6 @@ namespace AplombTech.DWasa.Entity
 {
     public class SensorEntity:DeviceEntity
     {
+        
     }
 }

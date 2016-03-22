@@ -13,7 +13,7 @@ namespace AplombTech.DWasa.Entity
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         public string Value { get; set; }
-
+        
         public  PumpStationEntity PumpStation { get; set; }
     }
 }

@@ -48,8 +48,8 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <script>
-        $(function () { // will trigger when the document is ready
-            $('.jqueryui-marker-datepicker').datepicker(); //Initialise any date pickers
+        $(function() { // will trigger when the document is ready
+            $('.jqueryui-marker-datepicker').datepicker({showOn: "button",defaultDate: new Date()}); //Initialise any date pickers
         });
         $(function() {
 
@@ -101,5 +101,5 @@
         });
     </script>
 
-    
+
 }

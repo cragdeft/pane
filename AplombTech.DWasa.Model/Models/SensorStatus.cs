@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AplombTech.DWasa.Model.Models
 {
-    public class SensorStatus
+    public class SensorStatus : Repository.Pattern.Ef6.Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
