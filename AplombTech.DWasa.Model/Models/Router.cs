@@ -8,7 +8,8 @@ namespace AplombTech.DWasa.Model.Models
 {
     public class Router:Device
     {
-        #region  Navigation Properties
-        #endregion
+        public string MacId { get; set; }
+        public string Ip { get; set; }
+        public string Port { get; set; }
     }
 }

@@ -26,6 +26,12 @@ namespace AplombTech.DWasa.Service
         private readonly IRepositoryAsync<Router> _routerRepository;
         private readonly IRepositoryAsync<Pump> _pumpRepository;
         private readonly IRepositoryAsync<SensorStatus> _sensorStatusRepository;
+        private readonly IRepositoryAsync<WaterLevelSensor> _waterLevelSensorRepository;
+        private readonly IRepositoryAsync<ProductionSensor> _productionSensorRepository;
+        private readonly IRepositoryAsync<PressureSensor> _pressureSensorRepository;
+        private readonly IRepositoryAsync<EnergySensor> _energySensorrRepository;
+        private readonly IRepositoryAsync<CholorinationSensor> _cholorinationSensorRepository;
+        private readonly string _name;
         private IMapper mapper;
         #endregion
 
@@ -40,6 +46,13 @@ namespace AplombTech.DWasa.Service
             _routerRepository = _unitOfWorkAsync.RepositoryAsync<Router>();
             _pumpRepository = _unitOfWorkAsync.RepositoryAsync<Pump>();
             _sensorStatusRepository = _unitOfWorkAsync.RepositoryAsync<SensorStatus>();
+            _waterLevelSensorRepository = _unitOfWorkAsync.RepositoryAsync<WaterLevelSensor>();
+            _productionSensorRepository = _unitOfWorkAsync.RepositoryAsync<ProductionSensor>();
+            _pressureSensorRepository = _unitOfWorkAsync.RepositoryAsync<PressureSensor>();
+            _energySensorrRepository = _unitOfWorkAsync.RepositoryAsync<EnergySensor>();
+            _cholorinationSensorRepository = _unitOfWorkAsync.RepositoryAsync<CholorinationSensor>();
+            //ToDO name will assign from login info
+            _name = "admin"; 
             ConfigMapper();
         }
 
@@ -60,6 +73,11 @@ namespace AplombTech.DWasa.Service
                 cfg.CreateMap<PumpEntity, Pump>();
                 cfg.CreateMap<Device, DeviceEntity>();
                 cfg.CreateMap<SensorStatus, SensorStatusEntity>();
+                cfg.CreateMap<WaterLevelSensor, WaterLevelSensorEntity>();
+                cfg.CreateMap<ProductionSensor, ProductionSensorEntity>();
+                cfg.CreateMap<PressureSensor, PressureSensorEntity>();
+                cfg.CreateMap<EnergySensor, EnergySensorEntity>();
+                cfg.CreateMap<CholorinationSensor, CholorinationSensorEntity>();
 
             });
 
@@ -78,7 +96,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                zone.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
+                zone.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now);
                 zone.ObjectState = ObjectState.Added;
                 _zoneRepository.Insert(zone);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -96,7 +114,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                zone.AuditField = new AuditFields(zone.AuditField.InsertedBy, zone.AuditField.InsertedDateTime, string.Empty, DateTime.Now);
+                zone.AuditField = new AuditFields(zone.AuditField.InsertedBy, zone.AuditField.InsertedDateTime, _name, DateTime.Now);
                 zone.ObjectState = ObjectState.Modified;
                 _zoneRepository.Update(zone);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -129,7 +147,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                dma.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now); ;
+                dma.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now); ;
                 dma.ObjectState = ObjectState.Added;
 
                 _dmaRepository.Insert(dma);
@@ -202,17 +220,71 @@ namespace AplombTech.DWasa.Service
                     dmaEntity.PumpStationList = pumpStationEntityList;
                     foreach (var pumpStationEntity in pumpStationEntityList)
                     {
-                        IEnumerable<Device> deviceList = _sensorRepository
-                        .Query(z => z.PumpStation.Id == pumpStationEntity.Id)
-                        .Select();
+                        var wList = GetWaterLevelSensorsList(pumpStationEntity);
 
-                        pumpStationEntity.DeviceList = mapper.Map<IEnumerable<Device>, IEnumerable<DeviceEntity>>(deviceList).ToList();
+                        pumpStationEntity.WaterLevelSensorList = mapper.Map<IEnumerable<WaterLevelSensor>, IEnumerable<WaterLevelSensorEntity>>(wList).ToList();
+
+                        var prList = GetPressureSensorList(pumpStationEntity);
+
+                        pumpStationEntity.PressureSensorList = mapper.Map<IEnumerable<PressureSensor>, IEnumerable<PressureSensorEntity>>(prList).ToList();
+
+                        var pdList = GetProductionSensorsList(pumpStationEntity);
+
+                        pumpStationEntity.ProductionSensorList = mapper.Map<IEnumerable<ProductionSensor>, IEnumerable<ProductionSensorEntity>>(pdList).ToList();
+
+                        var eList = GetEnergySensorsList(pumpStationEntity);
+
+                        pumpStationEntity.EnergySensorList = mapper.Map<IEnumerable<EnergySensor>, IEnumerable<EnergySensorEntity>>(eList).ToList();
+
+                        var cList = GetCholorinationSensorsList(pumpStationEntity);
+
+                        pumpStationEntity.CholorinationSensorList = mapper.Map<IEnumerable<CholorinationSensor>, IEnumerable<CholorinationSensorEntity>>(cList).ToList();
 
                     }
                 }
             }
 
             return zoneEntityList;
+        }
+
+        private IEnumerable<CholorinationSensor> GetCholorinationSensorsList(PumpStationEntity pumpStationEntity)
+        {
+            IEnumerable<CholorinationSensor> cList = _cholorinationSensorRepository
+                .Query(z => z.PumpStation.Id == pumpStationEntity.Id)
+                .Select();
+            return cList;
+        }
+
+        private IEnumerable<EnergySensor> GetEnergySensorsList(PumpStationEntity pumpStationEntity)
+        {
+            IEnumerable<EnergySensor> eList = _energySensorrRepository
+                .Query(z => z.PumpStation.Id == pumpStationEntity.Id)
+                .Select();
+            return eList;
+        }
+
+        private IEnumerable<ProductionSensor> GetProductionSensorsList(PumpStationEntity pumpStationEntity)
+        {
+            IEnumerable<ProductionSensor> pdList = _productionSensorRepository
+                .Query(z => z.PumpStation.Id == pumpStationEntity.Id)
+                .Select();
+            return pdList;
+        }
+
+        private IEnumerable<PressureSensor> GetPressureSensorList(PumpStationEntity pumpStationEntity)
+        {
+            IEnumerable<PressureSensor> prList = _pressureSensorRepository
+                .Query(z => z.PumpStation.Id == pumpStationEntity.Id)
+                .Select();
+            return prList;
+        }
+
+        private IEnumerable<WaterLevelSensor> GetWaterLevelSensorsList(PumpStationEntity pumpStationEntity)
+        {
+            IEnumerable<WaterLevelSensor> wList = _waterLevelSensorRepository
+                .Query(z => z.PumpStation.Id == pumpStationEntity.Id)
+                .Select();
+            return wList;
         }
 
         public List<DMAEntity> GetAllDMA()
@@ -313,7 +385,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                pump.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now); ;
+                pump.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now); ;
                 pump.ObjectState = ObjectState.Added;
                 _pumpStationRepository.Insert(pump);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -373,7 +445,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                camera.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
+                camera.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now);
                 camera.ObjectState = ObjectState.Added;
                 _cameraRepository.Insert(camera);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -398,7 +470,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                router.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
+                router.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now);
                 router.ObjectState = ObjectState.Added;
                 _routerRepository.Insert(router);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -423,7 +495,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                pump.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
+                pump.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now);
                 pump.ObjectState = ObjectState.Added;
                 _pumpRepository.Insert(pump);
                 var changes = _unitOfWorkAsync.SaveChanges();
@@ -440,7 +512,7 @@ namespace AplombTech.DWasa.Service
             _unitOfWorkAsync.BeginTransaction();
             try
             {
-                sensor.AuditField = new AuditFields(string.Empty, DateTime.Now, string.Empty, DateTime.Now);
+                sensor.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now);
                 sensor.ObjectState = ObjectState.Added;
 
                 _sensorRepository.Insert(sensor);

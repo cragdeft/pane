@@ -44,13 +44,17 @@
     <Compile Include="AddressEntity.cs" />
     <Compile Include="AreaEntity.cs" />
     <Compile Include="CameraEntity.cs" />
+    <Compile Include="CholorinationSensorEntity.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="CompositeComponent.cs" />
     <Compile Include="DeviceEntity.cs" />
     <Compile Include="DMAEntity.cs" />
     <Compile Include="DMAPumpEntity.cs" />
+    <Compile Include="EnergySensorEntity.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MapEntity.cs" />
+    <Compile Include="PressureSensorEntity.cs" />
+    <Compile Include="ProductionSensorEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PumpEntity.cs" />
     <Compile Include="PumpStationCameraEntity.cs" />
@@ -63,6 +67,7 @@
     <Compile Include="RouterEntity.cs" />
     <Compile Include="SensorStatusEntity.cs" />
     <Compile Include="SensorEntity.cs" />
+    <Compile Include="WaterLevelSensorEntity.cs" />
     <Compile Include="ZoneDMAEntity.cs" />
     <Compile Include="ZoneEntity.cs" />
   </ItemGroup>

@@ -8,5 +8,6 @@ namespace AplombTech.DWasa.Entity
 {
     public class PumpEntity : DeviceEntity
     {
+        public string UId { get; set; }
     }
 }

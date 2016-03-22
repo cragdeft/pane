@@ -31,10 +31,34 @@
                                         <li  id="pump_@pumpStation.Id" data-jstree='{"icon":"../../Content/Image/pump.png"}'>
                                             @pumpStation.Name
                                             <ul>
-                                                @foreach (var device in pumpStation.DeviceList)
+                                                @foreach (var device in pumpStation.WaterLevelSensorList)
                                                 {
                                                     <li  id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                        @device.Name
+                                                        @device.Name (FT)
+                                                    </li>
+                                                }
+                                                @foreach (var device in pumpStation.PressureSensorList)
+                                                {
+                                                    <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
+                                                        @device.Name (PT)
+                                                    </li>
+                                                }
+                                                @foreach (var device in pumpStation.ProductionSensorList)
+                                                {
+                                                    <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
+                                                        @device.Name (LT)
+                                                    </li>
+                                                }
+                                                @foreach (var device in pumpStation.EnergySensorList)
+                                                {
+                                                    <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
+                                                        @device.Name (EM)
+                                                    </li>
+                                                }
+                                                @foreach (var device in pumpStation.CholorinationSensorList)
+                                                {
+                                                    <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
+                                                        @device.Name (CLT)
                                                     </li>
                                                 }
                                             </ul>

@@ -11,6 +11,15 @@ namespace AplombTech.DWasa.Entity
         #region Primitive Properties
         public DMAEntity DMA { get; set; }
         public virtual ICollection<DeviceEntity> DeviceList { get; set; }
+        public virtual ICollection<WaterLevelSensorEntity> WaterLevelSensorList { get; set; }
+
+        public virtual ICollection<ProductionSensorEntity> ProductionSensorList { get; set; }
+
+        public virtual ICollection<PressureSensorEntity> PressureSensorList { get; set; }
+        public virtual ICollection<EnergySensorEntity> EnergySensorList { get; set; }
+        public virtual ICollection<CholorinationSensorEntity> CholorinationSensorList { get; set; }
+
+
         #endregion
     }
 }

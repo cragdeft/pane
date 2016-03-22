@@ -50,6 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\DWasaEnumDataType.cs" />
+    <Compile Include="Migrations\201603220513361_initialCreate.cs" />
+    <Compile Include="Migrations\201603220513361_initialCreate.Designer.cs">
+      <DependentUpon>201603220513361_initialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelDataContext\DWasaDataContext.cs" />
     <Compile Include="ModelDataContext\IDWasaDataContext.cs" />
     <Compile Include="Models\Address.cs" />
@@ -84,6 +89,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603220513361_initialCreate.resx">
+      <DependentUpon>201603220513361_initialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,5 +8,6 @@ namespace AplombTech.DWasa.Model.Models
 {
     public class Pump : Device
     {
+        public string UId { get; set; }
     }
 }

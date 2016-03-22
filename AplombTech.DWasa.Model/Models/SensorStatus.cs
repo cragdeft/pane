@@ -13,6 +13,7 @@ namespace AplombTech.DWasa.Model.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string Value { get; set; }
 
         #region  Complex Properties
