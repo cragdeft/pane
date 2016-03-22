@@ -158,7 +158,7 @@ $('#legend').on("changed.jstree", function (e, data) {
 
                         //drawChart(z2marker, model.data, stationName);
                         
-                        drawSensorData(z2marker,'FT', model.Data.Value );
+                        drawSensorData(z2marker,'', model.Data.Value );
                     }
 
                 },

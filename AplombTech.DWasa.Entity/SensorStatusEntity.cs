@@ -10,7 +10,7 @@ namespace AplombTech.DWasa.Entity
     {
         public int Id { get; set; }
         public string Value { get; set; }
-        
+        public DateTime LogDateTime { get; set; }
         #region  Navigation Properties
         public virtual DeviceEntity Device { get; set; }
         #endregion

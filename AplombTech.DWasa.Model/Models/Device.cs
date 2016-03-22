@@ -20,9 +20,10 @@ namespace AplombTech.DWasa.Model.Models
         #region  Complex Properties
         public AuditFields AuditField { get; set; }
         #endregion
-        
+
 
         #region  Navigation Properties
+        [Required]
         public virtual PumpStation PumpStation { get; set; }
         #endregion
 

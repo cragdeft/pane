@@ -15,6 +15,8 @@ namespace AplombTech.DWasa.Model.Models
         public int Id { get; set; }
         [Required]
         public string Value { get; set; }
+        [Required]
+        public DateTime LogDateTime { get; set; }
 
         #region  Complex Properties
         public AuditFields AuditField { get; set; }
@@ -22,6 +24,7 @@ namespace AplombTech.DWasa.Model.Models
 
 
         #region  Navigation Properties
+        [Required]
         public virtual Device Device { get; set; }
         #endregion
     }
