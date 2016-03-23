@@ -462,7 +462,7 @@ namespace AplombTech.DWasa.Service
             model.GraphTitle = "Daily Data Review";
             model.GraphSubTitle = "Data for Hour no=" + model.ToDateTime.Hour;
 
-            model.XaxisCategory = new string[24];
+            model.XaxisCategory = new string[12];
 
             if (model.SensorType == SensorType.WaterLevel)
             {
@@ -691,11 +691,11 @@ namespace AplombTech.DWasa.Service
 
         private void GetAvarageHourlyData(ReportEntity model, int id, string data, string name, ref string series)
         {
-            for (int i = 0; i < 60; i+=5)
+            for (int i = 0; i < 12; i++)
             {
-                double avgValue = GetAverageSensorData(model.ToDateTime.AddMinutes(i),
-                    model.ToDateTime.AddMinutes(5), id);
-                model.XaxisCategory[i] = model.ToDateTime.AddMinutes(5).ToShortTimeString();
+                double avgValue = GetAverageSensorData(model.ToDateTime.AddMinutes(i==0?0:i+5),
+                    model.ToDateTime.AddMinutes(i == 0 ? 5 : i * 5), id);
+                model.XaxisCategory[i] = model.ToDateTime.AddMinutes(i*5).ToShortTimeString();
                 data += avgValue.ToString() + ',';
             }
 
