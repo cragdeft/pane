@@ -14,7 +14,7 @@ namespace AplombTech.DWasa.Model.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        public string Value { get; set; }
+        public double Value { get; set; }
         [Required]
         public DateTime LogDateTime { get; set; }
 

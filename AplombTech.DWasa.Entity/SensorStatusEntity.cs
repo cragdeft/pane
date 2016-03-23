@@ -9,7 +9,7 @@ namespace AplombTech.DWasa.Entity
     public class SensorStatusEntity
     {
         public int Id { get; set; }
-        public string Value { get; set; }
+        public double Value { get; set; }
         public DateTime LogDateTime { get; set; }
         #region  Navigation Properties
         public virtual DeviceEntity Device { get; set; }

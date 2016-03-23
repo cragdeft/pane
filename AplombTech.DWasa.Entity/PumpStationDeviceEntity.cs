@@ -9,6 +9,10 @@ namespace AplombTech.DWasa.Entity
 {
     public class PumpStationDeviceEntity
     {
+        public PumpStationDeviceEntity()
+        {
+            PumpStationList = new List<PumpStationEntity>();
+        }
         [Display(Name = "Pump Station")]
         [Required(ErrorMessage = "Please select Pump station")]
         public int PumpStationId { get; set; }

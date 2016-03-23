@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.DWasa.Entity;
 using AplombTech.DWasa.Model.Models;
+using AplombTech.DWasa.Utility.Enums;
 
 namespace AplombTech.DWasa.Service.Interfaces
 {
@@ -16,6 +17,7 @@ namespace AplombTech.DWasa.Service.Interfaces
         DMAEntity AddDMA(DMAEntity dma);
         ZoneEntity FindZone(int zoneId);
         PumpStationEntity FindPumpStation(int pumpStationId);
+        ReportEntity GetReportData(ReportEntity model);
 
         List<DMAEntity> GetAllDMA();
         List<PumpStationEntity> GetAllPumpStation();
@@ -33,6 +35,7 @@ namespace AplombTech.DWasa.Service.Interfaces
         List<SensorStatusEntity> GetOverViewDataOfPumpStation(int pumpStationId);
 
         SensorStatusEntity GetSinleSensorStatus(int sensorId);
+        List<WaterLevelSensorEntity> GetPumpStationWaterLevelSensor(int pumpStationId);
 
         List<ZoneEntity> GetAllZone();
         List<ZoneEntity> GetAll();

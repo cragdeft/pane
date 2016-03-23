@@ -13,7 +13,7 @@ namespace AplombTech.DWasa.Model.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201603220610544_initialCreate"; }
+            get { return "201603221130207_initialCreate"; }
         }
         
         string IMigrationMetadata.Source

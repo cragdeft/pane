@@ -6,14 +6,34 @@
 
 <h2>Show</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>ReportEntity</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PumpStation.PumpStationId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.PumpStation.PumpStationId, new SelectList(
+                    Model.PumpStation.PumpStationList,
+                    "Id",
+                    "Name",
+                    Model.PumpStation.PumpStationId), "Please Select", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.PumpStation.PumpStationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SensorType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(m => m.SensorType, "- Please select your industry -", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.SensorType, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ReportType, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -23,10 +43,12 @@
             </div>
         </div>
 
+
+
         <div class="form-group">
             @Html.LabelFor(model => model.ToDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ToDateTime, new { htmlAttributes = new { @class = "form-control jqueryui-marker-datepicker" } })
+                @Html.EditorFor(model => model.ToDateTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
                 @Html.ValidationMessageFor(model => model.ToDateTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -48,9 +70,16 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <script>
-        $(function() { // will trigger when the document is ready
-            $('.jqueryui-marker-datepicker').datepicker({showOn: "button",defaultDate: new Date()}); //Initialise any date pickers
+        $(function () {
+            $('.datetimepicker').datetimepicker({
+                format: 'L',
+                showClose: true,
+                showClear: true,
+                toolbarPlacement: 'top'
+            });
         });
+    </script>
+    <script>
         $(function() {
 
 
@@ -67,6 +96,19 @@
                 xAxis: {
                     categories: categories,
                     gridLineWidth: 1,
+                },
+                plotOptions: {
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    //alert('Category: ' + this.category + ', value: ' + this.y);
+                                    alert('report type='+$('#ReportType').val()+' implementing dragdown..');
+                                }
+                            }
+                        }
+                    }
                 },
                 yAxis: {
                     title: {
@@ -99,7 +141,12 @@
                 series: @Html.Raw(@Model.Series)
             });
         });
+
+        $('.highcharts-axis-labels text, .highcharts-axis-labels span').click(function () {
+            alert(this.x);                                            
+        });
     </script>
+
 
 
 }

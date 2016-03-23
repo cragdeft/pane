@@ -323,6 +323,18 @@ namespace AplombTech.DWasa.Service
             return mapper.Map<IEnumerable<Device>, IEnumerable<DeviceEntity>>(deviceList).ToList();
         }
 
+        public List<WaterLevelSensorEntity> GetPumpStationWaterLevelSensor(int pumpStationId)
+        {
+                IEnumerable<WaterLevelSensor> deviceList = _waterLevelSensorRepository
+               .Query(x => x.PumpStation.Id == pumpStationId)
+               .Select();
+
+                return mapper.Map<IEnumerable<WaterLevelSensor>, IEnumerable<WaterLevelSensorEntity>>(deviceList).ToList();
+            
+        }
+
+
+
 
         public bool IsZoneExists(string name)
         {
@@ -413,6 +425,312 @@ namespace AplombTech.DWasa.Service
 
         }
 
+        public double GetAverageSensorData(DateTime from, DateTime to,int deviceId)
+        {
+            IEnumerable<SensorStatus> deviceList = _sensorStatusRepository.Query(
+                x => (x.Device.Id == deviceId && x.LogDateTime >= from && x.LogDateTime <= to))
+                .Select();
+            if (deviceList!= null && deviceList.Count() == 0)
+                return 0;
+            return deviceList.Average(x=>x.Value);
+
+        }
+
+        public ReportEntity GetReportData(ReportEntity model)
+        {
+            if (model.ReportType == ReportType.Daily)
+            {
+                return GeneratetSeriesDataDaily(model);
+            }
+
+            else if (model.ReportType == ReportType.Monthly)
+            {
+                return GeneratetSeriesDataMonthly(model);
+            }
+            else if (model.ReportType == ReportType.Hourly)
+            {
+                return GeneratetSeriesDataHourly(model);
+            }
+
+            return model;
+        }
+        public ReportEntity GeneratetSeriesDataHourly(ReportEntity model)
+        {
+            string series = "[{";
+            string data = "data:[";
+            string name = "";
+            model.GraphTitle = "Daily Data Review";
+            model.GraphSubTitle = "Data for Hour no=" + model.ToDateTime.Hour;
+
+            model.XaxisCategory = new string[24];
+
+            if (model.SensorType == SensorType.WaterLevel)
+            {
+                var sensorList = GetWaterLevelSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\'";
+                    int id = sensorEntity.Id;
+                    GetAvarageHourlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Cholorination)
+            {
+                var sensorList = GetCholorinationSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageHourlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Production)
+            {
+                var sensorList = GetProductionSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageHourlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Energy)
+            {
+                var sensorList = GetEnergySensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageHourlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Pressure)
+            {
+                var sensorList = GetPressureSensorList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageHourlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            model.Series = series.Remove(series.Length - 1) + "]";
+            return model;
+        }
+        public ReportEntity GeneratetSeriesDataDaily(ReportEntity model)
+        {
+            string series = "[{";
+            string data = "data:[";
+            string name = "";
+            model.GraphTitle = "Daily Data Review";
+            model.GraphSubTitle = "Data for " + model.ToDateTime.DayOfWeek;
+
+            model.XaxisCategory = new string[24];
+
+            if (model.SensorType == SensorType.WaterLevel)
+            {
+                var sensorList = GetWaterLevelSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId }); 
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\'";
+                    int id = sensorEntity.Id;
+                    GetAvarageDailyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+                
+            }
+
+            if (model.SensorType == SensorType.Cholorination)
+            {
+                var sensorList = GetCholorinationSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageDailyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Production)
+            {
+                var sensorList = GetProductionSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageDailyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Energy)
+            {
+                var sensorList = GetEnergySensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageDailyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Pressure)
+            {
+                var sensorList = GetPressureSensorList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageDailyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            model.Series = series.Remove(series.Length-1)+"]";
+            return model;
+        }
+        public ReportEntity GeneratetSeriesDataMonthly(ReportEntity model)
+        {
+            string series = "[{";
+            string data = "data:[";
+            string name = "";
+            model.GraphTitle = "Monthly Data Review";
+            model.GraphSubTitle = "Data for " + model.ToDateTime.ToString("MMM");
+
+            model.XaxisCategory = new string[30];
+
+            if (model.SensorType == SensorType.WaterLevel)
+            {
+                var sensorList = GetWaterLevelSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\'";
+                    int id = sensorEntity.Id;
+                    GetAvarageMonthlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Cholorination)
+            {
+                var sensorList = GetCholorinationSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageMonthlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Production)
+            {
+                var sensorList = GetProductionSensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageMonthlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Energy)
+            {
+                var sensorList = GetEnergySensorsList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageMonthlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            if (model.SensorType == SensorType.Pressure)
+            {
+                var sensorList = GetPressureSensorList(new PumpStationEntity() { Id = model.PumpStation.PumpStationId });
+                foreach (var sensorEntity in sensorList)
+                {
+                    name = "\'" + sensorEntity.Name + "\',";
+                    int id = sensorEntity.Id;
+                    GetAvarageMonthlyData(model, id, data, name, ref series);
+                    data = string.Empty;
+                }
+
+            }
+
+            model.Series = series.Remove(series.Length - 1) + "]";
+            return model;
+        }
+
+        private void GetAvarageHourlyData(ReportEntity model, int id, string data, string name, ref string series)
+        {
+            for (int i = 0; i < 60; i+=5)
+            {
+                double avgValue = GetAverageSensorData(model.ToDateTime.AddMinutes(i),
+                    model.ToDateTime.AddMinutes(5), id);
+                model.XaxisCategory[i] = model.ToDateTime.AddMinutes(5).ToShortTimeString();
+                data += avgValue.ToString() + ',';
+            }
+
+            data = data.Remove(data.Length - 1) + "]";
+            series += "\n name:" + name + "," + "\n" + data + "},";
+
+        }
+        private void GetAvarageDailyData(ReportEntity model, int id, string data, string name, ref string series)
+        {
+            for (int i = 0; i < 24; i++)
+            {
+                double avgValue = GetAverageSensorData(model.ToDateTime.AddHours(i),
+                    model.ToDateTime.AddHours(1), id);
+                model.XaxisCategory[i] = model.ToDateTime.AddHours(i).ToShortTimeString();
+                data += avgValue.ToString() + ',';
+            }
+
+            data = data.Remove(data.Length - 1) + "]";
+            series += "\n name:" + name + "," + "\n" + data + "},";
+            
+        }
+        private void GetAvarageMonthlyData(ReportEntity model, int id, string data, string name, ref string series)
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                double avgValue = GetAverageSensorData(model.ToDateTime.AddDays(i),
+                    model.ToDateTime.AddDays(1), id);
+                model.XaxisCategory[i] = model.ToDateTime.AddDays(i).Day.ToString();
+                data += avgValue.ToString() + ',';
+            }
+
+            data = data.Remove(data.Length - 1) + "]";
+            series += "\n name:" + name + "," + "\n" + data + "},";
+        }
+
         public SensorStatusEntity GetSinleSensorStatus(int sensorId)
         {
             SensorStatus sensorStatus = 
@@ -421,7 +739,6 @@ namespace AplombTech.DWasa.Service
                 .Select().FirstOrDefault();
 
             return mapper.Map<SensorStatus, SensorStatusEntity>(sensorStatus);
-
         }
 
         public void AddSensor(PumpStationSensorEntity entity)

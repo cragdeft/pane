@@ -10,6 +10,10 @@ namespace AplombTech.DWasa.Entity
 {
     public class ReportEntity
     {
+        public ReportEntity()
+        {
+            PumpStation = new PumpStationDeviceEntity();
+        }
         public string GraphTitle { get; set; }
         public string Series { get; set; }
         public string GraphSubTitle { get; set; }
@@ -19,10 +23,15 @@ namespace AplombTech.DWasa.Entity
         [Display(Name = "To")]
         public DateTime ToDateTime { get; set; }
         [Display(Name = "From")]
+        [DataType(DataType.Date)]
         public DateTime FromDateTime { get; set; }
         [Required(ErrorMessage = "Please select report type")]
-        [Display(Name = "Type")]
+        [Display(Name = "Report Type")]
         public ReportType ReportType { get; set; }
+
+        public PumpStationDeviceEntity PumpStation { get; set; }
+        [Display(Name = "Sensor Type")]
+        public SensorType SensorType { get; set; }
 
         public int DeviceId { get; set; }
     }
