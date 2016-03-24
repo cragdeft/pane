@@ -13,7 +13,7 @@ namespace AplombTech.WMS.Domain.Devices
     {
         [MemberOrder(20)]
         public virtual string MACAddress { get; set; }
-        [MemberOrder(30)]
+        [MemberOrder(30), Title]
         public virtual string IP { get; set; }
         [MemberOrder(40)]
         public virtual int Port { get; set; }

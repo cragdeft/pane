@@ -15,6 +15,11 @@ namespace AplombTech.WMS.Domain.Sensors
 {
     public class Sensor
     {
+        public Sensor()
+        {
+            this.AuditField = new AuditFields();
+        }
+
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         public AreaRepository AreaRepository { set; protected get; }
@@ -26,15 +31,15 @@ namespace AplombTech.WMS.Domain.Sensors
 
         public virtual void Persisting()
         {
-            this.InsertedBy = Container.Principal.Identity.Name;
-            this.InsertedDateTime = DateTime.Now;
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
+            AuditField.InsertedBy = Container.Principal.Identity.Name;
+            AuditField.InsertedDateTime = DateTime.Now;
+            AuditField.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditField.LastUpdatedDateTime = DateTime.Now;
         }
         public virtual void Updating()
         {
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
+            AuditField.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditField.LastUpdatedDateTime = DateTime.Now;
         }
         #endregion
 
@@ -53,15 +58,14 @@ namespace AplombTech.WMS.Domain.Sensors
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int SensorID { get; set; }
-        [MemberOrder(10)]
+        [MemberOrder(10), NakedObjectsIgnore]
         public virtual string UUID { get; set; }
         [MemberOrder(20)]
         public virtual decimal MinimumValue { get; set; }
         [MemberOrder(30)]
         public virtual decimal MaximumValue { get; set; }
-        [DisplayName("SensorType"), MemberOrder(40), Required]
+        [DisplayName("SensorType"), MemberOrder(50), Required]
         public virtual TransmitterType SensorType { get; set; }
 
         public enum TransmitterType
@@ -72,62 +76,43 @@ namespace AplombTech.WMS.Domain.Sensors
             FLOW_TRANSMITTER = 4,
             LEVEL_TRANSMITTER = 5,
         }
-
-        #region InsertedBy (String)
-        [MemberOrder(130)]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedBy")]
-        public virtual string InsertedBy { get; set; }
-
-        #endregion
-        #region InsertedDateTime (DateTime)
-        [MemberOrder(140), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedDate")]
-        public virtual DateTime InsertedDateTime { get; set; }
-
-        #endregion
-        #region LastUpdatedBy (String)
-        [MemberOrder(150)]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedBy")]
-        public virtual string LastUpdatedBy { get; set; }
-
-        #endregion
-        #region LastUpdatedDateTime (DateTime)
-        [MemberOrder(160), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedDate")]
-        public virtual DateTime LastUpdatedDateTime { get; set; }
-
         #endregion
 
+        #region Get Properties
+        [MemberOrder(40), NotMapped]
+        [DisplayName("Current Value")]
+        public decimal CurrentValue
+        {
+            get
+            {
+                Decimal value = 0;
+
+                SensorData sensordata = (from data in Container.Instances<SensorData>()
+                                         where data.Sensor.SensorID == this.SensorID
+                                         select data).OrderByDescending(o => o.LoggedAt).FirstOrDefault();
+                if(sensordata != null)
+                {
+                    value = sensordata.Value;
+                }
+                return value;
+            }
+        }
         #endregion
 
-        //#region Complex Properties
-        //#region AuditFields (AuditFields)
+        #region Complex Properties
+        #region AuditFields (AuditFields)
 
         //private AuditFields _auditFields = new AuditFields();
 
-        //[MemberOrder(250)]
-        //[Required, NakedObjectsIgnore]
-        //public virtual AuditFields AuditFields
-        //{
-        //    get
-        //    {
-        //        return _auditFields;
-        //    }
-        //    set
-        //    {
-        //        _auditFields = value;
-        //    }
-        //}
+        [MemberOrder(250)]
+        [Required, Hidden]
+        public virtual AuditFields AuditField { get; set; }
 
-        //#endregion
-        //#endregion
+        #endregion
+        #endregion
 
         #region  Navigation Properties
-        [MemberOrder(50)]
+        [MemberOrder(60)]
         public virtual PumpStation PumpStation { get; set; }
 
         [PageSize(10)]

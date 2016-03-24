@@ -23,15 +23,15 @@ namespace AplombTech.WMS.Domain.Devices
 
         public virtual void Persisting()
         {
-            this.InsertedBy = Container.Principal.Identity.Name;
-            this.InsertedDateTime = DateTime.Now;
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
+            AuditFields.InsertedBy = Container.Principal.Identity.Name;
+            AuditFields.InsertedDateTime = DateTime.Now;
+            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         public virtual void Updating()
         {
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
+            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         #endregion
 
@@ -39,60 +39,31 @@ namespace AplombTech.WMS.Domain.Devices
         [Key, NakedObjectsIgnore]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int DeviceID { get; set; }
-        [MemberOrder(10)]
-        public virtual string UUID { get; set; }
-
-        #region InsertedBy (String)
-        [MemberOrder(130)]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedBy")]
-        public virtual string InsertedBy { get; set; }
-
+        [MemberOrder(10), NakedObjectsIgnore]
+        public virtual string UUID { get; set; }        
         #endregion
-        #region InsertedDateTime (DateTime)
-        [MemberOrder(140), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedDate")]
-        public virtual DateTime InsertedDateTime { get; set; }
 
-        #endregion
-        #region LastUpdatedBy (String)
-        [MemberOrder(150)]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedBy")]
-        public virtual string LastUpdatedBy { get; set; }
+        #region Complex Properties
+        #region AuditFields (AuditFields)
 
-        #endregion
-        #region LastUpdatedDateTime (DateTime)
-        [MemberOrder(160), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedDate")]
-        public virtual System.DateTime LastUpdatedDateTime { get; set; }
+        private AuditFields _auditFields = new AuditFields();
+
+        [MemberOrder(250)]
+        [Required, Hidden]
+        public virtual AuditFields AuditFields
+        {
+            get
+            {
+                return _auditFields;
+            }
+            set
+            {
+                _auditFields = value;
+            }
+        }
 
         #endregion
         #endregion
-
-        //#region Complex Properties
-        //#region AuditFields (AuditFields)
-
-        //private AuditFields _auditFields = new AuditFields();
-
-        //[MemberOrder(250)]
-        //[Required, NakedObjectsIgnore]
-        //public virtual AuditFields AuditFields
-        //{
-        //    get
-        //    {
-        //        return _auditFields;
-        //    }
-        //    set
-        //    {
-        //        _auditFields = value;
-        //    }
-        //}
-
-        //#endregion
-        //#endregion
 
         #region  Navigation Properties
         [MemberOrder(50)]

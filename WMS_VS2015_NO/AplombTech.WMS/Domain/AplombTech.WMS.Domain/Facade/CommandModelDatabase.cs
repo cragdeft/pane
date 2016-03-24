@@ -23,6 +23,7 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<Router> Routers { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
+        public DbSet<SensorData> SensorDatas { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -30,6 +31,7 @@ namespace AplombTech.WMS.Domain.Facade
             //Initialisation
             //Use the Naked Objects > DbInitialiser template to add an initialiser, then reference thus:
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<CommandModelDatabase>());
+
             //Database.SetInitializer(new KhelaGharAMSDbInitialiser());
 
             //Mappings

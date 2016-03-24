@@ -11,6 +11,7 @@ namespace AplombTech.WMS.Domain.Devices
     [Table("Pumps")]
     public class Pump : Device
     {
+        [Title]
         [MemberOrder(20)]
         public virtual string ModelNo { get; set; }
     }

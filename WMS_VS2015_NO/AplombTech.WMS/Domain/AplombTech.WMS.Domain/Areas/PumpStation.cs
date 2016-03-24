@@ -19,22 +19,22 @@ namespace AplombTech.WMS.Domain.Areas
         #region Get Properties
         
         [MemberOrder(50), NotMapped]
-        [Eagerly(EagerlyAttribute.Do.Rendering)]
+        //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Pump")]
         [TableView(true, "UUID", "ModelNo")]
-        public IList<Pump> Pumps
+        public Pump Pumps
         {
             get
             {
-                IList<Pump> pumps = (from pump in Container.Instances<Pump>()
-                                    where pump.PumpStation.AreaID == this.AreaID
-                                    select pump).ToList();
+                Pump pumps = (from pump in Container.Instances<Pump>()
+                              where pump.PumpStation.AreaID == this.AreaID
+                              select pump).FirstOrDefault();
                 return pumps;
             }
         }
 
         [MemberOrder(60), NotMapped]
-        [Eagerly(EagerlyAttribute.Do.Rendering)]
+        //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Camera")]
         [TableView(true, "UUID", "URL")]
         public IList<Camera> Cameras
@@ -49,7 +49,7 @@ namespace AplombTech.WMS.Domain.Areas
         }
 
         [MemberOrder(70), NotMapped]
-        [Eagerly(EagerlyAttribute.Do.Rendering)]
+        //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Router")]
         [TableView(true, "UUID", "MACAddress", "IP", "Port")]
         public IList<Router> Routers
@@ -64,9 +64,9 @@ namespace AplombTech.WMS.Domain.Areas
         }
 
         [MemberOrder(80), NotMapped]
-        [Eagerly(EagerlyAttribute.Do.Rendering)]
+        //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Sensors")]
-        [TableView(true, "UUID", "MinimumValue", "MaximumValue")]
+        [TableView(true, "CurrentValue")]
         public IList<Sensor> Sensors
         {
             get
