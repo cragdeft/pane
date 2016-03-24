@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain Layer", "Domain Layer", "{2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure Layer", "Infrastructure Layer", "{086AD4EF-259F-4626-B660-F0E4A4AFE41B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{B8D1BF86-90C2-4FE8-9EB8-24FE057ACA82}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation Layer", "Presentation Layer", "{78C2A3DC-67BD-4746-8669-1A91C25F3CFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application Layer", "Application Layer", "{6D37D32D-9D22-4D3E-80F2-778867432F80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{183AC6CE-1574-4BD3-BB4A-3365A5A8F73A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Domain", "Domain\AplombTech.WMS.Domain\AplombTech.WMS.Domain.csproj", "{C2A6F489-7C45-4D49-9C71-7AAC936BC724}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Site", "Site\AplombTech.WMS.Site\AplombTech.WMS.Site.csproj", "{7CD265ED-F0A1-423A-9AC5-B6E41A66F858}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2A6F489-7C45-4D49-9C71-7AAC936BC724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A6F489-7C45-4D49-9C71-7AAC936BC724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A6F489-7C45-4D49-9C71-7AAC936BC724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A6F489-7C45-4D49-9C71-7AAC936BC724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD265ED-F0A1-423A-9AC5-B6E41A66F858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD265ED-F0A1-423A-9AC5-B6E41A66F858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD265ED-F0A1-423A-9AC5-B6E41A66F858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD265ED-F0A1-423A-9AC5-B6E41A66F858}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{78C2A3DC-67BD-4746-8669-1A91C25F3CFB} = {B8D1BF86-90C2-4FE8-9EB8-24FE057ACA82}
+		{6D37D32D-9D22-4D3E-80F2-778867432F80} = {B8D1BF86-90C2-4FE8-9EB8-24FE057ACA82}
+		{183AC6CE-1574-4BD3-BB4A-3365A5A8F73A} = {086AD4EF-259F-4626-B660-F0E4A4AFE41B}
+		{C2A6F489-7C45-4D49-9C71-7AAC936BC724} = {2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}
+		{7CD265ED-F0A1-423A-9AC5-B6E41A66F858} = {78C2A3DC-67BD-4746-8669-1A91C25F3CFB}
+	EndGlobalSection
+EndGlobal
