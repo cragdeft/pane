@@ -47,5 +47,4 @@ namespace AplombTech.WMS.Domain.Facade
             //.Configure(c => c.HasColumnType("datetime2"));
         }
     }
-
 }

@@ -79,7 +79,7 @@ namespace AplombTech.WMS.Domain.Shared
         //private AuditFields _auditFields = new AuditFields();
 
         //[MemberOrder(250)]
-        //[Required, NakedObjectsIgnore]
+        //[Required]
         //public virtual AuditFields AuditFields
         //{
         //    get
