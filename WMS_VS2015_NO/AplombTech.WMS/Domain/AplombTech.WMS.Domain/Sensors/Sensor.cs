@@ -15,11 +15,6 @@ namespace AplombTech.WMS.Domain.Sensors
 {
     public class Sensor
     {
-        public Sensor()
-        {
-            this.AuditField = new AuditFields();
-        }
-
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         public AreaRepository AreaRepository { set; protected get; }
@@ -31,15 +26,15 @@ namespace AplombTech.WMS.Domain.Sensors
 
         public virtual void Persisting()
         {
-            AuditField.InsertedBy = Container.Principal.Identity.Name;
-            AuditField.InsertedDateTime = DateTime.Now;
-            AuditField.LastUpdatedBy = Container.Principal.Identity.Name;
-            AuditField.LastUpdatedDateTime = DateTime.Now;
+            AuditFields.InsertedBy = Container.Principal.Identity.Name;
+            AuditFields.InsertedDateTime = DateTime.Now;
+            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         public virtual void Updating()
         {
-            AuditField.LastUpdatedBy = Container.Principal.Identity.Name;
-            AuditField.LastUpdatedDateTime = DateTime.Now;
+            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         #endregion
 
@@ -102,12 +97,15 @@ namespace AplombTech.WMS.Domain.Sensors
         #region Complex Properties
         #region AuditFields (AuditFields)
 
-        //private AuditFields _auditFields = new AuditFields();
+        private AuditFields _auditFields = new AuditFields();
 
         [MemberOrder(250)]
-        [Required, Hidden]
-        public virtual AuditFields AuditField { get; set; }
-
+        [Required]
+        public virtual AuditFields AuditFields { get; set; }
+        public bool HideAuditFields()
+        {
+            return true;
+        }
         #endregion
         #endregion
 

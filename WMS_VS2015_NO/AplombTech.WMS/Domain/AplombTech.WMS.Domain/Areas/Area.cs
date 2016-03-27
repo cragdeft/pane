@@ -50,7 +50,7 @@ namespace AplombTech.WMS.Domain.Areas
         private AuditFields _auditFields = new AuditFields();
 
         [MemberOrder(250)]
-        [Required, Hidden]
+        [Required]
         public virtual AuditFields AuditFields
         {
             get
@@ -63,6 +63,10 @@ namespace AplombTech.WMS.Domain.Areas
             }
         }
 
+        public bool HideAuditFields()
+        {
+            return true;
+        }
         #endregion
         #endregion
 

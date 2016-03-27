@@ -49,7 +49,7 @@ namespace AplombTech.WMS.Domain.Devices
         private AuditFields _auditFields = new AuditFields();
 
         [MemberOrder(250)]
-        [Required, Hidden]
+        [Required]
         public virtual AuditFields AuditFields
         {
             get
@@ -61,7 +61,10 @@ namespace AplombTech.WMS.Domain.Devices
                 _auditFields = value;
             }
         }
-
+        public bool HideAuditFields()
+        {
+            return true;
+        }
         #endregion
         #endregion
 
