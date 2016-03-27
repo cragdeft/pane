@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AplombTech.WMS.MQTT.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ namespace AplombTech.WMS.Site
     {
         protected void Application_Start()
         {
+            MqttClientFacade.MQTTClientInstance.MakeConnection();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
