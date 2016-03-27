@@ -470,9 +470,9 @@
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
       <Name>AplombTech.WMS.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.WMS.MQTT.Client.csproj">
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTT.Client.csproj">
       <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
-      <Name>AplombTech.WMS.MQTT.Client</Name>
+      <Name>AplombTech.MQTT.Client</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

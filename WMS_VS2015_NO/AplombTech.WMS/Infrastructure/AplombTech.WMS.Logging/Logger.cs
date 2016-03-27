@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.WMS.Logging
+namespace AplombTech.Logging
 {
     public static class Logger
     {

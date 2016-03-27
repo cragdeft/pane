@@ -1,4 +1,4 @@
-﻿using AplombTech.WMS.Logging;
+﻿using AplombTech.Logging;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-namespace AplombTech.WMS.MQTT.Client
+namespace AplombTech.MQTT.Client
 {
     public class MqttClientWrapper
     {

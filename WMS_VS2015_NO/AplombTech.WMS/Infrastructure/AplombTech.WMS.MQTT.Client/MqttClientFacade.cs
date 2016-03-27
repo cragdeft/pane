@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.WMS.MQTT.Client
+namespace AplombTech.MQTT.Client
 {
     public class MqttClientFacade
     {
