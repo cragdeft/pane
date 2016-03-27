@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Logging", "I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EncryptionDecryption", "EncryptionDecryption", "{CD0AFF5F-05D1-486B-BADC-23DF00398353}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.CryptoLib", "AplombTech.CryptoLib\AplombTech.CryptoLib.csproj", "{AD26B877-4368-418B-A20B-9E796DCF6854}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.CryptoLib", "Infrastructure\AplombTech.CryptoLib\AplombTech.CryptoLib.csproj", "{AD26B877-4368-418B-A20B-9E796DCF6854}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
