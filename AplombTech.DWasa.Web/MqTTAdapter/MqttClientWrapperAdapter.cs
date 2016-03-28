@@ -35,8 +35,15 @@ namespace AplombTech.DWasa.Web.MqTTAdapter
             if (customEventArgs.ReceivedTopic == CommandType.Configuration.ToString())
             {
                 var jsonString = customEventArgs.ReceivedMessage;
-                //LogJsonManager manager = new LogJsonManager(jsonString);
-               // manager.Parse();
+                ConfiguationJsonManager manager = new ConfiguationJsonManager(jsonString,CommandType.Configuration);
+                manager.Parse();
+            }
+
+            if (customEventArgs.ReceivedTopic == CommandType.SensorData.ToString())
+            {
+                var jsonString = customEventArgs.ReceivedMessage;
+                SensorDataJsonManager manager = new SensorDataJsonManager(jsonString, CommandType.SensorData);
+                manager.Parse();
             }
         }
 

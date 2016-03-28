@@ -49,5 +49,6 @@ namespace AplombTech.DWasa.Web.Controllers
             model.PublishMessageStatus = MqttClientWrapperAdapter.WrapperInstance.Subscribe(model.MessgeTopic);
             return View("Index", model);
         }
+        
     }
 }

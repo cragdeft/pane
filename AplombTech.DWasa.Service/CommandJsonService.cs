@@ -3,18 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.DWasa.Entity.JsonCommandEntity;
 using AplombTech.DWasa.Model.Models;
 using AplombTech.DWasa.Service.Interfaces;
+using AutoMapper;
 using Repository.Pattern.Infrastructure;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.UnitOfWork;
 
 namespace AplombTech.DWasa.Service
 {
-    public class JsonParserManagerService : IJsonParserManagerService
+    public class CommandJsonService : ICommandJsonService
     {
+        private readonly IRepositoryAsync<CommandJson> _repository;
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+        private IMapper mapper;
 
+        public CommandJsonService(IUnitOfWorkAsync unitOfWorkAsync)
+        {
+            _unitOfWorkAsync = unitOfWorkAsync;
+            _repository = _unitOfWorkAsync.RepositoryAsync<CommandJson>();
+            ConfigMapper();
+        }
+        private void ConfigMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<CommandJsonEntity, CommandJson>();
 
+            });
+
+            mapper = config.CreateMapper();
+        }
         //#region PrivateProperty
         //private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         //private readonly IRepositoryAsync<DataLog> _dataLogRepository;
@@ -97,5 +117,22 @@ namespace AplombTech.DWasa.Service
         //}
 
         //#endregion
+        public void Add(CommandJsonEntity entity)
+        {
+            _unitOfWorkAsync.BeginTransaction();
+            try
+            {
+                CommandJson model = mapper.Map<CommandJsonEntity, CommandJson>(entity);
+                model.AuditField = new AuditFields() { InsertedDateTime = DateTime.Now, InsertedBy = "admin", LastUpdatedBy = "admin", LastUpdatedDateTime = DateTime.Now };
+                model.ObjectState = ObjectState.Added;
+                _repository.Insert(model);
+                var changes = _unitOfWorkAsync.SaveChanges();
+                _unitOfWorkAsync.Commit();
+            }
+            catch (Exception ex)
+            {
+                _unitOfWorkAsync.Rollback();
+            }
+        }
     }
 }

@@ -40,5 +40,8 @@ namespace AplombTech.DWasa.Service.Interfaces
         List<ZoneEntity> GetAllZone();
         List<ZoneEntity> GetAll();
         bool IsZoneExists(string name);
+        void SaveSensorStatus(SensorStatusEntity sensorStatus);
+        DeviceEntity GetSensor(string uid);
+        bool PumpStationExists(int pumpStationId);
     }
 }

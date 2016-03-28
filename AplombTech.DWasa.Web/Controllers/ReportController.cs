@@ -25,6 +25,7 @@ namespace AplombTech.DWasa.Web.Controllers
         {
             ReportEntity model = new ReportEntity();
             model.PumpStation.PumpStationList = _configurationService.GetAllPumpStation();
+            
             return View(model);
         }
 
@@ -56,6 +57,15 @@ namespace AplombTech.DWasa.Web.Controllers
             model.PumpStation.PumpStationList = _configurationService.GetAllPumpStation();
             return View(model);
         }
+
+        [HttpPost]
+        public JsonResult GetReportModel(ReportEntity model)
+        {
+             model = _configurationService.GetReportData(model);
+
+            return Json(new { Data = model, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
 
         private string GeneratetSeriesDataHourly()//list of device value will passed
         {

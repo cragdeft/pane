@@ -12,5 +12,7 @@ namespace AplombTech.DWasa.Model.Models
     [Table("Sensors")]
     public abstract class Sensor:Device
     {
+        public string Unit { get; set; }
+        public string UId { get; set; }
     }
 }

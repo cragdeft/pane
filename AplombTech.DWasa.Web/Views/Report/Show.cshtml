@@ -2,7 +2,31 @@
 
 @{
     ViewBag.Title = "Show";
+    var days = new List<SelectListItem>();
+    for (var i = 1; i <= 31; i++)
+    {
+        days.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Day == i });
+    }
+    var years = new List<SelectListItem>();
+    for (var i = 2016; i <= 2019; i++)
+    {
+        years.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Year == i });
+    }
+
+    var weeks = new List<SelectListItem>();
+    for (var i = 1; i <= 52; i++)
+    {
+        weeks.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Week == i });
+    }
+
+    var hours = new List<SelectListItem>();
+    for (var i = 1; i <= 24; i++)
+    {
+        hours.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Hour == i });
+    }
 }
+
+
 
 <h2>Show</h2>
 
@@ -11,7 +35,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>ReportEntity</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -30,7 +53,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SensorType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EnumDropDownListFor(m => m.SensorType, "- Please select your industry -", new { @class = "control-label col-md-2" })
+                @Html.EnumDropDownListFor(m => m.SensorType, "- Please select -", new { @class = "control-label col-md-2" })
                 @Html.ValidationMessageFor(model => model.SensorType, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -38,24 +61,47 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ReportType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EnumDropDownListFor(m => m.ReportType, "- Please select your industry -", new { @class = "control-label col-md-2" })
+                @Html.EnumDropDownListFor(m => m.ReportType, "- Please select -", new { @class = "control-label col-md-2" })
                 @Html.ValidationMessageFor(model => model.ReportType, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div id="inputPanel">
+            <div class="form-group" id="yr">
+                @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Year, years, "Please Select", new { @class = "control-label col-md-2" })
+                </div>
+            </div>
+            <div class="form-group" id="mth">
+                @Html.LabelFor(model => model.Month, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(m => m.Month, "- Please select -", new { @class = "control-label col-md-2" })
+                    @Html.ValidationMessageFor(model => model.Month, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group" id="wk">
+                @Html.LabelFor(model => model.Week, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Week, weeks, "Please Select", new { @class = "control-label col-md-2" })
+                </div>
+            </div>
+            <div class="form-group" id="dy">
+                @Html.LabelFor(model => model.Day, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Day, days, "Please Select", new { @class = "control-label col-md-2" })
+                </div>
+            </div>
 
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ToDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ToDateTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
-                @Html.ValidationMessageFor(model => model.ToDateTime, "", new { @class = "text-danger" })
+            <div class="form-group" id="hr">
+                @Html.LabelFor(model => model.Hour, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Hour, hours, "Please Select", new { @class = "control-label col-md-2" })
+                </div>
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Show" class="btn btn-default" />
+                <input type="submit" id="show" value="Show" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -66,86 +112,14 @@
 <div id="chart_div"></div>
 
 @section Scripts {
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-    <script>
-        $(function () {
-            $('.datetimepicker').datetimepicker({
-                format: 'L',
-                showClose: true,
-                showClear: true,
-                toolbarPlacement: 'top'
-            });
-        });
-    </script>
-    <script>
-        $(function() {
+    <script src="~/Scripts/Report.js"></script>
 
 
-            var categories = @Html.Raw(Json.Encode(@Model.XaxisCategory));
-            $('#chart_div').highcharts({
-                title: {
-                    text: '@Model.GraphTitle',
-                    x: -20 //center
-                },
-                subtitle: {
-                    text: '@Model.GraphSubTitle',
-                    x: -20
-                },
-                xAxis: {
-                    categories: categories,
-                    gridLineWidth: 1,
-                },
-                plotOptions: {
-                    series: {
-                        cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: function () {
-                                    //alert('Category: ' + this.category + ', value: ' + this.y);
-                                    alert('report type='+$('#ReportType').val()+' implementing dragdown..');
-                                }
-                            }
-                        }
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'Pressure (m3/h)'
-                    },
-                    lineWidth: 0,
-                    gridLineWidth: 0,
-                    lineColor: 'transparent',
-                    plotLines: [
-                        {
-                            value: 5,
-                            color: 'red',
-                            dashStyle: 'shortdash',
-                            width: 2,
-                            label: {
-                                text: 'minimum pressure'
-                            }
-                        }
-                    ]
-                },
-                tooltip: {
-                    valueSuffix: 'm3/h'
-                },
-                legend: {
-                    layout: 'horizontal',
-                    align: 'right',
-                    verticalAlign: 'middle',
-                    borderWidth: 0
-                },
-                series: @Html.Raw(@Model.Series)
-            });
-        });
-
-        $('.highcharts-axis-labels text, .highcharts-axis-labels span').click(function () {
-            alert(this.x);                                            
-        });
-    </script>
 
 
 
