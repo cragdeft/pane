@@ -101,7 +101,18 @@ namespace AplombTech.WMS.Domain.Sensors
 
         [MemberOrder(250)]
         [Required]
-        public virtual AuditFields AuditFields { get; set; }
+        public virtual AuditFields AuditFields
+        {
+            get
+            {
+                return _auditFields;
+            }
+            set
+            {
+                _auditFields = value;
+            }
+        }
+
         public bool HideAuditFields()
         {
             return true;
