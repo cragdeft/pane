@@ -10,7 +10,7 @@ namespace AplombTech.CryptoLib
     {
         static SecurityManager()
         {
-            RandomString = "+k4=TjBW";// (Plus - kilo - Four - Equals - TANGO - juliet - BRAVO - WHISKEY) //CryptLib.GenerateRandomIV(16);
+            RandomString = "bf%Sn2K=DjXRwFr4";// (bravo - foxtrot - Percentage - SIERRA - november - Two - KILO - Equals - DELTA - juliet - X-RAY - ROMEO - whiskey - FOXTROT - romeo - Four) //CryptLib.GenerateRandomIV(16);
             CypherKey = CryptLib.getHashSha256("J#&Vh9V&", 32); //(JULIET - Hash - Ampersand - VICTOR - hotel - Nine - VICTOR - Ampersand)
         }
 
