@@ -11,9 +11,31 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AplombTech.WMS.Domain.Areas
-{
+{   
     public class Zone : Area
     {
+        public override string Name { get; set; }
+
+        #region Validations
+        public string ValidateName(string areaName)
+        {
+            var rb = new ReasonBuilder();
+
+            Zone zone = (from obj in Container.Instances<Zone>()
+                         where obj.Name == areaName
+                         select obj).FirstOrDefault();
+
+            if (zone != null)
+            {
+                if (this.AreaID != zone.AreaID)
+                {
+                    rb.AppendOnCondition(true, "Duplicate Zone Name");
+                }
+            }
+            return rb.Reason;
+        }
+        #endregion
+
         #region Show DMA
         [MemberOrder(20), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
@@ -44,6 +66,22 @@ namespace AplombTech.WMS.Domain.Areas
             Container.Persist(ref dma);
         }
 
+        #region Validations
+        public string ValidateAddDMA(string name)
+        {
+            var rb = new ReasonBuilder();
+
+            DMA dma = (from obj in Container.Instances<DMA>()
+                       where obj.Name == name
+                       select obj).FirstOrDefault();
+
+            if (dma != null)
+            {
+                rb.AppendOnCondition(true, "Duplicate DMA Name");
+            }
+            return rb.Reason;
+        }
+        #endregion
         #endregion
 
         #region SetAddress (Action)

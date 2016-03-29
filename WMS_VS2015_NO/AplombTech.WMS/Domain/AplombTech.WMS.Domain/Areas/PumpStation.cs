@@ -16,8 +16,29 @@ namespace AplombTech.WMS.Domain.Areas
 {
     public class PumpStation : Area
     {
-        #region Get Properties
-        
+        public override string Name { get; set; }
+
+        #region Validations
+        public string ValidateName(string areaName)
+        {
+            var rb = new ReasonBuilder();
+
+            PumpStation station = (from obj in Container.Instances<PumpStation>()
+                                   where obj.Name == areaName
+                                   select obj).FirstOrDefault();
+
+            if (station != null)
+            {
+                if (this.AreaID != station.AreaID)
+                {
+                    rb.AppendOnCondition(true, "Duplicate PumpStation Name");
+                }
+            }
+            return rb.Reason;
+        }
+        #endregion
+
+        #region Get Properties      
         [MemberOrder(50), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Pump")]
@@ -81,7 +102,6 @@ namespace AplombTech.WMS.Domain.Areas
         #endregion
 
         #region AddPump (Action)
-
         [DisplayName("Add Pump")]
         public void AddPump(string modelNo, string uuid)
         {

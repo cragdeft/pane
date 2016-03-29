@@ -53,6 +53,23 @@ namespace AplombTech.WMS.Domain.Repositories
             return zone;
         }
 
+        #region Validations
+        public string ValidateCreateZone(string name)
+        {
+            var rb = new ReasonBuilder();
+
+            Zone zone = (from obj in Container.Instances<Zone>()
+                         where obj.Name == name
+                         select obj).FirstOrDefault();
+
+            if (zone != null)
+            {
+                rb.AppendOnCondition(true, "Duplicate Zone Name");
+            }
+            return rb.Reason;
+        }
+        #endregion
+
         //[AuthorizeAction(Roles = "AMSAdmin")]
         [DisplayName("Find Zone")]
         [Eagerly(EagerlyAttribute.Do.Rendering)]

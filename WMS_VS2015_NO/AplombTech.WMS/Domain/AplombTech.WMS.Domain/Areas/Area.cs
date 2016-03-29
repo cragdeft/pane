@@ -43,7 +43,7 @@ namespace AplombTech.WMS.Domain.Areas
         [MemberOrder(10)]
         public virtual string Name { get; set; }
         #endregion
-
+        
         #region Complex Properties
         #region AuditFields (AuditFields)
 

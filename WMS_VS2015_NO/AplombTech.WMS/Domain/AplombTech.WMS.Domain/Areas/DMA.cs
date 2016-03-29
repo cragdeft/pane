@@ -14,6 +14,28 @@ namespace AplombTech.WMS.Domain.Areas
 {
     public class DMA : Area
     {
+        public override string Name { get; set; }
+
+        #region Validations
+        public string ValidateName(string areaName)
+        {
+            var rb = new ReasonBuilder();
+
+            DMA dma = (from obj in Container.Instances<DMA>()
+                       where obj.Name == areaName
+                       select obj).FirstOrDefault();
+
+            if (dma != null)
+            {
+                if (this.AreaID != dma.AreaID)
+                {
+                    rb.AppendOnCondition(true, "Duplicate Area Name");
+                }
+            }
+            return rb.Reason;
+        }
+        #endregion
+
         #region Show PumpStation
         [MemberOrder(20), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
@@ -43,7 +65,22 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref station);
         }
+        #region Validations
+        public string ValidateAddPumpStation(string name)
+        {
+            var rb = new ReasonBuilder();
 
+            PumpStation station = (from obj in Container.Instances<PumpStation>()
+                                   where obj.Name == name
+                                   select obj).FirstOrDefault();
+
+            if (station != null)
+            {
+                rb.AppendOnCondition(true, "Duplicate DMA Name");
+            }
+            return rb.Reason;
+        }
+        #endregion
         #endregion
 
         #region SetAddress (Action)
