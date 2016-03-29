@@ -1,6 +1,7 @@
+@using NakedObjects.Facade.Utility
 @using NakedObjects.Resources
 @using NakedObjects.Web.Mvc.Html
-@model global::NakedObjects.Core.ConcurrencyException
+@model global::NakedObjects.Facade.PreconditionFailedNOSException
 
 @{
     Layout = "~/Views/Shared/_NofLayout.cshtml";
@@ -18,7 +19,7 @@
 
             @if (Model.SourceNakedObject != null) {
                 <h3>@MvcUi.ConcurrencyErrorObject:</h3>
-                @(Html.Object(Html.ObjectTitle(Model.SourceNakedObject.Object).ToString(), IdHelper.ViewAction, Model.SourceNakedObject.Object))
+                @(Html.Object(Html.ObjectTitle(Model.SourceNakedObject.Object).ToString(), IdConstants.ViewAction, Model.SourceNakedObject.Object))
             }
         </div>
     </section>

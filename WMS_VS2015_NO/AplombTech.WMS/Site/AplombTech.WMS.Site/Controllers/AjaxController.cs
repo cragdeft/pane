@@ -7,17 +7,22 @@
 
 using System.Web.Mvc;
 using System.Web.UI;
+using NakedObjects.Facade;
 using NakedObjects.Web.Mvc.Controllers;
-using NakedObjects;
 
 namespace AplombTech.WMS.Site.Controllers {
     [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
     //[Authorize]
     public class AjaxController : AjaxControllerImpl {
-        public AjaxController(INakedObjectsFramework nakedObjectsFramework) : base(nakedObjectsFramework) {
-            // Uncomment this if you wish to have NakedObject Container and services injected 
-            //nakedObjectsFramework.ContainerInjector.InitDomainObject(this);
-        }
+
+        public AjaxController(IFrameworkFacade facade,  IIdHelper idHelper) : base(facade, idHelper) {}
+
+        // Uncomment this constructor if you wish to have an IDomainObjectContainer and/or domain services injected.
+        // You will also need to ensure you have NakedObjects.Core package installed & add using NakedObjects;
+        //public AjaxController(IFrameworkFacade facade, IIdHelper idHelper, INakedObjectsFramework nakedObjectsFramework)
+        //    : base(facade, idHelper) {
+        //    nakedObjectsFramework.DomainObjectInjector.InjectInto(this);
+        //}
 
         [HttpGet]
         public override JsonResult ValidateProperty(string id, string value, string propertyName) {

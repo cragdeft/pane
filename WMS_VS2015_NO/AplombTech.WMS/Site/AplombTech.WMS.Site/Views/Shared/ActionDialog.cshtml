@@ -1,3 +1,4 @@
+@using NakedObjects.Facade.Utility;
 @using NakedObjects.Web.Mvc.Html
 @model NakedObjects.Web.Mvc.Models.FindViewModel
 
@@ -9,7 +10,7 @@
 <div id="body">
     <section class="main-content" >
         @(Html.TabbedHistory())   
-        <div class="@(IdHelper.ActionDialogName)" id="@(Html.ObjectActionDialogId(Model.ContextObject, Model.ContextAction))" >
+        <div class="@(IdConstants.ActionDialogName)" id="@(Html.ObjectActionDialogId(Model.ContextObject, Model.ContextAction))" >
             @{ Html.RenderPartial("DialogControl", Model); }
         </div>
     </section>

@@ -1,8 +1,9 @@
 // Copyright � Naked Objects Group Ltd ( http://www.nakedobjects.net). 
 // All Rights Reserved. This code released under the terms of the 
 // Microsoft Public License (MS-PL) ( http://opensource.org/licenses/ms-pl.html) 
+
 using System.Web.Mvc;
-using NakedObjects;
+using NakedObjects.Facade;
 using NakedObjects.Web.Mvc.Controllers;
 using NakedObjects.Web.Mvc.Models;
 
@@ -11,12 +12,16 @@ namespace AplombTech.WMS.Site.Controllers {
     //[Authorize] 
     public class GenericController : GenericControllerImpl {
 
-        #region actions
+        public GenericController(IFrameworkFacade facade,  IIdHelper idHelper) : base(facade, idHelper)  {}
 
-        public GenericController(INakedObjectsFramework nakedObjectsFramework) : base(nakedObjectsFramework) {
-            // Uncomment this if you wish to have NakedObject Container and services injected 
-            //nakedObjectsFramework.ContainerInjector.InitDomainObject(this);
-        }
+        // Uncomment this constructor if you wish to have an IDomainObjectContainer and/or domain services injected.
+        // You will also need to ensure you have NakedObjects.Core package installed & add using NakedObjects;
+        //public GenericController(IFrameworkFacade facade, IIdHelper idHelper, INakedObjectsFramework nakedObjectsFramework)
+        //    : base(facade, idHelper) {
+        //    nakedObjectsFramework.DomainObjectInjector.InjectInto(this);
+        //}
+
+        #region actions
 
         [HttpGet]
         public override ActionResult Details(ObjectAndControlData controlData) {

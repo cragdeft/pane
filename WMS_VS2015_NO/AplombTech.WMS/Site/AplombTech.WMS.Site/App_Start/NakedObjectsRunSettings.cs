@@ -19,20 +19,22 @@ using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Core.Objects;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Facade;
-using AplombTech.WMS.Domain.Shared;
 
 namespace AplombTech.WMS.Site {
 
     // Use this class to configure the application running under Naked Objects
     public class NakedObjectsRunSettings {
 
-	     public static string RestRoot {
-            get { return null; }
+	   //Returning e.g. "restapi" creates the Restful Objects API on that root.
+	   //Returning "" creates the Restful Objects API at the top level
+	   //Returning null means the Restful Objects API will not be generated
+	   public static string RestRoot {
+            get { return null; }  
         }
 
 		private static string[] ModelNamespaces { 
             get {
-                return new string[] { "AplombTech.WMS.Domain" }; //Add top-level namespace(s) that cover the domain model
+                return new string[] { "AplombTech.WMS" }; //Add top-level namespace(s) that cover the domain model
             }			
 		}
         
@@ -52,7 +54,7 @@ namespace AplombTech.WMS.Site {
                     typeof (ActionResultModelQ<>),
                     typeof (ActionResultModel<>),
 					typeof (PropertyViewModel),
-                    typeof (FindViewModel)                    
+                    typeof (FindViewModel)
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };
             }
@@ -95,7 +97,8 @@ namespace AplombTech.WMS.Site {
 
 		/// <summary>
         /// Return an array of IMenus (obtained via the factory, then configured) to
-        /// specify the Main Menus for the application.
+        /// specify the Main Menus for the application. If none are returned then
+        /// the Main Menus will be derived automatically from the Services.
         /// </summary>
 		public static IMenu[] MainMenus(IMenuFactory factory) {
             var areaMenu = factory.NewMenu<AreaRepository>();

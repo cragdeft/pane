@@ -8,17 +8,22 @@
 using System;
 using System.Security.Principal;
 using System.Web;
+
 using Microsoft.Practices.Unity;
+using NakedObjects;
 using NakedObjects.Architecture.Component;
 using NakedObjects.Architecture.Configuration;
+using NakedObjects.Facade;
+using NakedObjects.Facade.Impl;
+using NakedObjects.Facade.Impl.Implementation;
+using NakedObjects.Facade.Impl.Utility;
+using NakedObjects.Facade.Translation;
 using NakedObjects.Meta.Audit;
 using NakedObjects.Meta.Authorization;
-using NakedObjects.Persistor.Entity.Configuration;
-using NakedObjects.Surface;
-using NakedObjects.Surface.Nof4.Implementation;
-using NakedObjects.Surface.Nof4.Utility;
-using NakedObjects.Unity;
 using NakedObjects.Meta.Profile;
+using AplombTech.WMS.Site.Controllers;
+using NakedObjects.Persistor.Entity.Configuration;
+using NakedObjects.Unity;
 
 namespace AplombTech.WMS.Site {
     /// <summary>
@@ -41,8 +46,19 @@ namespace AplombTech.WMS.Site {
             container.RegisterInstance<IEntityObjectStoreConfiguration>(NakedObjectsRunSettings.EntityObjectStoreConfig(), new ContainerControlledLifetimeManager());
 
             // surface
-            container.RegisterType<IOidStrategy, ExternalOid>(new PerRequestLifetimeManager());
-            container.RegisterType<INakedObjectsSurface, NakedObjectsSurface>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IOidTranslator, OidTranslatorSlashSeparatedTypeAndIds>("KeyOid", new PerRequestLifetimeManager());
+            container.RegisterType<IOidTranslator, OidTranslatorSemiColonSeparatedList>( new PerRequestLifetimeManager());
+
+            container.RegisterType<IOidStrategy, EntityOidStrategy>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IIdHelper, IdHelper>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IFrameworkFacade, FrameworkFacade>("RestSurface", new PerRequestLifetimeManager(), new InjectionConstructor(typeof(IOidStrategy), new ResolvedParameter<IOidTranslator>("KeyOid"), typeof(INakedObjectsFramework)));
+            container.RegisterType<IFrameworkFacade, FrameworkFacade>(new PerRequestLifetimeManager());
+
+            container.RegisterType<RestfulObjectsController, RestfulObjectsController>(new PerResolveLifetimeManager(), new InjectionConstructor(new ResolvedParameter<IFrameworkFacade>("RestSurface")) );
+
 
             //Externals
             container.RegisterType<IPrincipal>(new InjectionFactory(c => HttpContext.Current.User));

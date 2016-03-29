@@ -1,21 +1,37 @@
-﻿// Copyright © Naked Objects Group Ltd ( http://www.nakedobjects.net). 
+// Copyright © Naked Objects Group Ltd ( http://www.nakedobjects.net). 
 // All Rights Reserved. This code released under the terms of the 
 // Microsoft Public License (MS-PL) ( http://opensource.org/licenses/ms-pl.html) 
+
 using System.Web.Mvc;
-using NakedObjects;
+using NakedObjects.Facade;
 using NakedObjects.Web.Mvc.Controllers;
 using NakedObjects.Web.Mvc.Models;
+using NakedObjects;
+using AplombTech.WMS.Domain.Repositories;
+using AplombTech.WMS.Domain.Areas;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace NakedObjects.Mvc.App.Controllers {
+namespace AplombTech.WMS.Site.Controllers {
 
     //[Authorize]
     public class HomeController : SystemControllerImpl {
-        public HomeController(INakedObjectsFramework nakedObjectsFramework) : base(nakedObjectsFramework) {
-            // Uncomment this if you wish to have NakedObject Container and services injected 
-            //nakedObjectsFramework.ContainerInjector.InitDomainObject(this);
+        #region Injected Services
+        public AreaRepository _areaRepository { set; protected get; }
+        #endregion
+
+        public HomeController(IFrameworkFacade facade, IIdHelper idHelper) : base(facade, idHelper) {}
+
+        // Uncomment this constructor if you wish to have an IDomainObjectContainer and/or domain services injected.
+        // You will also need to ensure you have NakedObjects.Core package installed & add using NakedObjects;
+        public HomeController(IFrameworkFacade facade, IIdHelper idHelper, INakedObjectsFramework nakedObjectsFramework)
+            : base(facade, idHelper)
+        {
+            nakedObjectsFramework.DomainObjectInjector.InjectInto(this);
         }
 
         public ActionResult Index() {
+            //IList<Zone> zones = _areaRepository.AllZones().ToList();
             return View();
         }
 

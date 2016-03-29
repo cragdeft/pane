@@ -12,21 +12,15 @@ using RestfulObjects.Mvc.Media;
 
 namespace AplombTech.WMS.Site {
     public class RestfulObjectsConfig {
-        public static string RestRoot {
-            get { return null; }
-        }
-
+        
         public static void RegisterRestfulObjectsRoutes(RouteCollection routes) {
-            if (RestRoot != null) {
-                RestfulObjectsControllerBase.AddRestRoutes(routes, RestRoot);
+            if (NakedObjectsRunSettings.RestRoot != null) {
+                RestfulObjectsControllerBase.AddRestRoutes(routes, NakedObjectsRunSettings.RestRoot);
             }
         }
 
         public static void RestPostStart() {
-            if (RestRoot != null) {
-                //var restDependencyResolver = new RestDependencyResolver();
-                //GlobalConfiguration.Configuration.DependencyResolver = restDependencyResolver;
-
+            if (NakedObjectsRunSettings.RestRoot != null) {
                 GlobalConfiguration.Configuration.Formatters.Clear();
                 GlobalConfiguration.Configuration.Formatters.Insert(0, new JsonNetFormatter(null));
                 //GlobalConfiguration.Configuration.MessageHandlers.Add(new AccessControlExposeHeadersHandler());
@@ -35,7 +29,7 @@ namespace AplombTech.WMS.Site {
         }
 
         public static void RestPreStart() {
-            if (RestRoot != null) {
+            if (NakedObjectsRunSettings.RestRoot != null) {
                 // to make whole application 'read only' 
                 //RestfulObjectsControllerBase.IsReadOnly = true;
 

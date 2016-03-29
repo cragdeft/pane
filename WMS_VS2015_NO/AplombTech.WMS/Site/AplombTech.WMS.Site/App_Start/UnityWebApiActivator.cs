@@ -1,29 +1,5 @@
-using System.Web.Http;
-using Microsoft.Practices.Unity.WebApi;
-
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(AplombTech.WMS.Site.App_Start.UnityWebApiActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(AplombTech.WMS.Site.App_Start.UnityWebApiActivator), "Shutdown")]
-
-namespace AplombTech.WMS.Site.App_Start
-{
-    /// <summary>Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET</summary>
-    public static class UnityWebApiActivator
-    {
-        /// <summary>Integrates Unity when the application starts.</summary>
-        public static void Start() 
-        {
-            // Use UnityHierarchicalDependencyResolver if you want to use a new child container for each IHttpController resolution.
-            // var resolver = new UnityHierarchicalDependencyResolver(UnityConfig.GetConfiguredContainer());
-            var resolver = new UnityDependencyResolver(UnityConfig.GetConfiguredContainer());
-
-            GlobalConfiguration.Configuration.DependencyResolver = resolver;
-        }
-
-        /// <summary>Disposes the Unity container when the application is shut down.</summary>
-        public static void Shutdown()
-        {
-            var container = UnityConfig.GetConfiguredContainer();
-            container.Dispose();
-        }
-    }
-}
+// This file is deliberately empty.  The file is installed by the Unity.AspNet.WebApi package,
+// the .dll of which is needed to run NakedObjects.Mvc.  The NakedObjects.Mvc-FileTemplates package then
+// over-writes the file with this comment, because this specific file is not needed to run 
+// NakedObjects.Mvc and could otherwise be a source of confusion. Deleting the whole file would
+// create the risk of it being re-installed at a future point.

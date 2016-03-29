@@ -9,13 +9,13 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
-using NakedObjects.Surface;
+using NakedObjects.Facade;
 using RestfulObjects.Mvc;
 using RestfulObjects.Mvc.Model;
 
 namespace AplombTech.WMS.Site.Controllers {
     public class RestfulObjectsController : RestfulObjectsControllerBase {
-        public RestfulObjectsController(INakedObjectsSurface surface, IOidStrategy oidStrategy) : base(surface, oidStrategy) {}
+        public RestfulObjectsController(IFrameworkFacade surface) : base(surface) {}
 
         [HttpGet]
         public override HttpResponseMessage GetHome([ModelBinder(typeof (ReservedArgumentsBinder))] ReservedArguments arguments) {
@@ -163,8 +163,8 @@ namespace AplombTech.WMS.Site.Controllers {
         }
 
         [HttpGet]
-        public override HttpResponseMessage GetInvokeIsTypeOf(string typeName, string actionName, [ModelBinder(typeof (ArgumentMapUrlBinder))] ArgumentMap arguments) {
-            return base.GetInvokeIsTypeOf(typeName, actionName, arguments);
+        public override HttpResponseMessage GetInvokeTypeActions(string typeName, string actionName, [ModelBinder(typeof(ArgumentMapUrlBinder))] ArgumentMap arguments) {
+            return base.GetInvokeTypeActions(typeName, actionName, arguments);
         }
 
         [HttpGet]

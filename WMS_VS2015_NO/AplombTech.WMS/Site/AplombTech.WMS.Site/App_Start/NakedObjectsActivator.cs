@@ -15,7 +15,7 @@ using WebActivatorEx;
 namespace AplombTech.WMS.Site {
     public static class NakedObjectsActivator {
         public static void PreStart() {
-            //  Add any custom 'PreStart' behaviour here
+            // Add any 'PreStart' custom behaviour required          
         }
 
         public static void PostStart() {
@@ -23,7 +23,7 @@ namespace AplombTech.WMS.Site {
             // - that overrides the required NOF behaviour based on the 'Optionally' attribute.
             DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
 
-            //  Add any custom 'PostStart' behaviour here
+            // Add any 'PostStart' custom behaviour required          
         }
     }
 }
