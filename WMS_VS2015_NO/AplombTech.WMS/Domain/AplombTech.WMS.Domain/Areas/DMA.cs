@@ -29,7 +29,7 @@ namespace AplombTech.WMS.Domain.Areas
             {
                 if (this.AreaID != dma.AreaID)
                 {
-                    rb.AppendOnCondition(true, "Duplicate Area Name");
+                    rb.AppendOnCondition(true, "Duplicate DMA Name");
                 }
             }
             return rb.Reason;

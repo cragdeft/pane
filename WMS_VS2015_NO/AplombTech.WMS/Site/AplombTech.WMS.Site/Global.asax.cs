@@ -13,7 +13,7 @@ namespace AplombTech.WMS.Site
     {
         protected void Application_Start()
         {
-            MqttClientFacade.MQTTClientInstance.MakeConnection();
+            //MqttClientFacade.MQTTClientInstance.MakeConnection();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
