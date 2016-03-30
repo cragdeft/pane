@@ -86,11 +86,6 @@ namespace AplombTech.WMS.Domain.Areas
         }
         [MemberOrder(40), Disabled]
         public virtual Address Address { get; set; }
-        //[PageSize(10)]
-        //public IQueryable<DMA> AutoCompleteAddress([MinLength(3)] string name)
-        //{
-        //    return AreaRepository.FindDMA(name);
-        //}
         #endregion
     }
 }

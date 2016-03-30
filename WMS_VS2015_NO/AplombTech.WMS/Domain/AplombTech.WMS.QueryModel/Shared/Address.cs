@@ -12,28 +12,6 @@ namespace AplombTech.WMS.QueryModel.Shared
     [Table("Addresses")]
     public class Address
     {
-        #region Injected Services
-        public IDomainObjectContainer Container { set; protected get; }
-        #endregion
-
-        #region Life Cycle Methods
-        // This region should contain any of the 'life cycle' convention methods (such as
-        // Created(), Persisted() etc) called by the framework at specified stages in the lifecycle.
-
-        public virtual void Persisting()
-        {
-            this.InsertedBy = Container.Principal.Identity.Name;
-            this.InsertedDateTime = DateTime.Now;
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
-        }
-        public virtual void Updating()
-        {
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
-        }
-        #endregion
-
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -73,26 +51,5 @@ namespace AplombTech.WMS.QueryModel.Shared
         #endregion
         #endregion
 
-        //#region Complex Properties
-        //#region AuditFields (AuditFields)
-
-        //private AuditFields _auditFields = new AuditFields();
-
-        //[MemberOrder(250)]
-        //[Required]
-        //public virtual AuditFields AuditFields
-        //{
-        //    get
-        //    {
-        //        return _auditFields;
-        //    }
-        //    set
-        //    {
-        //        _auditFields = value;
-        //    }
-        //}
-
-        //#endregion
-        //#endregion
     }
 }

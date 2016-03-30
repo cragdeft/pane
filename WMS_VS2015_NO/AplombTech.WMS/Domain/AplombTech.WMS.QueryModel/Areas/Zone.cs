@@ -14,26 +14,8 @@ namespace AplombTech.WMS.QueryModel.Areas
 {   
     public class Zone : Area
     {
-        public override string Name { get; set; }
-
-        #region Validations
-        public string ValidateName(string areaName)
-        {
-            var rb = new ReasonBuilder();
-
-            Zone zone = (from obj in Container.Instances<Zone>()
-                         where obj.Name == areaName
-                         select obj).FirstOrDefault();
-
-            if (zone != null)
-            {
-                if (this.AreaID != zone.AreaID)
-                {
-                    rb.AppendOnCondition(true, "Duplicate Zone Name");
-                }
-            }
-            return rb.Reason;
-        }
+        #region Injected Services
+        public IDomainObjectContainer Container { set; protected get; }
         #endregion
 
         #region Show DMA
@@ -50,61 +32,6 @@ namespace AplombTech.WMS.QueryModel.Areas
                                    select dma).ToList();
                 return dmas;
             }
-        }
-        #endregion
-
-        #region AddDMA (Action)
-
-        [DisplayName("Add DMA")]
-        public void AddDMA(string name)
-        {
-            DMA dma = Container.NewTransientInstance<DMA>();
-            dma.Name = name;
-
-            dma.Parent = this;
-
-            Container.Persist(ref dma);
-        }
-
-        #region Validations
-        public string ValidateAddDMA(string name)
-        {
-            var rb = new ReasonBuilder();
-
-            DMA dma = (from obj in Container.Instances<DMA>()
-                       where obj.Name == name
-                       select obj).FirstOrDefault();
-
-            if (dma != null)
-            {
-                rb.AppendOnCondition(true, "Duplicate DMA Name");
-            }
-            return rb.Reason;
-        }
-        #endregion
-        #endregion
-
-        #region SetAddress (Action)
-        [DisplayName("Set Address")]
-        public void SetAddress(string street1, [Optionally] string street2, string zipCode, string zone, string city)
-        {
-            Address address = Container.NewTransientInstance<Address>();
-            address.Street1 = street1;
-            address.Street2 = street2;
-            address.ZipCode = zipCode;
-            address.Zone = zone;
-            address.City = city;
-
-            Container.Persist(ref address);
-            this.Address = address;
-        }
-        #endregion
-
-        #region Menu
-        public static void Menu(IMenu menu)
-        {
-            menu.AddAction("AddDMA");
-            menu.AddAction("SetAddress");
         }
         #endregion
     }

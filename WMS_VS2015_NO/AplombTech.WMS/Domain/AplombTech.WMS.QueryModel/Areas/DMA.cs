@@ -14,28 +14,9 @@ namespace AplombTech.WMS.QueryModel.Areas
 {
     public class DMA : Area
     {
-        public override string Name { get; set; }
-
-        #region Validations
-        public string ValidateName(string areaName)
-        {
-            var rb = new ReasonBuilder();
-
-            DMA dma = (from obj in Container.Instances<DMA>()
-                       where obj.Name == areaName
-                       select obj).FirstOrDefault();
-
-            if (dma != null)
-            {
-                if (this.AreaID != dma.AreaID)
-                {
-                    rb.AppendOnCondition(true, "Duplicate DMA Name");
-                }
-            }
-            return rb.Reason;
-        }
+        #region Injected Services
+        public IDomainObjectContainer Container { set; protected get; }
         #endregion
-
         #region Show PumpStation
         [MemberOrder(20), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
@@ -52,69 +33,5 @@ namespace AplombTech.WMS.QueryModel.Areas
             }
         }
         #endregion
-
-        #region AddPumpStation (Action)
-
-        [DisplayName("Add PumpStation")]
-        public void AddPumpStation(string name)
-        {
-            PumpStation station = Container.NewTransientInstance<PumpStation>();
-            station.Name = name;
-
-            station.Parent = this;
-
-            Container.Persist(ref station);
-        }
-        #region Validations
-        public string ValidateAddPumpStation(string name)
-        {
-            var rb = new ReasonBuilder();
-
-            PumpStation station = (from obj in Container.Instances<PumpStation>()
-                                   where obj.Name == name
-                                   select obj).FirstOrDefault();
-
-            if (station != null)
-            {
-                rb.AppendOnCondition(true, "Duplicate DMA Name");
-            }
-            return rb.Reason;
-        }
-        #endregion
-        #endregion
-
-        #region SetAddress (Action)
-        [DisplayName("Set Address")]
-        public void SetAddress([Required]string street1, string street2, string zipCode, string zone, string city)
-        {
-            Address address = Container.NewTransientInstance<Address>();
-            address.Street1 = street1;
-            address.Street2 = street2;
-            address.ZipCode = zipCode;
-            address.Zone = zone;
-            address.City = city;
-
-            Container.Persist(ref address);
-
-            this.Address = address;
-        }
-        #endregion
-
-        #region Menu
-
-        public static void Menu(IMenu menu)
-        {
-            menu.AddAction("AddPumpStation");
-            menu.AddAction("SetAddress");
-        }
-
-        #endregion
-
-        public override Area Parent { get; set; }
-        //[PageSize(10)]
-        //public IQueryable<Zone> AutoCompleteParent([MinLength(3)] string name)
-        //{
-        //    return AreaRepository.FindZone(name);
-        //}
     }
 }

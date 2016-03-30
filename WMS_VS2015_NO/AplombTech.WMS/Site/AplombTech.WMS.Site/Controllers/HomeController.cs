@@ -11,13 +11,15 @@ using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Areas;
 using System.Collections.Generic;
 using System.Linq;
+using AplombTech.WMS.QueryModel.Repositories;
+using AplombTech.WMS.QueryModel.Reports;
 
 namespace AplombTech.WMS.Site.Controllers {
 
     //[Authorize]
     public class HomeController : SystemControllerImpl {
         #region Injected Services
-        public AreaRepository _areaRepository { set; protected get; }
+        public ReportRepository _reportRepository { set; protected get; }
         #endregion
 
         public HomeController(IFrameworkFacade facade, IIdHelper idHelper) : base(facade, idHelper) {}
@@ -31,7 +33,8 @@ namespace AplombTech.WMS.Site.Controllers {
         }
 
         public ActionResult Index() {
-            //IList<Zone> zones = _areaRepository.AllZones().ToList();
+            AllZones zones = _reportRepository.GoogleMap();
+            int totalZone = zones.Zones.Count();
             return View();
         }
 

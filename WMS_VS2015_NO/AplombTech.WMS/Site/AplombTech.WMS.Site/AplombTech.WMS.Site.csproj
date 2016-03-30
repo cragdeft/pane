@@ -480,6 +480,10 @@
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
       <Name>AplombTech.WMS.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.QueryModel\AplombTech.WMS.QueryModel.csproj">
+      <Project>{53b3230d-c147-4e26-a5e2-2189dc13c9d2}</Project>
+      <Name>AplombTech.WMS.QueryModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTT.Client.csproj">
       <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
       <Name>AplombTech.MQTT.Client</Name>

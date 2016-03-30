@@ -19,6 +19,8 @@ using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Core.Objects;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Facade;
+using AplombTech.WMS.QueryModel.Repositories;
+using AplombTech.WMS.QueryModel.Facade;
 
 namespace AplombTech.WMS.Site {
 
@@ -41,7 +43,8 @@ namespace AplombTech.WMS.Site {
         private static Type[] Services {
             get {
                 return new Type[] {
-                    typeof(AreaRepository)
+                    typeof(AreaRepository),
+                    typeof(ReportRepository)
                 };
             }
         }
@@ -67,6 +70,7 @@ namespace AplombTech.WMS.Site {
         public static EntityObjectStoreConfiguration EntityObjectStoreConfig() {
             var config = new EntityObjectStoreConfiguration();
             config.UsingCodeFirstContext(() => new CommandModelDatabase());
+            config.UsingCodeFirstContext(() => new QueryModelDatabase());
             config.SpecifyTypesNotAssociatedWithAnyContext(() => new[] { typeof(PropertyViewModel), typeof(FindViewModel) });
 			return config;
         }
@@ -104,13 +108,14 @@ namespace AplombTech.WMS.Site {
             var areaMenu = factory.NewMenu<AreaRepository>();
             AreaRepository.Menu(areaMenu);
 
-            //var asarMenu = factory.NewMenu<AsarRepository>();
-            //AsarRepository.Menu(asarMenu);
+            var reportMenu = factory.NewMenu<ReportRepository>();
+            ReportRepository.Menu(reportMenu);
 
             return new IMenu[] {
                 //factory.NewMenu<CentralKhelaGharRepository>(true),
                 //asarMenu,
-                areaMenu
+                areaMenu,
+                reportMenu
             };
         }
     }

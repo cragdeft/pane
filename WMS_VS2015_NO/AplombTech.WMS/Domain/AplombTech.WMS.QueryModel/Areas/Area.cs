@@ -11,29 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AplombTech.WMS.QueryModel.Areas
 {
     public class Area
-    {
-        #region Injected Services
-        public IDomainObjectContainer Container { set; protected get; }
-        #endregion
-
-        #region Life Cycle Methods
-        // This region should contain any of the 'life cycle' convention methods (such as
-        // Created(), Persisted() etc) called by the framework at specified stages in the lifecycle.
-
-        public virtual void Persisting()
-        {
-            AuditFields.InsertedBy = Container.Principal.Identity.Name;
-            AuditFields.InsertedDateTime = DateTime.Now;
-            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
-            AuditFields.LastUpdatedDateTime = DateTime.Now;
-        }
-        public virtual void Updating()
-        {
-            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
-            AuditFields.LastUpdatedDateTime = DateTime.Now;
-        }
-        #endregion
-
+    {       
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
         public virtual int AreaID { get; set; }
