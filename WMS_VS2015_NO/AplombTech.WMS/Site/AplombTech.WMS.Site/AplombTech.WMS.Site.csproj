@@ -489,9 +489,9 @@
       <Project>{53b3230d-c147-4e26-a5e2-2189dc13c9d2}</Project>
       <Name>AplombTech.WMS.QueryModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTT.Client.csproj">
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj">
       <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
-      <Name>AplombTech.MQTT.Client</Name>
+      <Name>AplombTech.MQTTLib</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

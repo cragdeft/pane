@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-namespace AplombTech.MQTT.Client
+namespace AplombTech.MQTTLib
 {
     public class MqttClientWrapper
     {

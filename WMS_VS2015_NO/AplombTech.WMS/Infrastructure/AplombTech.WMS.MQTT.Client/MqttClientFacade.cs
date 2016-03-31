@@ -4,31 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.MQTT.Client
+namespace AplombTech.MQTTLib
 {
     public class MqttClientFacade
     {
         private static MqttClientWrapper instance = null;
         //Lock synchronization object
         private static object syncLock = new object();
-        public static MqttClientWrapper MQTTClientInstance
+        public static MqttClientWrapper MQTTClientInstance (bool isSSL)
         {
-            get
+            lock (syncLock)
             {
-                lock (syncLock)
+                if (MqttClientFacade.instance == null)
                 {
-                    if (MqttClientFacade.instance == null)
-                    {
-                        instance = new MqttClientWrapper(false);
-                        instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(PublishReceivedMessage_NotifyEvent);
+                    instance = new MqttClientWrapper(isSSL);
+                    instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(PublishReceivedMessage_NotifyEvent);
 
-                        instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_NotifyEvent);
+                    instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_NotifyEvent);
 
-                        instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_NotifyEvent);
-                    }
-
-                    return instance;
+                    instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_NotifyEvent);
                 }
+
+                return instance;
             }
         }
         static void PublishReceivedMessage_NotifyEvent(MQTTEventArgs customEventArgs)

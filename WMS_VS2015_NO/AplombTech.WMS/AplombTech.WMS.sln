@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Site", "Site
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQTT Client", "MQTT Client", "{A8B01F62-FA2B-4345-9E89-5CCD828BD9D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.MQTT.Client", "Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTT.Client.csproj", "{34801C75-C666-4783-83CE-F1DFCD4208F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.MQTTLib", "Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj", "{34801C75-C666-4783-83CE-F1DFCD4208F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logger", "Logger", "{90D6828D-A42C-4454-92F9-64041D179653}"
 EndProject
@@ -32,6 +32,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.CryptoLib", "Infrastructure\AplombTech.CryptoLib\AplombTech.CryptoLib.csproj", "{AD26B877-4368-418B-A20B-9E796DCF6854}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.QueryModel", "Domain\AplombTech.WMS.QueryModel\AplombTech.WMS.QueryModel.csproj", "{53B3230D-C147-4E26-A5E2-2189DC13C9D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console Application", "Console Application", "{1F55CDC8-8A0E-4E2C-8CCB-AFA3F27CC0AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.MQTT.Client", "Console Application\AplombTech.WMS.MQTT.Client\AplombTech.WMS.MQTT.Client.csproj", "{296045FB-E728-4027-AD04-F5DF72BDF030}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,10 @@ Global
 		{53B3230D-C147-4E26-A5E2-2189DC13C9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53B3230D-C147-4E26-A5E2-2189DC13C9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53B3230D-C147-4E26-A5E2-2189DC13C9D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{296045FB-E728-4027-AD04-F5DF72BDF030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{296045FB-E728-4027-AD04-F5DF72BDF030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{296045FB-E728-4027-AD04-F5DF72BDF030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{296045FB-E728-4027-AD04-F5DF72BDF030}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +88,6 @@ Global
 		{CD0AFF5F-05D1-486B-BADC-23DF00398353} = {086AD4EF-259F-4626-B660-F0E4A4AFE41B}
 		{AD26B877-4368-418B-A20B-9E796DCF6854} = {CD0AFF5F-05D1-486B-BADC-23DF00398353}
 		{53B3230D-C147-4E26-A5E2-2189DC13C9D2} = {2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}
+		{296045FB-E728-4027-AD04-F5DF72BDF030} = {1F55CDC8-8A0E-4E2C-8CCB-AFA3F27CC0AB}
 	EndGlobalSection
 EndGlobal
