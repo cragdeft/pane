@@ -54,7 +54,6 @@ namespace AplombTech.WMS.Domain.Areas
         #endregion
 
         #region AddDMA (Action)
-
         [DisplayName("Add DMA")]
         public void AddDMA(string name)
         {
@@ -97,6 +96,13 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref address);
             this.Address = address;
+        }
+        public bool HideSetAddress()
+        {
+            if(this.Address != null)
+                return true;
+
+            return false;
         }
         #endregion
 

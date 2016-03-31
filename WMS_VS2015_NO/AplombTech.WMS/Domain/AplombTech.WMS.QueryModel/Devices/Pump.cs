@@ -14,5 +14,9 @@ namespace AplombTech.WMS.QueryModel.Devices
         [Title]
         [MemberOrder(20)]
         public virtual string ModelNo { get; set; }
+        public virtual decimal Capacity { get; set; }
+        public virtual int StaticWaterLevel { get; set; }
+        public virtual string RemoveRemarks { get; set; }
+        public virtual bool IsRemoved { get; set; }
     }
 }

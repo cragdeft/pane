@@ -75,7 +75,7 @@
     <Compile Include="Devices\Router.cs" />
     <Compile Include="Facade\QueryModelDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\AllZones.cs" />
+    <Compile Include="Reports\Zone4Map.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Sensors\Sensor.cs" />
     <Compile Include="Sensors\SensorData.cs" />

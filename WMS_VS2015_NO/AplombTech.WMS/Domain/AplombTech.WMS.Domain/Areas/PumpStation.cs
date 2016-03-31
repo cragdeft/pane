@@ -43,48 +43,34 @@ namespace AplombTech.WMS.Domain.Areas
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Pump")]
         [TableView(true, "UUID", "ModelNo")]
-        public Pump Pumps
+        public Pump Pump
         {
             get
             {
                 Pump pumps = (from pump in Container.Instances<Pump>()
                               where pump.PumpStation.AreaID == this.AreaID
+                              && pump.IsRemoved ==false
                               select pump).FirstOrDefault();
                 return pumps;
             }
         }
-
+        
         [MemberOrder(60), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
-        [DisplayName("Camera")]
-        [TableView(true, "UUID", "URL")]
-        public IList<Camera> Cameras
+        [DisplayName("Router")]
+        [TableView(true, "UUID", "MACAddress", "IP", "Port")]
+        public Router Router
         {
             get
             {
-                IList<Camera> cameras = (from camera in Container.Instances<Camera>()
-                                         where camera.PumpStation.AreaID == this.AreaID
-                                         select camera).ToList();
-                return cameras;
+                Router router = (from r in Container.Instances<Router>()
+                                 where r.PumpStation.AreaID == this.AreaID
+                                 select r).FirstOrDefault();
+                return router;
             }
         }
 
         [MemberOrder(70), NotMapped]
-        //[Eagerly(EagerlyAttribute.Do.Rendering)]
-        [DisplayName("Router")]
-        [TableView(true, "UUID", "MACAddress", "IP", "Port")]
-        public IList<Router> Routers
-        {
-            get
-            {
-                IList<Router> routers = (from router in Container.Instances<Router>()
-                                         where router.PumpStation.AreaID == this.AreaID
-                                         select router).ToList();
-                return routers;
-            }
-        }
-
-        [MemberOrder(80), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Sensors")]
         [TableView(true, "CurrentValue")]
@@ -98,7 +84,21 @@ namespace AplombTech.WMS.Domain.Areas
                 return sensors;
             }
         }
-        
+
+        [MemberOrder(80), NotMapped]
+        //[Eagerly(EagerlyAttribute.Do.Rendering)]
+        [DisplayName("Camera")]
+        [TableView(true, "UUID", "URL")]
+        public IList<Camera> Cameras
+        {
+            get
+            {
+                IList<Camera> cameras = (from camera in Container.Instances<Camera>()
+                                         where camera.PumpStation.AreaID == this.AreaID
+                                         select camera).ToList();
+                return cameras;
+            }
+        }
         #endregion
 
         #region AddPump (Action)
@@ -108,12 +108,19 @@ namespace AplombTech.WMS.Domain.Areas
             Pump pump = Container.NewTransientInstance<Pump>();
             pump.ModelNo = modelNo;
             pump.UUID = uuid;
+            pump.IsRemoved = false;
 
             pump.PumpStation = this;
 
             Container.Persist(ref pump);
         }
+        public bool HideAddPump()
+        {
+            if (this.Pump != null)
+                return true;
 
+            return false;
+        }
         #endregion
 
         #region AddCamera (Action)
@@ -146,7 +153,13 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref router);
         }
+        public bool HideAddRouter()
+        {
+            if (this.Router != null)
+                return true;
 
+            return false;
+        }
         #endregion
 
         #region AddSensor (Action)
@@ -179,6 +192,13 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref address);
             this.Address = address;
+        }
+        public bool HideSetAddress()
+        {
+            if (this.Address != null)
+                return true;
+
+            return false;
         }
         #endregion
 

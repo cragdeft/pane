@@ -30,7 +30,12 @@ namespace AplombTech.WMS.Domain.Facade
         {
             //Initialisation
             //Use the Naked Objects > DbInitialiser template to add an initialiser, then reference thus:
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<CommandModelDatabase>());
+#if DEBUG
+
+            Database.SetInitializer(new SampleAppInitializer());
+#else
+            Database.SetInitializer(null);
+#endif
 
             //Database.SetInitializer(new KhelaGharAMSDbInitialiser());
 

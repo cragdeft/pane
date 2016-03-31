@@ -33,7 +33,7 @@ namespace AplombTech.WMS.Site.Controllers {
         }
 
         public ActionResult Index() {
-            AllZones zones = _reportRepository.GoogleMap();
+            Zone4Map zones = _reportRepository.GoogleMap();
             int totalZone = zones.Zones.Count();
             return View();
         }

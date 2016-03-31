@@ -98,6 +98,13 @@ namespace AplombTech.WMS.Domain.Areas
 
             this.Address = address;
         }
+        public bool HideSetAddress()
+        {
+            if (this.Address != null)
+                return true;
+
+            return false;
+        }
         #endregion
 
         #region Menu

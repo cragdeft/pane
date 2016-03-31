@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AplombTech.WMS.QueryModel.Reports
 {
     [NotMapped]
-    public class AllZones : IViewModel    {
+    public class Zone4Map : IViewModel    {
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
 
         public virtual IQueryable<Zone> Zones { get; set; }
