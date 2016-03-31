@@ -13,6 +13,7 @@ using NakedObjects.Menu;
 using NakedObjects.Core.Async;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Facade;
+using AplombTech.MQTTLib;
 
 namespace AplombTech.WMS.MQTT.Client {
 
@@ -30,7 +31,8 @@ namespace AplombTech.WMS.MQTT.Client {
                 return new Type[] {
 					typeof (AsyncService),
 					//Add your domain services here
-                    typeof(AreaRepository)
+                    typeof(AreaRepository),
+                    typeof(AplombTech.WMS.Domain.MQTTService.MqttClientFacade)
                 };
             }
         }
@@ -40,6 +42,7 @@ namespace AplombTech.WMS.MQTT.Client {
 		private static Type[] Types {
             get {
                 return new Type[] {
+                    //typeof(MqttClientWrapper)
                 };
             }
         }

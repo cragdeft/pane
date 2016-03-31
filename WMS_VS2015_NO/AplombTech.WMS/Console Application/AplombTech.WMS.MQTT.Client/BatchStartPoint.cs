@@ -6,9 +6,11 @@
 // See the License for the specific language governing permissions and limitations under the License.
 
 using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.MQTTService;
 using AplombTech.WMS.Domain.Repositories;
 using NakedObjects.Architecture.Component;
 using NakedObjects.Async;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,13 +18,15 @@ namespace AplombTech.WMS.MQTT.Client {
     public class BatchStartPoint : IBatchStartPoint {
         public IAsyncService AsyncService { private get; set; }
         public AreaRepository AreaRepository { set; protected get; }
-
+        public MqttClientFacade MqttClientFacade { set; protected get; }
         #region IBatchStartPoint Members
 
         public void Execute() {
             //AsyncService.RunAsync
             //    (domainObjectContainer => { });
-            IList<Zone> zones = AreaRepository.AllZones().ToList();
+            //IList<Zone> zones = AreaRepository.AllZones().ToList();
+            //Console.ReadLine();
+            MqttClientFacade.MQTTClientInstance(false);
         }
 
         #endregion

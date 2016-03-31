@@ -75,6 +75,7 @@
     <Compile Include="Devices\Router.cs" />
     <Compile Include="Facade\CommandModelDatabase.cs" />
     <Compile Include="Facade\SampleAppInitializer.cs" />
+    <Compile Include="MQTTService\MqttClientFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AreaRepository.cs" />
     <Compile Include="Sensors\Sensor.cs" />
@@ -86,6 +87,16 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Logging\AplombTech.Logging.csproj">
+      <Project>{5b70dac1-0f48-4c14-85ff-1d4412032e02}</Project>
+      <Name>AplombTech.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj">
+      <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
+      <Name>AplombTech.MQTTLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

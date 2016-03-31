@@ -61,7 +61,7 @@ namespace AplombTech.MQTTLib
                     }
                     else
                     {
-                        BrokerConnectionWithCertificate();
+                        BrokerConnectionWithoutCertificate();
                     }
                     DefinedMQTTCommunicationEvents();
                 }
