@@ -19,7 +19,7 @@ namespace AplombTech.MQTT.Client
                 {
                     if (MqttClientFacade.instance == null)
                     {
-                        instance = new MqttClientWrapper();
+                        instance = new MqttClientWrapper(false);
                         instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(PublishReceivedMessage_NotifyEvent);
 
                         instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_NotifyEvent);

@@ -32,29 +32,36 @@ namespace AplombTech.MQTT.Client
 
         #endregion
 
+        readonly object locker = new object();
+
         #region constructor
-        public MqttClientWrapper()
+        public MqttClientWrapper(bool isSSL)
         {
-        }
+            IsSSL = isSSL;
+        }      
+        #endregion
+
+        #region Properties
+        public string WillTopic { get; set; }
+        public bool IsSSL { get; private set; }
+        public MqttClient DhakaWasaMQTT { get; private set; }
+        public string ClientResponce { get; private set; }
+        #endregion
+
+        #region PUBLIC METHODS
         public void MakeConnection()
         {
-            #region MyRegion
-
             try
             {
-                if (SmartHomeMQTT == null || !SmartHomeMQTT.IsConnected)
+                if (DhakaWasaMQTT == null || !DhakaWasaMQTT.IsConnected)
                 {
-                    if (BrokerAddress == "192.168.11.195")
+                    if (IsSSL)
                     {
-                        LocalBrokerConnection(BrokerAddress);
-                    }
-                    else if (BrokerAddress == "192.168.11.150")
-                    {
-                        BrokerConnectionWithoutCertificate(BrokerAddress);
+                        BrokerConnectionWithCertificate();
                     }
                     else
                     {
-                        BrokerConnectionWithCertificate(BrokerAddress);
+                        BrokerConnectionWithCertificate();
                     }
                     DefinedMQTTCommunicationEvents();
                 }
@@ -64,88 +71,26 @@ namespace AplombTech.MQTT.Client
                 Logger.LogError(ex, string.Format("Could not stablished connection to MQ broker: {1}", ex.Message));
 
                 //don't leave the client connected
-                if (SmartHomeMQTT != null && SmartHomeMQTT.IsConnected)
+                if (DhakaWasaMQTT != null && DhakaWasaMQTT.IsConnected)
                     try
                     {
-                        SmartHomeMQTT.Disconnect();
+                        DhakaWasaMQTT.Disconnect();
                     }
                     catch
                     {
                         Logger.LogError(ex, string.Format("Could not disconnect to MQ broker: {1}", ex.Message));
                     }
             }
-            #endregion
-        }
-        public bool client_RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
-            // logic for validation here
-        }
-        #endregion
-
-        #region Properties
-        public string WillTopic { get; set; }
-        readonly object locker = new object();
-        public string BrokerAddress
-        {
-            get
-            {
-                if (ConfigurationManager.AppSettings["BrokerAddress"] == null)
-                {
-                    return string.Empty;
-                }
-                return ConfigurationManager.AppSettings["BrokerAddress"].ToString();
-            }
-        }
-        public int BrokerPort
-        {
-            get
-            {
-                if (ConfigurationManager.AppSettings["BrokerPort"] == null)
-                {
-                    return 1883;
-                }
-                return Convert.ToInt32(ConfigurationManager.AppSettings["BrokerPort"]);
-            }
-        }
-        public UInt16 BrokerKeepAlivePeriod
-        {
-            get
-            {
-                if (ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"] == null)
-                {
-                    return 3600;
-                }
-                return Convert.ToUInt16(ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"]);
-            }
-        }
-        public string ClientId
-        {
-            get
-            {
-                if (ConfigurationManager.AppSettings["BrokerAccessClientId"] == null)
-                {
-                    string clientId = Guid.NewGuid().ToString();
-                    return clientId;
-                }
-                return ConfigurationManager.AppSettings["BrokerAccessClientId"].ToString();
-            }
-        }
-        public MqttClient SmartHomeMQTT { get; set; }
-        public string ClientResponce { get; set; }
-        //public MqttClientWrapper.NotifyMqttMessageReceivedDelegate NotifyMqttMsgPublishReceivedEvent { get; set; }
-        #endregion
-
-        #region Methods
+        }       
         public string Publish(string messgeTopic, string publishMessage)
         {
-            if (SmartHomeMQTT != null)
+            if (DhakaWasaMQTT != null)
             {
                 try
                 {
                     lock (locker)
                     {
-                        ushort msgId = SmartHomeMQTT.Publish(messgeTopic, // topic
+                        ushort msgId = DhakaWasaMQTT.Publish(messgeTopic, // topic
                                           Encoding.UTF8.GetBytes(publishMessage), // message body
                                           MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, // QoS level
                                           true);
@@ -158,63 +103,60 @@ namespace AplombTech.MQTT.Client
             }
             return "Success";
         }
-
         public string Subscribe(string messgeTopic)
         {
-            if (SmartHomeMQTT != null)
+            if (DhakaWasaMQTT != null)
             {
-                ushort msgId = SmartHomeMQTT.Subscribe(new string[] { messgeTopic },
+                ushort msgId = DhakaWasaMQTT.Subscribe(new string[] { messgeTopic },
                      new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }
                      );
                 Logger.Log(string.Format("Subscription to topic {0}", messgeTopic));
             }
             return "Success";
         }
-
         public void Subscribe(IEnumerable<string> messgeTopics)
         {
             foreach (var item in messgeTopics)
                 Subscribe(item);
         }
+        #endregion
 
+        #region EVENT HANDLER
         private void client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
         {
             NotifyMessage("MqttMsgPublished", e.IsPublished.ToString(), string.Empty);
             Logger.Log(string.Format("Mqtt-Msg-Published to topic {0}", e.IsPublished.ToString()));
             ClientResponce = "Success";
         }
-
         public void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
         {
             NotifyMessage("MqttMsgSubscribed", e.MessageId.ToString(), string.Empty);
             Logger.Log(string.Format("Mqtt-Msg-Subscribed to topic {0}", e.MessageId.ToString()));
         }
-
         public void client_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
         {
             ClientResponce = "Success";
         }
-
         public void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             NotifyMessage("MqttMsgPublishReceived", Encoding.UTF8.GetString(e.Message), e.Topic.ToString());
             Logger.Log(string.Format("Mqtt-Msg-Publish-Received to topic {0}", e.Topic.ToString()));
         }
-
         public void client_ConnectionClosed(object sender, EventArgs e)
         {
-            if (!(sender as MqttClient).IsConnected || SmartHomeMQTT == null)
+            if (!(sender as MqttClient).IsConnected || DhakaWasaMQTT == null)
             {
                 HandleReconnect();
             }
             Logger.Log("Connection has been closed");
         }
-
-        void HandleReconnect()
+        public bool client_RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
-            MakeConnection();
+            return true;
+            // logic for validation here
         }
-
+        #endregion
+        
         #region Delegate and event implementation
         public void NotifyMessage(string NotifyType, string receivedMessage, string receivedTopic)
         {
@@ -233,7 +175,6 @@ namespace AplombTech.MQTT.Client
                 InvokeEvents<NotifyMqttMsgSubscribedDelegate>(receivedMessage, receivedTopic, NotifyMqttMsgSubscribedEvent);
             }
         }
-
         private static void InvokeEvents<T>(string receivedMessage, string receivedTopic, T eventDelegate)
         {
             if (eventDelegate != null)
@@ -243,46 +184,76 @@ namespace AplombTech.MQTT.Client
             }
         }
         #endregion
-
-        #endregion
-
-        #region MQTT connection events
-
+        
+        #region PRIVATE METHODS
         private void DefinedMQTTCommunicationEvents()
         {
-            SmartHomeMQTT.MqttMsgPublished += client_MqttMsgPublished;//publish
-            SmartHomeMQTT.MqttMsgSubscribed += client_MqttMsgSubscribed;//subscribe confirmation
-            SmartHomeMQTT.MqttMsgUnsubscribed += client_MqttMsgUnsubscribed;
-            SmartHomeMQTT.MqttMsgPublishReceived += client_MqttMsgPublishReceived;//received message.
-            SmartHomeMQTT.ConnectionClosed += client_ConnectionClosed;
+            DhakaWasaMQTT.MqttMsgPublished += client_MqttMsgPublished;//publish
+            DhakaWasaMQTT.MqttMsgSubscribed += client_MqttMsgSubscribed;//subscribe confirmation
+            DhakaWasaMQTT.MqttMsgUnsubscribed += client_MqttMsgUnsubscribed;
+            DhakaWasaMQTT.MqttMsgPublishReceived += client_MqttMsgPublishReceived;//received message.
+            DhakaWasaMQTT.ConnectionClosed += client_ConnectionClosed;
 
-            ushort submsgId = SmartHomeMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback" },
+            ushort submsgId = DhakaWasaMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback" },
                               new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
                                       MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
         }
-
-        private void BrokerConnectionWithCertificate(string brokerAddress)
+        private void BrokerConnectionWithCertificate()
         {
             //SmartHomeMQTT = new MqttClient(brokerAddress, MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, new X509Certificate(Resource.ca), null, MqttSslProtocols.TLSv1_2, client_RemoteCertificateValidationCallback);
-            SmartHomeMQTT.Connect(ClientId, "mosharraf", "mosharraf", false, BrokerKeepAlivePeriod);
+            DhakaWasaMQTT.Connect(GetClientId(), "mosharraf", "mosharraf", false, GetBrokerKeepAlivePeriod());
         }
-
-        private void BrokerConnectionWithoutCertificate(string brokerAddress)
+        private void BrokerConnectionWithoutCertificate()
         {
-            SmartHomeMQTT = new MqttClient(brokerAddress, BrokerPort, false, null, null, MqttSslProtocols.None, null);
-            MQTTConnectiobn();
+            DhakaWasaMQTT = new MqttClient(GetBrokerAddress(), GetBrokerPort(), false, null, null, MqttSslProtocols.None, null);
+            ConnectToBroker();
         }
-
-        private void LocalBrokerConnection(string brokerAddress)
+        private void LocalBrokerConnection()
         {
-            SmartHomeMQTT = new MqttClient(brokerAddress);
-            MQTTConnectiobn();
+            DhakaWasaMQTT = new MqttClient(GetBrokerAddress());
+            ConnectToBroker();
         }
-
-        private void MQTTConnectiobn()
+        private void ConnectToBroker()
         {
-            SmartHomeMQTT.Connect(ClientId, null, null, false, BrokerKeepAlivePeriod);
+            DhakaWasaMQTT.Connect(GetClientId(), null, null, false, GetBrokerKeepAlivePeriod());
+        }
+        private void HandleReconnect()
+        {
+            MakeConnection();
+        }
+        private string GetBrokerAddress()
+        {
+            if (ConfigurationManager.AppSettings["BrokerAddress"] == null)
+            {
+                return string.Empty;
+            }
+            return ConfigurationManager.AppSettings["BrokerAddress"].ToString();
+        }
+        private int GetBrokerPort()
+        {
+            if (ConfigurationManager.AppSettings["BrokerPort"] == null)
+            {
+                return 1883;
+            }
+            return Convert.ToInt32(ConfigurationManager.AppSettings["BrokerPort"]);
+        }
+        private UInt16 GetBrokerKeepAlivePeriod()
+        {
+            if (ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"] == null)
+            {
+                return 3600;
+            }
+            return Convert.ToUInt16(ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"]);
+        }
+        private string GetClientId()
+        {
+            if (ConfigurationManager.AppSettings["BrokerAccessClientId"] == null)
+            {
+                string clientId = Guid.NewGuid().ToString();
+                return clientId;
+            }
+            return ConfigurationManager.AppSettings["BrokerAccessClientId"].ToString();
         }
         #endregion
     }
