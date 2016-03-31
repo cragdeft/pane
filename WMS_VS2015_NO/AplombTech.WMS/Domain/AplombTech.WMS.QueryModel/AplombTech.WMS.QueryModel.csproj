@@ -69,6 +69,7 @@
     <Compile Include="Areas\DMA.cs" />
     <Compile Include="Areas\PumpStation.cs" />
     <Compile Include="Areas\Zone.cs" />
+    <Compile Include="Areas\ZoneGoogleMap.cs" />
     <Compile Include="Devices\Camera.cs" />
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Devices\Pump.cs" />

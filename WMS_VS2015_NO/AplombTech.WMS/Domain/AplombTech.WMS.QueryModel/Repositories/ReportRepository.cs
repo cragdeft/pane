@@ -40,12 +40,19 @@ namespace AplombTech.WMS.QueryModel.Repositories
         }
 
         [DisplayName("Google Map")]
-        public ZoneMap GoogleMap()
+        public ZoneGoogleMap GoogleMap()
         {
-            var zones = Container.NewViewModel<ZoneMap>();
+            var zones = new ZoneGoogleMap();
             zones.Zones = Container.Instances<Zone>().ToList();
 
             return zones;
         }
+        //public ZoneMap GoogleMap()
+        //{
+        //    var zones = Container.NewViewModel<ZoneMap>();
+        //    zones.Zones = Container.Instances<Zone>().ToList();
+
+        //    return zones;
+        //}
     }
 }

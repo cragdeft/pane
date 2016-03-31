@@ -1,0 +1,18 @@
+@using NakedObjects.Facade.Utility;
+@using NakedObjects.Web.Mvc.Html
+@using AplombTech.WMS.QueryModel.Areas
+@model ZoneGoogleMap
+
+@*@{
+    Layout = "~/Views/Shared/_NofLayout.cshtml";
+    ViewBag.Title = Html.ObjectTitle(Model);
+}*@
+
+<div id="body">
+    <section class="main-content" >
+        @Html.TabbedHistory(Model)   
+        <br />
+        <p>Map View Model for Google Map</p>
+        @Html.Partial("~/Views/ZoneGoogleMap/MapwithTree.cshtml", Model)
+    </section>
+</div>

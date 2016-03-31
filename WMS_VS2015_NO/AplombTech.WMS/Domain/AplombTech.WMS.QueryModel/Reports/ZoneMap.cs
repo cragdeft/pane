@@ -2,6 +2,7 @@
 using NakedObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace AplombTech.WMS.QueryModel.Reports
     [NotMapped]
     public class ZoneMap : IViewModel    {
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
-
+        [Title, DisplayName("Zone Map")]
         public virtual IList<Zone> Zones { get; set; }
         public string[] DeriveKeys()
         {

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AplombTech.WMS.QueryModel.Areas
-{   
+{
     public class Zone : Area
     {
         #region Injected Services

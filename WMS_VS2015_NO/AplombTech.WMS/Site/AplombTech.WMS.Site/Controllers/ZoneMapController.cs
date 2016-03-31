@@ -30,8 +30,8 @@ namespace AplombTech.WMS.Site.Controllers
         // GET: ZoneMap
         public ActionResult Index()
         {
-            ZoneMap zones = _reportRepository.GoogleMap();
-            int totalZone = zones.Zones.Count();
+            //ZoneMap zones = _reportRepository.GoogleMap();
+            //int totalZone = zones.Zones.Count();
             return View();
         }
 

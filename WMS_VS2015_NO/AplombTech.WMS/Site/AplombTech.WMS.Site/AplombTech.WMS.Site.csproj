@@ -464,6 +464,10 @@
     <Content Include="Views\Shared\ActionDialog.cshtml" />
     <Content Include="Views\ZoneMap\ObjectView.cshtml" />
     <Content Include="Views\ZoneMap\ViewModel.cshtml" />
+    <Content Include="Views\ZoneGoogleMap\MapwithTree.cshtml" />
+    <Content Include="Views\ZoneGoogleMap\ObjectEdit.cshtml" />
+    <Content Include="Views\ZoneGoogleMap\ObjectView.cshtml" />
+    <Content Include="Views\ZoneGoogleMap\ViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
