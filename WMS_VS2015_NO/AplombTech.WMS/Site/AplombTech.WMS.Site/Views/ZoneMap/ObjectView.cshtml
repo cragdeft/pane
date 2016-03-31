@@ -1,0 +1,28 @@
+
+@using AplombTech.WMS.QueryModel.Reports
+@model ZoneMap
+
+
+<div id="body">
+    
+    <section class="main-content" >
+        
+        <br />
+        <p>Map View Model for Google Map @Model.Zones.Count()</p>
+        @Html.Partial("~/Views/ZoneMap/MapwithTree.cshtml", Model)
+        
+    </section>
+    
+</div>
+@section scripts
+{
+    <script src="~/Scripts/dist/jstree.min.js"></script>
+    <script src="https://www.google.com/jsapi?.js"></script>
+    <script src="~/Scripts/Map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
+            async defer></script>
+
+    <script>
+
+    </script>
+}

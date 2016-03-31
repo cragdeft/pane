@@ -36,7 +36,7 @@ namespace AplombTech.WMS.Site {
 
 		private static string[] ModelNamespaces { 
             get {
-                return new string[] { "AplombTech.WMS" }; //Add top-level namespace(s) that cover the domain model
+                return new string[] { "AplombTech.WMS.Domain", "AplombTech.WMS.QueryModel" }; //Add top-level namespace(s) that cover the domain model
             }			
 		}
         

@@ -1,5 +1,5 @@
-﻿@using AplombTech.WMS.Site.ViewModels
-@model IndexViewModel
+﻿@using AplombTech.WMS.QueryModel.Reports
+@model ZoneMap
 
 <div id="body">
 
@@ -8,7 +8,7 @@
     </div>
 
     <div id="legend" style="overflow-y:scroll;">
-        @foreach (var zone in Model.MyZone)
+        @foreach (var zone in Model.Zones)
         {
             <ul>
                 <li id="zone_@zone.AreaID" data-jstree='{"icon":"../../Content/Image/zone.png"}'>

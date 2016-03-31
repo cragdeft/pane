@@ -11,17 +11,11 @@ using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Areas;
 using System.Collections.Generic;
 using System.Linq;
-using AplombTech.WMS.QueryModel.Repositories;
-using AplombTech.WMS.QueryModel.Reports;
 
 namespace AplombTech.WMS.Site.Controllers {
 
     //[Authorize]
     public class HomeController : SystemControllerImpl {
-        #region Injected Services
-        public ReportRepository _reportRepository { set; protected get; }
-        #endregion
-
         public HomeController(IFrameworkFacade facade, IIdHelper idHelper) : base(facade, idHelper) {}
 
         // Uncomment this constructor if you wish to have an IDomainObjectContainer and/or domain services injected.
@@ -33,8 +27,6 @@ namespace AplombTech.WMS.Site.Controllers {
         }
 
         public ActionResult Index() {
-            Zone4Map zones = _reportRepository.GoogleMap();
-            int totalZone = zones.Zones.Count();
             return View();
         }
 

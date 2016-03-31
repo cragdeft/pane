@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AplombTech.WMS.QueryModel.Areas
 {
+    [Table("Areas")]
     public class Area
     {       
         #region Primitive Properties

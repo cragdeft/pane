@@ -10,21 +10,19 @@ using System.Threading.Tasks;
 namespace AplombTech.WMS.QueryModel.Reports
 {
     [NotMapped]
-    public class Zone4Map : IViewModel    {
+    public class ZoneMap : IViewModel    {
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
 
-        public virtual IQueryable<Zone> Zones { get; set; }
-
+        public virtual IList<Zone> Zones { get; set; }
         public string[] DeriveKeys()
         {
             string[] ids = Zones.Select(s => s.AreaID.ToString()).ToArray();
             return ids;
         }
-
         public void PopulateUsingKeys(string[] keys)
         {
             IList<string> ids = keys.ToList();
-            Zones = Container.Instances<Zone>().Where(w => ids.Contains(w.AreaID.ToString()));
+            Zones = Container.Instances<Zone>().Where(w => ids.Contains(w.AreaID.ToString())).ToList();
         }
     }
 }
