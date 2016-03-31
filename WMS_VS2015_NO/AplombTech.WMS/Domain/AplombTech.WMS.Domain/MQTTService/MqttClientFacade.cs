@@ -44,14 +44,16 @@ namespace AplombTech.WMS.Domain.MQTTService
         {
             IList<Zone> zones = AreaRepository.AllZones().ToList();
 #if DEBUG
-            Debug.Write(customEventArgs.ReceivedTopic);
+            Debug.WriteLine(customEventArgs.ReceivedTopic);
 #endif
             instance.Publish("/topic", "Message Received with Thanks");
             if (customEventArgs.ReceivedTopic == "/configuration")
             {
+                string msg = customEventArgs.ReceivedMessage;
                 int count = zones.Count();
 #if DEBUG
-                Debug.Write(count);
+                Debug.WriteLine(msg);
+                Debug.WriteLine(count);
 #endif
             }
             //if (customEventArgs.ReceivedTopic == CommandType.Configuration.ToString())
