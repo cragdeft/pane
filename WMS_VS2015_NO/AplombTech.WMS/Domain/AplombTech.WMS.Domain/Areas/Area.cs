@@ -13,6 +13,7 @@ namespace AplombTech.WMS.Domain.Areas
 {
     public class Area
     {
+        
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         public AreaRepository AreaRepository { set; protected get; }

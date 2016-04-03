@@ -19,8 +19,8 @@ namespace AplombTech.WMS.MQTT.Client {
         public IAsyncService AsyncService { private get; set; }
         public AreaRepository AreaRepository { set; protected get; }
         public MqttClientFacade MqttClientFacade { set; protected get; }
-        #region IBatchStartPoint Members
 
+        #region IBatchStartPoint Members
         public void Execute() {
             //AsyncService.RunAsync
             //    (domainObjectContainer => { });
@@ -28,7 +28,6 @@ namespace AplombTech.WMS.MQTT.Client {
             //Console.ReadLine();
             MqttClientFacade.MQTTClientInstance(false);
         }
-
         #endregion
     }
 }

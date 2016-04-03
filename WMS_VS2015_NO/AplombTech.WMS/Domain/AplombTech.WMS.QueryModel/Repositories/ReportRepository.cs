@@ -17,6 +17,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         public static void Menu(IMenu menu)
         {
             menu.AddAction("GoogleMap");
+            menu.AddAction("ScadaMap");
             //menu.CreateSubMenu("Zone")
             //    .AddAction("CreateZone")
             //    .AddAction("FindZone")
@@ -47,12 +48,13 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             return zones;
         }
-        //public ZoneMap GoogleMap()
-        //{
-        //    var zones = Container.NewViewModel<ZoneMap>();
-        //    zones.Zones = Container.Instances<Zone>().ToList();
 
-        //    return zones;
-        //}
+        public ScadaMap ScadaMap()
+        {
+            var zones = Container.NewViewModel<ScadaMap>();
+            zones.Zones = Container.Instances<Zone>().ToList();
+
+            return zones;
+        }
     }
 }

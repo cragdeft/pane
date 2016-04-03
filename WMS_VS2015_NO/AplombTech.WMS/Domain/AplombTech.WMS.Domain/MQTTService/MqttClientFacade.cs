@@ -42,6 +42,14 @@ namespace AplombTech.WMS.Domain.MQTTService
         }
         private void PublishReceivedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
         {
+            //var data = "{"name":"masnun","email":["masnun@gmail.com","masnun@leevio.com"],"websites":{"home page":"http:\/\/masnun.com","blog":"http:\/\/masnun.me"}}"
+            //JObject o = JObject.Parse(data);
+            //Console.WriteLine("Name: " + o["name"]);
+            //Console.WriteLine("Email Address[1]: " + o["email"][0]);
+            //Console.WriteLine("Email Address[2]: " + o["email"][1]);
+            //Console.WriteLine("Website [home page]: " + o["websites"]["home page"]);
+            //Console.WriteLine("Website [blog]: " + o["websites"]["blog"]);
+
             IList<Zone> zones = AreaRepository.AllZones().ToList();
 #if DEBUG
             Debug.WriteLine(customEventArgs.ReceivedTopic);

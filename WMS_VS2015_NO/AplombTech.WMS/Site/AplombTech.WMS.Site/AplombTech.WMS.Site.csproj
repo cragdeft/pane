@@ -314,6 +314,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RestfulObjectsController.cs" />
+    <Compile Include="Controllers\ScadaMapController.cs" />
     <Compile Include="Controllers\ZoneMapController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -468,6 +469,9 @@
     <Content Include="Views\ZoneGoogleMap\ObjectEdit.cshtml" />
     <Content Include="Views\ZoneGoogleMap\ObjectView.cshtml" />
     <Content Include="Views\ZoneGoogleMap\ViewModel.cshtml" />
+    <Content Include="Views\ScadaMap\ObjectView.cshtml" />
+    <Content Include="Views\ScadaMap\ScadaMap.cshtml" />
+    <Content Include="Views\ScadaMap\ViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
