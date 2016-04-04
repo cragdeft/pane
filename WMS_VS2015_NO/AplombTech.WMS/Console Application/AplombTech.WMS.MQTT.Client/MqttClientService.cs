@@ -1,7 +1,7 @@
-﻿using AplombTech.MQTTLib;
-using AplombTech.WMS.Domain.Areas;
+﻿using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Repositories;
 using NakedObjects;
+using NakedObjects.Async;
 using NakedObjects.Services;
 using System;
 using System.Collections.Generic;
@@ -10,12 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.WMS.Domain.MQTTService
+namespace AplombTech.WMS.MQTT.Client
 {
-    public class MqttClientFacade: AbstractFactoryAndRepository
+    public class MqttClientService: AbstractFactoryAndRepository
     {
         #region Injected Services
         public AreaRepository AreaRepository { set; protected get; }
+        public IAsyncService AsyncService { private get; set; }
         #endregion
 
         private MqttClientWrapper instance = null;
@@ -50,19 +51,22 @@ namespace AplombTech.WMS.Domain.MQTTService
             //Console.WriteLine("Website [home page]: " + o["websites"]["home page"]);
             //Console.WriteLine("Website [blog]: " + o["websites"]["blog"]);
 
+            //AsyncService.RunAsync((domainObjectContainer) =>
+            //             MqttClientFacade.MQTTClientInstance(false));
+
             IList<Zone> zones = AreaRepository.AllZones().ToList();
-#if DEBUG
-            Debug.WriteLine(customEventArgs.ReceivedTopic);
-#endif
+//#if DEBUG
+//            Debug.WriteLine(customEventArgs.ReceivedTopic);
+//#endif
             instance.Publish("/topic", "Message Received with Thanks");
             if (customEventArgs.ReceivedTopic == "/configuration")
             {
                 string msg = customEventArgs.ReceivedMessage;
                 int count = zones.Count();
-#if DEBUG
-                Debug.WriteLine(msg);
-                Debug.WriteLine(count);
-#endif
+//#if DEBUG
+//                Debug.WriteLine(msg);
+//                Debug.WriteLine(count);
+//#endif
             }
             //if (customEventArgs.ReceivedTopic == CommandType.Configuration.ToString())
             //{

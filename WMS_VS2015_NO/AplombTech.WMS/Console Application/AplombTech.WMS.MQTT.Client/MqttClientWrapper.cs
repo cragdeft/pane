@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-namespace AplombTech.MQTTLib
+namespace AplombTech.WMS.MQTT.Client
 {
-    public class MqttClientWrapper  : IMqttClientWrapper
+    public class MqttClientWrapper
     {
         #region delegate event
         #region MqttMsg-Publish-Received-Notification
@@ -38,11 +38,11 @@ namespace AplombTech.MQTTLib
         public MqttClientWrapper(bool isSSL)
         {
             IsSSL = isSSL;
-        }      
+        }
         public MqttClientWrapper()
         {
-            
-        }      
+
+        }
         #endregion
 
         #region Properties
@@ -85,7 +85,7 @@ namespace AplombTech.MQTTLib
                         Logger.LogError(ex, string.Format("Could not disconnect to MQ broker: {1}", ex.Message));
                     }
             }
-        }       
+        }
         public string Publish(string messgeTopic, string publishMessage)
         {
             if (DhakaWasaMQTT != null)
@@ -188,7 +188,7 @@ namespace AplombTech.MQTTLib
             }
         }
         #endregion
-        
+
         #region PRIVATE METHODS
         private void DefinedMQTTCommunicationEvents()
         {
@@ -221,6 +221,7 @@ namespace AplombTech.MQTTLib
         private void ConnectToBroker()
         {
             DhakaWasaMQTT.Connect(GetClientId(), null, null, false, GetBrokerKeepAlivePeriod());
+            Logger.Log("MQTT Client is connected");
         }
         private void HandleReconnect()
         {
@@ -261,8 +262,6 @@ namespace AplombTech.MQTTLib
         }
         #endregion
     }
-
-
     public class MQTTEventArgs : EventArgs
     {
         public MQTTEventArgs(string receivedMessage, string receivedTopic)

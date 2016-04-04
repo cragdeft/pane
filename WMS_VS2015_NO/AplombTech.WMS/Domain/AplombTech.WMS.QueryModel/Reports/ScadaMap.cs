@@ -14,7 +14,7 @@ namespace AplombTech.WMS.QueryModel.Reports
     public class ScadaMap : IViewModel
     {
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
-        [Title, DisplayName("Zone Map")]
+        [Title, DisplayName("Scada Map")]
         public virtual IList<Zone> Zones { get; set; }
         public string[] DeriveKeys()
         {

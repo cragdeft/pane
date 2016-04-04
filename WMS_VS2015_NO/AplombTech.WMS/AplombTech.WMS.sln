@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain Layer", "Domain Layer", "{2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}"
+	ProjectSection(SolutionItems) = preProject
+		Console Application\AplombTech.WMS.MQTT.Client\Program.cs = Console Application\AplombTech.WMS.MQTT.Client\Program.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure Layer", "Infrastructure Layer", "{086AD4EF-259F-4626-B660-F0E4A4AFE41B}"
 EndProject

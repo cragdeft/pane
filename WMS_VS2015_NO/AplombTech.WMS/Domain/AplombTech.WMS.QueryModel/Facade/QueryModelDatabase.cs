@@ -16,25 +16,24 @@ namespace AplombTech.WMS.QueryModel.Facade
         public QueryModelDatabase() { }
         public QueryModelDatabase(string name) : base(name)
         {
-            //_areas = base.Set<Area>();
-            //_zones = base.Set<Zone>();
-            //_dmas = base.Set<DMA>();
-            //_pumpStations = base.Set<PumpStation>();
-            //_pumps = base.Set<Pump>();
-            //_cameras = base.Set<Camera>();
-            //_routers = base.Set<Router>();
-            //_sensors = base.Set<Sensor>();
-            //_sensorDatas = base.Set<SensorData>();
+            Areas = base.Set<Area>();
+            Devices = base.Set<Device>();
+            Pumps = base.Set<Pump>();
+            Cameras = base.Set<Camera>();
+            Routers = base.Set<Router>();
+            Sensors = base.Set<Sensor>();
+            SensorDatas = base.Set<SensorData>();
+            Addresses = base.Set<Address>();
         }
 
-        public DbSet<Area> Areas { get; set; }
-        public DbSet<Device> Devices { get; set; }
-        public DbSet<Pump> Pumps { get; set; }
-        public DbSet<Camera> Cameras { get; set; }
-        public DbSet<Router> Routers { get; set; }
-        public DbSet<Sensor> Sensors { get; set; }
-        public DbSet<SensorData> SensorDatas { get; set; }
-        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Area> Areas { get; private set; }
+        public DbSet<Device> Devices { get; private set; }
+        public DbSet<Pump> Pumps { get; private set; }
+        public DbSet<Camera> Cameras { get; private set; }
+        public DbSet<Router> Routers { get; private set; }
+        public DbSet<Sensor> Sensors { get; private set; }
+        public DbSet<SensorData> SensorDatas { get; private set; }
+        public DbSet<Address> Addresses { get; private set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -42,8 +41,6 @@ namespace AplombTech.WMS.QueryModel.Facade
             //Use the Naked Objects > DbInitialiser template to add an initialiser, then reference thus:
            
             Database.SetInitializer<QueryModelDatabase>(null);
-
-            //Database.SetInitializer(new KhelaGharAMSDbInitialiser());
 
             //Mappings
             //Use the Naked Objects > DbMapping template to create mapping classes & reference them thus:

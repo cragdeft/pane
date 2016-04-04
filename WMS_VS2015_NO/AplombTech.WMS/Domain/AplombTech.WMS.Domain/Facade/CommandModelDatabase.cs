@@ -37,8 +37,6 @@ namespace AplombTech.WMS.Domain.Facade
             Database.SetInitializer(null);
 #endif
 
-            //Database.SetInitializer(new KhelaGharAMSDbInitialiser());
-
             //Mappings
             //Use the Naked Objects > DbMapping template to create mapping classes & reference them thus:
             //modelBuilder.Configurations.Add(new EmployeeMapping());
@@ -50,6 +48,11 @@ namespace AplombTech.WMS.Domain.Facade
 
             //modelBuilder.Properties<DateTime>()
             //.Configure(c => c.HasColumnType("datetime2"));
+
+            modelBuilder.Entity<SensorData>().Property(sd => sd.Value).HasPrecision(18, 2);
+            modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);
+            modelBuilder.Entity<Sensor>().Property(sensor => sensor.MaximumValue).HasPrecision(18, 2);
+            modelBuilder.Entity<Pump>().Property(pump => pump.Capacity).HasPrecision(18, 2);
         }
     }
 }
