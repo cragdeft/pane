@@ -23,10 +23,11 @@ namespace AplombTech.WMS.MQTT.Client
 
         public enum JsonMessageType
         {
-            Configuration,
-            SensorData,
-            Feedback
+            configuration,
+            sensordata,
+            feedback
         }
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private MqttClientWrapper instance = null;
@@ -40,36 +41,36 @@ namespace AplombTech.WMS.MQTT.Client
                 {
                     instance = new MqttClientWrapper(isSSL);
                     
-                    instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(PublishReceivedMessage_NotifyEvent);
+                    instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(ReceivedMessage_MQTT);
 
-                    instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_NotifyEvent);
+                    instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_MQTT);
 
-                    instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_NotifyEvent);
+                    instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_MQTT);
                     instance.MakeConnection();
                 }
 
                 //return instance;
             }
         }
-        private void PublishReceivedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
+        private void ReceivedMessage_MQTT(MQTTEventArgs customEventArgs)
         {
             AsyncService.RunAsync((domainObjectContainer) =>
                              ProcessMessage(customEventArgs));
         }
       
-        private void PublishedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
+        private void PublishedMessage_MQTT(MQTTEventArgs customEventArgs)
         {
-            string msg = customEventArgs.ReceivedMessage;
-
+            //string msg = customEventArgs.ReceivedMessage;
+            log.Info("Message published to '" + customEventArgs.ReceivedTopic + "' Topic");
         }
-        private void SubscribedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
+        private void SubscribedMessage_MQTT(MQTTEventArgs customEventArgs)
         {
-            string msg = customEventArgs.ReceivedMessage;
+            //string msg = customEventArgs.ReceivedMessage;
         }
 
         private void ProcessMessage(MQTTEventArgs customEventArgs)
         {
-            log.Info("Message Received from " + customEventArgs.ReceivedTopic + " Topic");
+            log.Info("Message Received from '" + customEventArgs.ReceivedTopic + "' Topic");
             SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
 
             if (dataLog == null)
@@ -81,11 +82,11 @@ namespace AplombTech.WMS.MQTT.Client
 
             if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
             {
-                if (customEventArgs.ReceivedTopic == JsonMessageType.SensorData.ToString())
+                if (customEventArgs.ReceivedTopic == JsonMessageType.sensordata.ToString())
                 {
                     ProcessRepository.ParseNStoreSensorData(dataLog);
                 }
-                if (customEventArgs.ReceivedTopic == JsonMessageType.Configuration.ToString())
+                if (customEventArgs.ReceivedTopic == JsonMessageType.configuration.ToString())
                 {
                     ProcessRepository.ParseNStoreConfigurationData(dataLog);
                 }
