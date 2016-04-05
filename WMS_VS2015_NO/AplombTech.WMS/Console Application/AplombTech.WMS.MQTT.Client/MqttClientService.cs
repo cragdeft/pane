@@ -49,6 +49,12 @@ namespace AplombTech.WMS.MQTT.Client
         {            
             log.Info("Message Received from " + customEventArgs.ReceivedTopic + " Topic");
             SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
+
+            if(dataLog == null)
+            {
+                instance.Publish("/ConfigFeedback", "Logged Date & Time missing");
+                return;
+            }
             instance.Publish("/ConfigFeedback", "Message has been Received with Thanks");
                                     
             if (customEventArgs.ReceivedTopic == "/configuration")

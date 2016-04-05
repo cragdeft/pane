@@ -90,6 +90,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.JsonParser\AplombTech.WMS.JsonParser.csproj">
+      <Project>{d64fe817-7a39-455e-aa81-ac8201659990}</Project>
+      <Name>AplombTech.WMS.JsonParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Logging\AplombTech.Logging.csproj">
       <Project>{5b70dac1-0f48-4c14-85ff-1d4412032e02}</Project>
       <Name>AplombTech.Logging</Name>

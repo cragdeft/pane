@@ -1,4 +1,5 @@
 ﻿using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.JsonParser;
 using NakedObjects.Services;
 using System;
 using System.Collections.Generic;
@@ -28,11 +29,15 @@ namespace AplombTech.WMS.Domain.Repositories
 
         public SensorDataLog LogSensorData(string topic, string message)
         {
-            SensorDataLog sensorLogData = GetSensorLogData(topic, DateTime.Now);
+            DateTime? LoggedAtTime = JsonManager.GetSensorLoggedAtTime(message);
+
+            if (LoggedAtTime == null) return null;
+
+            SensorDataLog sensorLogData = GetSensorLogData(topic, (DateTime)LoggedAtTime);
 
             if (sensorLogData == null)
             {
-                SensorDataLog data = CreateLog(topic, message, DateTime.Now);
+                SensorDataLog data = CreateLog(topic, message, (DateTime)LoggedAtTime);
                 return data;
             }
 
