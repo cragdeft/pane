@@ -77,8 +77,10 @@
     <Compile Include="Facade\SampleAppInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AreaRepository.cs" />
+    <Compile Include="Repositories\ProcessRepository.cs" />
     <Compile Include="Sensors\Sensor.cs" />
     <Compile Include="Sensors\SensorData.cs" />
+    <Compile Include="Sensors\SensorDataLog.cs" />
     <Compile Include="Shared\Address.cs" />
     <Compile Include="Shared\AuditFields.cs" />
   </ItemGroup>
