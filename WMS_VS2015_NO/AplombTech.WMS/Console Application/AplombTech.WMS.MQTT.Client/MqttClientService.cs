@@ -54,6 +54,7 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void ReceivedMessage_MQTT(MQTTEventArgs customEventArgs)
         {
+            log.Info("Message received from topic '" + customEventArgs.ReceivedTopic + "' and message is '" + customEventArgs.ReceivedMessage + "'");
             AsyncService.RunAsync((domainObjectContainer) =>
                              ProcessMessage(customEventArgs));
         }
@@ -61,7 +62,7 @@ namespace AplombTech.WMS.MQTT.Client
         private void PublishedMessage_MQTT(MQTTEventArgs customEventArgs)
         {
             //string msg = customEventArgs.ReceivedMessage;
-            log.Info("Message published to '" + customEventArgs.ReceivedTopic + "' Topic");
+            log.Info("Message published to '" + customEventArgs.ReceivedTopic + "' Topic");            
         }
         private void SubscribedMessage_MQTT(MQTTEventArgs customEventArgs)
         {
@@ -70,27 +71,29 @@ namespace AplombTech.WMS.MQTT.Client
 
         private void ProcessMessage(MQTTEventArgs customEventArgs)
         {
-            log.Info("Message Received from '" + customEventArgs.ReceivedTopic + "' Topic");
-            SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
+            //log.Info("Message Received from '" + customEventArgs.ReceivedTopic + "' Topic");
+            instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
 
-            if (dataLog == null)
-            {
-                instance.Publish(customEventArgs.ReceivedTopic + "Feedback", "Logged Date & Time is missing");
-                return;
-            }
-            instance.Publish(customEventArgs.ReceivedTopic + "Feedback", "Message has been logged Sucessfully");
+            //SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
 
-            if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
-            {
-                if (customEventArgs.ReceivedTopic == JsonMessageType.sensordata.ToString())
-                {
-                    ProcessRepository.ParseNStoreSensorData(dataLog);
-                }
-                if (customEventArgs.ReceivedTopic == JsonMessageType.configuration.ToString())
-                {
-                    ProcessRepository.ParseNStoreConfigurationData(dataLog);
-                }
-            }
+            //if (dataLog == null)
+            //{
+            //    instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
+            //    return;
+            //}
+            //instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
+
+            //if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+            //{
+            //    if (customEventArgs.ReceivedTopic == JsonMessageType.sensordata.ToString())
+            //    {
+            //        ProcessRepository.ParseNStoreSensorData(dataLog);
+            //    }
+            //    if (customEventArgs.ReceivedTopic == JsonMessageType.configuration.ToString())
+            //    {
+            //        ProcessRepository.ParseNStoreConfigurationData(dataLog);
+            //    }
+            //}
         }
     }
 }

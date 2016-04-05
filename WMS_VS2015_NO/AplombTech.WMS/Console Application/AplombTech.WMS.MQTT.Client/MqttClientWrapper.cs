@@ -132,7 +132,7 @@ namespace AplombTech.WMS.MQTT.Client
         private void client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
         {
             NotifyMessage("MqttMsgPublished", e.IsPublished.ToString(), string.Empty);
-            log.Info(string.Format("Mqtt-Msg-Published to topic {0}", e.IsPublished.ToString()));
+            //log.Info(string.Format("Mqtt-Msg-Published to topic {0}", e.IsPublished.ToString()));
             ClientResponce = "Success";
         }
         private void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
@@ -147,7 +147,7 @@ namespace AplombTech.WMS.MQTT.Client
         private void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             NotifyMessage("MqttMsgPublishReceived", Encoding.UTF8.GetString(e.Message), e.Topic.ToString());
-            log.Info("Message received from topic '" + e.Topic.ToString() + "' and message is '" + Encoding.UTF8.GetString(e.Message) + "'");
+            //log.Info("Message received from topic '" + e.Topic.ToString() + "' and message is '" + Encoding.UTF8.GetString(e.Message) + "'");
         }
         private void client_ConnectionClosed(object sender, EventArgs e)
         {

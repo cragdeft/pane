@@ -1,6 +1,7 @@
 ﻿using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.JsonParser;
+using AplombTech.WMS.JsonParser.Entity;
 using NakedObjects.Services;
 using System;
 using System.Collections.Generic;

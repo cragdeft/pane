@@ -1,4 +1,4 @@
-﻿namespace AplombTech.WMS.JsonParser
+﻿namespace AplombTech.WMS.JsonParser.Entity
 {
     public class SensorValue
     {
