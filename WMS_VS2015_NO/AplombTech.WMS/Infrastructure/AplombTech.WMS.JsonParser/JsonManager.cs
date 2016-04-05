@@ -61,9 +61,9 @@ namespace AplombTech.WMS.JsonParser
 
             return sensorObject;
         }
-        private static SensorData GetSensorData(JObject o, int index)
+        private static SensorValue GetSensorData(JObject o, int index)
         {
-            SensorData data = new SensorData();
+            SensorValue data = new SensorValue();
             data.SensorUUID = (string) o["Sensor"][index]["uid"];
             data.Value = (string)o["Sensor"][index]["value"];
 

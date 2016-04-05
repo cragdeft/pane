@@ -38,6 +38,11 @@ namespace AplombTech.WMS.Domain.Repositories
             }
         }
 
+        public void ParseNStoreConfigurationData(SensorDataLog dataLog)
+        {
+
+        }
+
         public SensorDataLog LogSensorData(string topic, string message)
         {
             DateTime? LoggedAtTime = JsonManager.GetSensorLoggedAtTime(message);

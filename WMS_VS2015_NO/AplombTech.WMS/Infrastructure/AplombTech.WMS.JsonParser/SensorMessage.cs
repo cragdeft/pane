@@ -10,7 +10,7 @@ namespace AplombTech.WMS.JsonParser
     {
         public SensorMessage()
         {
-            Sensors = new List<SensorData>();
+            Sensors = new List<SensorValue>();
         }
         public int? PumpStationId { get; set; }
         public DateTime? SensorLoggedAt { get; set; }

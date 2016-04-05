@@ -21,6 +21,12 @@ namespace AplombTech.WMS.MQTT.Client
         public IAsyncService AsyncService { private get; set; }
         #endregion
 
+        public enum JsonMessageType
+        {
+            Configuration,
+            SensorData,
+            Feedback
+        }
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private MqttClientWrapper instance = null;
@@ -46,29 +52,9 @@ namespace AplombTech.WMS.MQTT.Client
             }
         }
         private void PublishReceivedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
-        {            
-            log.Info("Message Received from " + customEventArgs.ReceivedTopic + " Topic");
-            SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
-
-            if(dataLog == null)
-            {
-                instance.Publish("/ConfigFeedback", "Logged Date & Time missing");
-                return;
-            }
-            instance.Publish("/ConfigFeedback", "Message has been logged Sucessfully");
-                                    
-            if (customEventArgs.ReceivedTopic == "/configuration")
-            {
-                if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
-                {
-                    AsyncService.RunAsync((domainObjectContainer) =>
-                             ProcessRepository.ParseNStoreSensorData(dataLog));
-                }
-            }
-            //if (customEventArgs.ReceivedTopic == CommandType.Configuration.ToString())
-            //{
-            //    new JsonManager().JsonProcess(customEventArgs.ReceivedMessage);
-            //}
+        {
+            AsyncService.RunAsync((domainObjectContainer) =>
+                             ProcessMessage(customEventArgs));
         }
       
         private void PublishedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
@@ -79,6 +65,31 @@ namespace AplombTech.WMS.MQTT.Client
         private void SubscribedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
         {
             string msg = customEventArgs.ReceivedMessage;
+        }
+
+        private void ProcessMessage(MQTTEventArgs customEventArgs)
+        {
+            log.Info("Message Received from " + customEventArgs.ReceivedTopic + " Topic");
+            SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
+
+            if (dataLog == null)
+            {
+                instance.Publish(customEventArgs.ReceivedTopic + "Feedback", "Logged Date & Time is missing");
+                return;
+            }
+            instance.Publish(customEventArgs.ReceivedTopic + "Feedback", "Message has been logged Sucessfully");
+
+            if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+            {
+                if (customEventArgs.ReceivedTopic == JsonMessageType.SensorData.ToString())
+                {
+                    ProcessRepository.ParseNStoreSensorData(dataLog);
+                }
+                if (customEventArgs.ReceivedTopic == JsonMessageType.Configuration.ToString())
+                {
+                    ProcessRepository.ParseNStoreConfigurationData(dataLog);
+                }
+            }
         }
     }
 }
