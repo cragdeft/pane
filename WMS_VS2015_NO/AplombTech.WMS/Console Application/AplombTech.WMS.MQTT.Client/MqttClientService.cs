@@ -19,6 +19,8 @@ namespace AplombTech.WMS.MQTT.Client
         public IAsyncService AsyncService { private get; set; }
         #endregion
 
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private MqttClientWrapper instance = null;
         //Lock synchronization object
         private object syncLock = new object();
@@ -55,9 +57,10 @@ namespace AplombTech.WMS.MQTT.Client
             //             MqttClientFacade.MQTTClientInstance(false));
 
             IList<Zone> zones = AreaRepository.AllZones().ToList();
-//#if DEBUG
-//            Debug.WriteLine(customEventArgs.ReceivedTopic);
-//#endif
+            //#if DEBUG
+            //            Debug.WriteLine(customEventArgs.ReceivedTopic);
+            //#endif
+            log.Info("Message Received from " + customEventArgs.ReceivedTopic + " Topic");
             instance.Publish("/topic", "Message Received with Thanks");
             if (customEventArgs.ReceivedTopic == "/configuration")
             {
