@@ -71,29 +71,33 @@ namespace AplombTech.WMS.MQTT.Client
 
         private void ProcessMessage(MQTTEventArgs customEventArgs)
         {
-            //log.Info("Message Received from '" + customEventArgs.ReceivedTopic + "' Topic");
-            instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
+            try
+            {
+                SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
 
-            //SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
+                if (dataLog == null)
+                {
+                    instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
+                    return;
+                }
+                instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
 
-            //if (dataLog == null)
-            //{
-            //    instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
-            //    return;
-            //}
-            //instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
-
-            //if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
-            //{
-            //    if (customEventArgs.ReceivedTopic == JsonMessageType.sensordata.ToString())
-            //    {
-            //        ProcessRepository.ParseNStoreSensorData(dataLog);
-            //    }
-            //    if (customEventArgs.ReceivedTopic == JsonMessageType.configuration.ToString())
-            //    {
-            //        ProcessRepository.ParseNStoreConfigurationData(dataLog);
-            //    }
-            //}
+                if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+                {
+                    if (customEventArgs.ReceivedTopic == JsonMessageType.sensordata.ToString())
+                    {
+                        ProcessRepository.ParseNStoreSensorData(dataLog);
+                    }
+                    if (customEventArgs.ReceivedTopic == JsonMessageType.configuration.ToString())
+                    {
+                        ProcessRepository.ParseNStoreConfigurationData(dataLog);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
+            }
         }
     }
 }
