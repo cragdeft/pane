@@ -55,7 +55,7 @@ namespace AplombTech.WMS.MQTT.Client
                 instance.Publish("/ConfigFeedback", "Logged Date & Time missing");
                 return;
             }
-            instance.Publish("/ConfigFeedback", "Message has been Received with Thanks");
+            instance.Publish("/ConfigFeedback", "Message has been logged Sucessfully");
                                     
             if (customEventArgs.ReceivedTopic == "/configuration")
             {

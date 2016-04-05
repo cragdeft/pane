@@ -1,4 +1,5 @@
-﻿using NakedObjects;
+﻿using AplombTech.WMS.Domain.Areas;
+using NakedObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -31,6 +32,11 @@ namespace AplombTech.WMS.Domain.Sensors
             Failed = 3
         }
 
+        #endregion
+
+        #region  Navigation Properties
+        [MemberOrder(60)]
+        public virtual PumpStation PumpStation { get; set; }
         #endregion
     }
 }

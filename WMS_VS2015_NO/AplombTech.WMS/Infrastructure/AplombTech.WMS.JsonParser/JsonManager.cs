@@ -26,5 +26,49 @@ namespace AplombTech.WMS.JsonParser
             }
 
         }
+        public static int? GetSensorPumpStationID(string message)
+        {
+            JObject o = JObject.Parse(message);
+
+            string pumpStationId = o["PumpStationId"].ToString();
+
+            try
+            {
+                int stationId = Convert.ToInt32(pumpStationId);
+                return stationId;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        public static SensorMessage GetSensorObject(string message)
+        {
+            JObject o = JObject.Parse(message);
+
+            SensorMessage sensorObject = new SensorMessage();
+
+            sensorObject.PumpStationId = GetSensorPumpStationID(message);
+            sensorObject.SensorLoggedAt = GetSensorLoggedAtTime(message);
+
+            for (int i =4; i<5; i++)
+            {
+                sensorObject.Sensors.Add(GetSensorData(o,i));
+            }
+            //o["Sensor"][0]["uid"],o["Sensor"][0]["value"]
+
+            return sensorObject;
+        }
+        private static SensorData GetSensorData(JObject o, int index)
+        {
+            SensorData data = new SensorData();
+            data.SensorUUID = (string) o["Sensor"][index]["uid"];
+            data.Value = (string)o["Sensor"][index]["value"];
+
+
+            return data;
+        }
     }
 }
