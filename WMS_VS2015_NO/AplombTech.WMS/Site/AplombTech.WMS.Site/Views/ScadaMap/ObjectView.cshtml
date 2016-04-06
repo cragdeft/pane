@@ -11,13 +11,14 @@
             "AreaID",
             "Name",
             Model.SelectedZoneId), "Select Zone", new { @onchange = "LoadDma(this.value)" })
+
             @Html.DropDownListFor(model => model.SelectedDmaId, new SelectList(
-            Model.Dmas.Where(x => x.Parent.AreaID == Model.SelectedZoneId),
+            Enumerable.Empty<SelectListItem>(),
             "AreaID",
             "Name",
             Model.SelectedDmaId), "Select Dma", new { @onchange = "LoadPumpStation(this.value)" })
             @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
-            Model.PumpStations.Where(x => x.Parent.AreaID == Model.SelectedDmaId),
+           Enumerable.Empty<SelectListItem>(),
             "AreaID",
             "Name",
             Model.SelectedPumpStationId), "Select Pumpstation")
