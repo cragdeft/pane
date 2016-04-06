@@ -58,15 +58,16 @@ namespace AplombTech.WMS.Domain.Sensors
         public virtual int SensorID { get; set; }
         [MemberOrder(10), NakedObjectsIgnore]
         public virtual string UUID { get; set; }
-        [MemberOrder(20)]
+        [MemberOrder(40)]
         public virtual decimal MinimumValue { get; set; }
-        [MemberOrder(30)]
+        [MemberOrder(50)]
         public virtual decimal MaximumValue { get; set; }
-        [MemberOrder(40), Required, Disabled]
+        [MemberOrder(20), Required, Disabled]
         public virtual decimal CurrentValue { get; set; }
-        [MemberOrder(50), Required, Disabled]
+        [MemberOrder(30), Required, Disabled]
+        [DisplayName("Total")]
         public virtual decimal CumulativeValue { get; set; }
-        [DisplayName("SensorType"), MemberOrder(60), Required]
+        [DisplayName("SensorType"), MemberOrder(10), Required]
         public virtual TransmitterType SensorType { get; set; }
 
         public enum TransmitterType
@@ -79,26 +80,26 @@ namespace AplombTech.WMS.Domain.Sensors
         }
         #endregion
 
-        #region Get Properties
-        [MemberOrder(40), NotMapped]
-        [DisplayName("Current Value")]
-        public decimal GetCurrentValue
-        {
-            get
-            {
-                Decimal value = 0;
+        //#region Get Properties
+        //[MemberOrder(40), NotMapped]
+        //[DisplayName("Current Value")]
+        //public decimal GetCurrentValue
+        //{
+        //    get
+        //    {
+        //        Decimal value = 0;
 
-                SensorData sensordata = (from data in Container.Instances<SensorData>()
-                                         where data.Sensor.SensorID == this.SensorID
-                                         select data).OrderByDescending(o => o.LoggedAt).FirstOrDefault();
-                if(sensordata != null)
-                {
-                    value = sensordata.Value;
-                }
-                return value;
-            }
-        }
-        #endregion
+        //        SensorData sensordata = (from data in Container.Instances<SensorData>()
+        //                                 where data.Sensor.SensorID == this.SensorID
+        //                                 select data).OrderByDescending(o => o.LoggedAt).FirstOrDefault();
+        //        if(sensordata != null)
+        //        {
+        //            value = sensordata.Value;
+        //        }
+        //        return value;
+        //    }
+        //}
+        //#endregion
 
         #region Complex Properties
         #region AuditFields (AuditFields)

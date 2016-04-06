@@ -73,7 +73,7 @@ namespace AplombTech.WMS.Domain.Areas
         [MemberOrder(70), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Sensors")]
-        [TableView(true, "CurrentValue")]
+        [TableView(true, "CurrentValue", "CumulativeValue")]
         public IList<Sensor> Sensors
         {
             get
