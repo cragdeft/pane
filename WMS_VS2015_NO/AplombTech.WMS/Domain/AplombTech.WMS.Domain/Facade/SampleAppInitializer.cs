@@ -1,6 +1,7 @@
 ﻿using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,7 +22,8 @@ namespace AplombTech.WMS.Domain.Facade
             CreateFlowTransmitter("741",baridhara1, context);
             CreatePressureTransmitter("369", baridhara1, context);
             CreateLevelTransmitter("852", baridhara1, context);
-
+            CreateEnergySensor("2465", baridhara1, context);
+            CreateChlorinationSensor("87654", baridhara1, context);
 
             PumpStation baridhara3 = CreatePumpStation("Baridhara3", dma810, context);
             CreatePump("123", "456KL", baridhara3, context);
@@ -30,6 +32,11 @@ namespace AplombTech.WMS.Domain.Facade
             PumpStation Shahjadpur = CreatePumpStation("Shahjadpur", dma811, context);
             PumpStation baridhara2 = CreatePumpStation("Baridhara2", dma811, context);
 
+            AddUnit("Bar",context);
+            AddUnit("KW/H", context);
+            AddUnit("cubic/sec", context);
+            AddUnit("meter", context);
+            AddUnit("litre/min", context);
 
             base.Seed(context);
         }
@@ -89,21 +96,8 @@ namespace AplombTech.WMS.Domain.Facade
         }
         private void CreateFlowTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
         {
-            CreateSensor(uuid, Sensor.TransmitterType.FLOW_TRANSMITTER, station, context);         
-        }
-        private void CreatePressureTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
-        {
-            CreateSensor(uuid, Sensor.TransmitterType.PRESSURE_TRANSMITTER, station, context);          
-        }
-        private void CreateLevelTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
-        {
-            CreateSensor(uuid, Sensor.TransmitterType.LEVEL_TRANSMITTER, station, context);           
-        }
-        private void CreateSensor(string uuid, Sensor.TransmitterType sensortype, PumpStation station, CommandModelDatabase context)
-        {
-            Sensor sensor = new Sensor();
+            FlowSensor sensor = new FlowSensor();
             sensor.UUID = uuid;
-            sensor.SensorType = sensortype;
             sensor.CurrentValue = 0;
             sensor.CumulativeValue = 0;
             sensor.PumpStation = station;
@@ -112,6 +106,67 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.AuditFields.LastUpdatedBy = "Automated";
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             context.Sensors.Add(sensor);
+        }
+        private void CreatePressureTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
+        {
+            PressureSensor sensor = new PressureSensor();
+            sensor.UUID = uuid;
+            sensor.CurrentValue = 0;
+            sensor.PumpStation = station;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Sensors.Add(sensor);
+        }
+        private void CreateLevelTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
+        {
+            LevelSensor sensor = new LevelSensor();
+            sensor.UUID = uuid;
+            sensor.CurrentValue = 0;
+            sensor.PumpStation = station;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Sensors.Add(sensor);
+        }
+        private void CreateEnergySensor(string uuid, PumpStation station, CommandModelDatabase context)
+        {
+            EnergySensor sensor = new EnergySensor();
+            sensor.UUID = uuid;
+            sensor.CurrentValue = 0;
+            sensor.CumulativeValue = 0;
+            sensor.PumpStation = station;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Sensors.Add(sensor);
+        }
+        private void CreateChlorinationSensor(string uuid, PumpStation station, CommandModelDatabase context)
+        {
+            ChlorinationSensor sensor = new ChlorinationSensor();
+            sensor.UUID = uuid;
+            sensor.CurrentValue = 0;
+            sensor.PumpStation = station;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Sensors.Add(sensor);
+        }
+
+        private void AddUnit(string name, CommandModelDatabase context)
+        {
+            Unit unit = new Unit();
+            unit.Name = name;
+            unit.AuditFields.InsertedBy = "Automated";
+            unit.AuditFields.InsertedDateTime = DateTime.Now;
+            unit.AuditFields.LastUpdatedBy = "Automated";
+            unit.AuditFields.LastUpdatedDateTime = DateTime.Now;
+
+            context.Units.Add(unit);
         }
     }
 }

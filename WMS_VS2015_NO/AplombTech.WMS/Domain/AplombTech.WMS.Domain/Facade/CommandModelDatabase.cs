@@ -23,8 +23,14 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<Router> Routers { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
+        public DbSet<LevelSensor> LevelSensors { get; set; }
+        public DbSet<FlowSensor> FlowSensors { get; set; }
+        public DbSet<EnergySensor> EnergySensors { get; set; }
+        public DbSet<ChlorinationSensor> ChlorinationSensors { get; set; }
+        public DbSet<PressureSensor> PressureSensors { get; set; }
         public DbSet<SensorData> SensorDatas { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Unit> Units { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -53,7 +59,8 @@ namespace AplombTech.WMS.Domain.Facade
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MaximumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.CurrentValue).HasPrecision(18, 2);
-            modelBuilder.Entity<Sensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
+            modelBuilder.Entity<EnergySensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
+            modelBuilder.Entity<FlowSensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
             modelBuilder.Entity<Pump>().Property(pump => pump.Capacity).HasPrecision(18, 2);
         }
     }

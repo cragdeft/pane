@@ -31,7 +31,6 @@ namespace AplombTech.WMS.Domain.Sensors
             AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
             this.CurrentValue = 0;
-            this.CumulativeValue = 0;
         }
         public virtual void Updating()
         {
@@ -39,19 +38,6 @@ namespace AplombTech.WMS.Domain.Sensors
             AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         #endregion
-
-        public string Title()
-        {
-            var t = Container.NewTitleBuilder();
-
-            string title = GetSensorType();
-
-            title = title + " - " + this.UUID;
-
-            t.Append(title);
-            
-            return t.ToString();
-        }
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
@@ -64,11 +50,9 @@ namespace AplombTech.WMS.Domain.Sensors
         public virtual decimal MaximumValue { get; set; }
         [MemberOrder(20), Required, Disabled]
         public virtual decimal CurrentValue { get; set; }
-        [MemberOrder(30), Required, Disabled]
-        [DisplayName("Total")]
-        public virtual decimal CumulativeValue { get; set; }
-        [DisplayName("SensorType"), MemberOrder(10), Required]
-        public virtual TransmitterType SensorType { get; set; }
+      
+        //[DisplayName("SensorType"), MemberOrder(10), Required]
+        //public virtual TransmitterType SensorType { get; set; }
 
         public enum TransmitterType
         {
@@ -139,33 +123,33 @@ namespace AplombTech.WMS.Domain.Sensors
 
         #endregion
 
-        private string GetSensorType()
-        {
-            string type = String.Empty;
+        //private string GetSensorType()
+        //{
+        //    string type = String.Empty;
 
-            switch (this.SensorType)
-            {
-                case TransmitterType.CHLORINE_TRANSMITTER:
-                    type = "CT";
-                    break;
+        //    switch (this.SensorType)
+        //    {
+        //        case TransmitterType.CHLORINE_TRANSMITTER:
+        //            type = "CT";
+        //            break;
 
-                case TransmitterType.ENERGY_TRANSMITTER:
-                    type = "ET";
-                    break;
+        //        case TransmitterType.ENERGY_TRANSMITTER:
+        //            type = "ET";
+        //            break;
 
-                case TransmitterType.FLOW_TRANSMITTER:
-                    type = "FT";
-                    break;
+        //        case TransmitterType.FLOW_TRANSMITTER:
+        //            type = "FT";
+        //            break;
 
-                case TransmitterType.LEVEL_TRANSMITTER:
-                    type = "LT";
-                    break;
+        //        case TransmitterType.LEVEL_TRANSMITTER:
+        //            type = "LT";
+        //            break;
 
-                case TransmitterType.PRESSURE_TRANSMITTER:
-                    type = "PT";
-                    break;
-            }
-            return type;
-        }
+        //        case TransmitterType.PRESSURE_TRANSMITTER:
+        //            type = "PT";
+        //            break;
+        //    }
+        //    return type;
+        //}
     }
 }

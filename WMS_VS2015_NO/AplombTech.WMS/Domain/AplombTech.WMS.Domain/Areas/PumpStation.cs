@@ -167,18 +167,93 @@ namespace AplombTech.WMS.Domain.Areas
         [DisplayName("Add Sensor")]
         public void AddSensor([Required]Sensor.TransmitterType sensorType, string uuid, decimal minValue, decimal maxValue)
         {
-            Sensor sensor = Container.NewTransientInstance<Sensor>();
+            switch (sensorType)
+            {
+                case Sensor.TransmitterType.CHLORINE_TRANSMITTER:
+                    CreateChlorinationSensor(uuid, minValue, maxValue);
+                    break;
+
+                case Sensor.TransmitterType.ENERGY_TRANSMITTER:
+                    CreateEnergySensor(uuid, minValue, maxValue);
+                    break;
+
+                case Sensor.TransmitterType.FLOW_TRANSMITTER:
+                    CreateFlowSensor(uuid, minValue, maxValue);
+                    break;
+
+                case Sensor.TransmitterType.LEVEL_TRANSMITTER:
+                    CreateLevelSensor(uuid, minValue, maxValue);
+                    break;
+
+                case Sensor.TransmitterType.PRESSURE_TRANSMITTER:
+                    CreatePressureSensor(uuid, minValue, maxValue);
+                    break;
+            }
+        }
+
+        private void CreateChlorinationSensor(string uuid, decimal minValue, decimal maxValue)
+        {
+            ChlorinationSensor sensor = Container.NewTransientInstance<ChlorinationSensor>();
+
             sensor.UUID = uuid;
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
-            sensor.SensorType = sensorType;
+            sensor.CurrentValue = 0;
+            //sensor.CumulativeValue = 0;
+            sensor.PumpStation = this;
+
+            Container.Persist(ref sensor);
+        }
+        private void CreateFlowSensor(string uuid, decimal minValue, decimal maxValue)
+        {
+            FlowSensor sensor = Container.NewTransientInstance<FlowSensor>();
+
+            sensor.UUID = uuid;
+            sensor.MinimumValue = minValue;
+            sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
             sensor.CumulativeValue = 0;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
         }
+        private void CreateEnergySensor(string uuid, decimal minValue, decimal maxValue)
+        {
+            EnergySensor sensor = Container.NewTransientInstance<EnergySensor>();
 
+            sensor.UUID = uuid;
+            sensor.MinimumValue = minValue;
+            sensor.MaximumValue = maxValue;
+            sensor.CurrentValue = 0;
+            sensor.CumulativeValue = 0;
+            sensor.PumpStation = this;
+
+            Container.Persist(ref sensor);
+        }
+        private void CreateLevelSensor(string uuid, decimal minValue, decimal maxValue)
+        {
+            LevelSensor sensor = Container.NewTransientInstance<LevelSensor>();
+
+            sensor.UUID = uuid;
+            sensor.MinimumValue = minValue;
+            sensor.MaximumValue = maxValue;
+            sensor.CurrentValue = 0;
+            sensor.PumpStation = this;
+
+            Container.Persist(ref sensor);
+        }
+        private void CreatePressureSensor(string uuid, decimal minValue, decimal maxValue)
+        {
+            PressureSensor sensor = Container.NewTransientInstance<PressureSensor>();
+
+            sensor.UUID = uuid;
+            sensor.MinimumValue = minValue;
+            sensor.MaximumValue = maxValue;
+            sensor.CurrentValue = 0;
+            sensor.PumpStation = this;
+
+            Container.Persist(ref sensor);
+        }
         #endregion
 
         #region SetAddress (Action)

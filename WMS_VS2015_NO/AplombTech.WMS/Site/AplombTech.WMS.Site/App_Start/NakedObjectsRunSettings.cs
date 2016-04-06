@@ -22,6 +22,7 @@ using AplombTech.WMS.Domain.Facade;
 using AplombTech.WMS.QueryModel.Repositories;
 using AplombTech.WMS.QueryModel.Facade;
 using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.Domain.Sensors;
 
 namespace AplombTech.WMS.Site {
 
@@ -59,7 +60,12 @@ namespace AplombTech.WMS.Site {
                     typeof (ActionResultModel<>),
 					typeof (PropertyViewModel),
                     typeof (FindViewModel),
-                    typeof(SensorData)
+                    typeof(AplombTech.WMS.QueryModel.Sensors.SensorData),
+                    typeof(FlowSensor),
+                    typeof(ChlorinationSensor),
+                    typeof(EnergySensor),
+                    typeof(LevelSensor),
+                    typeof(PressureSensor)
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };
             }

@@ -94,7 +94,14 @@ namespace AplombTech.WMS.Domain.Repositories
             data.Sensor = sensor;
 
             sensor.CurrentValue = value;
-            sensor.CumulativeValue = sensor.CumulativeValue + value;
+            if (sensor is EnergySensor )
+            {
+                ((EnergySensor)sensor).CumulativeValue += value;
+            }
+            if (sensor is FlowSensor)
+            {
+                ((FlowSensor)sensor).CumulativeValue += value;
+            }
 
             Container.Persist(ref data);            
         }
