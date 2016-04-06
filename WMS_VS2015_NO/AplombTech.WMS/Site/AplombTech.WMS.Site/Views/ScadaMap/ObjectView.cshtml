@@ -3,27 +3,34 @@
 @using AplombTech.WMS.QueryModel.Reports
 @model ScadaMap
 
+<div id="body" >
+    <section class="main-content">
+        <div class="col-md-offset-1">
+            @Html.DropDownListFor(model => model.SelectedZoneId, new SelectList(
+            Model.Zones,
+            "AreaID",
+            "Name",
+            Model.SelectedZoneId), "Select Zone", new { @onchange = "LoadDma(this.value)" })
+            @Html.DropDownListFor(model => model.SelectedDmaId, new SelectList(
+            Model.Dmas.Where(x => x.Parent.AreaID == Model.SelectedZoneId),
+            "AreaID",
+            "Name",
+            Model.SelectedDmaId), "Select Dma", new { @onchange = "LoadPumpStation(this.value)" })
+            @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
+            Model.PumpStations.Where(x => x.Parent.AreaID == Model.SelectedDmaId),
+            "AreaID",
+            "Name",
+            Model.SelectedPumpStationId), "Select Pumpstation")
+            @*@Html.Partial("~/Views/ScadaMap/ScadaMap.cshtml", Model)*@
 
-<div id="body">
-    
-    <section class="main-content" >
-        @(Html.TabbedHistory(Model))
-        <br />
-        <p>Map View Model for Google Map</p>
-        @Html.Partial("~/Views/ScadaMap/ScadaMap.cshtml", Model)
-        
+            <input type="submit" value="Show" onclick="showScada()" class="btn btn-default" />
+
+            <div id="searchResults"></div>
+
+        </div>
     </section>
-    
 </div>
-@section scripts
-{
-    <script src="~/Scripts/dist/jstree.min.js"></script>
-    <script src="https://www.google.com/jsapi?.js"></script>
-    <script src="~/Scripts/Map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
-            async defer></script>
 
-    <script>
 
-    </script>
-}
+
+

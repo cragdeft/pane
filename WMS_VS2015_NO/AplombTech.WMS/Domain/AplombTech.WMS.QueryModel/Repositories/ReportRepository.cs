@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.QueryModel.Sensors;
 
 namespace AplombTech.WMS.QueryModel.Repositories
 {
@@ -51,10 +52,30 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         public ScadaMap ScadaMap()
         {
-            var zones = Container.NewViewModel<ScadaMap>();
-            zones.Zones = Container.Instances<Zone>().ToList();
+            var model = Container.NewViewModel<ScadaMap>();
+            model.PumpStations = Container.Instances<PumpStation>().ToList();
+            model.Zones = Container.Instances<Zone>().ToList();
+            model.Dmas = Container.Instances<DMA>().ToList();
+            return model;
+        }
 
-            return zones;
+        public List<DMA> GetDmaList(int zoneId)
+        {
+            var model = Container.Instances<DMA>().Where(x => x.Parent.AreaID == zoneId).ToList();
+            return model;
+        }
+
+        public List<PumpStation> GetPumpStationList(int dmaId)
+        {
+            var model = Container.Instances<PumpStation>().Where(x => x.Parent.AreaID == dmaId).ToList();
+            return model;
+        }
+
+        public List<Sensor> GetSensorData(int pumpStationId)
+        {
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).FirstOrDefault();
+            //var temp = pumpStation.Sensors.ToList();
+            return pumpStation.Sensors.ToList();
         }
     }
 }

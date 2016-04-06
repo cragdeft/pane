@@ -1,87 +1,70 @@
 ﻿@using AplombTech.WMS.QueryModel.Reports
-@model ScadaMap
+@using AplombTech.WMS.QueryModel.Sensors
+@model List<AplombTech.WMS.QueryModel.Sensors.Sensor>
+<style>
+    .img {
+        height: "800px";
+        width: "640px";
+        margin-top: 20px;
+    }
 
-<div id="body">
+    #imgContainer {
+        position: relative;
+    }
+</style>
+<div id="imgContainer">
+    <img src="../../Images/scadamap.png" class="img" alt="Scada map">
+    <div style="margin-left: 110px; position: absolute; margin-top: -320px;">
+        <h4>General Information</h4>
+        @foreach (var sensor in Model)
+        {
+            if (@sensor.SensorType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
+            {
+                if (@sensor.CurrentValue <= 0)
+                {
+                    <p>Cholorination Off</p>
+                }
+                else
+                {
+                    <p>Cholorination On</p>
+                }
+            }
 
-    <div id="map">
+            if (@sensor.SensorType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+            {
+                <p>ET = @sensor.CurrentValue kw/h</p>
+            }
 
+        }
     </div>
 
-    <div id="legend" style="overflow-y:scroll;">
-        @foreach (var zone in Model.Zones)
+    <div style="margin-left: 220px; position: absolute; margin-top: -620px;">
+        @foreach (var sensor in Model)
         {
-            <ul>
-                <li id="zone_@zone.AreaID" data-jstree='{"icon":"../../Content/Image/zone.png"}'>
-                    @zone.Name
-                    <ul>
-                        @foreach (var dma in zone.DMAs)
-                        {
-                            <li id="dma_@dma.AreaID" data-jstree='{"icon":"../../Content/Image/dma.png"}'>
-                                @dma.Name
-                                <ul>
-                                    @foreach (var pumpStation in dma.PumpStations)
-                                    {
-                                        <li id="pump_@pumpStation.AreaID" data-jstree='{"icon":"../../Content/Image/pump.png"}'>
-                                            @pumpStation.Name
-                                            @*<ul>
-                                                    @foreach (var device in pumpStation.WaterLevelSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (FT)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.PressureSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (PT)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.ProductionSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (LT)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.EnergySensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (EM)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.CholorinationSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (CLT)
-                                                        </li>
-                                                    }
-                                                </ul>*@
-
-                                        </li>
-
-                                    }
-                                </ul>
-
-                            </li>
-                        }
-                    </ul>
-                </li>
-            </ul>
+            if (@sensor.SensorType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
+            {
+                <p>PT = @sensor.CurrentValue Bar</p>
+            }
         }
+    </div>
 
+    <div style="margin-left: 660px; position: absolute; margin-top: -250px;">
+        @foreach (var sensor in Model)
+        {
+            if (@sensor.SensorType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
+            {
+                <p>LT = @sensor.CurrentValue Metre</p>
+            }
+        }
+    </div>
+
+    <div style="margin-left: 400px; position: absolute; margin-top: -620px;">
+        @foreach (var sensor in Model)
+        {
+            if (@sensor.SensorType == Sensor.TransmitterType.FLOW_TRANSMITTER)
+            {
+                <p>FT = @sensor.CurrentValue Metre</p>
+            }
+        }
     </div>
 </div>
-
-@section scripts
-{
-    <script src="~/Scripts/dist/jstree.min.js"></script>
-    <script src="https://www.google.com/jsapi?.js"></script>
-    <script src="~/Scripts/Map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
-            async defer></script>
-
-    <script>
-
-    </script>
-}
-
-

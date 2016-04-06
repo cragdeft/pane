@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.QueryModel.Reports;
+using AplombTech.WMS.QueryModel.Sensors;
+using Newtonsoft.Json;
 
 namespace AplombTech.WMS.Site.Controllers
 {
@@ -105,5 +109,36 @@ namespace AplombTech.WMS.Site.Controllers
                 return View();
             }
         }
+
+        public JsonResult GetDmaDropdownData(int zoneId)
+        {
+            List<AplombTech.WMS.QueryModel.Areas.DMA> dmaList = _reportRepository.GetDmaList(zoneId);
+            var dictornaty = new Dictionary<int,string>();
+            foreach (var dma in dmaList)
+            {
+                dictornaty.Add(dma.AreaID,dma.Name);
+            }
+           
+            return Json(new { Data = JsonConvert.SerializeObject(dictornaty), IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPumpStationDropdownData(int dmaId)
+        {
+            List<AplombTech.WMS.QueryModel.Areas.PumpStation> pumpStationList = _reportRepository.GetPumpStationList(dmaId);
+            var dictornaty = new Dictionary<int, string>();
+            foreach (var pumpStation in pumpStationList)
+            {
+                dictornaty.Add(pumpStation.AreaID, pumpStation.Name);
+            }
+
+            return Json(new { Data = JsonConvert.SerializeObject(dictornaty), IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ShowScada(string pumpStationId)
+        {
+            List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
+            return PartialView("~/Views/ScadaMap/ScadaMap.cshtml", sensorList.ToList());
+        }
+
     }
 }
