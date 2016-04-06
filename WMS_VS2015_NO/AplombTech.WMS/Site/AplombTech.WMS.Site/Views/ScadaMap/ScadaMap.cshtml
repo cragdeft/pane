@@ -18,7 +18,7 @@
         <h4>General Information</h4>
         @foreach (var sensor in Model)
         {
-            if (@sensor.SensorType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
+            if (@sensor is ChlorinationSensor)
             {
                 if (@sensor.CurrentValue <= 0)
                 {
@@ -30,7 +30,7 @@
                 }
             }
 
-            if (@sensor.SensorType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+            if (@sensor is EnergySensor)
             {
                 <p>ET = @sensor.CurrentValue kw/h</p>
             }
@@ -41,7 +41,7 @@
     <div style="margin-left: 220px; position: absolute; margin-top: -620px;">
         @foreach (var sensor in Model)
         {
-            if (@sensor.SensorType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
+            if (@sensor is PressureSensor)
             {
                 <p>PT = @sensor.CurrentValue Bar</p>
             }
@@ -51,7 +51,7 @@
     <div style="margin-left: 660px; position: absolute; margin-top: -250px;">
         @foreach (var sensor in Model)
         {
-            if (@sensor.SensorType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
+            if (@sensor is LevelSensor)
             {
                 <p>LT = @sensor.CurrentValue Metre</p>
             }
@@ -61,7 +61,7 @@
     <div style="margin-left: 400px; position: absolute; margin-top: -620px;">
         @foreach (var sensor in Model)
         {
-            if (@sensor.SensorType == Sensor.TransmitterType.FLOW_TRANSMITTER)
+            if (@sensor is FlowSensor)
             {
                 <p>FT = @sensor.CurrentValue Metre</p>
             }

@@ -135,10 +135,16 @@
     <Compile Include="Reports\ScadaMap.cs" />
     <Compile Include="Reports\ZoneMap.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
+    <Compile Include="Sensors\ChlorinationSensor.cs" />
+    <Compile Include="Sensors\EnergySensor.cs" />
+    <Compile Include="Sensors\FlowSensor.cs" />
+    <Compile Include="Sensors\LevelSensor.cs" />
+    <Compile Include="Sensors\PressureSensor.cs" />
     <Compile Include="Sensors\Sensor.cs" />
     <Compile Include="Sensors\SensorData.cs" />
     <Compile Include="Shared\Address.cs" />
     <Compile Include="Shared\AuditFields.cs" />
+    <Compile Include="Shared\Unit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

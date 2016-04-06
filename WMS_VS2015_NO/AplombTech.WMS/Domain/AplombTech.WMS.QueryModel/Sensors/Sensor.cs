@@ -17,30 +17,18 @@ namespace AplombTech.WMS.QueryModel.Sensors
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         #endregion
-        public string Title()
-        {
-            var t = Container.NewTitleBuilder();
-
-            string title = GetSensorType();
-
-            title = title + " - " + this.UUID;
-
-            t.Append(title);
-            
-            return t.ToString();
-        }
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
         public virtual int SensorID { get; set; }
         [MemberOrder(10), NakedObjectsIgnore]
         public virtual string UUID { get; set; }
-        [MemberOrder(20)]
+        [MemberOrder(40)]
         public virtual decimal MinimumValue { get; set; }
-        [MemberOrder(30)]
+        [MemberOrder(50)]
         public virtual decimal MaximumValue { get; set; }
-        [DisplayName("SensorType"), MemberOrder(50), Required]
-        public virtual TransmitterType SensorType { get; set; }
+        [MemberOrder(20), Required, Disabled]
+        public virtual decimal CurrentValue { get; set; }
 
         public enum TransmitterType
         {
@@ -49,27 +37,6 @@ namespace AplombTech.WMS.QueryModel.Sensors
             ENERGY_TRANSMITTER = 3,
             FLOW_TRANSMITTER = 4,
             LEVEL_TRANSMITTER = 5,
-        }
-        #endregion
-
-        #region Get Properties
-        [MemberOrder(40), NotMapped]
-        [DisplayName("Current Value")]
-        public decimal CurrentValue
-        {
-            get
-            {
-                Decimal value = 0;
-
-                SensorData sensordata = (from data in Container.Instances<SensorData>()
-                                         where data.Sensor.SensorID == this.SensorID
-                                         select data).OrderByDescending(o => o.LoggedAt).FirstOrDefault();
-                if(sensordata != null)
-                {
-                    value = sensordata.Value;
-                }
-                return value;
-            }
         }
         #endregion
 
@@ -100,44 +67,8 @@ namespace AplombTech.WMS.QueryModel.Sensors
         #endregion
 
         #region  Navigation Properties
-        [MemberOrder(60)]
+        [MemberOrder(100)]
         public virtual PumpStation PumpStation { get; set; }
-
-        //[PageSize(10)]
-        //public IQueryable<PumpStation> AutoCompletePumpStation([MinLength(3)] string name)
-        //{
-        //    return AreaRepository.FindPumpStation(name);
-        //}
-
         #endregion
-
-        private string GetSensorType()
-        {
-            string type = String.Empty;
-
-            switch (this.SensorType)
-            {
-                case TransmitterType.CHLORINE_TRANSMITTER:
-                    type = "CT";
-                    break;
-
-                case TransmitterType.ENERGY_TRANSMITTER:
-                    type = "ET";
-                    break;
-
-                case TransmitterType.FLOW_TRANSMITTER:
-                    type = "FT";
-                    break;
-
-                case TransmitterType.LEVEL_TRANSMITTER:
-                    type = "LT";
-                    break;
-
-                case TransmitterType.PRESSURE_TRANSMITTER:
-                    type = "PT";
-                    break;
-            }
-            return type;
-        }
     }
 }

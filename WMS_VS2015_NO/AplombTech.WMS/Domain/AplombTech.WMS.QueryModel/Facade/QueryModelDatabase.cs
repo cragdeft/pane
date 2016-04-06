@@ -34,6 +34,7 @@ namespace AplombTech.WMS.QueryModel.Facade
         public DbSet<Sensor> Sensors { get; private set; }
         public DbSet<SensorData> SensorDatas { get; private set; }
         public DbSet<Address> Addresses { get; private set; }
+        public DbSet<Unit> Units { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

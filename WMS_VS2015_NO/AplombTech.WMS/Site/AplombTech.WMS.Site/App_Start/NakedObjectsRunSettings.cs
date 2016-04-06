@@ -61,11 +61,16 @@ namespace AplombTech.WMS.Site {
 					typeof (PropertyViewModel),
                     typeof (FindViewModel),
                     typeof(AplombTech.WMS.QueryModel.Sensors.SensorData),
-                    typeof(FlowSensor),
-                    typeof(ChlorinationSensor),
-                    typeof(EnergySensor),
-                    typeof(LevelSensor),
-                    typeof(PressureSensor)
+                    typeof(AplombTech.WMS.Domain.Sensors.FlowSensor),
+                    typeof(AplombTech.WMS.Domain.Sensors.ChlorinationSensor),
+                    typeof(AplombTech.WMS.Domain.Sensors.EnergySensor),
+                    typeof(AplombTech.WMS.Domain.Sensors.LevelSensor),
+                    typeof(AplombTech.WMS.Domain.Sensors.PressureSensor),
+                    typeof(AplombTech.WMS.QueryModel.Sensors.FlowSensor),
+                    typeof(AplombTech.WMS.QueryModel.Sensors.ChlorinationSensor),
+                    typeof(AplombTech.WMS.QueryModel.Sensors.EnergySensor),
+                    typeof(AplombTech.WMS.QueryModel.Sensors.LevelSensor),
+                    typeof(AplombTech.WMS.QueryModel.Sensors.PressureSensor)
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };
             }
