@@ -1,4 +1,5 @@
 ﻿using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Sensors;
 using NakedObjects;
 using NakedObjects.Menu;
 using NakedObjects.Services;
@@ -124,5 +125,10 @@ namespace AplombTech.WMS.Domain.Repositories
             return stations;
         }
         #endregion
+        public Sensor FindSensorByUid(string uid)
+        {
+            Sensor station = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
+            return station;
+        }
     }
 }

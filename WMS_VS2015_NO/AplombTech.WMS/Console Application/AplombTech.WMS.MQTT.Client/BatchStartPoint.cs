@@ -14,6 +14,7 @@ using System.Linq;
 
 namespace AplombTech.WMS.MQTT.Client {
     public class BatchStartPoint : IBatchStartPoint {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public IAsyncService AsyncService { private get; set; }
         public AreaRepository AreaRepository { set; protected get; }
         public MqttClientService MqttClientService { set; protected get; }
@@ -28,10 +29,21 @@ namespace AplombTech.WMS.MQTT.Client {
 
             //IList<Zone> zones = AreaRepository.AllZones().ToList();
             //Console.ReadLine();
-            MqttClientService.MQTTClientInstance(false);
+            try
+            {
+                log.Info("MQTT listener is going to start");
+                MqttClientService.MQTTClientInstance(false);
+                log.Info("MQTT listener has been started");
+                while (true)
+                {
+
+                }
+            }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+
             while (true)
             {
-                
+
             }
         }
         #endregion

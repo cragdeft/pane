@@ -89,33 +89,23 @@ namespace AplombTech.WMS.Domain.Facade
         }
         private void CreateFlowTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
         {
-            Sensor sensor = new Sensor();
-            sensor.UUID = uuid;
-            sensor.SensorType = Sensor.TransmitterType.FLOW_TRANSMITTER;
-            sensor.PumpStation = station;
-            sensor.AuditFields.InsertedBy = "Automated";
-            sensor.AuditFields.InsertedDateTime = DateTime.Now;
-            sensor.AuditFields.LastUpdatedBy = "Automated";
-            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-            context.Sensors.Add(sensor);
+            CreateSensor(uuid, Sensor.TransmitterType.FLOW_TRANSMITTER, station, context);         
         }
         private void CreatePressureTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
         {
-            Sensor sensor = new Sensor();
-            sensor.UUID = uuid;
-            sensor.SensorType = Sensor.TransmitterType.PRESSURE_TRANSMITTER;
-            sensor.PumpStation = station;
-            sensor.AuditFields.InsertedBy = "Automated";
-            sensor.AuditFields.InsertedDateTime = DateTime.Now;
-            sensor.AuditFields.LastUpdatedBy = "Automated";
-            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-            context.Sensors.Add(sensor);
+            CreateSensor(uuid, Sensor.TransmitterType.PRESSURE_TRANSMITTER, station, context);          
         }
         private void CreateLevelTransmitter(string uuid, PumpStation station, CommandModelDatabase context)
         {
+            CreateSensor(uuid, Sensor.TransmitterType.LEVEL_TRANSMITTER, station, context);           
+        }
+        private void CreateSensor(string uuid, Sensor.TransmitterType sensortype, PumpStation station, CommandModelDatabase context)
+        {
             Sensor sensor = new Sensor();
             sensor.UUID = uuid;
-            sensor.SensorType = Sensor.TransmitterType.LEVEL_TRANSMITTER;
+            sensor.SensorType = sensortype;
+            sensor.CurrentValue = 0;
+            sensor.CumulativeValue = 0;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;

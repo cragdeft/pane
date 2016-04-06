@@ -52,6 +52,10 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="M2Mqtt.Net, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\M2Mqtt.4.3.0.0\lib\net45\M2Mqtt.Net.dll</HintPath>
       <Private>True</Private>
@@ -154,9 +158,9 @@
       <Project>{ad26b877-4368-418b-a20b-9e796dcf6854}</Project>
       <Name>AplombTech.CryptoLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Logging\AplombTech.Logging.csproj">
-      <Project>{5b70dac1-0f48-4c14-85ff-1d4412032e02}</Project>
-      <Name>AplombTech.Logging</Name>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj">
+      <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
+      <Name>AplombTech.MQTTLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

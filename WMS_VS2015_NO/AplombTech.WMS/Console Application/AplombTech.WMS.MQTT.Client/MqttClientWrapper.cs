@@ -1,5 +1,4 @@
-﻿using AplombTech.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -31,6 +30,7 @@ namespace AplombTech.WMS.MQTT.Client
         #endregion
 
         #endregion
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly object locker = new object();
 
@@ -72,18 +72,21 @@ namespace AplombTech.WMS.MQTT.Client
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, string.Format("Could not stablished connection to MQ broker: {1}", ex.Message));
+                log.Error("Could not stablished connection to MQTT broker - " + ex.Message);
 
                 //don't leave the client connected
                 if (DhakaWasaMQTT != null && DhakaWasaMQTT.IsConnected)
+                {
                     try
                     {
                         DhakaWasaMQTT.Disconnect();
                     }
                     catch
                     {
-                        Logger.LogError(ex, string.Format("Could not disconnect to MQ broker: {1}", ex.Message));
+                        log.Error(string.Format("Could not disconnect to MQTT broker: {1}", ex.Message));
                     }
+                }
+                throw new Exception("Could not stablished connection to MQTT broker");
             }
         }
         public string Publish(string messgeTopic, string publishMessage)
@@ -114,7 +117,7 @@ namespace AplombTech.WMS.MQTT.Client
                 ushort msgId = DhakaWasaMQTT.Subscribe(new string[] { messgeTopic },
                      new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }
                      );
-                Logger.Log(string.Format("Subscription to topic {0}", messgeTopic));
+                log.Info(string.Format("Subscription to topic {0}", messgeTopic));
             }
             return "Success";
         }
@@ -129,13 +132,13 @@ namespace AplombTech.WMS.MQTT.Client
         private void client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
         {
             NotifyMessage("MqttMsgPublished", e.IsPublished.ToString(), string.Empty);
-            Logger.Log(string.Format("Mqtt-Msg-Published to topic {0}", e.IsPublished.ToString()));
+            //log.Info(string.Format("Mqtt-Msg-Published to topic {0}", e.IsPublished.ToString()));
             ClientResponce = "Success";
         }
         private void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
         {
             NotifyMessage("MqttMsgSubscribed", e.MessageId.ToString(), string.Empty);
-            Logger.Log(string.Format("Mqtt-Msg-Subscribed to topic {0}", e.MessageId.ToString()));
+            log.Info(string.Format("Mqtt-Msg-Subscribed to topic {0}", e.MessageId.ToString()));
         }
         private void client_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
         {
@@ -144,7 +147,7 @@ namespace AplombTech.WMS.MQTT.Client
         private void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             NotifyMessage("MqttMsgPublishReceived", Encoding.UTF8.GetString(e.Message), e.Topic.ToString());
-            Logger.Log(string.Format("Mqtt-Msg-Publish-Received to topic {0}", e.Topic.ToString()));
+            //log.Info("Message received from topic '" + e.Topic.ToString() + "' and message is '" + Encoding.UTF8.GetString(e.Message) + "'");
         }
         private void client_ConnectionClosed(object sender, EventArgs e)
         {
@@ -152,7 +155,7 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 HandleReconnect();
             }
-            Logger.Log("Connection has been closed");
+            log.Info("Connection has been closed");
         }
         private bool client_RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
@@ -221,7 +224,7 @@ namespace AplombTech.WMS.MQTT.Client
         private void ConnectToBroker()
         {
             DhakaWasaMQTT.Connect(GetClientId(), null, null, false, GetBrokerKeepAlivePeriod());
-            Logger.Log("MQTT Client is connected");
+            log.Info("MQTT Client is connected");
         }
         private void HandleReconnect()
         {

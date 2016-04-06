@@ -1,5 +1,6 @@
 ﻿using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Repositories;
+using AplombTech.WMS.Domain.Sensors;
 using NakedObjects;
 using NakedObjects.Async;
 using NakedObjects.Services;
@@ -16,8 +17,18 @@ namespace AplombTech.WMS.MQTT.Client
     {
         #region Injected Services
         public AreaRepository AreaRepository { set; protected get; }
+        public ProcessRepository ProcessRepository { set; protected get; }
         public IAsyncService AsyncService { private get; set; }
         #endregion
+
+        public enum JsonMessageType
+        {
+            configuration,
+            sensordata,
+            feedback
+        }
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private MqttClientWrapper instance = null;
         //Lock synchronization object
@@ -30,57 +41,63 @@ namespace AplombTech.WMS.MQTT.Client
                 {
                     instance = new MqttClientWrapper(isSSL);
                     
-                    instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(PublishReceivedMessage_NotifyEvent);
+                    instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(ReceivedMessage_MQTT);
 
-                    instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_NotifyEvent);
+                    instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_MQTT);
 
-                    instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_NotifyEvent);
+                    instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_MQTT);
                     instance.MakeConnection();
                 }
 
                 //return instance;
             }
         }
-        private void PublishReceivedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
+        private void ReceivedMessage_MQTT(MQTTEventArgs customEventArgs)
         {
-            //var data = "{"name":"masnun","email":["masnun@gmail.com","masnun@leevio.com"],"websites":{"home page":"http:\/\/masnun.com","blog":"http:\/\/masnun.me"}}"
-            //JObject o = JObject.Parse(data);
-            //Console.WriteLine("Name: " + o["name"]);
-            //Console.WriteLine("Email Address[1]: " + o["email"][0]);
-            //Console.WriteLine("Email Address[2]: " + o["email"][1]);
-            //Console.WriteLine("Website [home page]: " + o["websites"]["home page"]);
-            //Console.WriteLine("Website [blog]: " + o["websites"]["blog"]);
+            log.Info("Message received from topic '" + customEventArgs.ReceivedTopic + "' and message is '" + customEventArgs.ReceivedMessage + "'");
+            AsyncService.RunAsync((domainObjectContainer) =>
+                             ProcessMessage(customEventArgs));
+        }
+      
+        private void PublishedMessage_MQTT(MQTTEventArgs customEventArgs)
+        {
+            //string msg = customEventArgs.ReceivedMessage;
+            log.Info("Message published to '" + customEventArgs.ReceivedTopic + "' Topic");            
+        }
+        private void SubscribedMessage_MQTT(MQTTEventArgs customEventArgs)
+        {
+            //string msg = customEventArgs.ReceivedMessage;
+        }
 
-            //AsyncService.RunAsync((domainObjectContainer) =>
-            //             MqttClientFacade.MQTTClientInstance(false));
-
-            IList<Zone> zones = AreaRepository.AllZones().ToList();
-//#if DEBUG
-//            Debug.WriteLine(customEventArgs.ReceivedTopic);
-//#endif
-            instance.Publish("/topic", "Message Received with Thanks");
-            if (customEventArgs.ReceivedTopic == "/configuration")
+        private void ProcessMessage(MQTTEventArgs customEventArgs)
+        {
+            try
             {
-                string msg = customEventArgs.ReceivedMessage;
-                int count = zones.Count();
-//#if DEBUG
-//                Debug.WriteLine(msg);
-//                Debug.WriteLine(count);
-//#endif
-            }
-            //if (customEventArgs.ReceivedTopic == CommandType.Configuration.ToString())
-            //{
-            //    new JsonManager().JsonProcess(customEventArgs.ReceivedMessage);
-            //}
-        }
-        private void PublishedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
-        {
-            string msg = customEventArgs.ReceivedMessage;
+                SensorDataLog dataLog = ProcessRepository.LogSensorData(customEventArgs.ReceivedTopic, customEventArgs.ReceivedMessage);
 
-        }
-        private void SubscribedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
-        {
-            string msg = customEventArgs.ReceivedMessage;
+                if (dataLog == null)
+                {
+                    instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
+                    return;
+                }
+                instance.Publish(customEventArgs.ReceivedTopic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
+
+                if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+                {
+                    if (customEventArgs.ReceivedTopic == JsonMessageType.sensordata.ToString())
+                    {
+                        ProcessRepository.ParseNStoreSensorData(dataLog);
+                    }
+                    if (customEventArgs.ReceivedTopic == JsonMessageType.configuration.ToString())
+                    {
+                        ProcessRepository.ParseNStoreConfigurationData(dataLog);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
+            }
         }
     }
 }

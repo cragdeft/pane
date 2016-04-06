@@ -9,6 +9,8 @@ using Microsoft.Practices.Unity;
 using NakedObjects.Architecture.Component;
 using System;
 
+//Here is the once-per-application setup information
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace AplombTech.WMS.MQTT.Client {
     internal class Program {
         private static void Main(string[] args) {

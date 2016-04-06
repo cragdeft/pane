@@ -172,6 +172,8 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.SensorType = sensorType;
+            sensor.CurrentValue = 0;
+            sensor.CumulativeValue = 0;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
