@@ -30,6 +30,8 @@ namespace AplombTech.WMS.Domain.Sensors
             AuditFields.InsertedDateTime = DateTime.Now;
             AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
+            this.CurrentValue = 0;
+            this.CumulativeValue = 0;
         }
         public virtual void Updating()
         {
@@ -60,7 +62,11 @@ namespace AplombTech.WMS.Domain.Sensors
         public virtual decimal MinimumValue { get; set; }
         [MemberOrder(30)]
         public virtual decimal MaximumValue { get; set; }
-        [DisplayName("SensorType"), MemberOrder(50), Required]
+        [MemberOrder(40), Required, Disabled]
+        public virtual decimal CurrentValue { get; set; }
+        [MemberOrder(50), Required, Disabled]
+        public virtual decimal CumulativeValue { get; set; }
+        [DisplayName("SensorType"), MemberOrder(60), Required]
         public virtual TransmitterType SensorType { get; set; }
 
         public enum TransmitterType
@@ -76,7 +82,7 @@ namespace AplombTech.WMS.Domain.Sensors
         #region Get Properties
         [MemberOrder(40), NotMapped]
         [DisplayName("Current Value")]
-        public decimal CurrentValue
+        public decimal GetCurrentValue
         {
             get
             {
@@ -121,7 +127,7 @@ namespace AplombTech.WMS.Domain.Sensors
         #endregion
 
         #region  Navigation Properties
-        [MemberOrder(60)]
+        [MemberOrder(100)]
         public virtual PumpStation PumpStation { get; set; }
 
         [PageSize(10)]

@@ -86,14 +86,17 @@ namespace AplombTech.WMS.Domain.Repositories
         }
 
         private void CreateNewSensorData(decimal value, DateTime loggedAt, Sensor sensor)
-        {
+        {           
             SensorData data = Container.NewTransientInstance<SensorData>();
 
             data.Value = value;
             data.LoggedAt = loggedAt;
             data.Sensor = sensor;
 
-            Container.Persist(ref data);
+            sensor.CurrentValue = value;
+            sensor.CumulativeValue = sensor.CumulativeValue + value;
+
+            Container.Persist(ref data);            
         }
     }
 }

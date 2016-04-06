@@ -52,6 +52,8 @@ namespace AplombTech.WMS.Domain.Facade
             modelBuilder.Entity<SensorData>().Property(sd => sd.Value).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MaximumValue).HasPrecision(18, 2);
+            modelBuilder.Entity<Sensor>().Property(sensor => sensor.CurrentValue).HasPrecision(18, 2);
+            modelBuilder.Entity<Sensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
             modelBuilder.Entity<Pump>().Property(pump => pump.Capacity).HasPrecision(18, 2);
         }
     }
