@@ -53,9 +53,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         public ScadaMap ScadaMap()
         {
             var model = Container.NewViewModel<ScadaMap>();
-            model.PumpStations = Container.Instances<PumpStation>().ToList();
             model.Zones = Container.Instances<Zone>().ToList();
-            model.Dmas = Container.Instances<DMA>().ToList();
             return model;
         }
 
