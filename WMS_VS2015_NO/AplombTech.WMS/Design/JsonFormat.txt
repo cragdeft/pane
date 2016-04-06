@@ -40,28 +40,23 @@ Json string for Configuration Receive
     "Sensor": [
       {
         "uid": "ABC",
-        "type": "FT",
-        "name":""
+        "type": "FT"
       },
       {
         "uid": "ABC",
-        "type": "LT",
-        "name":""
+        "type": "LT"
       },
       {
         "uid": "ABC",
-        "type": "PT",
-        "name":""
+        "type": "PT"
       },
       {
         "uid": "ABC",
-        "type": "EM",
-        "name":""
+        "type": "EM"
       },
       {
         "uid": "ABC",
-        "type": "CT",
-        "name":""
+        "type": "CT"
       }
     ]
     
