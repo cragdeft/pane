@@ -32,6 +32,8 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Unit> Units { get; set; }
 
+        public DbSet<SensorDataLog> SensorDataLogs { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Initialisation

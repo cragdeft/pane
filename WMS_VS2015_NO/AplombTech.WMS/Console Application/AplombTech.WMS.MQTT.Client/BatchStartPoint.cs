@@ -41,10 +41,7 @@ namespace AplombTech.WMS.MQTT.Client {
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
 
-            while (true)
-            {
-
-            }
+            
         }
         #endregion
     }

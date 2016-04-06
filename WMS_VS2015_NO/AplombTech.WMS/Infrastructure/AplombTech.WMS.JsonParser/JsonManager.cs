@@ -14,7 +14,7 @@ namespace AplombTech.WMS.JsonParser
         {
             JObject o = JObject.Parse(message);
             
-            string loggedAt = o["SensorLoggedAt"].ToString();
+            string loggedAt = o["PumpStation"]["LogDateTime"].ToString();
 
             try
             {
@@ -31,7 +31,7 @@ namespace AplombTech.WMS.JsonParser
         {
             JObject o = JObject.Parse(message);
 
-            string pumpStationId = o["PumpStationId"].ToString();
+            string pumpStationId = o["PumpStation"]["PumoStation_Id"].ToString();
 
             try
             {
@@ -65,8 +65,8 @@ namespace AplombTech.WMS.JsonParser
         private static SensorValue GetSensorData(JObject o, int index)
         {
             SensorValue data = new SensorValue();
-            data.SensorUUID = (string) o["Sensor"][index]["uid"];
-            data.Value = (string)o["Sensor"][index]["value"];
+            data.SensorUUID = (string) o["PumpStation"]["Sensor"][index]["uid"];
+            data.Value = (string)o["PumpStation"]["Sensor"][index]["value"];
 
 
             return data;
