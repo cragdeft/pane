@@ -5,6 +5,8 @@
 
 <div id="body" >
     <section class="main-content">
+        @(Html.TabbedHistory(Model))
+        <br/>
         <div class="col-md-offset-1">
             @Html.DropDownListFor(model => model.SelectedZoneId, new SelectList(
             Model.Zones,
