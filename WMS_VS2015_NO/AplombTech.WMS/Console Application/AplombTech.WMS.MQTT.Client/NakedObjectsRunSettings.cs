@@ -13,6 +13,7 @@ using NakedObjects.Menu;
 using NakedObjects.Core.Async;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Facade;
+using AplombTech.WMS.Domain.Sensors;
 
 namespace AplombTech.WMS.MQTT.Client {
 
@@ -42,7 +43,7 @@ namespace AplombTech.WMS.MQTT.Client {
 		private static Type[] Types {
             get {
                 return new Type[] {
-                    //typeof(MqttClientWrapper)
+                    typeof(SensorData)
                 };
             }
         }
