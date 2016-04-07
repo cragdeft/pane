@@ -72,13 +72,14 @@ namespace AplombTech.WMS.Domain.Repositories
         private SensorDataLog CreateLog(string topic, string message, DateTime loggedAtSensor, int stationId)
         {
             SensorDataLog data = Container.NewTransientInstance<SensorDataLog>();
+            PumpStation station = Container.Instances<PumpStation>().Where(w => w.AreaID == stationId).First();
 
             data.Topic = topic;
             data.Message = message;
             data.MessageReceivedAt = DateTime.Now;
             data.LoggedAtSensor = loggedAtSensor;
             data.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.None;
-            data.PumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == stationId).First();
+            data.PumpStation = station;
 
             Container.Persist(ref data);
 
