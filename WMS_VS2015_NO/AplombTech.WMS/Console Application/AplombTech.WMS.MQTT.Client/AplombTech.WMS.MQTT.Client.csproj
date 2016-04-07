@@ -137,8 +137,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchStartPoint.cs" />
+    <Compile Include="IBatchRunner.cs" />
+    <Compile Include="IMyBatchStartPoint.cs" />
     <Compile Include="MqttClientService.cs" />
     <Compile Include="MqttClientWrapper.cs" />
+    <Compile Include="MyBatchRunner.cs" />
     <Compile Include="NakedObjectsRunSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

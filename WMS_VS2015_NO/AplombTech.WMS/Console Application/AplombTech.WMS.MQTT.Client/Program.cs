@@ -16,8 +16,8 @@ namespace AplombTech.WMS.MQTT.Client {
         private static void Main(string[] args) {
             UnityActivator.Start();
 
-            UnityConfig.GetConfiguredContainer().Resolve<IBatchRunner>().Run(new BatchStartPoint());
-
+            UnityConfig.GetConfiguredContainer().Resolve<IMyBatchRunner>().Run(new MqttClientService());
+            
             UnityActivator.Shutdown();
         }
     }

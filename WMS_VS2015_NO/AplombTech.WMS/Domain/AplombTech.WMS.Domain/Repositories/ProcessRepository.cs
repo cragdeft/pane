@@ -16,6 +16,15 @@ namespace AplombTech.WMS.Domain.Repositories
         #region Injected Services
         public AreaRepository AreaRepository { set; protected get; }
         #endregion
+
+        public IList<SensorDataLog> GetUnprocessedData()
+        {
+            return Container.Instances<SensorDataLog>().Where(w => w.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None).OrderBy(o=>o.LoggedAtSensor).Take(10).ToList();
+        }
+        public SensorDataLog GetDataLogById(int id)
+        {
+            return Container.Instances<SensorDataLog>().Where(w => w.SensorDataLogID == id).FirstOrDefault();
+        }
         public void ParseNStoreSensorData(SensorDataLog dataLog)
         {
             if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
@@ -86,13 +95,14 @@ namespace AplombTech.WMS.Domain.Repositories
             return data;
         }
 
-        private void CreateNewSensorData(decimal value, DateTime loggedAt, Sensor sensor)
+        public void CreateNewSensorData(decimal value, DateTime loggedAt, Sensor sensor)
         {           
             SensorData data = Container.NewTransientInstance<SensorData>();
 
             data.Value = value;
             data.LoggedAt = loggedAt;
             data.Sensor = sensor;
+            data.ProcessAt = DateTime.Now;
 
             sensor.CurrentValue = value;
             if (sensor is EnergySensor )

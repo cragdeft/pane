@@ -6,11 +6,14 @@
 // See the License for the specific language governing permissions and limitations under the License.
 
 using AplombTech.WMS.Domain.Repositories;
+using AplombTech.WMS.Domain.Sensors;
+using NakedObjects;
 using NakedObjects.Architecture.Component;
 using NakedObjects.Async;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AplombTech.WMS.MQTT.Client {
     public class BatchStartPoint : IBatchStartPoint {
@@ -28,24 +31,43 @@ namespace AplombTech.WMS.MQTT.Client {
             //AsyncService.RunAsync((domainObjectContainer) =>
             //             MqttClientFacade.MQTTClientInstance(false));
 
-            //IList<Zone> zones = AreaRepository.AllZones().ToList();
-            //Console.ReadLine();
-            try
-            {
-                log.Info("MQTT listener is going to start");
-                //MqttClientService.MQTTClientInstance(false);
-                AsyncService.RunAsync((domainObjectContainer) =>
-                             MqttClientService.MQTTClientInstance(false));
-                log.Info("MQTT listener has been started");
-                while (true)
-                {
-
-                }
-            }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-
+            //try
+            //{
             
+            ProcessRepository.CreateSensorDataLog("sensordata", "mesage", DateTime.Now, 3);
+            //RunAllProcesses();
+                //log.Info("MQTT listener is going to start");
+            //MqttClientService.MQTTClientInstance(false);
+            //AsyncService.RunAsync((domainObjectContainer) =>
+            //             ProcessRepository.CreateSensorDataLog("topic", "mesage", DateTime.Now, 3));
+            //log.Info("MQTT listener has been started");
+            //while (true)
+            //{
+
+            //}
+            //}
+            //catch (Exception ex) { Console.WriteLine(ex.ToString()); }            
         }
+        public void RunAllProcesses()
+        {
+            IList<SensorDataLog> due =
+                                 ProcessRepository.GetUnprocessedData();
+            //var tasks = due.Select(pd => AsyncService.RunAsync((domainObjectContainer) =>
+            //                     FindAndRunProcess(pd.SensorDataLogID))).ToArray();
+            //Task.WaitAll(tasks);
+            foreach (SensorDataLog log in due)
+            {
+                FindAndRunProcess(log.SensorDataLogID);
+            }
+        }
+
+        private void FindAndRunProcess(int processId)
+        {
+            //var repository = container.GetService<ProcessRepository>();
+            var proc = ProcessRepository.GetDataLogById(processId);
+            proc.Process();
+        }
+
         #endregion
     }
 }

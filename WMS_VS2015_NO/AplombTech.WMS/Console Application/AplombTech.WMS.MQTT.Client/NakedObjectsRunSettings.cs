@@ -32,8 +32,8 @@ namespace AplombTech.WMS.MQTT.Client {
 					typeof (AsyncService),
 					//Add your domain services here
                     typeof(AreaRepository),
-                    typeof(ProcessRepository),
-                    typeof(MqttClientService)
+                    typeof(ProcessRepository)
+                    //typeof(MqttClientService)
                 };
             }
         }

@@ -19,6 +19,8 @@ namespace AplombTech.WMS.Domain.Sensors
         public virtual decimal Value { get; set; }
         [MemberOrder(30), Required]
         public virtual DateTime LoggedAt { get; set; }
+        [MemberOrder(30), Required]
+        public virtual DateTime ProcessAt { get; set; }
 
         #endregion
 
