@@ -43,7 +43,13 @@ namespace AplombTech.WMS.MQTT.Client {
 		private static Type[] Types {
             get {
                 return new Type[] {
-                    typeof(SensorData)
+                    typeof(Sensor),
+                    typeof(EnergySensor),
+                    typeof(FlowSensor),
+                    typeof(LevelSensor),
+                    typeof(PressureSensor),
+                    typeof(SensorData),
+                    typeof(SensorDataLog)
                 };
             }
         }
