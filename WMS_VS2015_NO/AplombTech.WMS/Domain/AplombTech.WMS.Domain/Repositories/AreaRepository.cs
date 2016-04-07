@@ -16,6 +16,9 @@ namespace AplombTech.WMS.Domain.Repositories
     [DisplayName ("Area")]
     public class AreaRepository : AbstractFactoryAndRepository
     {
+        #region Injected Services
+        public ProcessRepository ProcessRepository { set; protected get; }
+        #endregion
         public static void Menu(IMenu menu)
         {
             //menu.AddAction("FindCustomerByAccountNumber");

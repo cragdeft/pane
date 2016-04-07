@@ -46,7 +46,8 @@ namespace AplombTech.WMS.Site {
             get {
                 return new Type[] {
                     typeof(AreaRepository),
-                    typeof(ReportRepository)
+                    typeof(ReportRepository),
+                    typeof(ProcessRepository)
                 };
             }
         }
@@ -60,17 +61,22 @@ namespace AplombTech.WMS.Site {
                     typeof (ActionResultModel<>),
 					typeof (PropertyViewModel),
                     typeof (FindViewModel),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.SensorData),
+                    typeof(AplombTech.WMS.Domain.Sensors.Sensor),
                     typeof(AplombTech.WMS.Domain.Sensors.FlowSensor),
                     typeof(AplombTech.WMS.Domain.Sensors.ChlorinationSensor),
                     typeof(AplombTech.WMS.Domain.Sensors.EnergySensor),
                     typeof(AplombTech.WMS.Domain.Sensors.LevelSensor),
                     typeof(AplombTech.WMS.Domain.Sensors.PressureSensor),
+                    typeof(AplombTech.WMS.Domain.Sensors.SensorData),
+                    typeof(AplombTech.WMS.Domain.Sensors.SensorDataLog),
+                    typeof(AplombTech.WMS.QueryModel.Sensors.Sensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.FlowSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.ChlorinationSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.EnergySensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.LevelSensor),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.PressureSensor)
+                    typeof(AplombTech.WMS.QueryModel.Sensors.PressureSensor),
+                    typeof(AplombTech.WMS.QueryModel.Sensors.SensorData)
+
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };
             }

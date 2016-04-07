@@ -55,7 +55,7 @@ namespace AplombTech.WMS.Domain.Repositories
 
             if (sensorLogData == null)
             {
-                SensorDataLog data = CreateLog(topic, message, (DateTime)LoggedAtTime, (int)pumpStationId);
+                SensorDataLog data = CreateSensorDataLog(topic, message, (DateTime)LoggedAtTime, (int)pumpStationId);
                 return data;
             }
 
@@ -69,16 +69,17 @@ namespace AplombTech.WMS.Domain.Repositories
             return dataLog;
         }
 
-        private SensorDataLog CreateLog(string topic, string message, DateTime loggedAtSensor, int stationId)
+        public SensorDataLog CreateSensorDataLog(string topic, string message, DateTime loggedAtSensor, int stationId)
         {
             SensorDataLog data = Container.NewTransientInstance<SensorDataLog>();
+            PumpStation station = Container.Instances<PumpStation>().Where(w => w.AreaID == stationId).First();
 
             data.Topic = topic;
             data.Message = message;
             data.MessageReceivedAt = DateTime.Now;
             data.LoggedAtSensor = loggedAtSensor;
             data.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.None;
-            data.PumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == stationId).First();
+            data.PumpStation = station;
 
             Container.Persist(ref data);
 

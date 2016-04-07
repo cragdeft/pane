@@ -42,7 +42,7 @@ namespace AplombTech.WMS.Domain.Sensors
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
         public virtual int SensorID { get; set; }
-        [MemberOrder(10), NakedObjectsIgnore]
+        [MemberOrder(10)]
         public virtual string UUID { get; set; }
         [MemberOrder(40)]
         public virtual decimal MinimumValue { get; set; }

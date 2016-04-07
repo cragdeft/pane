@@ -158,10 +158,6 @@
       <Project>{ad26b877-4368-418b-a20b-9e796dcf6854}</Project>
       <Name>AplombTech.CryptoLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj">
-      <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
-      <Name>AplombTech.MQTTLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
