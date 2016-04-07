@@ -15,9 +15,9 @@
 }
 
 <div id="body">
-    <section class="main-content" >
-        @(Html.TabbedHistory(Model))  
-         
+    <section class="main-content">
+        @(Html.TabbedHistory(Model))
+
         <div class="@Html.ViewModelClass(Model)" id="@Html.ObjectTypeAsCssId(Model)">
             @(Html.ObjectTitle(Model))
             @(Html.ValidationSummary(true, MvcUi.EditError))
@@ -26,10 +26,19 @@
                 Html.TypeName(Model).ToString(),
                 new {id = Html.GetObjectId(Model).ToString()},
                 FormMethod.Post,
-                new { @class = IdConstants.EditName })) {
+                new {@class = IdConstants.EditName}))
+            {
                 @(Html.PropertyListEdit(Model))
                 @(Html.MenuOnTransient(Model))
             }
-        </div> 
+        </div>
     </section>
 </div>
+
+@section Scripts{
+    <script src="~/Scripts/dist/jstree.min.js"></script>
+    <script src="https://www.google.com/jsapi?.js"></script>
+    <script src="~/Scripts/Map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
+            async defer></script>
+}
