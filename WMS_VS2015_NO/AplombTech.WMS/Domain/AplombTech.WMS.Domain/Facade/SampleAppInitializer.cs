@@ -37,6 +37,7 @@ namespace AplombTech.WMS.Domain.Facade
             AddUnit("cubic/sec", context);
             AddUnit("meter", context);
             AddUnit("litre/min", context);
+            //AddSensorDataLog(context);
 
             base.Seed(context);
         }
@@ -167,6 +168,18 @@ namespace AplombTech.WMS.Domain.Facade
             unit.AuditFields.LastUpdatedDateTime = DateTime.Now;
 
             context.Units.Add(unit);
+        }
+
+        private void AddSensorDataLog(CommandModelDatabase context)
+        {
+            SensorDataLog log = new SensorDataLog();
+            log.Topic = "test";
+            log.Message = "test message";
+            log.MessageReceivedAt = DateTime.Now;
+            log.LoggedAtSensor = DateTime.Now;
+            log.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Done;
+
+            context.SensorDataLogs.Add(log);
         }
     }
 }

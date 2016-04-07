@@ -17,6 +17,7 @@ namespace AplombTech.WMS.MQTT.Client {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public IAsyncService AsyncService { private get; set; }
         public AreaRepository AreaRepository { set; protected get; }
+        public ProcessRepository ProcessRepository { set; protected get; }
         public MqttClientService MqttClientService { set; protected get; }
 
         #region IBatchStartPoint Members
@@ -32,7 +33,9 @@ namespace AplombTech.WMS.MQTT.Client {
             try
             {
                 log.Info("MQTT listener is going to start");
-                MqttClientService.MQTTClientInstance(false);
+                //MqttClientService.MQTTClientInstance(false);
+                AsyncService.RunAsync((domainObjectContainer) =>
+                             MqttClientService.MQTTClientInstance(false));
                 log.Info("MQTT listener has been started");
                 while (true)
                 {
