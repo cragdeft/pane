@@ -84,11 +84,11 @@ namespace AplombTech.WMS.MQTT.Client
 
                 if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
                 {
-                    if (customEventArgs.ReceivedTopic == JsonMessageType.sensordata.ToString())
+                    if (customEventArgs.ReceivedTopic.Replace("/",String.Empty) == JsonMessageType.sensordata.ToString())
                     {
                         ProcessRepository.ParseNStoreSensorData(dataLog);
                     }
-                    if (customEventArgs.ReceivedTopic == JsonMessageType.configuration.ToString())
+                    if (customEventArgs.ReceivedTopic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
                     {
                         ProcessRepository.ParseNStoreConfigurationData(dataLog);
                     }

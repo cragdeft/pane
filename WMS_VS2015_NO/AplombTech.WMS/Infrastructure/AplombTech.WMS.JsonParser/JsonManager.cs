@@ -54,7 +54,7 @@ namespace AplombTech.WMS.JsonParser
             sensorObject.PumpStationId = GetSensorPumpStationID(message);
             sensorObject.SensorLoggedAt = GetSensorLoggedAtTime(message);
 
-            for (int i =4; i<5; i++)
+            for (int i =1; i<5; i++)
             {
                 sensorObject.Sensors.Add(GetSensorData(o,i));
             }
