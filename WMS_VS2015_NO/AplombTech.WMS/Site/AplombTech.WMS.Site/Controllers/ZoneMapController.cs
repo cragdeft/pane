@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AplombTech.WMS.QueryModel.Areas;
+using AplombTech.WMS.QueryModel.Sensors;
 
 namespace AplombTech.WMS.Site.Controllers
 {
@@ -30,9 +32,9 @@ namespace AplombTech.WMS.Site.Controllers
         // GET: ZoneMap
         public ActionResult Index()
         {
-            //ZoneMap zones = _reportRepository.GoogleMap();
+            ZoneGoogleMap zones = _reportRepository.GoogleMap();
             //int totalZone = zones.Zones.Count();
-            return View();
+            return View("~/Views/ZoneGoogleMap/ObjectEdit.cshtml",zones);
         }
 
         // GET: ZoneMap/Details/5
@@ -105,6 +107,49 @@ namespace AplombTech.WMS.Site.Controllers
             {
                 return View();
             }
+        }
+
+        public JsonResult GetSingleSensorStatus(int sensorId)
+        {
+            Sensor sensor = _reportRepository.GetPumpSingleSensor(sensorId);
+            string unit = GetSensorUnit(sensor);
+            return Json(new { Value = sensor.CurrentValue, Unit = unit,  IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetOverViewDataOfPumpStation(int pumpStationId)
+        {
+            Dictionary<string, string> values = _reportRepository.GetPumpStationOverView(pumpStationId);
+            return Json(new { Data = values, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        private string  GetSensorUnit(Sensor sensor)
+        {
+            if (sensor is PressureSensor)
+            {
+                return ((PressureSensor) sensor).Unit.Name;
+            }
+
+            else if (sensor is FlowSensor)
+            {
+                return ((FlowSensor) sensor).Unit.Name;
+            }
+
+            else if (sensor is LevelSensor)
+            {
+                return ((LevelSensor) sensor).Unit.Name;
+            }
+
+            else if (sensor is EnergySensor)
+            {
+                return ((EnergySensor) sensor).Unit.Name;
+            }
+            else
+            {
+                return null;
+            }
+
+            
+
         }
     }
 }

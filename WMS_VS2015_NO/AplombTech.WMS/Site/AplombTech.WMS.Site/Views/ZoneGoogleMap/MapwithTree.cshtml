@@ -7,54 +7,54 @@
 
     </div>
 
-    <div id="legend" style="overflow-y:scroll;">
+    <div id="legend">
         @foreach (var zone in Model.Zones)
         {
             <ul>
-                <li id="zone_@zone.AreaID" data-jstree='{"icon":"../../Content/Image/zone.png"}'>
+                <li id="zone_@zone.AreaID" data-jstree='{"icon":"../../Images/Icons/zone.png"}'>
                     @zone.Name
                     <ul>
                         @foreach (var dma in zone.DMAs)
                         {
-                            <li id="dma_@dma.AreaID" data-jstree='{"icon":"../../Content/Image/dma.png"}'>
+                            <li id="dma_@dma.AreaID" data-jstree='{"icon":"../../Images/Icons/dma.png"}'>
                                 @dma.Name
                                 <ul>
                                     @foreach (var pumpStation in dma.PumpStations)
                                     {
-                                        <li id="pump_@pumpStation.AreaID" data-jstree='{"icon":"../../Content/Image/pump.png"}'>
+                                        <li id="pump_@pumpStation.AreaID" data-jstree='{"icon":"../../Images/Icons/pump.png"}'>
                                             @pumpStation.Name
                                             @*<ul>
-                                                    @foreach (var device in pumpStation.WaterLevelSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (FT)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.PressureSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (PT)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.ProductionSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (LT)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.EnergySensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (EM)
-                                                        </li>
-                                                    }
-                                                    @foreach (var device in pumpStation.CholorinationSensorList)
-                                                    {
-                                                        <li id="device_@device.Id" data-jstree='{"icon":"../../Content/Image/sensor.png"}'>
-                                                            @device.Name (CLT)
-                                                        </li>
-                                                    }
-                                                </ul>*@
+        @foreach (var device in pumpStation.WaterLevelSensorList)
+        {
+            <li id="device_@device.Id" data-jstree='{"icon":"../../Images/Icons/sensor.png"}'>
+                @device.Name (FT)
+            </li>
+        }
+        @foreach (var device in pumpStation.PressureSensorList)
+        {
+            <li id="device_@device.Id" data-jstree='{"icon":"../../Images/Icons/sensor.png"}'>
+                @device.Name (PT)
+            </li>
+        }
+        @foreach (var device in pumpStation.ProductionSensorList)
+        {
+            <li id="device_@device.Id" data-jstree='{"icon":"../../Images/Icons/sensor.png"}'>
+                @device.Name (LT)
+            </li>
+        }
+        @foreach (var device in pumpStation.EnergySensorList)
+        {
+            <li id="device_@device.Id" data-jstree='{"icon":"../../Images/Icons/sensor.png"}'>
+                @device.Name (EM)
+            </li>
+        }
+        @foreach (var device in pumpStation.CholorinationSensorList)
+        {
+            <li id="device_@device.Id" data-jstree='{"icon":"../../Images/Icons/sensor.png"}'>
+                @device.Name (CLT)
+            </li>
+        }
+    </ul>*@
 
                                         </li>
 
@@ -70,18 +70,5 @@
 
     </div>
 </div>
-
-@section scripts
-{
-    <script src="~/Scripts/dist/jstree.min.js"></script>
-    <script src="https://www.google.com/jsapi?.js"></script>
-    <script src="~/Scripts/Map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
-            async defer></script>
-
-    <script>
-
-    </script>
-}
 
 

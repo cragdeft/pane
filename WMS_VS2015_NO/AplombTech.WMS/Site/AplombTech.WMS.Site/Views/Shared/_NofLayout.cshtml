@@ -2,65 +2,63 @@
 @using System.Web.Optimization
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title</title>
-        @(Styles.Render("~/Content/css", "~/Content/themes/base/css", "~/Content/nakedobjectscss"))
-        @Scripts.Render("~/bundles/modernizr")
-
-    </head>
-
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="#" class="navbar-brand" id="logo">AplombTechWMS</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    @*<ul class="nav navbar-nav">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @(Styles.Render("~/Content/css", "~/Content/themes/base/css", "~/Content/nakedobjectscss"))
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand" id="logo">AplombTechWMS</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            @*<ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     </ul>*@
-                    @Html.Partial("_LoginPartial")
-                    @(Html.MainMenus())
-                </div>
-            </div>
+            @Html.Partial("_LoginPartial")
+            @(Html.MainMenus())
         </div>
-        <header>         
-            <div class="content-wrapper">  
-                
-            </div>
-           
-            <div class="no-home-path" style="display: none">@(Html.ActionLink("Home", "Index", "Home"))</div>
-        </header>
-        <div class="container body-content">
-            @RenderBody()
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - AplombTech BD.</p>
-                </div>
-            </div>
-        </footer>
+    </div>
+</div>
+<header>
+    <div class="content-wrapper">
 
-        @RenderSection("Scripts", required: false)    
-        @(Scripts.Render(
-            "~/bundles/jquery", 
-            "~/bundles/bootstrap", 
-            "~/bundles/jqueryui", 
-            "~/bundles/jqueryval", 
-            "~/bundles/nakedobjectsajax"
+    </div>
+
+    <div class="no-home-path" style="display: none">@(Html.ActionLink("Home", "Index", "Home"))</div>
+</header>
+<div class="container body-content">
+    @RenderBody()
+</div>
+<footer>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <p>&copy; @DateTime.Now.Year - AplombTech BD.</p>
+        </div>
+    </div>
+</footer>
+@(Scripts.Render(
+      "~/bundles/jquery",
+      "~/bundles/bootstrap",
+      "~/bundles/jqueryui",
+      "~/bundles/jqueryval",
+      "~/bundles/nakedobjectsajax"
             @*"~/bundles/jquerydatepicker" //Specifies UK date format!*@
-              ))
+      ))
+@RenderSection("Scripts", required: false)
+<script src="~/Scripts/scadamap.js"></script>
 
-        <script src="~/Scripts/scadamap.js"></script>
-        </body>
-    </html>
+</body>
+
+</html>
