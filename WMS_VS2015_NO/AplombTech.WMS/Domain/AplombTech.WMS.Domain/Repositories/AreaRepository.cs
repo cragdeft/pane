@@ -10,10 +10,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.Domain.Devices;
 
 namespace AplombTech.WMS.Domain.Repositories
 {
-    [DisplayName ("Area")]
+    [DisplayName("Area")]
     public class AreaRepository : AbstractFactoryAndRepository
     {
         #region Injected Services
@@ -132,6 +133,61 @@ namespace AplombTech.WMS.Domain.Repositories
         {
             Sensor station = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
             return station;
+        }
+
+        public void AddCamera(int pumpStationId, string uid, string url)
+        {
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            if (pumpStation.Cameras.Where(x => x.UUID == uid).Count() == 0)
+            {
+                pumpStation.AddCamera(url, uid);
+            }
+        }
+
+        public void AddRouter(int pumpStationId, string uid, string ip, int port)
+        {
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            if (pumpStation.Router == null)
+            {
+                pumpStation.AddRouter(uid, ip, port);
+            }
+        }
+
+        public void AddPump(int pumpStationId, string uid, string modelNo)
+        {
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            if (pumpStation.Pump == null)
+            {
+                pumpStation.AddPump(modelNo, uid);
+            }
+        }
+        public void AddSensor(int pumpStationId, string uid, decimal minValue, decimal maxValue, Sensor.TransmitterType type)
+        {
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            if (!SameTypeSensorExists(pumpStation.Sensors,type))
+            {
+                pumpStation.AddSensor(type, uid, minValue, maxValue);
+            }
+        }
+
+        private bool SameTypeSensorExists(IList<Sensor> sensors, Sensor.TransmitterType type)
+        {
+            foreach (var sensor in sensors)
+            {
+                if (sensor is Domain.Sensors.PressureSensor && type == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
+                    return true;
+
+                if (sensor is Domain.Sensors.FlowSensor && type == Sensor.TransmitterType.FLOW_TRANSMITTER)
+                    return true;
+
+                if (sensor is Domain.Sensors.EnergySensor && type == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+                    return true;
+
+                if (sensor is Domain.Sensors.LevelSensor && type == Sensor.TransmitterType.LEVEL_TRANSMITTER)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

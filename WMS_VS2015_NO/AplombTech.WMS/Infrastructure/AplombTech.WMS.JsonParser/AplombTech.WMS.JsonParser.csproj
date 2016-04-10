@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\ConfigurationMessage.cs" />
     <Compile Include="JsonManager.cs" />
     <Compile Include="Entity\SensorValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,6 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.QueryModel\AplombTech.WMS.QueryModel.csproj">
+      <Project>{53b3230d-c147-4e26-a5e2-2189dc13c9d2}</Project>
+      <Name>AplombTech.WMS.QueryModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

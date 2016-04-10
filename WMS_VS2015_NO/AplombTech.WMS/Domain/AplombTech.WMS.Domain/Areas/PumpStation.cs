@@ -49,12 +49,12 @@ namespace AplombTech.WMS.Domain.Areas
             {
                 Pump pumps = (from pump in Container.Instances<Pump>()
                               where pump.PumpStation.AreaID == this.AreaID
-                              && pump.IsRemoved ==false
+                              && pump.IsRemoved == false
                               select pump).FirstOrDefault();
                 return pumps;
             }
         }
-        
+
         [MemberOrder(60), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Router")]
