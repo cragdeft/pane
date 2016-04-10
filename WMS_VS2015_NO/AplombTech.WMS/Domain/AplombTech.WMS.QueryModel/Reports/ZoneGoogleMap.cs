@@ -12,8 +12,18 @@ namespace AplombTech.WMS.QueryModel.Reports
 {
     [NotMapped]
     public class ZoneGoogleMap : IViewModel    {
+        public string Title()
+        {
+            var t = Container.NewTitleBuilder();
+
+            string title = "Google Map";
+
+            t.Append(title);
+
+            return t.ToString();
+        }
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
-        [Title, DisplayName("Zone Map")]
+        [DisplayName("Zone Map")]
         public virtual IList<Zone> Zones { get; set; }
         public string[] DeriveKeys()
         {
