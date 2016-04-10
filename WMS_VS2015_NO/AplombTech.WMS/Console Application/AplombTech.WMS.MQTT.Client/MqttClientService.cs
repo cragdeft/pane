@@ -145,35 +145,55 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void ProcessMessage(string topic, string message)
         {
-            framework.TransactionManager.StartTransaction();
+            SensorDataLog dataLog = LogSensorData(topic, message);
             try
             {
-                SensorDataLog dataLog = ProcessRepository.LogSensorData(topic, message);
-
-                if (dataLog == null)
+                if (dataLog != null)
                 {
-                    Publish(topic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
-                    return;
-                }
-                Publish(topic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
-
-                if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
-                {
-                    if (topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
+                    if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
                     {
-                        ProcessRepository.ParseNStoreSensorData(dataLog);
+                        framework.TransactionManager.StartTransaction();
+                        if (topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
+                        {
+                            ProcessRepository.ParseNStoreSensorData(dataLog);
+                        }
+                        if (topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
+                        {
+                            ProcessRepository.ParseNStoreConfigurationData(dataLog);
+                        }
+                        framework.TransactionManager.EndTransaction();
                     }
-                    if (topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
-                    {
-                        ProcessRepository.ParseNStoreConfigurationData(dataLog);
-                    }
-                }
+                }               
             }
             catch (Exception ex)
             {
                 log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
+                dataLog.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Failed;
+                framework.TransactionManager.AbortTransaction();
+            }            
+        }
+        private SensorDataLog LogSensorData(string topic, string message)
+        {
+            try
+            {
+                framework.TransactionManager.StartTransaction();
+                SensorDataLog dataLog = ProcessRepository.LogSensorData(topic, message);
+                framework.TransactionManager.EndTransaction();
+
+                if (dataLog == null)
+                {
+                    Publish(topic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
+                    return null;
+                }
+                Publish(topic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
+                return dataLog;
             }
-            framework.TransactionManager.EndTransaction();
+            catch (Exception ex)
+            {
+                log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
+                framework.TransactionManager.AbortTransaction();
+                return null;
+            }
         }
         private string Publish(string messgeTopic, string publishMessage)
         {

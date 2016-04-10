@@ -29,8 +29,6 @@ namespace AplombTech.WMS.Domain.Repositories
         {
             if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
             {
-                try
-                {
                     SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
 
                     foreach (SensorValue data in messageObject.Sensors)
@@ -40,11 +38,6 @@ namespace AplombTech.WMS.Domain.Repositories
                     }
 
                     dataLog.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Done;
-                }
-                catch (Exception e)
-                {
-                    dataLog.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Failed;
-                }
             }
         }
 
