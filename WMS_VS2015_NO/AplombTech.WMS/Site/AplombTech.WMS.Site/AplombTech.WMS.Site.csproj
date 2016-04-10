@@ -487,7 +487,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NofLayout.cshtml" />
-    <Content Include="Views\ZoneMap\MapwithTree.cshtml" />
     <Content Include="Views\Shared\ViewModel.cshtml" />
     <Content Include="Views\Shared\StandaloneTable.cshtml" />
     <Content Include="Views\Shared\ScalarView.cshtml" />
@@ -505,8 +504,6 @@
     <Content Include="Views\Shared\ConcurrencyError.cshtml" />
     <Content Include="Views\Shared\BrowserError.cshtml" />
     <Content Include="Views\Shared\ActionDialog.cshtml" />
-    <Content Include="Views\ZoneMap\ObjectView.cshtml" />
-    <Content Include="Views\ZoneMap\ViewModel.cshtml" />
     <Content Include="Views\ZoneGoogleMap\MapwithTree.cshtml" />
     <Content Include="Views\ZoneGoogleMap\ObjectEdit.cshtml" />
     <Content Include="Views\ZoneGoogleMap\ObjectView.cshtml" />
