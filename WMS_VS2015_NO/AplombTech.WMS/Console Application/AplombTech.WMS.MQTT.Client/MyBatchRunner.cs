@@ -24,9 +24,9 @@ namespace NakedObjects.Core.Component
         public void Run(IMyBatchStartPoint batchStartPoint)
         {
             framework.DomainObjectInjector.InjectInto(batchStartPoint);
-            StartTransaction();
+            //StartTransaction();
             batchStartPoint.Execute(framework);
-            EndTransaction();
+            //EndTransaction();
             while (true)
             {
 

@@ -30,10 +30,7 @@ namespace AplombTech.WMS.MQTT.Client
         {
             
         }
-        public MqttClientService(INakedObjectsFramework framework)
-        {
-            this.framework = framework;
-        }
+        
         public enum JsonMessageType
         {
             configuration,
@@ -45,29 +42,10 @@ namespace AplombTech.WMS.MQTT.Client
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        //private MqttClientWrapper instance = null;
-        //Lock synchronization object
-        private object syncLock = new object();
         public void MQTTClientInstance(bool isSSL)
         {
             IsSSL = isSSL;
             MakeConnection();
-            //lock (syncLock)
-            //{
-            //    if (instance == null)
-            //    {
-            //        instance = new MqttClientWrapper(isSSL);
-
-            //        instance.NotifyMqttMessageReceivedEvent += new MqttClientWrapper.NotifyMqttMessageReceivedDelegate(ReceivedMessage_MQTT);
-
-            //        instance.NotifyMqttMsgPublishedEvent += new MqttClientWrapper.NotifyMqttMsgPublishedDelegate(PublishedMessage_MQTT);
-
-            //        instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_MQTT);
-            //        instance.MakeConnection();
-            //    }
-
-            //    //return instance;
-            //}
         }
         private void BrokerConnectionWithoutCertificate()
         {
@@ -114,32 +92,16 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void DefinedMQTTCommunicationEvents()
         {
-            DhakaWasaMQTT.MqttMsgPublished += client_MqttMsgPublished;//publish
-            DhakaWasaMQTT.MqttMsgSubscribed += client_MqttMsgSubscribed;//subscribe confirmation
-            DhakaWasaMQTT.MqttMsgUnsubscribed += client_MqttMsgUnsubscribed;
-            DhakaWasaMQTT.MqttMsgPublishReceived += client_MqttMsgPublishReceived;//received message.
-            DhakaWasaMQTT.ConnectionClosed += client_ConnectionClosed;
+            DhakaWasaMQTT.MqttMsgPublished += PublishedMessage_MQTT;//publish
+            DhakaWasaMQTT.MqttMsgSubscribed += SubscribedMessage_MQTT;//subscribe confirmation
+            DhakaWasaMQTT.MqttMsgUnsubscribed += UnsubscribedMessage_MQTT;
+            DhakaWasaMQTT.MqttMsgPublishReceived += ReceivedMessage_MQTT;//received message.
+            DhakaWasaMQTT.ConnectionClosed += ConnectionClosed_MQTT;
 
             ushort submsgId = DhakaWasaMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback", "/sensordata" },
                               new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
                                       MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
-        }
-        private void ReceivedMessage_MQTT(MQTTEventArgs customEventArgs)
-        {
-            log.Info("Message received from topic '" + customEventArgs.ReceivedTopic + "' and message is '" + customEventArgs.ReceivedMessage + "'");
-            //ProcessMessage(customEventArgs);
-            //AsyncService.RunAsync((domainObjectContainer) =>
-            //                 ProcessMessage(customEventArgs));
-        }      
-        private void PublishedMessage_MQTT(MQTTEventArgs customEventArgs)
-        {
-            //string msg = customEventArgs.ReceivedMessage;
-            log.Info("Message published to '" + customEventArgs.ReceivedTopic + "' Topic");            
-        }
-        private void SubscribedMessage_MQTT(MQTTEventArgs customEventArgs)
-        {
-            //string msg = customEventArgs.ReceivedMessage;
         }
         private void HandleReconnect()
         {
@@ -233,22 +195,22 @@ namespace AplombTech.WMS.MQTT.Client
         }
 
         #region EVENT HANDLER
-        private void client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
+        private void PublishedMessage_MQTT(object sender, MqttMsgPublishedEventArgs e)
         {
             //NotifyMessage("MqttMsgPublished", e.IsPublished.ToString(), string.Empty);
             log.Info(string.Format("Mqtt-Msg-Published to topic {0}", e.IsPublished.ToString()));
             //ClientResponce = "Success";
         }
-        private void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
+        private void SubscribedMessage_MQTT(object sender, MqttMsgSubscribedEventArgs e)
         {
             //NotifyMessage("MqttMsgSubscribed", e.MessageId.ToString(), string.Empty);
             log.Info(string.Format("Mqtt-Msg-Subscribed to topic {0}", e.MessageId.ToString()));
         }
-        private void client_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
+        private void UnsubscribedMessage_MQTT(object sender, MqttMsgUnsubscribedEventArgs e)
         {
             //ClientResponce = "Success";
         }
-        private void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        private void ReceivedMessage_MQTT(object sender, MqttMsgPublishEventArgs e)
         {
             string message = Encoding.UTF8.GetString(e.Message);
             string topic = e.Topic.ToString();
@@ -256,10 +218,8 @@ namespace AplombTech.WMS.MQTT.Client
             ProcessMessage(topic,message);
             //AsyncService.RunAsync((domainObjectContainer) =>
             //                 ProcessMessage(topic, message));
-            //NotifyMessage("MqttMsgPublishReceived", Encoding.UTF8.GetString(e.Message), e.Topic.ToString());
-            //log.Info("Message received from topic '" + e.Topic.ToString() + "' and message is '" + Encoding.UTF8.GetString(e.Message) + "'");
         }
-        private void client_ConnectionClosed(object sender, EventArgs e)
+        private void ConnectionClosed_MQTT(object sender, EventArgs e)
         {
             if (!(sender as MqttClient).IsConnected || DhakaWasaMQTT == null)
             {
@@ -267,22 +227,14 @@ namespace AplombTech.WMS.MQTT.Client
             }
             log.Info("Connection has been closed");
         }
-
+        #endregion
         public void Execute(INakedObjectsFramework framework)
         {
             this.framework = framework;
             log.Info("MQTT listener is going to start");
             MQTTClientInstance(false);
-            //AsyncService.RunAsync((domainObjectContainer) =>
-            //                 ProcessRepository.CreateSensorDataLog("sensordata", "mesage", DateTime.Now, 3));
-            //ProcessRepository.CreateSensorDataLog("sensordata", "mesage", DateTime.Now, 3);
-            //framework.TransactionManager.EndTransaction();
             log.Info("MQTT listener has been started");
-            //while (true)
-            //{
-
-            //}
         }
-        #endregion
+        
     }
 }
