@@ -1,6 +1,6 @@
 @using NakedObjects.Facade.Utility;
 @using NakedObjects.Web.Mvc.Html
-@using AplombTech.WMS.QueryModel.Areas
+@using AplombTech.WMS.QueryModel.Reports
 @using AplombTech.WMS.QueryModel.Sensors
 @model ZoneGoogleMap
 
@@ -21,7 +21,7 @@
 
         </div>
 
-        <div id="legend" style="background white; padding 10px;">
+        <div id="legend" style="background:white; padding:10px;">
             @foreach (var zone in Model.Zones)
             {
                 <ul>

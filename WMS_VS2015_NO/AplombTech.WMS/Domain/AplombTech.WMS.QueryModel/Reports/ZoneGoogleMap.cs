@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AplombTech.WMS.QueryModel.Reports
 {
     [NotMapped]
-    public class ZoneMap : IViewModel    {
+    public class ZoneGoogleMap : IViewModel    {
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
         [Title, DisplayName("Zone Map")]
         public virtual IList<Zone> Zones { get; set; }

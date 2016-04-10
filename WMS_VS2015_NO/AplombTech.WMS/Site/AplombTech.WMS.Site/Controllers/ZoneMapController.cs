@@ -34,7 +34,7 @@ namespace AplombTech.WMS.Site.Controllers
         {
             ZoneGoogleMap zones = _reportRepository.GoogleMap();
             //int totalZone = zones.Zones.Count();
-            return View("~/Views/ZoneGoogleMap/ObjectView.cshtml",zones);
+            return View("~/Views/ZoneGoogleMap/ObjectEdit.cshtml",zones);
         }
 
         // GET: ZoneMap/Details/5
