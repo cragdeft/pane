@@ -315,7 +315,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RestfulObjectsController.cs" />
     <Compile Include="Controllers\ScadaMapController.cs" />
-    <Compile Include="Controllers\ZoneMapController.cs" />
+    <Compile Include="Controllers\ZoneGoogleMapController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

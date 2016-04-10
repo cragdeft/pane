@@ -13,17 +13,17 @@ using AplombTech.WMS.QueryModel.Sensors;
 
 namespace AplombTech.WMS.Site.Controllers
 {
-    public class ZoneMapController : SystemControllerImpl
+    public class ZoneGoogleMapController : SystemControllerImpl
     {
         #region Injected Services
         public ReportRepository _reportRepository { set; protected get; }
         #endregion
 
-        public ZoneMapController(IFrameworkFacade facade, IIdHelper idHelper) : base(facade, idHelper) { }
+        public ZoneGoogleMapController(IFrameworkFacade facade, IIdHelper idHelper) : base(facade, idHelper) { }
 
         // Uncomment this constructor if you wish to have an IDomainObjectContainer and/or domain services injected.
         // You will also need to ensure you have NakedObjects.Core package installed & add using NakedObjects;
-        public ZoneMapController(IFrameworkFacade facade, IIdHelper idHelper, INakedObjectsFramework nakedObjectsFramework)
+        public ZoneGoogleMapController(IFrameworkFacade facade, IIdHelper idHelper, INakedObjectsFramework nakedObjectsFramework)
             : base(facade, idHelper)
         {
             nakedObjectsFramework.DomainObjectInjector.InjectInto(this);
@@ -34,7 +34,7 @@ namespace AplombTech.WMS.Site.Controllers
         {
             ZoneGoogleMap zones = _reportRepository.GoogleMap();
             //int totalZone = zones.Zones.Count();
-            return View("~/Views/ZoneGoogleMap/ObjectEdit.cshtml",zones);
+            return View("~/Views/ZoneGoogleMap/ObjectView.cshtml",zones);
         }
 
         // GET: ZoneMap/Details/5
