@@ -134,7 +134,6 @@ namespace AplombTech.WMS.Domain.Repositories
             Sensor station = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
             return station;
         }
-
         public void AddCamera(int pumpStationId, string uid, string url)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
@@ -143,7 +142,6 @@ namespace AplombTech.WMS.Domain.Repositories
                 pumpStation.AddCamera(url, uid);
             }
         }
-
         public void AddRouter(int pumpStationId, string uid, string ip, int port)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
@@ -152,7 +150,6 @@ namespace AplombTech.WMS.Domain.Repositories
                 pumpStation.AddRouter(uid, ip, port);
             }
         }
-
         public void AddPump(int pumpStationId, string uid, string modelNo)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
@@ -169,7 +166,6 @@ namespace AplombTech.WMS.Domain.Repositories
                 pumpStation.AddSensor(type, uid, minValue, maxValue);
             }
         }
-
         private bool SameTypeSensorExists(IList<Sensor> sensors, Sensor.TransmitterType type)
         {
             foreach (var sensor in sensors)
