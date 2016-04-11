@@ -2,18 +2,66 @@
 @using NakedObjects.Web.Mvc.Html
 @using AplombTech.WMS.QueryModel.Reports
 @model DrillDown
+@{
+    var days = new List<SelectListItem>();
+    for (var i = 1; i <= 31; i++)
+    {
+        days.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Day == i });
+    }
+    var years = new List<SelectListItem>();
+    for (var i = 2015; i <= 2019; i++)
+    {
+        years.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Year == i });
+    }
 
-<div id="body" >
+    var weeks = new List<SelectListItem>();
+    for (var i = 1; i <= 52; i++)
+    {
+        weeks.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Week == i });
+    }
+
+    var hours = new List<SelectListItem>();
+    for (var i = 1; i <= 24; i++)
+    {
+        hours.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Hour == i });
+    }
+}
+<div id="body">
     <section class="main-content">
         @(Html.TabbedHistory(Model))
-        <br/>
+        <br />
         <div class="col-md-offset-1">
-            
+            @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
+                Model.PumpStations,
+                "AreaID",
+                "Name",
+                Model.SelectedPumpStationId), "Select Pump Station")
 
+            @Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")
+
+            @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
+            <div id="inputPanel">
+
+                @Html.DropDownListFor(model => model.Year, years, "- Select Year -")
+
+                @Html.EnumDropDownListFor(m => m.Month, "- Select Month -")
+
+                @Html.DropDownListFor(model => model.Week, weeks, "- Select Week -")
+                @Html.DropDownListFor(model => model.Day, days, "- Select Day -")
+                @Html.DropDownListFor(model => model.Hour, hours, "- Select Hour -")
+            </div>
+            <input type="submit" id="show" value="Show" class="btn btn-default"/>
         </div>
+
+        <div id="chart_div"></div>
     </section>
 </div>
 
+@section Scripts{
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+    <script src="~/Scripts/Report.js"></script>
+}
 
 

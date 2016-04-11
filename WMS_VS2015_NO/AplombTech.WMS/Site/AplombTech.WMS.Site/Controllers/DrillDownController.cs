@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AplombTech.WMS.QueryModel.Reports;
 using AplombTech.WMS.QueryModel.Repositories;
 using NakedObjects;
 using NakedObjects.Facade;
@@ -29,9 +30,15 @@ namespace AplombTech.WMS.Site.Controllers
         // GET: Report
         public ActionResult Index()
         {
-            //ZoneMap zones = _reportRepository.GoogleMap();
-            //int totalZone = zones.Zones.Count();
-            return View();
+            DrillDown model = _reportRepository.DrillDown();
+            return View("~/Views/DrillDown/ObjectView.cshtml", model);
+        }
+
+        public JsonResult GetReportModel(DrillDown model)
+        {
+            model = _reportRepository.GetReportData(model);
+
+            return Json(new { Data = model, IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }
