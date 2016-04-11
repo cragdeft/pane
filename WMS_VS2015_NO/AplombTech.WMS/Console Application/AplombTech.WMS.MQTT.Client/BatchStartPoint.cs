@@ -34,7 +34,7 @@ namespace AplombTech.WMS.MQTT.Client {
             //try
             //{
             
-            ProcessRepository.CreateSensorDataLog("sensordata", "mesage", DateTime.Now, 3);
+            ProcessRepository.CreateDataLog("sensordata", "mesage", DateTime.Now, 3);
             //RunAllProcesses();
                 //log.Info("MQTT listener is going to start");
             //MqttClientService.MQTTClientInstance(false);
@@ -50,12 +50,12 @@ namespace AplombTech.WMS.MQTT.Client {
         }
         public void RunAllProcesses()
         {
-            IList<SensorDataLog> due =
+            IList<DataLog> due =
                                  ProcessRepository.GetUnprocessedData();
             //var tasks = due.Select(pd => AsyncService.RunAsync((domainObjectContainer) =>
             //                     FindAndRunProcess(pd.SensorDataLogID))).ToArray();
             //Task.WaitAll(tasks);
-            foreach (SensorDataLog log in due)
+            foreach (DataLog log in due)
             {
                 FindAndRunProcess(log.SensorDataLogID);
             }

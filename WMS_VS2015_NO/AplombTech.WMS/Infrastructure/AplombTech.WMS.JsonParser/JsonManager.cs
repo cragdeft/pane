@@ -47,7 +47,7 @@ namespace AplombTech.WMS.JsonParser
             }
 
         }
-        public static int? GetSensorPumpStationID(string message)
+        public static int? GetPumpStationIDFromJson(string message)
         {
             JObject o = JObject.Parse(message);
 
@@ -71,7 +71,7 @@ namespace AplombTech.WMS.JsonParser
 
             SensorMessage sensorObject = new SensorMessage();
 
-            sensorObject.PumpStationId = GetSensorPumpStationID(message);
+            sensorObject.PumpStationId = GetPumpStationIDFromJson(message);
             sensorObject.SensorLoggedAt = GetSensorLoggedAtTime(message);
 
             for (int i = 0; i < 5; i++)
@@ -89,7 +89,7 @@ namespace AplombTech.WMS.JsonParser
 
             ConfigurationMessage configurationObject = new ConfigurationMessage();
 
-            configurationObject.PumpStationId = GetSensorPumpStationID(message);
+            configurationObject.PumpStationId = GetPumpStationIDFromJson(message);
             configurationObject.ConfigurationLoggedAt = GetConfigurationLoggedAtTime(message);
 
             for (int i = 0; i < o["PumpStation"]["Camera"].Count(); i++)

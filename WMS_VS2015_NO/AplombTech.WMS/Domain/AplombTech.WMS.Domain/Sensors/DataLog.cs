@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace AplombTech.WMS.Domain.Sensors
 {
-    [Table("SensorDataLogs")]
-    public class SensorDataLog
+    [Table("DataLogs")]
+    public class DataLog
     {
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
@@ -52,23 +52,21 @@ namespace AplombTech.WMS.Domain.Sensors
 
         public void Process()
         {
-            if (this.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+            if (this.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
             {
                 try
                 {
-                    SensorMessage messageObject = JsonManager.GetSensorObject(this.Message);
-
-                    foreach (SensorValue data in messageObject.Sensors)
-                    {
-                        Sensor sensor = AreaRepository.FindSensorByUid(data.SensorUUID);
-                        ProcessRepository.CreateNewSensorData(Convert.ToDecimal(data.Value), (DateTime)messageObject.SensorLoggedAt, sensor);
-                    }
-
-                    this.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Done;
+                    //framework.TransactionManager.StartTransaction();
+                    ProcessRepository.ParseNStoreSensorData(this);
+                    //framework.TransactionManager.EndTransaction();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    this.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Failed;
+                    //log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
+                    //framework.TransactionManager.AbortTransaction();
+                    //framework.TransactionManager.StartTransaction();
+                    this.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
+                    //framework.TransactionManager.EndTransaction();
                 }
             }
         }

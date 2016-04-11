@@ -145,12 +145,12 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void ProcessMessage(string topic, string message)
         {
-            SensorDataLog dataLog = LogSensorData(topic, message);
+            DataLog dataLog = LogSensorData(topic, message);
             try
             {
                 if (dataLog != null)
                 {
-                    if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+                    if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
                     {
                         framework.TransactionManager.StartTransaction();
                         if (topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
@@ -168,16 +168,18 @@ namespace AplombTech.WMS.MQTT.Client
             catch (Exception ex)
             {
                 log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
-                dataLog.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Failed;
                 framework.TransactionManager.AbortTransaction();
+                framework.TransactionManager.StartTransaction();
+                dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
+                framework.TransactionManager.EndTransaction();
             }            
         }
-        private SensorDataLog LogSensorData(string topic, string message)
+        private DataLog LogSensorData(string topic, string message)
         {
             try
             {
                 framework.TransactionManager.StartTransaction();
-                SensorDataLog dataLog = ProcessRepository.LogSensorData(topic, message);
+                DataLog dataLog = ProcessRepository.LogData(topic, message);
                 framework.TransactionManager.EndTransaction();
 
                 if (dataLog == null)
