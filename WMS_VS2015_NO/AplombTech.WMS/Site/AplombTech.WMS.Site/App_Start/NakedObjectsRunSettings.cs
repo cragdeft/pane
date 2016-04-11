@@ -68,7 +68,7 @@ namespace AplombTech.WMS.Site {
                     typeof(AplombTech.WMS.Domain.Sensors.LevelSensor),
                     typeof(AplombTech.WMS.Domain.Sensors.PressureSensor),
                     typeof(AplombTech.WMS.Domain.Sensors.SensorData),
-                    typeof(AplombTech.WMS.Domain.Sensors.SensorDataLog),
+                    typeof(AplombTech.WMS.Domain.Sensors.DataLog),
                     typeof(AplombTech.WMS.QueryModel.Sensors.Sensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.FlowSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.ChlorinationSensor),

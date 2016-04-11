@@ -19,17 +19,17 @@ namespace AplombTech.WMS.Domain.Repositories
         public AreaRepository AreaRepository { set; protected get; }
         #endregion
 
-        public IList<SensorDataLog> GetUnprocessedData()
+        public IList<DataLog> GetUnprocessedData()
         {
-            return Container.Instances<SensorDataLog>().Where(w => w.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None).OrderBy(o=>o.LoggedAtSensor).Take(10).ToList();
+            return Container.Instances<DataLog>().Where(w => w.ProcessingStatus == DataLog.ProcessingStatusEnum.None).OrderBy(o=>o.LoggedAtSensor).Take(10).ToList();
         }
-        public SensorDataLog GetDataLogById(int id)
+        public DataLog GetDataLogById(int id)
         {
-            return Container.Instances<SensorDataLog>().Where(w => w.SensorDataLogID == id).FirstOrDefault();
+            return Container.Instances<DataLog>().Where(w => w.SensorDataLogID == id).FirstOrDefault();
         }
-        public void ParseNStoreSensorData(SensorDataLog dataLog)
+        public void ParseNStoreSensorData(DataLog dataLog)
         {
-            if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+            if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
             {
                     SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
 
@@ -39,13 +39,13 @@ namespace AplombTech.WMS.Domain.Repositories
                         CreateNewSensorData(Convert.ToDecimal(data.Value), (DateTime)messageObject.SensorLoggedAt, sensor);
                     }
 
-                    dataLog.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Done;
+                    dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
             }
         }
 
-        public void ParseNStoreConfigurationData(SensorDataLog dataLog)
+        public void ParseNStoreConfigurationData(DataLog dataLog)
         {
-            if (dataLog.ProcessingStatus == SensorDataLog.ProcessingStatusEnum.None)
+            if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
             {
                 ConfigurationMessage messageObject = JsonManager.GetConfigurationObject(dataLog.Message);
 
@@ -57,7 +57,7 @@ namespace AplombTech.WMS.Domain.Repositories
 
                 AddSensor(messageObject);
 
-                dataLog.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.Done;
+                dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
             }
         }
 
@@ -107,7 +107,9 @@ namespace AplombTech.WMS.Domain.Repositories
             return type;
         }
 
-        public SensorDataLog LogSensorData(string topic, string message)
+
+
+        public DataLog LogData(string topic, string message)
         {
             DateTime? LoggedAtTime = DateTime.MinValue;
 
@@ -116,37 +118,39 @@ namespace AplombTech.WMS.Domain.Repositories
             if (topic == "/configuration")
                 LoggedAtTime = JsonManager.GetConfigurationLoggedAtTime(message);
 
-            int? pumpStationId = JsonManager.GetSensorPumpStationID(message);
+            int? pumpStationId = JsonManager.GetPumpStationIDFromJson(message);
 
             if (LoggedAtTime == null || pumpStationId == null) return null;
 
-            SensorDataLog sensorLogData = GetSensorLogData(topic, (DateTime)LoggedAtTime, (int)pumpStationId);
+            DataLog sensorLogData = GetDataLog(topic, (DateTime)LoggedAtTime, (int)pumpStationId);
 
             if (sensorLogData == null)
             {
-                SensorDataLog data = CreateSensorDataLog(topic, message, (DateTime)LoggedAtTime, (int)pumpStationId);
+                DataLog data = CreateDataLog(topic, message, (DateTime)LoggedAtTime, (int)pumpStationId);
                 return data;
             }
 
             return sensorLogData;
         }
 
-        private SensorDataLog GetSensorLogData(string topic, DateTime loggedAtSensor, int stationId)
+        private DataLog GetDataLog(string topic, DateTime loggedAtSensor, int stationId)
         {
-            SensorDataLog dataLog = Container.Instances<SensorDataLog>().Where(w => w.PumpStation.AreaID == stationId && w.Topic == topic && w.LoggedAtSensor == loggedAtSensor).FirstOrDefault();
+            DataLog dataLog = Container.Instances<DataLog>().Where(w => w.PumpStation.AreaID == stationId && w.Topic == topic && w.LoggedAtSensor == loggedAtSensor).FirstOrDefault();
 
             return dataLog;
         }
-        public SensorDataLog CreateSensorDataLog(string topic, string message, DateTime loggedAtSensor, int stationId)
+
+
+        public DataLog CreateDataLog(string topic, string message, DateTime loggedAtSensor, int stationId)
         {
-            SensorDataLog data = Container.NewTransientInstance<SensorDataLog>();
+            DataLog data = Container.NewTransientInstance<DataLog>();
             PumpStation station = Container.Instances<PumpStation>().Where(w => w.AreaID == stationId).First();
 
             data.Topic = topic;
             data.Message = message;
             data.MessageReceivedAt = DateTime.Now;
             data.LoggedAtSensor = loggedAtSensor;
-            data.ProcessingStatus = SensorDataLog.ProcessingStatusEnum.None;
+            data.ProcessingStatus = DataLog.ProcessingStatusEnum.None;
             data.PumpStation = station;
 
             Container.Persist(ref data);

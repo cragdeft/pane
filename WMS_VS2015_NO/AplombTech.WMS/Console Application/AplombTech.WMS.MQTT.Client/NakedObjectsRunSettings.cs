@@ -50,7 +50,7 @@ namespace AplombTech.WMS.MQTT.Client {
                     typeof(PressureSensor),
                     typeof(ChlorinationSensor),
                     typeof(SensorData),
-                    typeof(SensorDataLog)
+                    typeof(DataLog)
                 };
             }
         }

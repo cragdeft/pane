@@ -85,7 +85,7 @@
     <Compile Include="Sensors\PressureSensor.cs" />
     <Compile Include="Sensors\Sensor.cs" />
     <Compile Include="Sensors\SensorData.cs" />
-    <Compile Include="Sensors\SensorDataLog.cs" />
+    <Compile Include="Sensors\DataLog.cs" />
     <Compile Include="Shared\Address.cs" />
     <Compile Include="Shared\AuditFields.cs" />
     <Compile Include="Shared\Unit.cs" />
