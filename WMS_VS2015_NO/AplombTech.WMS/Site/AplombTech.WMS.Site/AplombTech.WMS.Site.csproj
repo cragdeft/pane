@@ -313,6 +313,7 @@
     <Compile Include="Controllers\GenericController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\DrillDownController.cs" />
     <Compile Include="Controllers\RestfulObjectsController.cs" />
     <Compile Include="Controllers\ScadaMapController.cs" />
     <Compile Include="Controllers\ZoneGoogleMapController.cs" />
@@ -511,6 +512,9 @@
     <Content Include="Views\ScadaMap\ObjectView.cshtml" />
     <Content Include="Views\ScadaMap\ScadaMap.cshtml" />
     <Content Include="Views\ScadaMap\ViewModel.cshtml" />
+    <Content Include="Views\DrillDown\ObjectView.cshtml" />
+    <Content Include="Views\DrillDown\DrillDown.cshtml" />
+    <Content Include="Views\DrillDown\ViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

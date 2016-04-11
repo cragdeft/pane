@@ -158,74 +158,99 @@ namespace AplombTech.WMS.JsonParser
             {
                 case "FT":
                     {
-                        FlowSensor sensor = new FlowSensor();
-                        sensor.CumulativeValue = 0;
-                        sensor.MaximumValue = 0;
-                        sensor.CurrentValue = 0;
-                        sensor.MinimumValue = 0;
-                        sensor.UUID = uid;
-                        sensor.AuditFields.InsertedBy = "Automated";
-                        sensor.AuditFields.InsertedDateTime = DateTime.Now;
-                        sensor.AuditFields.LastUpdatedBy = "Automated";
-                        sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-                        return sensor;
+                        return CreateFlowSensor(uid);
                     }
                 case "ET":
                     {
-                        EnergySensor sensor = new EnergySensor();
-                        sensor.CumulativeValue = 0;
-                        sensor.MaximumValue = 0;
-                        sensor.CurrentValue = 0;
-                        sensor.MinimumValue = 0;
-                        sensor.UUID = uid;
-                        sensor.AuditFields.InsertedBy = "Automated";
-                        sensor.AuditFields.InsertedDateTime = DateTime.Now;
-                        sensor.AuditFields.LastUpdatedBy = "Automated";
-                        sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-                        return sensor;
+                        return CreateEnergySensor(uid);
                     }
                 case "LT":
                     {
-                        LevelSensor sensor = new LevelSensor();
-                        sensor.MaximumValue = 0;
-                        sensor.CurrentValue = 0;
-                        sensor.MinimumValue = 0;
-                        sensor.UUID = uid;
-                        sensor.AuditFields.InsertedBy = "Automated";
-                        sensor.AuditFields.InsertedDateTime = DateTime.Now;
-                        sensor.AuditFields.LastUpdatedBy = "Automated";
-                        sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-                        return sensor;
+                        return CreateLevelSensor(uid);
                     }
                 case "PT":
                     {
-                        PressureSensor sensor = new PressureSensor();
-                        sensor.MaximumValue = 0;
-                        sensor.CurrentValue = 0;
-                        sensor.MinimumValue = 0;
-                        sensor.UUID = uid;
-                        sensor.AuditFields.InsertedBy = "Automated";
-                        sensor.AuditFields.InsertedDateTime = DateTime.Now;
-                        sensor.AuditFields.LastUpdatedBy = "Automated";
-                        sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-                        return sensor;
+                        return CreatePressureSensor(uid);
                     }
                 case "CT":
                     {
-                        ChlorinationSensor sensor = new ChlorinationSensor();
-                        sensor.MaximumValue = 0;
-                        sensor.CurrentValue = 0;
-                        sensor.MinimumValue = 0;
-                        sensor.UUID = uid;
-                        sensor.AuditFields.InsertedBy = "Automated";
-                        sensor.AuditFields.InsertedDateTime = DateTime.Now;
-                        sensor.AuditFields.LastUpdatedBy = "Automated";
-                        sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-                        return sensor;
+                        return CreateChlorinationSensor(uid);
                     }
             }
 
             return null;
+        }
+
+        private static Sensor CreateChlorinationSensor(string uid)
+        {
+            ChlorinationSensor sensor = new ChlorinationSensor();
+            sensor.MaximumValue = 0;
+            sensor.CurrentValue = 0;
+            sensor.MinimumValue = 0;
+            sensor.UUID = uid;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            return sensor;
+        }
+
+        private static Sensor CreatePressureSensor(string uid)
+        {
+            PressureSensor sensor = new PressureSensor();
+            sensor.MaximumValue = 0;
+            sensor.CurrentValue = 0;
+            sensor.MinimumValue = 0;
+            sensor.UUID = uid;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            return sensor;
+        }
+
+        private static Sensor CreateLevelSensor(string uid)
+        {
+            LevelSensor sensor = new LevelSensor();
+            sensor.MaximumValue = 0;
+            sensor.CurrentValue = 0;
+            sensor.MinimumValue = 0;
+            sensor.UUID = uid;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            return sensor;
+        }
+
+        private static Sensor CreateEnergySensor(string uid)
+        {
+            EnergySensor sensor = new EnergySensor();
+            sensor.CumulativeValue = 0;
+            sensor.MaximumValue = 0;
+            sensor.CurrentValue = 0;
+            sensor.MinimumValue = 0;
+            sensor.UUID = uid;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            return sensor;
+        }
+
+        private static Sensor CreateFlowSensor(string uid)
+        {
+            FlowSensor sensor = new FlowSensor();
+            sensor.CumulativeValue = 0;
+            sensor.MaximumValue = 0;
+            sensor.CurrentValue = 0;
+            sensor.MinimumValue = 0;
+            sensor.UUID = uid;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            return sensor;
         }
 
         private static Sensor GetCommonSensor(string uid)

@@ -19,6 +19,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             menu.AddAction("GoogleMap");
             menu.AddAction("ScadaMap");
+            menu.AddAction("DrillDown");
             //menu.CreateSubMenu("Zone")
             //    .AddAction("CreateZone")
             //    .AddAction("FindZone")
@@ -45,6 +46,14 @@ namespace AplombTech.WMS.QueryModel.Repositories
         public ZoneGoogleMap GoogleMap()
         {
             var zones = Container.NewViewModel<ZoneGoogleMap>();
+            zones.Zones = Container.Instances<Zone>().ToList();
+
+            return zones;
+        }
+        [DisplayName("Drill Down")]
+        public DrillDown DrillDown()
+        {
+            var zones = Container.NewViewModel<DrillDown>();
             zones.Zones = Container.Instances<Zone>().ToList();
 
             return zones;
