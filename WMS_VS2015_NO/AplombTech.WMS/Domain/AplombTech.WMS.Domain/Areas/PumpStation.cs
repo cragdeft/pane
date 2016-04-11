@@ -148,7 +148,7 @@ namespace AplombTech.WMS.Domain.Areas
             router.UUID = uuid;
             router.IP = ip;
             router.Port = port;
-
+            router.MACAddress = uuid;
             router.PumpStation = this;
 
             Container.Persist(ref router);

@@ -84,25 +84,28 @@ namespace AplombTech.WMS.Domain.Repositories
             foreach (var sensor in messageObject.Sensors)
             {
                 Sensor.TransmitterType type = Sensor.TransmitterType.FLOW_TRANSMITTER;
-
-                if (sensor is WMS.QueryModel.Sensors.FlowSensor)
-                    type = Sensor.TransmitterType.FLOW_TRANSMITTER;
-                else if (sensor is QueryModel.Sensors.PressureSensor)
-                    type = Sensor.TransmitterType.PRESSURE_TRANSMITTER;
-
-                else if (sensor is QueryModel.Sensors.EnergySensor)
-                    type = Sensor.TransmitterType.ENERGY_TRANSMITTER;
-
-                else if (sensor is QueryModel.Sensors.LevelSensor)
-                    type = Sensor.TransmitterType.LEVEL_TRANSMITTER;
-
-                else if (sensor is QueryModel.Sensors.ChlorinationSensor)
-                    type = Sensor.TransmitterType.CHLORINE_TRANSMITTER;
-
+                type = GetSensorType(sensor, type);
                 AreaRepository.AddSensor((int)messageObject.PumpStationId, sensor.UUID, sensor.MinimumValue,sensor.MaximumValue,type);
             }
         }
 
+        private static Sensor.TransmitterType GetSensorType(QueryModel.Sensors.Sensor sensor, Sensor.TransmitterType type)
+        {
+            if (sensor is WMS.QueryModel.Sensors.FlowSensor)
+                type = Sensor.TransmitterType.FLOW_TRANSMITTER;
+            else if (sensor is QueryModel.Sensors.PressureSensor)
+                type = Sensor.TransmitterType.PRESSURE_TRANSMITTER;
+
+            else if (sensor is QueryModel.Sensors.EnergySensor)
+                type = Sensor.TransmitterType.ENERGY_TRANSMITTER;
+
+            else if (sensor is QueryModel.Sensors.LevelSensor)
+                type = Sensor.TransmitterType.LEVEL_TRANSMITTER;
+
+            else if (sensor is QueryModel.Sensors.ChlorinationSensor)
+                type = Sensor.TransmitterType.CHLORINE_TRANSMITTER;
+            return type;
+        }
 
         public SensorDataLog LogSensorData(string topic, string message)
         {
@@ -134,7 +137,6 @@ namespace AplombTech.WMS.Domain.Repositories
 
             return dataLog;
         }
-
         public SensorDataLog CreateSensorDataLog(string topic, string message, DateTime loggedAtSensor, int stationId)
         {
             SensorDataLog data = Container.NewTransientInstance<SensorDataLog>();
@@ -151,7 +153,6 @@ namespace AplombTech.WMS.Domain.Repositories
 
             return data;
         }
-
         public void CreateNewSensorData(decimal value, DateTime loggedAt, Sensor sensor)
         {           
             SensorData data = Container.NewTransientInstance<SensorData>();

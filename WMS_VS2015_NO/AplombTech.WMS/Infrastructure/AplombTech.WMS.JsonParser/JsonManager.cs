@@ -129,7 +129,7 @@ namespace AplombTech.WMS.JsonParser
         private static Router GetRouter(JObject o)
         {
             Router router = new Router();
-            router.UUID = (string)o["PumpStation"]["Router"]["uid"];
+            router.UUID = (string)o["PumpStation"]["Router"]["mac_id"];
             router.MACAddress = (string)o["PumpStation"]["Router"]["mac_id"];
             router.IP = (string)o["PumpStation"]["Router"]["ip"];
             router.Port = (int)o["PumpStation"]["Router"]["port"];
