@@ -8,18 +8,16 @@
     Layout = "~/Views/Shared/_NofLayout.cshtml";
     ViewBag.Title ="Google Map";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <div id="body">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <section class="main-content">
         @(Html.TabbedHistory(Model))
         <br/>
         <p>Map View Model for Google Map</p>
-        @*@Html.Partial("~/Views/ZoneGoogleMap/MapwithTree.cshtml", Model)*@
 
-        <div id="map" style="height: 600px;">
+        @*<div id="map" style="height: 600px;">
 
-        </div>
+        </div>*@
 
         <div id="legend" style="background:white; padding:10px;">
             @foreach (var zone in Model.Zones)
@@ -87,15 +85,15 @@
             }
 
         </div>
-
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>*@
+        @*<script src="https://www.google.com/jsapi?.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
+                async defer></script>*@
+        @*<script src="~/Scripts/Map.js"></script>*@
     </section>
 
 </div>
 
 @section Scripts{
-    @Scripts.Render("~/bundles/jstree")
-    <script src="https://www.google.com/jsapi?.js"></script>
-    <script src="~/Scripts/Map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
-            async defer></script>
+    
 }

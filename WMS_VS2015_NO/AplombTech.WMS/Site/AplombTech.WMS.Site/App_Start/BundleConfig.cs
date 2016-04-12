@@ -52,6 +52,12 @@ namespace AplombTech.WMS.Site {
             bundles.Add(new ScriptBundle("~/bundles/jstree").Include(
                 "~/Scripts/dist/jstree.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/report").Include(
+                "~/Scripts/report.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/scadamap").Include(
+                "~/Scripts/scadamap.js"));
+
             //DATE FORMATS:   This bundle specifies that the JQuery DatePicker uses the en-GB date format (dd/mm/yy).
             //To use the US format (mm/dd/yy) just remove any references to the bundle. Or to use another locale, specify the appropriate
             //version of jquery.ui.datepicker

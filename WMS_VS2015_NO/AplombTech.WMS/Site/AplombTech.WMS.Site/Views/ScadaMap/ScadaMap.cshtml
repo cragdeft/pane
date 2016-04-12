@@ -32,7 +32,7 @@
 
             if (@sensor is EnergySensor)
             {
-                <p>ET = @sensor.CurrentValue kw/h</p>
+                <p>ET = @(((EnergySensor)sensor).CumulativeValue) kw/h</p>
             }
 
         }
@@ -63,7 +63,7 @@
         {
             if (@sensor is FlowSensor)
             {
-                <p>FT = @sensor.CurrentValue Metre</p>
+                <p>FT = @(((FlowSensor)sensor).CumulativeValue) Metre</p>
             }
         }
     </div>
