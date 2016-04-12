@@ -17,7 +17,7 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace AplombTech.WMS.MQTT.Client
 {
-    public class MqttClientService: IMyBatchStartPoint
+    public class MqttClientService: IWMSBatchStartPoint
     {
         #region Injected Services
         private INakedObjectsFramework framework;
