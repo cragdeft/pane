@@ -8,7 +8,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "G Map";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <div id="body">
     <section class="main-content">
         @*@Html.TabbedHistory(Model)*@
@@ -88,11 +87,6 @@
 </div>
 
 @section Scripts{
-    @Scripts.Render("~/bundles/jstree")
-    <script src="https://www.google.com/jsapi?.js"></script>
-    <script src="~/Scripts/Map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"
-            async defer></script>
 }
 
 

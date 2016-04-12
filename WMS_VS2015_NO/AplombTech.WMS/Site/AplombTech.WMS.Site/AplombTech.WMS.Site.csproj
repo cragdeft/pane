@@ -434,7 +434,7 @@
     <Content Include="Scripts\dist\themes\default\style.min.css" />
     <Content Include="Scripts\dist\themes\default\throbber.gif" />
     <Content Include="Scripts\Map.js" />
-    <Content Include="Scripts\Report.js" />
+    <Content Include="Scripts\report.js" />
     <Content Include="Scripts\scadamap.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />

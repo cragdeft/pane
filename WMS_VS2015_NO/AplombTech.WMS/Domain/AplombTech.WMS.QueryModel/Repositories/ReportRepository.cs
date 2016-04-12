@@ -158,81 +158,174 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         private DrillDown GeneratetSeriesDataDaily(DrillDown model)
         {
-            model.GraphTitle = "Daily Data Review";
-            model.GraphSubTitle = "Data for " + model.ToDateTime.DayOfWeek;
+            SetGraphTitleAndSubTitle(ref model, "Daily Data Review", "Data for " + model.ToDateTime.DayOfWeek);
+
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-            model.XaxisCategory = new string[25];
+            
 
             if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
             {
-                PressureSensor sensor = GetPumpStationSensor<PressureSensor>(pumpStation,model.TransmeType);
-                model.Unit = "Bar";
-                ReportSeries data = new ReportSeries();
-                data.name = "PT-" + sensor.UUID;
-                data.data = GetDailyData(ref model, sensor.SensorID);
-                model.Series.Add(data);
+                model = SetupDailyDataForFlowSensor(model, pumpStation);
             }
 
+            if (model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+            {
+                model = SetupDailyDataForEnergySensor(model, pumpStation);
+            }
+
+            return model;
+        }
+
+        private DrillDown SetupDailyDataForEnergySensor(DrillDown model, PumpStation pumpStation)
+        {
+            EnergySensor sensor = GetPumpStationSensor<EnergySensor>(pumpStation, model.TransmeType);
+            model.Unit = "kw/h";
+            ReportSeries data = new ReportSeries();
+            data.name = "ET-" + sensor.UUID;
+            data.data = GetDailyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
+            return model;
+        }
+
+        private DrillDown SetupDailyDataForFlowSensor(DrillDown model, PumpStation pumpStation)
+        {
+            FlowSensor sensor = GetPumpStationSensor<FlowSensor>(pumpStation, model.TransmeType);
+            model.Unit = "Meter";
+            ReportSeries data = new ReportSeries();
+            data.name = "FT-" + sensor.UUID;
+            data.data = GetDailyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
             return model;
         }
 
         private DrillDown GeneratetSeriesDataHourly(DrillDown model)
         {
-            model.GraphTitle = "Hourly Data Review";
-            model.GraphSubTitle = "Data for Hour no=" + model.ToDateTime.Hour;
+            SetGraphTitleAndSubTitle(ref model, "Hourly Data Review", "Data for Hour no = " + model.ToDateTime.Hour);
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-            model.XaxisCategory = new string[13];
+            
 
             if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
             {
-                PressureSensor sensor = GetPumpStationSensor<PressureSensor>(pumpStation, model.TransmeType);
-                model.Unit = "Bar";
-                ReportSeries data = new ReportSeries();
-                data.name = "PT-" + sensor.UUID;
-                data.data = GetHourlyData(ref model, sensor.SensorID);
-                model.Series.Add(data);
+                model = SetupHourlyDataForFlowSensor(model, pumpStation);
             }
 
+            if (model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+            {
+                model = SetupHourlyDataForEnergySensor(model, pumpStation);
+            }
+
+
+            return model;
+        }
+
+        private DrillDown SetupHourlyDataForEnergySensor(DrillDown model, PumpStation pumpStation)
+        {
+            EnergySensor sensor = GetPumpStationSensor<EnergySensor>(pumpStation, model.TransmeType);
+            model.Unit = "kw/h";
+            ReportSeries data = new ReportSeries();
+            data.name = "ET-" + sensor.UUID;
+            data.data = GetHourlyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
+            return model;
+        }
+
+        private DrillDown SetupHourlyDataForFlowSensor(DrillDown model, PumpStation pumpStation)
+        {
+            FlowSensor sensor = GetPumpStationSensor<FlowSensor>(pumpStation, model.TransmeType);
+            model.Unit = "Meter";
+            ReportSeries data = new ReportSeries();
+            data.name = "FT-" + sensor.UUID;
+            data.data = GetHourlyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
             return model;
         }
 
         private DrillDown GeneratetSeriesDataWeekly(DrillDown model)
         {
-            model.GraphTitle = "Weekly Data Review";
-            model.GraphSubTitle = "Data for Week no=" + model.Week;
+            SetGraphTitleAndSubTitle(ref model, "Weekly Data Review", "Data for Week no = " + model.Week);
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-            model.XaxisCategory = new string[7];
+            
 
             if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
             {
-                PressureSensor sensor = GetPumpStationSensor<PressureSensor>(pumpStation, model.TransmeType);
-                model.Unit = "Bar";
-                ReportSeries data = new ReportSeries();
-                data.name = "PT-" + sensor.UUID;
-                data.data = GetWeeklyData(ref model, sensor.SensorID);
-                model.Series.Add(data);
+                model = SetupWeeklyDataForFlowSensor(model, pumpStation);
+            }
+
+            if (model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+            {
+                model = SetupWeeklyDataForEnergySensor(model, pumpStation);
             }
 
             return model;
         }
 
+        private DrillDown SetupWeeklyDataForEnergySensor(DrillDown model, PumpStation pumpStation)
+        {
+            EnergySensor sensor = GetPumpStationSensor<EnergySensor>(pumpStation, model.TransmeType);
+            model.Unit = "kw/h";
+            ReportSeries data = new ReportSeries();
+            data.name = "ET-" + sensor.UUID;
+            data.data = GetWeeklyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
+            return model;
+        }
+
+        private DrillDown SetupWeeklyDataForFlowSensor(DrillDown model, PumpStation pumpStation)
+        {
+            FlowSensor sensor = GetPumpStationSensor<FlowSensor>(pumpStation, model.TransmeType);
+            model.Unit = "Metre";
+            ReportSeries data = new ReportSeries();
+            data.name = "FT-" + sensor.UUID;
+            data.data = GetWeeklyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
+            return model;
+        }
+
         private DrillDown GeneratetSeriesDataMonthly(DrillDown model)
         {
-            model.GraphTitle = "Monthly Data Review";
-            model.GraphSubTitle = "Data for " + model.ToDateTime.ToString("MMM");
+            SetGraphTitleAndSubTitle(ref model, "Monthly Data Review", "Data for " + model.ToDateTime.ToString("MMM"));
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-            model.XaxisCategory = new string[30];
 
             if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
             {
-                PressureSensor sensor = GetPumpStationSensor<PressureSensor>(pumpStation, model.TransmeType);
-                model.Unit = "Bar";
-                ReportSeries data = new ReportSeries();
-                data.name = "PT-" + sensor.UUID;
-                data.data = GetMonthlyData(ref model, sensor.SensorID);
-                model.Series.Add(data);
+                model = SetupMonthlyDataForFlowSensor(model, pumpStation);
             }
 
+            if (model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+            {
+                model = SetupMonthlyDataForEnergySensor(model, pumpStation);
+            }
+
+            return model;
+        }
+
+        private static void SetGraphTitleAndSubTitle(ref DrillDown model,string title,string subtitle)
+        {
+            model.GraphTitle = title;
+            model.GraphSubTitle = subtitle;
+
+        }
+
+        private DrillDown SetupMonthlyDataForEnergySensor(DrillDown model, PumpStation pumpStation)
+        {
+            EnergySensor sensor = GetPumpStationSensor<EnergySensor>(pumpStation, model.TransmeType);
+            model.Unit = "kw/h";
+            ReportSeries data = new ReportSeries();
+            data.name = "ET-" + sensor.UUID;
+            data.data = GetMonthlyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
+            return model;
+        }
+
+        private DrillDown SetupMonthlyDataForFlowSensor(DrillDown model, PumpStation pumpStation)
+        {
+            model.XaxisCategory = new string[30];
+            FlowSensor sensor = GetPumpStationSensor<FlowSensor>(pumpStation, model.TransmeType);
+            model.Unit = "Metre";
+            ReportSeries data = new ReportSeries();
+            data.name = "FT-" + sensor.UUID;
+            data.data = GetMonthlyData(ref model, sensor.SensorID);
+            model.Series.Add(data);
             return model;
         }
 
@@ -242,25 +335,25 @@ namespace AplombTech.WMS.QueryModel.Repositories
             {
                 if (sensor is WMS.QueryModel.Sensors.PressureSensor  && type == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
                 {
-                    PressureSensor p = new PressureSensor() {SensorID = sensor.SensorID};
+                    PressureSensor p = new PressureSensor() {SensorID = sensor.SensorID, UUID = sensor.UUID };
                     return (T)Convert.ChangeType(p, typeof(T));
                 }
 
                 if (sensor is LevelSensor && type == Sensor.TransmitterType.LEVEL_TRANSMITTER)
                 {
-                    LevelSensor p = new LevelSensor() { SensorID = sensor.SensorID};
+                    LevelSensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID };
                     return (T)Convert.ChangeType(p, typeof(T));
                 }
 
                 if (sensor is EnergySensor && type == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
-                    EnergySensor p = new EnergySensor() { SensorID = sensor.SensorID };
+                    EnergySensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID };
                     return (T)Convert.ChangeType(p, typeof(T));
                 }
 
-                if (sensor is FlowSensor && type == Sensor.TransmitterType.FLOW_TRANSMITTER)
+                if (sensor is WMS.QueryModel.Sensors.FlowSensor && type == Sensor.TransmitterType.FLOW_TRANSMITTER)
                 {
-                    FlowSensor p = new FlowSensor() { SensorID = sensor.SensorID };
+                    FlowSensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID};
                     return (T)Convert.ChangeType(p, typeof(T));
                 }
             }
@@ -270,6 +363,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         private List<double> GetDailyData(ref DrillDown model,int sensorId)
         {
+            model.XaxisCategory = new string[25];
             List<double> avgValue = new List<double>();
             for (int i = 0; i <= 24; i++)
             {
@@ -279,19 +373,13 @@ namespace AplombTech.WMS.QueryModel.Repositories
                     model.ToDateTime.AddHours(i + 1)));
                     model.XaxisCategory[i] = (i + 1).ToString();
                 }
-
-                //if (model.TransmeType == Sensor.TransmitterType.PRESSURE_TRANSMITTER || model.TransmeType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
-                //{
-                //    avgValue.Add(GetCurrentDataWithinTime(sensorId, model.ToDateTime.AddHours(i),
-                //    model.ToDateTime.AddHours(i + 1)));
-                //    model.XaxisCategory[i] = (i + 1).ToString();
-                //}
             }
             return avgValue;
         }
 
         private List<double> GetHourlyData(ref DrillDown model, int sensorId)
         {
+            model.XaxisCategory = new string[13];
             List<double> avgValue = new List<double>();
             for (int i = 0; i <= 12; i++)
             {
@@ -307,6 +395,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         private List<double> GetWeeklyData(ref DrillDown model, int sensorId)
         {
+            model.XaxisCategory = new string[7];
             List<double> avgValue = new List<double>();
             for (int i = 0; i < 7; i++)
             {
@@ -322,6 +411,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         private List<double> GetMonthlyData(ref DrillDown model, int sensorId)
         {
+            model.XaxisCategory = new string[30];
             List<double> avgValue = new List<double>();
             for (int i = 0; i < 30; i++)
             {
