@@ -47,7 +47,7 @@ namespace AplombTech.WMS.MQTT.Client {
             container.RegisterInstance<IEntityObjectStoreConfiguration>(NakedObjectsRunSettings.EntityObjectStoreConfig(), new ContainerControlledLifetimeManager());
 
             // Batch specific 
-            container.RegisterType<IMyBatchRunner, MyBatchRunner>(new PerResolveLifetimeManager());
+            container.RegisterType<IWMSBatchRunner, WMSBatchRunner>(new PerResolveLifetimeManager());
 
             //Externals
             container.RegisterType<IPrincipal>(new InjectionFactory(c => Thread.CurrentPrincipal));
