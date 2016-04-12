@@ -92,7 +92,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             return model;
         }
 
-        public Dictionary<string,string> GetPumpStationOverView(int pumpStationId)
+        public Dictionary<string, string> GetPumpStationOverView(int pumpStationId)
         {
             var model = Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).FirstOrDefault();
             Dictionary<string, string> dictonary = new Dictionary<string, string>();
@@ -107,16 +107,16 @@ namespace AplombTech.WMS.QueryModel.Repositories
             foreach (var sensor in model.Sensors)
             {
                 if (sensor is PressureSensor)
-                    dictonary.Add("PT-" + sensor.UUID, sensor.CurrentValue + " " + ((PressureSensor) sensor).Unit.Name);
+                    dictonary.Add("PT-" + sensor.UUID, sensor.CurrentValue + " " + ((PressureSensor)sensor).Unit.Name);
 
                 else if (sensor is LevelSensor)
-                    dictonary.Add("LT-" + sensor.UUID, sensor.CurrentValue + " " + ((LevelSensor) sensor).Unit.Name);
+                    dictonary.Add("LT-" + sensor.UUID, sensor.CurrentValue + " " + ((LevelSensor)sensor).Unit.Name);
 
                 else if (sensor is EnergySensor)
-                    dictonary.Add("ET-" + sensor.UUID, sensor.CurrentValue + " " + ((EnergySensor) sensor).Unit.Name);
+                    dictonary.Add("ET-" + sensor.UUID, sensor.CurrentValue + " " + ((EnergySensor)sensor).Unit.Name);
 
                 else if (sensor is FlowSensor)
-                    dictonary.Add("FT-" + sensor.UUID, sensor.CurrentValue + " " + ((FlowSensor) sensor).Unit.Name);
+                    dictonary.Add("FT-" + sensor.UUID, sensor.CurrentValue + " " + ((FlowSensor)sensor).Unit.Name);
 
                 else if (sensor is ChlorinationSensor)
                 {
@@ -161,7 +161,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             SetGraphTitleAndSubTitle(ref model, "Daily Data Review", "Data for " + model.ToDateTime.DayOfWeek);
 
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-            
+
 
             if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
             {
@@ -179,6 +179,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         private DrillDown SetupDailyDataForEnergySensor(DrillDown model, PumpStation pumpStation)
         {
             EnergySensor sensor = GetPumpStationSensor<EnergySensor>(pumpStation, model.TransmeType);
+
             model.Unit = "kw/h";
             ReportSeries data = new ReportSeries();
             data.name = "ET-" + sensor.UUID;
@@ -190,11 +191,13 @@ namespace AplombTech.WMS.QueryModel.Repositories
         private DrillDown SetupDailyDataForFlowSensor(DrillDown model, PumpStation pumpStation)
         {
             FlowSensor sensor = GetPumpStationSensor<FlowSensor>(pumpStation, model.TransmeType);
+
             model.Unit = "Meter";
             ReportSeries data = new ReportSeries();
             data.name = "FT-" + sensor.UUID;
             data.data = GetDailyData(ref model, sensor.SensorID);
             model.Series.Add(data);
+
             return model;
         }
 
@@ -202,7 +205,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             SetGraphTitleAndSubTitle(ref model, "Hourly Data Review", "Data for Hour no = " + model.ToDateTime.Hour);
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-            
+
 
             if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
             {
@@ -244,7 +247,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             SetGraphTitleAndSubTitle(ref model, "Weekly Data Review", "Data for Week no = " + model.Week);
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-            
+
 
             if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
             {
@@ -299,7 +302,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             return model;
         }
 
-        private static void SetGraphTitleAndSubTitle(ref DrillDown model,string title,string subtitle)
+        private static void SetGraphTitleAndSubTitle(ref DrillDown model, string title, string subtitle)
         {
             model.GraphTitle = title;
             model.GraphSubTitle = subtitle;
@@ -329,13 +332,13 @@ namespace AplombTech.WMS.QueryModel.Repositories
             return model;
         }
 
-        private T GetPumpStationSensor<T>(PumpStation pumpStation, Sensor.TransmitterType type)
+        private T GetPumpStationSensor<T>(PumpStation pumpStation, Sensor.TransmitterType type) where T : Sensor
         {
-            foreach (var sensor in pumpStation.Sensors )
+            foreach (var sensor in pumpStation.Sensors)
             {
-                if (sensor is WMS.QueryModel.Sensors.PressureSensor  && type == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
+                if (sensor is WMS.QueryModel.Sensors.PressureSensor && type == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
                 {
-                    PressureSensor p = new PressureSensor() {SensorID = sensor.SensorID, UUID = sensor.UUID };
+                    PressureSensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID };
                     return (T)Convert.ChangeType(p, typeof(T));
                 }
 
@@ -353,15 +356,15 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
                 if (sensor is WMS.QueryModel.Sensors.FlowSensor && type == Sensor.TransmitterType.FLOW_TRANSMITTER)
                 {
-                    FlowSensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID};
+                    FlowSensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID };
                     return (T)Convert.ChangeType(p, typeof(T));
                 }
             }
-
-            return (T)Convert.ChangeType(null, typeof(T));
+            return (T)Activator.CreateInstance(typeof(T));
+           
         }
 
-        private List<double> GetDailyData(ref DrillDown model,int sensorId)
+        private List<double> GetDailyData(ref DrillDown model, int sensorId)
         {
             model.XaxisCategory = new string[25];
             List<double> avgValue = new List<double>();
@@ -431,7 +434,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                    .Where(x => (x.Sensor.SensorID == sensorId && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
 
             if (sensorDataList != null)
-                return ((double) sensorDataList.Sum(x => x.Value));
+                return ((double)sensorDataList.Sum(x => x.Value));
             else
                 return 0;
         }
