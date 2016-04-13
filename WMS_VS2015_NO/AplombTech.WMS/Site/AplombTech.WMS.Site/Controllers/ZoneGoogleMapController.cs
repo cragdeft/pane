@@ -34,7 +34,7 @@ namespace AplombTech.WMS.Site.Controllers
         {
             ZoneGoogleMap zones = _reportRepository.GoogleMap();
             //int totalZone = zones.Zones.Count();
-            return View("~/Views/ZoneGoogleMap/ObjectView.cshtml",zones);
+            return View("~/Views/ZoneGoogleMap/ObjectView.cshtml", zones);
         }
 
         // GET: ZoneMap/Details/5
@@ -113,7 +113,7 @@ namespace AplombTech.WMS.Site.Controllers
         {
             Sensor sensor = _reportRepository.GetPumpSingleSensor(sensorId);
             string unit = GetSensorUnit(sensor);
-            return Json(new { Value = sensor.CurrentValue, Unit = unit,  IsSuccess = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { Value = sensor.CurrentValue, Unit = unit, IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetOverViewDataOfPumpStation(int pumpStationId)
@@ -122,33 +122,33 @@ namespace AplombTech.WMS.Site.Controllers
             return Json(new { Data = values, IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
 
-        private string  GetSensorUnit(Sensor sensor)
+        private string GetSensorUnit(Sensor sensor)
         {
             if (sensor is PressureSensor)
             {
-                return ((PressureSensor) sensor).Unit.Name;
+                return ((PressureSensor)sensor).Unit != null ? ((PressureSensor)sensor).Unit.Name : string.Empty;
             }
 
             else if (sensor is FlowSensor)
             {
-                return ((FlowSensor) sensor).Unit.Name;
+                return ((FlowSensor)sensor).Unit != null?((FlowSensor)sensor).Unit.Name:string.Empty;
             }
 
             else if (sensor is LevelSensor)
             {
-                return ((LevelSensor) sensor).Unit.Name;
+                return ((LevelSensor)sensor).Unit != null?((LevelSensor)sensor).Unit.Name:string.Empty;
             }
 
             else if (sensor is EnergySensor)
             {
-                return ((EnergySensor) sensor).Unit.Name;
+                return ((EnergySensor)sensor).Unit != null ? ((EnergySensor)sensor).Unit.Name:string.Empty;
             }
             else
             {
-                return null;
+                return string.Empty;
             }
 
-            
+
 
         }
     }

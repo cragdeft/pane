@@ -1,6 +1,6 @@
 ﻿
 
-$(function () { $('#legend').jstree(); });
+
 var map;
 var myLatLng = { lat: 23.751284, lng: 90.393570 };
 var marker;
@@ -25,7 +25,7 @@ var zone1PolyGonCoords = [
 ];
 
 var infowindow;
-google.load('visualization', '1.0', { 'packages': ['corechart'] });
+
 
 function initMap() {
     map = new window.google.maps.Map(document.getElementById('map'), {
@@ -104,126 +104,11 @@ function initMap() {
     map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 }
 
-$('#legend').on("changed.jstree", function (e, data) {
-
-    zone1.setOptions({ strokeColor: 'green' });
-
-    if ($('.jstree-clicked').text().trim()) {
-
-        var stationName = $('.jstree-clicked').text();
-        var depth = data.node.parents.length;
-        var node_id = data.node.id;
-
-        if (depth == 3) {
-            node_id = node_id.split("_")[1];
-
-            $.ajax({
-                type: "POST",
-                url: '/ZoneMap/GetOverViewDataOfPumpStation',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ pumpStationId: node_id }),
-                dataType: "json",
-                success: function (model) {
-                    if (model.IsSuccess) {
-                        var contentString = '<h2>Overview</h2><hr/> <div >';
-                        //drawChart(z2marker, model.data, stationName);
-                        for (var key in model.Data) {
-                            if (model.Data.hasOwnProperty(key)) {
-                                var val = model.Data[key];
-                                if (val !== null) {
-                                    contentString += '<h4>' + key + '</h4>' + ' <strong>' + model.Data[key] + ' </strong>';
-                                }
-
-                            }
-                        }
-                        drawChart(z2marker, contentString + '</div>');
-                    }
-
-                },
-                error: function () { }
-            });
-        }
-
-        if (depth == 4) {
-            node_id = node_id.split("_")[1];
 
 
-            $.ajax({
-                type: "POST",
-                url: '/ZoneMap/GetSingleSensorStatus',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ sensorId: node_id }),
-                dataType: "json",
-                success: function (model) {
-                    if (model.IsSuccess) {
 
-                        //drawChart(z2marker, model.data, stationName);
-
-
-                        if (stationName.includes("CT")) {
-                            var contentString;
-                            if (model.Value > 0 )
-                                contentString = '<h2>Cholorination On</h2>';
-                            else {
-                                contentString = '<h2>Cholorination Off</h2>';
-                            }
-                            drawChart(z2marker, contentString);
-                        } else {
-                            drawSensorData(z2marker, stationName.trim(), model.Value, model.Unit);
-                        }
-                    }
-
-                },
-                error: function () { }
-            });
-        }
-
-    }
-});
-
-function drawChart(marker, content) {
-
-    var infowindow2 = new google.maps.InfoWindow({
-        content: content
-    });
-
-    infowindow2.open(marker.getMap(), marker);
-}
-
-function drawSensorData(marker, sensorName, sensorValue, unit) {
-
-    // Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topping');
-    data.addColumn('number', unit);
-    data.addRows([
-        [unit, parseFloat(sensorValue)]
-    ]);
-
-    // Set chart options
-    var options = {
-        'title': sensorName + ' ' +
-            marker.getPosition().toString(),
-        'width': 600,
-        'height': 150
-    };
-
-    node = document.createElement('div');
-    infoWindow = new google.maps.InfoWindow();
-    barchart = new google.visualization.BarChart(node);
-
-    barchart.draw(data, options);
-    infoWindow.setContent(node);
-    infoWindow.open(marker.getMap(), marker);
-}
 
 function highlightPolyGon(zone1) {
     zone1.setOptions({ strokeColor: 'black' });
 }
 
-$('#legend').on("select_node.jstree", function(e, data) { alert("node_id: " + data.node.id); });
-$(function () {
-    $("li").on("click", function () {
-        alert('hi');
-    });
-});

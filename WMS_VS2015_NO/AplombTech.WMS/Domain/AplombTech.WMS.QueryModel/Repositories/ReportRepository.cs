@@ -107,16 +107,37 @@ namespace AplombTech.WMS.QueryModel.Repositories
             foreach (var sensor in model.Sensors)
             {
                 if (sensor is PressureSensor)
-                    dictonary.Add("PT-" + sensor.UUID, sensor.CurrentValue + " " + ((PressureSensor)sensor).Unit.Name);
+                {
+                    var unitName = ((PressureSensor)sensor).Unit != null
+                        ? ((PressureSensor)sensor).Unit.Name
+                        : string.Empty;
+                    dictonary.Add("PT-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
+                }
+
 
                 else if (sensor is LevelSensor)
-                    dictonary.Add("LT-" + sensor.UUID, sensor.CurrentValue + " " + ((LevelSensor)sensor).Unit.Name);
+                {
+                    var unitName = ((LevelSensor)sensor).Unit != null
+                        ? ((LevelSensor)sensor).Unit.Name
+                        : string.Empty;
+                    dictonary.Add("LT-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
+                }
 
                 else if (sensor is EnergySensor)
-                    dictonary.Add("ET-" + sensor.UUID, sensor.CurrentValue + " " + ((EnergySensor)sensor).Unit.Name);
+                {
+                    var unitName = ((EnergySensor)sensor).Unit != null
+                        ? ((EnergySensor)sensor).Unit.Name
+                        : string.Empty;
+                    dictonary.Add("ET-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
+                }
 
                 else if (sensor is FlowSensor)
-                    dictonary.Add("FT-" + sensor.UUID, sensor.CurrentValue + " " + ((FlowSensor)sensor).Unit.Name);
+                {
+                    var unitName = ((FlowSensor)sensor).Unit != null
+                        ? ((FlowSensor)sensor).Unit.Name
+                        : string.Empty;
+                    dictonary.Add("FT-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
+                }
 
                 else if (sensor is ChlorinationSensor)
                 {
@@ -361,7 +382,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 }
             }
             return (T)Activator.CreateInstance(typeof(T));
-           
+
         }
 
         private List<double> GetDailyData(ref DrillDown model, int sensorId)
