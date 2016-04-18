@@ -1,10 +1,11 @@
-﻿
+﻿var interval;
 $(function () {
     $('#inputPanel').hide();
 });
 $("#show").click(function (e) {
     e.preventDefault();
-    
+    if (interval != null)
+        clearInterval(interval);
     var model = setModel();
     $.ajax({
         type: "POST",
@@ -22,7 +23,7 @@ $("#show").click(function (e) {
                         showGraph(data);
                         $('#chartContainer').empty();
                     }
-                    
+
                 }
 
             },
@@ -32,8 +33,6 @@ $("#show").click(function (e) {
 });
 function showRealChart(data2) {
     var dps = []; // dataPoints
-    //dps.push(data2.Data.Series[0].data[0]);
-    //alert(dps[0]);
     dps.push({
         x: new Date(),
         y: data2.Data.Series[0].data[0]
@@ -71,14 +70,14 @@ function showRealChart(data2) {
             type: "POST",
             url: '/DrillDown/GetReportModel',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ model: data2 }),
+            data: JSON.stringify({ model: setModel() }),
             dataType: "json",
             success:
                 function (data) {
                     if (data.IsSuccess) {
                         if ($('#ReportType').val() == 5) {
                             var time = (new Date());
-                            yVal =  data2.Data.Series[0].data[0];
+                            yVal = data.Data.Series[0].data[0];
                             dps.push({
                                 x: time,
                                 y: yVal
@@ -90,7 +89,7 @@ function showRealChart(data2) {
             error: function () { }
         });
 
-            
+
         if (dps.length > dataLength) {
             dps.shift();
         }
@@ -101,12 +100,14 @@ function showRealChart(data2) {
 
     // generates first set of dataPoints
     updateChart(dataLength);
-
     // update chart after specified time. 
-    setInterval(function () { updateChart() }, updateInterval);
+    interval = setInterval(function () { updateChart() }, updateInterval);
+
 
 }
 $("#ReportType").change(function () {
+    if (interval != null)
+        clearInterval(interval);
     var reportType = $('#ReportType').val();
     $('#inputPanel').show();
     if (reportType == 1) {
@@ -115,6 +116,9 @@ $("#ReportType").change(function () {
         $('#Month').show();
         $('#Day').show();
         $('#Hour').show();
+        $("#TransmeType option[value='1']").show();
+        $("#TransmeType option[value='2']").show();
+        $("#TransmeType option[value='5']").show();
     }
     if (reportType == 2) {
         $('#Week').hide();
@@ -152,7 +156,7 @@ $("#ReportType").change(function () {
         $("#TransmeType option[value='5']").show();
     }
 
-    if (reportType != 5) {
+    if (reportType != 5 && reportType != 1) {
         $("#TransmeType option[value='1']").hide();
         $("#TransmeType option[value='2']").hide();
         $("#TransmeType option[value='5']").hide();
@@ -167,7 +171,7 @@ function setModel() {
         Week: $('#Week').val(),
         Day: $('#Day').val(),
         Hour: $('#Hour').val(),
-        SelectedPumpStationId:  $('#SelectedPumpStationId').val(),
+        SelectedPumpStationId: $('#SelectedPumpStationId').val(),
         TransmeType: $('#TransmeType').val()
     }
 
@@ -298,7 +302,7 @@ function showGraph(data) {
         },
         plotOptions: {
             series: {
-                cursor: 'pointer', 
+                cursor: 'pointer',
                 point: {
                     events: {
                         click: function () {
@@ -332,7 +336,6 @@ function showGraph(data) {
                                         if (data.IsSuccess) {
                                             showGraph(data);
                                         }
-
                                     },
                                 error: function () { }
                             });
@@ -350,7 +353,7 @@ function showGraph(data) {
             lineColor: 'transparent'
         },
         tooltip: {
-            valueSuffix: data.Data.Unit
+            valueSuffix: ' '+data.Data.Unit
         },
         legend: {
             layout: 'horizontal',
