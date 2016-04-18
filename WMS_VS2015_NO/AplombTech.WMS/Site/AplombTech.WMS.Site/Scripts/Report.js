@@ -17,9 +17,12 @@ $("#show").click(function (e) {
                 if (data.IsSuccess) {
                     if ($('#ReportType').val() == 5) {
                         showRealChart(data);
-                    }
-                    else
+                        $('#chart_div').empty();
+                    } else {
                         showGraph(data);
+                        $('#chartContainer').empty();
+                    }
+                    
                 }
 
             },
@@ -28,78 +31,80 @@ $("#show").click(function (e) {
 
 });
 function showRealChart(data2) {
-    var xd = [];
-    
-    for (var k = 0; k < data2.Data.Series.length; k++) {
-        
-        xd.push({
-            name: 's' + k, data: (function () {
-                // generate an array of random data
-                var datax = [], time = (new Date()).getTime(), i;
-
-                for (i = -3; i <= 0; i += 1) {
-                    datax.push([
-                        time + i * 1000,
-                        Math.round(Math.random() * 100)
-                    ]);
-
-                    
-                }
-                return datax;
-            }())
-        });
-    }
-
-
-    $('#chart_div').highcharts('StockChart', {
-        chart: {
-            events: {
-                load: function () {
-                    // set up the updating of the chart each second
-                    var series = this.series;
-                    setInterval(function () {
-                        for (var i = 0; i < series.length-1; i++) {
-                            var seriea = series[i];
-
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.round(Math.random() * 100);
-                            
-                            series[i].addPoint([x, y], true, true);
-                        }
-                    }, 5000);
-
-                }
-            }
-        },
-
-        rangeSelector: {
-            buttons: [{
-                count: 1,
-                type: 'minute',
-                text: '1M'
-            }, {
-                count: 5,
-                type: 'minute',
-                text: '5M'
-            }, {
-                type: 'all',
-                text: 'All'
-            }],
-            inputEnabled: false,
-            selected: 0
-        },
-
-        title: {
-            text: 'Live data'
-        },
-
-        exporting: {
-            enabled: false
-        },
-
-        series: xd
-
+    var dps = []; // dataPoints
+    //dps.push(data2.Data.Series[0].data[0]);
+    //alert(dps[0]);
+    dps.push({
+        x: new Date(),
+        y: data2.Data.Series[0].data[0]
     });
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        title: {
+            text: data2.Data.GraphTitle
+        },
+        axisX: {
+            title: "Time",
+            gridThickness: 2
+        },
+        axisY: {
+            title: data2.Data.Unit
+        },
+        data: [{
+            type: "line",
+            toolTipContent: "{x}:{y} " + data2.Data.Unit,
+            showInLegend: true,
+            legendText: data2.Data.Series[0].name,
+            dataPoints: dps
+        }]
+    });
+
+    var xVal = 0;
+    var yVal = 0;
+    var updateInterval = 5000;
+    var dataLength = 500;
+
+    var updateChart = function (count) {
+        count = count || 1;
+
+        $.ajax({
+            type: "POST",
+            url: '/DrillDown/GetReportModel',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ model: data2 }),
+            dataType: "json",
+            success:
+                function (data) {
+                    if (data.IsSuccess) {
+                        if ($('#ReportType').val() == 5) {
+                            var time = (new Date());
+                            yVal =  data2.Data.Series[0].data[0];
+                            dps.push({
+                                x: time,
+                                y: yVal
+                            });
+                        }
+                    }
+
+                },
+            error: function () { }
+        });
+
+            
+        if (dps.length > dataLength) {
+            dps.shift();
+        }
+
+        chart.render();
+
+    };
+
+    // generates first set of dataPoints
+    updateChart(dataLength);
+
+    // update chart after specified time. 
+    setInterval(function () { updateChart() }, updateInterval);
+
 }
 $("#ReportType").change(function () {
     var reportType = $('#ReportType').val();
@@ -142,6 +147,15 @@ $("#ReportType").change(function () {
         $('#Month').show();
         $('#Day').hide();
         $('#inputPanel').hide();
+        $("#TransmeType option[value='1']").show();
+        $("#TransmeType option[value='2']").show();
+        $("#TransmeType option[value='5']").show();
+    }
+
+    if (reportType != 5) {
+        $("#TransmeType option[value='1']").hide();
+        $("#TransmeType option[value='2']").hide();
+        $("#TransmeType option[value='5']").hide();
     }
 });
 
@@ -278,9 +292,13 @@ function showGraph(data) {
             categories: categories,
             gridLineWidth: 1
         },
+        credits: {
+            text: 'Aplombtech BD',
+            href: 'http://www.example.com'
+        },
         plotOptions: {
             series: {
-                cursor: 'pointer',
+                cursor: 'pointer', 
                 point: {
                     events: {
                         click: function () {

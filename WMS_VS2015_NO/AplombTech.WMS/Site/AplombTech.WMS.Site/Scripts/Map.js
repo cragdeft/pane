@@ -26,7 +26,6 @@ var zone1PolyGonCoords = [
 
 var infowindow;
 
-
 function initMap() {
     map = new window.google.maps.Map(document.getElementById('map'), {
         center: myLatLng,

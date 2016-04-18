@@ -57,14 +57,16 @@ function showRealChart(data2) {
                 load: function () {
                     // set up the updating of the chart each second
                     var series = this.series;
-                    setInterval(function () {
+                    var shift = true;
+                    //setTimeout(requestData, 1000);
+                    setTimeout(function () {
                         for (var i = 0; i < series.length-1; i++) {
                             var seriea = series[i];
 
                             var x = (new Date()).getTime(), // current time
                                 y = Math.round(Math.random() * 100);
                             
-                            series[i].addPoint([x, y], true, true);
+                            series[i].addPoint([x, y], true, shift);
                         }
                     }, 5000);
 
@@ -97,7 +99,10 @@ function showRealChart(data2) {
             enabled: false
         },
 
-        series: xd
+        series: [{
+            name: 'Random data',
+            data: xd
+        }]
 
     });
 }
