@@ -29,7 +29,10 @@ namespace AplombTech.WMS.QueryModel.Sensors
         public virtual decimal MaximumValue { get; set; }
         [MemberOrder(20), Required, Disabled]
         public virtual decimal CurrentValue { get; set; }
-
+        [MemberOrder(60), Required, Disabled]
+        public virtual DateTime? LastDataReceived { get; set; }
+        [MemberOrder(70), Required, Disabled]
+        public virtual bool IsActive { get; set; }
         public enum TransmitterType
         {
             PRESSURE_TRANSMITTER = 1,

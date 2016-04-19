@@ -167,6 +167,7 @@ namespace AplombTech.WMS.Domain.Repositories
             data.ProcessAt = DateTime.Now;
 
             sensor.CurrentValue = value;
+            sensor.LastDataReceived = loggedAt;
             if (sensor is EnergySensor )
             {
                 ((EnergySensor)sensor).CumulativeValue += value;

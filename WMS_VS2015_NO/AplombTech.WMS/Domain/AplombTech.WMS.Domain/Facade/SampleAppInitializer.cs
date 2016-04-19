@@ -102,6 +102,7 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
             sensor.CumulativeValue = 0;
+            sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
@@ -115,6 +116,7 @@ namespace AplombTech.WMS.Domain.Facade
             PressureSensor sensor = new PressureSensor();
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
+            sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
@@ -128,6 +130,7 @@ namespace AplombTech.WMS.Domain.Facade
             LevelSensor sensor = new LevelSensor();
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
+            sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
@@ -142,6 +145,7 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
             sensor.CumulativeValue = 0;
+            sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
@@ -155,6 +159,7 @@ namespace AplombTech.WMS.Domain.Facade
             ChlorinationSensor sensor = new ChlorinationSensor();
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
+            sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;

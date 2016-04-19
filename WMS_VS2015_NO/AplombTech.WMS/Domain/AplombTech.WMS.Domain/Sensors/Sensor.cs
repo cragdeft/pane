@@ -31,6 +31,7 @@ namespace AplombTech.WMS.Domain.Sensors
             AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
             this.CurrentValue = 0;
+            this.IsActive = true;
         }
         public virtual void Updating()
         {
@@ -41,7 +42,7 @@ namespace AplombTech.WMS.Domain.Sensors
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        public virtual int SensorID { get; set; }
+        public virtual int SensorId { get; set; }
         [MemberOrder(10)]
         public virtual string UUID { get; set; }
         [MemberOrder(40)]
@@ -50,7 +51,10 @@ namespace AplombTech.WMS.Domain.Sensors
         public virtual decimal MaximumValue { get; set; }
         [MemberOrder(20), Required, Disabled]
         public virtual decimal CurrentValue { get; set; }
-      
+        [MemberOrder(60), Required, Disabled]
+        public virtual DateTime? LastDataReceived { get; set; }
+        [MemberOrder(70), Required, Disabled]
+        public virtual bool IsActive { get; set; }
         //[DisplayName("SensorType"), MemberOrder(10), Required]
         //public virtual TransmitterType SensorType { get; set; }
 
