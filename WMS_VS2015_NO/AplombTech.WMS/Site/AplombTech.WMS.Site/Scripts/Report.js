@@ -19,11 +19,13 @@ $("#show").click(function (e) {
             function (data) {
                 if (data.IsSuccess) {
                     if ($('#ReportType').val() == 5) {
-                        showRealChart(data);
                         $('#chart_div').empty();
+                        showRealChart(data);
+                        
                     } else {
-                        showGraph(data);
                         $('#chartContainer').empty();
+                        showGraph(data);
+                        
                     }
 
                 }
