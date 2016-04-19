@@ -24,12 +24,12 @@ namespace AplombTech.WMS.Domain.Facade
             Unit levelTransmitterUnit = AddUnit("meter", context);
             Unit flowTransmitterUnit = AddUnit("litre/min", context);
 
-            //CreatePump("456", "123KL", baridhara1, context);
-            //CreateFlowTransmitter("741",baridhara1, context, flowTransmitterUnit);
-            //CreatePressureTransmitter("369", baridhara1, context, pressureTransmitterUnit);
-            //CreateLevelTransmitter("852", baridhara1, context, levelTransmitterUnit);
-            //CreateEnergySensor("2465", baridhara1, context, energyTransmitterUnit);
-            //CreateChlorinationSensor("87654", baridhara1, context);
+            CreatePump("456", "123KL", baridhara1, context);
+            CreateFlowTransmitter("741", baridhara1, context, flowTransmitterUnit);
+            CreatePressureTransmitter("369", baridhara1, context, pressureTransmitterUnit);
+            CreateLevelTransmitter("852", baridhara1, context, levelTransmitterUnit);
+            CreateEnergySensor("2465", baridhara1, context, energyTransmitterUnit);
+            CreateChlorinationSensor("87654", baridhara1, context);
 
             PumpStation baridhara3 = CreatePumpStation("Baridhara3", dma810, context);
             //CreatePump("123", "456KL", baridhara3, context);

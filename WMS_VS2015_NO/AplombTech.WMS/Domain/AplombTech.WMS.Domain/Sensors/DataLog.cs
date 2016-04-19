@@ -42,7 +42,8 @@ namespace AplombTech.WMS.Domain.Sensors
             Started = 2,
             Failed = 3
         }
-
+        [MemberOrder(50), Optionally]
+        public virtual string Remarks { get; set; }
         #endregion
 
         #region  Navigation Properties

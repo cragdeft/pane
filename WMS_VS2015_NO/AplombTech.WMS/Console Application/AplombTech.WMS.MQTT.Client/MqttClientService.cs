@@ -170,6 +170,7 @@ namespace AplombTech.WMS.MQTT.Client
                         framework.TransactionManager.AbortTransaction();
                         framework.TransactionManager.StartTransaction();
                         dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
+                        dataLog.Remarks = "Error Occured in ProcessMessage method. Error: " + ex.ToString();
                         framework.TransactionManager.EndTransaction();
                     }
                 }
