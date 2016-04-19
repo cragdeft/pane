@@ -21,6 +21,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             menu.AddAction("GoogleMap");
             menu.AddAction("ScadaMap");
             menu.AddAction("DrillDown");
+            menu.AddAction("Summary");
             //menu.CreateSubMenu("Zone")
             //    .AddAction("CreateZone")
             //    .AddAction("FindZone")
@@ -56,6 +57,14 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             var model = Container.NewViewModel<DrillDown>();
             model.PumpStations = Container.Instances<PumpStation>().ToList();
+
+            return model;
+        }
+
+        public Summary Summary()
+        {
+            var model = Container.NewViewModel<Summary>();
+            model.Zones = Container.Instances<Zone>().ToList();
 
             return model;
         }
@@ -177,6 +186,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             if (model.ReportType == ReportType.Realtime)
             {
+                model.ToDateTime = DateTime.Now;
                 return GeneratetSeriesDataRealTime(model);
             }
 

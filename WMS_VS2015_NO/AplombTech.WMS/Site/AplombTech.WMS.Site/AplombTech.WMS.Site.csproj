@@ -315,6 +315,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\DrillDownController.cs" />
     <Compile Include="Controllers\RestfulObjectsController.cs" />
+    <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\ScadaMapController.cs" />
     <Compile Include="Controllers\ZoneGoogleMapController.cs" />
     <Compile Include="Global.asax.cs">
@@ -438,6 +439,7 @@
     <Content Include="Scripts\jquery.canvasjs.min.js" />
     <Content Include="Scripts\license.txt" />
     <Content Include="Scripts\map.js" />
+    <Content Include="Scripts\overview.js" />
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\scadamap.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -525,6 +527,9 @@
     <Content Include="Views\DrillDown\ViewModel.cshtml" />
     <Content Include="Views\ZoneGoogleMap\OnlyMap.cshtml" />
     <Content Include="Views\ScadaMap\PlainScada.cshtml" />
+    <Content Include="Views\Summary\ObjectView.cshtml" />
+    <Content Include="Views\Summary\Summary.cshtml" />
+    <Content Include="Views\Summary\ViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

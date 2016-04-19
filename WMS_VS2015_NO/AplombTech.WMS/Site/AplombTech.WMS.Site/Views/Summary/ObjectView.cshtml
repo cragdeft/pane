@@ -1,0 +1,195 @@
+@using AplombTech.WMS.QueryModel.Sensors
+@using NakedObjects.Facade.Utility;
+@using NakedObjects.Web.Mvc.Html
+@using AplombTech.WMS.QueryModel.Reports
+@model Summary
+@{
+    decimal flowSensorValue = 0;
+    decimal pressureSensorValue = 0;
+    decimal levelSensorValue = 0;
+    decimal energySensorValue = 0;
+    string cholorinationSensorValue = "On";
+    DateTime lastRecived = DateTime.MinValue;
+    bool fsactive = false;
+    bool psactive = false;
+    bool lsactive = false;
+    bool esactive = false;
+    bool csactive = false;
+}
+<div id="body">
+    <section class="main-content">
+        @(Html.TabbedHistory(Model))
+        <style>
+            th {
+                color: black !important;
+            }
+            tr:nth-child(even) {background: #CCC!important;}
+            tr:nth-child(odd) {background: #FFF!important;}
+        </style>
+        <br />
+        <div class="col-md-offset-1">
+            <table class="table">
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        <h3>Level</h3> <span>(meter)</span>
+                    </th>
+                    <th>
+                        <h3>Preesure</h3> <span>(bar)</span>
+                    </th>
+                    <th>
+                        <h3>Flow</h3> <span>(litre/min)</span>
+                    </th>
+                    <th>
+                        <h3>Energy</h3> <span>(kw/h)</span>
+                    </th>
+                    <th>
+                        <h3>Cholorination</h3> <span>(-)</span>
+                    </th>
+                    @*<th><h3>Active</h3></th>*@
+
+                    <th>
+                        <h3>Last Recivied</h3>
+                    </th>
+                </tr>
+                @foreach (var zone in Model.Zones)
+                {
+                    foreach (var dma in zone.DMAs)
+                    {
+
+                        <tr>
+                            <th>
+                                <h4>@dma.Name</h4>
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            @*<th>
+
+                            </th>*@
+                            <th></th>
+                        </tr>
+                        foreach (var pump in dma.PumpStations)
+                        {
+                            foreach (var sensor in pump.Sensors)
+                            {
+                                if (sensor.LastDataReceived.HasValue)
+                                {
+                                    lastRecived = sensor.LastDataReceived.Value;
+
+                                }
+                                if (sensor is PressureSensor)
+                                {
+                                    pressureSensorValue = sensor.CurrentValue;
+                                    psactive = sensor.IsActive;
+                                }
+
+                                if (sensor is EnergySensor)
+                                {
+                                    energySensorValue = sensor.CurrentValue;
+                                    esactive = sensor.IsActive;
+                                }
+
+                                if (sensor is LevelSensor)
+                                {
+                                    levelSensorValue = sensor.CurrentValue;
+                                    lsactive = sensor.IsActive;
+                                }
+
+                                if (sensor is FlowSensor)
+                                {
+                                    flowSensorValue = sensor.CurrentValue;
+                                    fsactive = sensor.IsActive;
+                                }
+
+                                if (sensor is ChlorinationSensor)
+                                {
+                                    cholorinationSensorValue = (sensor.CurrentValue > 0) ? "On" : "Off";
+                                    csactive = sensor.IsActive;
+                                }
+                            }
+                            <tr>
+                                <th>
+                                    @pump.Name
+                                </th>
+                                <th>
+                                    @if (@lsactive)
+                                    {
+                                        <p>@levelSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p>@levelSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                    }
+                                     </th>
+                                <th>
+                                    @if (@psactive)
+                                    {
+                                        <p>@pressureSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p>@pressureSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                    }
+                                      </th>
+                                <th>
+                                    @if (@fsactive)
+                                    {
+                                        <p>@flowSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p>@flowSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                    }                         
+                                </th>
+                                <th>
+                                    @if (@esactive)
+                                    {
+                                        <p>@energySensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p>@energySensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                    }
+                                    
+                                </th>
+                                <th>
+                                    @if (@csactive)
+                                    {
+                                        <p>@cholorinationSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p>@cholorinationSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                    }
+                                    
+                                </th>
+                                @*<th>
+                                    OK
+                                </th>*@
+                                <th>
+                                    @lastRecived
+                                </th>
+                            </tr>
+                        }
+                    }
+                }
+
+            </table>
+        </div>
+    </section>
+</div>

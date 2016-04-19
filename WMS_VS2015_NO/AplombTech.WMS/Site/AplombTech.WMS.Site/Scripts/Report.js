@@ -1,4 +1,6 @@
 ﻿var interval;
+var chart;
+
 $(function () {
     $('#inputPanel').hide();
 });
@@ -32,78 +34,91 @@ $("#show").click(function (e) {
 
 });
 function showRealChart(data2) {
-    var dps = []; // dataPoints
-    dps.push({
-        x: new Date(),
-        y: data2.Data.Series[0].data[0]
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
     });
+    chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'chartContainer',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function () {
+                    var series = this.series[0];
 
-    var chart = new CanvasJS.Chart("chartContainer", {
+                    interval = setInterval(function () {
+                        //var shift = series.data.length > 20; // shift if the series is longer than 20
+
+                        $.ajax({
+                            type: "POST",
+                            url: '/DrillDown/GetReportModel',
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({ model: setModel() }),
+                            dataType: "json",
+                            success:
+                                function (data) {
+                                    if (data.IsSuccess) {
+                                        if ($('#ReportType').val() == 5) {
+                                            var x = (new Date()).getTime(), // current time
+                                                y = data.Data.Series[0].data[0];
+                                            series.addPoint([x, y], true, series.data.length > 20);
+                                        }
+                                    }
+
+                                },
+                            error: function () { }
+                        });
+
+
+                    }, 1000);
+                }
+            }
+        },
+        global: {
+            useUTC: false
+        },
         title: {
             text: data2.Data.GraphTitle
         },
-        axisX: {
-            title: "Time",
-            gridThickness: 2
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000,
+            gridLineWidth: 1
         },
-        axisY: {
-            title: data2.Data.Unit
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: data2.Data.Unit,
+                margin: 80
+            },
+            lineWidth: 0,
+            gridLineWidth: 0,
+            lineColor: 'transparent'
         },
-        data: [{
-            type: "line",
-            toolTipContent: "{x}:{y} " + data2.Data.Unit,
-            showInLegend: true,
-            legendText: data2.Data.Series[0].name,
-            dataPoints: dps
-        }]
-    });
+        credits: {
+            text: 'Aplombtech BD',
+            href: 'http://www.example.com'
+        },
+        tooltip: {
+            valueSuffix: ' ' + data2.Data.Unit
+        },
+        series: [{
+            name: data2.Data.Series[0].name,
+            data: []
+        }],
+    exporting: {
+        enabled: true
+    }
+});
 
-    var xVal = 0;
-    var yVal = 0;
-    var updateInterval = 5000;
-    var dataLength = 500;
-
-    var updateChart = function (count) {
-        count = count || 1;
-
-        $.ajax({
-            type: "POST",
-            url: '/DrillDown/GetReportModel',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ model: setModel() }),
-            dataType: "json",
-            success:
-                function (data) {
-                    if (data.IsSuccess) {
-                        if ($('#ReportType').val() == 5) {
-                            var time = (new Date());
-                            yVal = data.Data.Series[0].data[0];
-                            dps.push({
-                                x: time,
-                                y: yVal
-                            });
-                        }
-                    }
-
-                },
-            error: function () { }
-        });
-
-
-        if (dps.length > dataLength) {
-            dps.shift();
-        }
-
-        chart.render();
-
-    };
-
-    // generates first set of dataPoints
-    updateChart(dataLength);
-    // update chart after specified time. 
-    interval = setInterval(function () { updateChart() }, updateInterval);
-
-
+chart.setOptions({
+    global: {
+        useUTC: false
+    }
+});
 }
 $("#ReportType").change(function () {
     if (interval != null)
@@ -353,7 +368,7 @@ function showGraph(data) {
             lineColor: 'transparent'
         },
         tooltip: {
-            valueSuffix: ' '+data.Data.Unit
+            valueSuffix: ' ' + data.Data.Unit
         },
         legend: {
             layout: 'horizontal',
@@ -361,7 +376,10 @@ function showGraph(data) {
             verticalAlign: 'middle',
             borderWidth: 0
         },
-        series: data.Data.Series
+        series: data.Data.Series,
+        exporting: {
+            enabled: true
+        }
     });
 
 }
