@@ -166,20 +166,14 @@ namespace AplombTech.WMS.Domain.Repositories
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            if (sensor.LastDataReceived != null)
-            {
-                if (sensor.LastDataReceived < loggedAt)
-                {
-                    sensor.CurrentValue = value;
-                    sensor.LastDataReceived = loggedAt;
-                }               
-            }
-            else
-            {
-                sensor.CurrentValue = value;
-                sensor.LastDataReceived = loggedAt;
-            }
-            if (sensor is EnergySensor )
+            UpdateLastDataOfSensor(value, loggedAt, sensor);
+            UpdateCumulativeDataOfSensor(value, sensor);
+          
+            Container.Persist(ref data);            
+        }
+        private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
+        {
+            if (sensor is EnergySensor)
             {
                 ((EnergySensor)sensor).CumulativeValue += value;
             }
@@ -187,8 +181,22 @@ namespace AplombTech.WMS.Domain.Repositories
             {
                 ((FlowSensor)sensor).CumulativeValue += value;
             }
-
-            Container.Persist(ref data);            
+        }
+        private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
+        {
+            if (sensor.LastDataReceived != null)
+            {
+                if (sensor.LastDataReceived < loggedAt)
+                {
+                    sensor.CurrentValue = value;
+                    sensor.LastDataReceived = loggedAt;
+                }
+            }
+            else
+            {
+                sensor.CurrentValue = value;
+                sensor.LastDataReceived = loggedAt;
+            }
         }
     }
 }
