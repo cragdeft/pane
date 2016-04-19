@@ -166,8 +166,19 @@ namespace AplombTech.WMS.Domain.Repositories
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            sensor.CurrentValue = value;
-            sensor.LastDataReceived = loggedAt;
+            if (sensor.LastDataReceived != null)
+            {
+                if (sensor.LastDataReceived < loggedAt)
+                {
+                    sensor.CurrentValue = value;
+                    sensor.LastDataReceived = loggedAt;
+                }               
+            }
+            else
+            {
+                sensor.CurrentValue = value;
+                sensor.LastDataReceived = loggedAt;
+            }
             if (sensor is EnergySensor )
             {
                 ((EnergySensor)sensor).CumulativeValue += value;
