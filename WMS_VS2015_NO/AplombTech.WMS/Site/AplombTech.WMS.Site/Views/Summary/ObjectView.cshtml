@@ -23,8 +23,14 @@
             th {
                 color: black !important;
             }
-            tr:nth-child(even) {background: #CCC!important;}
-            tr:nth-child(odd) {background: #FFF!important;}
+
+            .table tr:nth-child(even) {
+                background: #b8d1f3!important;
+            }
+
+            .table tr:nth-child(odd){
+                background: #dae5f4!important;
+            }
         </style>
         <br />
         <div class="col-md-offset-1">
@@ -60,28 +66,28 @@
                     {
 
                         <tr>
-                            <th>
+                            <td>
                                 <h4>@dma.Name</h4>
-                            </th>
-                            <th>
+                            </td>
+                            <td>
 
-                            </th>
-                            <th>
+                            </td>
+                            <td>
 
-                            </th>
-                            <th>
+                            </td>
+                            <td>
 
-                            </th>
-                            <th>
+                            </td>
+                            <td>
 
-                            </th>
-                            <th>
+                            </td>
+                            <td>
 
-                            </th>
+                            </td>
                             @*<th>
 
-                            </th>*@
-                            <th></th>
+                                </th>*@
+                            <td></td>
                         </tr>
                         foreach (var pump in dma.PumpStations)
                         {
@@ -123,10 +129,10 @@
                                 }
                             }
                             <tr>
-                                <th>
+                                <td>
                                     @pump.Name
-                                </th>
-                                <th>
+                                </td>
+                                <td>
                                     @if (@lsactive)
                                     {
                                         <p>@levelSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
@@ -135,8 +141,8 @@
                                     {
                                         <p>@levelSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
                                     }
-                                     </th>
-                                <th>
+                                </td>
+                                <td>
                                     @if (@psactive)
                                     {
                                         <p>@pressureSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
@@ -145,8 +151,8 @@
                                     {
                                         <p>@pressureSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
                                     }
-                                      </th>
-                                <th>
+                                </td>
+                                <td>
                                     @if (@fsactive)
                                     {
                                         <p>@flowSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
@@ -154,9 +160,9 @@
                                     else
                                     {
                                         <p>@flowSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
-                                    }                         
-                                </th>
-                                <th>
+                                    }
+                                </td>
+                                <td>
                                     @if (@esactive)
                                     {
                                         <p>@energySensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
@@ -165,9 +171,9 @@
                                     {
                                         <p>@energySensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
                                     }
-                                    
-                                </th>
-                                <th>
+
+                                </td>
+                                <td>
                                     @if (@csactive)
                                     {
                                         <p>@cholorinationSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
@@ -176,14 +182,14 @@
                                     {
                                         <p>@cholorinationSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
                                     }
-                                    
-                                </th>
+
+                                </td>
                                 @*<th>
-                                    OK
-                                </th>*@
-                                <th>
+                                        OK
+                                    </th>*@
+                                <td>
                                     @lastRecived
-                                </th>
+                                </td>
                             </tr>
                         }
                     }
