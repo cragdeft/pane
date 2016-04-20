@@ -100,7 +100,7 @@ function initMap() {
     var legend = document.getElementById('legend');
 
 
-    map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+    map.controls[window.google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 }
 
 
