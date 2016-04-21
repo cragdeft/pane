@@ -9,12 +9,40 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NakedObjects.Value;
 
 namespace AplombTech.WMS.Domain.Areas
 {   
     public class Zone : Area
     {
         public override string Name { get; set; }
+
+        public virtual FileAttachment Kml
+        {
+            get
+            {
+                if (AttContent == null) return null;
+                return new FileAttachment(AttContent, AttName, AttMime) { DispositionType = "inline" };
+            }
+        }
+
+        [NakedObjectsIgnore]
+        public virtual byte[] AttContent { get; set; }
+
+        [NakedObjectsIgnore]
+        public virtual string AttName { get; set; }
+
+        [NakedObjectsIgnore]
+        public virtual string AttMime { get; set; }
+
+        #region Kml File Add
+        public void AddOrChangeAttachment(FileAttachment newAttachment)
+        {
+            AttContent = newAttachment.GetResourceAsByteArray();
+            AttName = newAttachment.Name;
+            AttMime = newAttachment.MimeType;
+        } 
+        #endregion
 
         #region Validations
         public string ValidateName(string areaName)

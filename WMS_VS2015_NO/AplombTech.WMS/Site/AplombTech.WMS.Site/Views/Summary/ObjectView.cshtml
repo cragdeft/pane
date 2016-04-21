@@ -31,6 +31,10 @@
             .table tr:nth-child(odd){
                 background: #dae5f4!important;
             }
+
+            table td img {
+                display: inline !important;
+            }
         </style>
         <br />
         <div class="col-md-offset-1">
@@ -135,52 +139,52 @@
                                 <td>
                                     @if (@lsactive)
                                     {
-                                        <p>@levelSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                        <p>@levelSensorValue <span><img src="~/Images/Icons/green.png" align="middle"/></span></p>
                                     }
                                     else
                                     {
-                                        <p>@levelSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                        <p>@levelSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
                                     }
                                 </td>
                                 <td>
                                     @if (@psactive)
                                     {
-                                        <p>@pressureSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                        <p>@pressureSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
                                     }
                                     else
                                     {
-                                        <p>@pressureSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                        <p>@pressureSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
                                     }
                                 </td>
                                 <td>
                                     @if (@fsactive)
                                     {
-                                        <p>@flowSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                        <p>@flowSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
                                     }
                                     else
                                     {
-                                        <p>@flowSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                        <p>@flowSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
                                     }
                                 </td>
                                 <td>
                                     @if (@esactive)
                                     {
-                                        <p>@energySensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                        <p>@energySensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
                                     }
                                     else
                                     {
-                                        <p>@energySensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                        <p>@energySensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
                                     }
 
                                 </td>
                                 <td>
                                     @if (@csactive)
                                     {
-                                        <p>@cholorinationSensorValue <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span></p>
+                                        <p>@cholorinationSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
                                     }
                                     else
                                     {
-                                        <p>@cholorinationSensorValue <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span></p>
+                                        <p>@cholorinationSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
                                     }
 
                                 </td>

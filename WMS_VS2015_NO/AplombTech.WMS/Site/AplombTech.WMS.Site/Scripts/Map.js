@@ -32,6 +32,55 @@ function initMap() {
         zoom: 13
     });
 
+     var ctaLayer = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/802_DMA_Boundary.kml',
+                map: map
+            });
+
+            var ctaLayer1 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/Boundary_DMA_808.kml',
+                map: map
+            });
+
+            var ctaLayer2 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_BND_809.kml',
+                map: map
+            });
+
+            var ctaLayer3 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_Boundary_801.kml',
+                map: map
+            });
+
+            var ctaLayer4 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_Boundary_803.kml',
+                map: map
+            });
+
+            var ctaLayer5 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_Boundary_804.kml',
+                map: map
+            });
+
+            var ctaLayer6 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_Boundary_805.kml',
+                map: map
+            });
+
+            var ctaLayer7 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_Boundary_807.kml',
+                map: map
+            });
+
+            var ctaLayer9 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_Boundary_811.kml',
+                map: map
+            });
+
+            var ctaLayer8 = new google.maps.KmlLayer({
+                url: 'https://encodable.com/uploaddemo/files/DMA_Boundary_NEW_806.kml',
+                map: map
+            });
 
 
     marker = new window.google.maps.Marker({
