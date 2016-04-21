@@ -151,5 +151,11 @@ namespace AplombTech.WMS.Site.Controllers
 
 
         }
+
+        public JsonResult GetZoneGoogleMap()
+        {
+            ZoneGoogleMap model = new ZoneGoogleMap();
+            return Json(new { Data = model, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
