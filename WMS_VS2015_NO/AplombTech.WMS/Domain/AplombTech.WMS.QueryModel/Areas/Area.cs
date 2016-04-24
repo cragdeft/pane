@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NakedObjects;
+﻿using NakedObjects;
 using AplombTech.WMS.QueryModel.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,9 +13,11 @@ namespace AplombTech.WMS.QueryModel.Areas
         public virtual int AreaID { get; set; }
         [Title]
         [MemberOrder(10)]
+        [StringLength(50)]
         public virtual string Name { get; set; }
+        public virtual string Location { get; set; }
         #endregion
-        
+
         #region Complex Properties
         #region AuditFields (AuditFields)
 

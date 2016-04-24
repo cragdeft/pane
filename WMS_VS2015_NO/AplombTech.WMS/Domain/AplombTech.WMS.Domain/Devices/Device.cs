@@ -40,6 +40,7 @@ namespace AplombTech.WMS.Domain.Devices
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int DeviceID { get; set; }
         [MemberOrder(10), NakedObjectsIgnore]
+        [StringLength(20)]
         public virtual string UUID { get; set; }        
         #endregion
 

@@ -44,6 +44,7 @@ namespace AplombTech.WMS.Domain.Sensors
         [Key, NakedObjectsIgnore]
         public virtual int SensorId { get; set; }
         [MemberOrder(10)]
+        [StringLength(50)]
         public virtual string UUID { get; set; }
         [MemberOrder(40)]
         public virtual decimal MinimumValue { get; set; }

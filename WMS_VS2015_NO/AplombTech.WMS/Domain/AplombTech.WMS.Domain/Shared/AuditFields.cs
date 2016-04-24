@@ -16,6 +16,7 @@ namespace AplombTech.WMS.Domain.Shared
         [MemberOrder(130)]
         [NakedObjectsIgnore, Required]
         [Column("InsertedBy")]
+        [StringLength(50)]
         public virtual string InsertedBy { get; set; }
 
         #endregion
@@ -30,6 +31,7 @@ namespace AplombTech.WMS.Domain.Shared
         [MemberOrder(150)]
         [NakedObjectsIgnore, Required]
         [Column("LastUpdatedBy")]
+        [StringLength(50)]
         public virtual string LastUpdatedBy { get; set; }
 
         #endregion

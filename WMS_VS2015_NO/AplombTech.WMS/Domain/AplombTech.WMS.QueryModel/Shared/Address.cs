@@ -16,15 +16,21 @@ namespace AplombTech.WMS.QueryModel.Shared
         [Key, NakedObjectsIgnore]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int AddressID { get; set; }
+        [StringLength(200)]
         public virtual string Street1 { get; set; }
+        [StringLength(200)]
         public virtual string Street2 { get; set; }
+        [StringLength(50)]
         public virtual string ZipCode { get; set; }
+        [StringLength(50)]
         public virtual string Zone { get; set; }
+        [StringLength(50)]
         public virtual string City { get; set; }
         #region InsertedBy (String)
         [MemberOrder(130)]
         [NakedObjectsIgnore, Required]
         [Column("InsertedBy")]
+        [StringLength(50)]
         public virtual string InsertedBy { get; set; }
 
         #endregion
@@ -39,6 +45,7 @@ namespace AplombTech.WMS.QueryModel.Shared
         [MemberOrder(150)]
         [NakedObjectsIgnore, Required]
         [Column("LastUpdatedBy")]
+        [StringLength(50)]
         public virtual string LastUpdatedBy { get; set; }
 
         #endregion

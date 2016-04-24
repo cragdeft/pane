@@ -61,14 +61,16 @@
             $(function () { $('#legend').jstree(); });
             $('#legend').on("changed.jstree", function (e, data) {
 
-                zone1.setOptions({ strokeColor: 'green' });
+                //zone1.setOptions({ strokeColor: 'green' });
 
                 if ($('.jstree-clicked').text().trim()) {
 
                     var stationName = $('.jstree-clicked').text();
                     var depth = data.node.parents.length;
                     var node_id = data.node.id;
-
+                    if (depth == 1) {
+                        drawDmaAndPumpStation(node_id.split("_")[1]);
+                    }
                     if (depth == 3) {
                         node_id = node_id.split("_")[1];
 
@@ -91,7 +93,8 @@
 
                                         }
                                     }
-                                    drawChart(z2marker, contentString + '</div>');
+                                    alert(markers['marker_' + node_id]);
+                                    drawChart(markers['marker_' + node_id], contentString + '</div>');
                                 }
 
                             },
@@ -122,11 +125,11 @@
                                         else {
                                             contentString = '<h2>Cholorination Off</h2>';
                                         }
-                                        drawChart(z2marker, contentString);
+                                        drawChart($('#marker_' + node_id-1), contentString);
                                     } else {
                                         contentString = '<div><h2>' + stationName.trim() + '</h2><hr>' + '<p>Current value = ' + model.Value + ' <strong>' + model.Unit + '</strong></p></div>';
                                         //drawSensorData(z2marker, stationName.trim(), model.Value, model.Unit);
-                                        drawChart(z2marker, contentString);
+                                        drawChart(markers['marker_3'], contentString);
                                     }
                                 }
 

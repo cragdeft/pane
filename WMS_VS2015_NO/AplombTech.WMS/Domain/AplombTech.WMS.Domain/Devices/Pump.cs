@@ -3,6 +3,7 @@ using NakedObjects.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,11 @@ namespace AplombTech.WMS.Domain.Devices
     {
         [Title]
         [MemberOrder(20)]
+        [StringLength(50)]
         public virtual string ModelNo { get; set; }
         public virtual decimal Capacity { get; set; }
         public virtual int StaticWaterLevel { get; set; }
+        [StringLength(250)]
         public virtual string RemoveRemarks { get; set; }
         public bool HideRemoveRemarks()
         {

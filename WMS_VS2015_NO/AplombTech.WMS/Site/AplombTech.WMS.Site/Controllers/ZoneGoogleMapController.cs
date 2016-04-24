@@ -152,10 +152,20 @@ namespace AplombTech.WMS.Site.Controllers
 
         }
 
-        public JsonResult GetZoneGoogleMap()
+        public JsonResult GetZoneGoogleMap(int zoneId)
         {
-            ZoneGoogleMap model = new ZoneGoogleMap();
-            return Json(new { Data = model, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+            List<MapLocation> locations = new List<MapLocation>();
+            ZoneGoogleMap model = _reportRepository.GetSingleAreaGoogleMap(zoneId);
+            foreach (var zone in model.Zones)
+            {
+                locations.Add(new MapLocation(zone.Name,zone.Location,zone.AreaID));
+                foreach (var dma in zone.DMAs)
+                {
+                    locations.Add(new MapLocation(dma.Name, dma.Location,dma.AreaID));
+                    locations.AddRange(dma.PumpStations.Select(pumpStation => new MapLocation(pumpStation.Name, pumpStation.Location,pumpStation.AreaID)));
+                }
+            }
+            return Json(new { Data = locations, IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

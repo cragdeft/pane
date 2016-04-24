@@ -41,9 +41,12 @@ namespace AplombTech.WMS.Domain.Areas
         public virtual int AreaID { get; set; }
         [Title]
         [MemberOrder(10)]
+        [StringLength(50)]
         public virtual string Name { get; set; }
+        [NakedObjectsIgnore]
+        public virtual string Location { get; set; }
         #endregion
-        
+
         #region Complex Properties
         #region AuditFields (AuditFields)
 

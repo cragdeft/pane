@@ -22,6 +22,7 @@ namespace AplombTech.WMS.QueryModel.Sensors
         [Key, NakedObjectsIgnore]
         public virtual int SensorID { get; set; }
         [MemberOrder(10), NakedObjectsIgnore]
+        [StringLength(50)]
         public virtual string UUID { get; set; }
         [MemberOrder(40)]
         public virtual decimal MinimumValue { get; set; }

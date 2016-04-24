@@ -52,6 +52,13 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             return zones;
         }
+        public ZoneGoogleMap GetSingleAreaGoogleMap(int zoneId)
+        {
+            var zones = Container.NewViewModel<ZoneGoogleMap>();
+            zones.Zones = Container.Instances<Zone>().Where(x=>x.AreaID == zoneId).ToList();
+
+            return zones;
+        }
         [DisplayName("Drill Down")]
         public DrillDown DrillDown()
         {
