@@ -2,6 +2,7 @@
 
 
 var map;
+var dmaPolygon;
 var myLatLng = { lat: 23.751284, lng: 90.393570 };
 var marker;
 var z2marker;
@@ -39,6 +40,7 @@ function initMap() {
 }
 
 function drawDmaAndPumpStation(zoneId) {
+    markers = [];
     $.ajax({
         type: "POST",
         url: '/ZoneGoogleMap/GetZoneGoogleMap',
@@ -62,7 +64,7 @@ function drawDmaAndPumpStation(zoneId) {
                                 }
                                 // Construct the polygon.
                                 
-                                var z = new window.google.maps.Polygon({
+                                 dmaPolygon = new window.google.maps.Polygon({
                                     paths: polyCoords,
                                     strokeColor: 'green',
                                     strokeOpacity: 0.8,
@@ -71,7 +73,7 @@ function drawDmaAndPumpStation(zoneId) {
                                     fillOpacity: 0.35
                                 });
                                 
-                                z.setMap(map);
+                                 dmaPolygon.setMap(map);
                             }
                             if (location.length == 1) {
                                 for (var k in location) {
