@@ -393,6 +393,7 @@
     <Content Include="Images\Icons\PT.png" />
     <Content Include="Images\Icons\pump.png" />
     <Content Include="Images\Icons\red.png" />
+    <Content Include="Images\Icons\SCADA.png" />
     <Content Include="Images\Icons\template.jpg" />
     <Content Include="Images\Icons\zone.png" />
     <Content Include="Images\Last-disabled.png" />
@@ -435,6 +436,7 @@
     <Content Include="App_Data\DMA_Boundary_NEW_806.kml" />
     <Content Include="App_Data\Pump_DMA_809.kml" />
     <Content Include="App_Data\Pump_DMA_810.kml" />
+    <Content Include="Images\Icons\icons.psd" />
     <None Include="Properties\PublishProfiles\SD.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\canvasjs.min.js" />
@@ -454,7 +456,7 @@
     <Content Include="Scripts\jquery.canvasjs.min.js" />
     <Content Include="Scripts\license.txt" />
     <Content Include="Scripts\map.js" />
-    <Content Include="Scripts\overview.js" />
+    <Content Include="Scripts\nof.js" />
     <Content Include="Scripts\report.js" />
     <Content Include="Scripts\scadamap.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
