@@ -36,7 +36,7 @@ function initMap() {
 
     var legend = document.getElementById('legend');
 
-    map.controls[window.google.maps.ControlPosition.RIGHT_CENTER].push(legend);
+    map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(legend);
 }
 
 function drawDmaAndPumpStation(zoneId) {
@@ -88,7 +88,7 @@ function drawDmaAndPumpStation(zoneId) {
                                             id: 'marker_' + deviceId
                                         });
                                         markers['marker_' + deviceId] = marker;
-                                        map.setZoom(14);
+                                        map.setZoom(15);
                                         map.panTo(marker.position);
                                     }
                                 }
