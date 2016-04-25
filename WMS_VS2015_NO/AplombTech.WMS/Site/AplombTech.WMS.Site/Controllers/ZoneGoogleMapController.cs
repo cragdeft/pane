@@ -113,7 +113,7 @@ namespace AplombTech.WMS.Site.Controllers
         {
             Sensor sensor = _reportRepository.GetPumpSingleSensor(sensorId);
             string unit = GetSensorUnit(sensor);
-            return Json(new { Value = sensor.CurrentValue, Unit = unit, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { Value = sensor.CurrentValue,PumpStationId=sensor.PumpStation.AreaID, Unit = unit, IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetOverViewDataOfPumpStation(int pumpStationId)

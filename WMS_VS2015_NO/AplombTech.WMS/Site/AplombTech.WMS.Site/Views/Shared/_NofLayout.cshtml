@@ -93,7 +93,6 @@
 
                                         }
                                     }
-                                    alert(markers['marker_' + node_id]);
                                     drawChart(markers['marker_' + node_id], contentString + '</div>');
                                 }
 
@@ -116,7 +115,7 @@
                                 if (model.IsSuccess) {
 
                                     //drawChart(z2marker, model.data, stationName);
-
+                                    
 
                                     if (stationName.includes("CT")) {
                                         var contentString;
@@ -125,11 +124,11 @@
                                         else {
                                             contentString = '<h2>Cholorination Off</h2>';
                                         }
-                                        drawChart($('#marker_' + node_id-1), contentString);
+                                        drawChart(markers['marker_' + model.PumpStationId], contentString);
                                     } else {
                                         contentString = '<div><h2>' + stationName.trim() + '</h2><hr>' + '<p>Current value = ' + model.Value + ' <strong>' + model.Unit + '</strong></p></div>';
                                         //drawSensorData(z2marker, stationName.trim(), model.Value, model.Unit);
-                                        drawChart(markers['marker_3'], contentString);
+                                        drawChart(markers['marker_' + model.PumpStationId], contentString);
                                     }
                                 }
 

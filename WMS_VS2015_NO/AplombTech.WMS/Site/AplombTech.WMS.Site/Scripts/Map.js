@@ -33,74 +33,7 @@ function initMap() {
         zoom: 13
     });
 
-
-
-
-    //marker = new window.google.maps.Marker({
-    //    position: { lat: 23.781089, lng: 90.391704 },
-    //    map: map,
-    //    label: "Pump1",
-    //    title: 'Pump 1'
-    //});
-
-    //z2marker = new window.google.maps.Marker({
-    //    position: { lat: 23.782989, lng: 90.391704 },
-    //    map: map,
-    //    label: "Sensor values",
-    //    title: 'Over view'
-    //});
-
-    //z3marker = new window.google.maps.Marker({
-    //    position: { lat: 23.783589, lng: 90.391704 },
-    //    map: map,
-    //    label: "Pump3",
-    //    title: 'Pump 3'
-    //});
-
-    //z4marker = new window.google.maps.Marker({
-    //    position: { lat: 23.784689, lng: 90.391704 },
-    //    map: map,
-    //    label: "Pump4",
-    //    title: 'Pump 4'
-    //});
-
-    //marker.addListener('mouseover', function () {
-    //    //drawChart(this);
-    //});
-
-    //z2marker.addListener('mouseover', function () {
-    //    //drawChart(this);
-    //});
-
-    //z3marker.addListener('mouseover', function () {
-    //    //drawChart(this);
-    //});
-
-    //z4marker.addListener('mouseover', function () {
-    //    //drawChart(this);
-    //});
-
-
-    //// Construct the polygon.
-    //zone1 = new window.google.maps.Polygon({
-    //    paths: zone1PolyGonCoords,
-    //    strokeColor: 'green',
-    //    strokeOpacity: 0.8,
-    //    strokeWeight: 2,
-    //    fillColor: 'green',
-    //    fillOpacity: 0.35
-    //});
-    //zone1.setMap(map);
-    //zone1.addListener('mouseover', function () {
-    //    highlightPolyGon(this);
-    //});
-
-    //zone1.addListener('mouseout', function () {
-    //    this.setOptions({ strokeColor: 'green' });;
-    //});
-
     var legend = document.getElementById('legend');
-
 
     map.controls[window.google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 }
@@ -137,6 +70,7 @@ function drawDmaAndPumpStation(zoneId) {
                                     fillColor: 'green',
                                     fillOpacity: 0.35
                                 });
+                                
                                 z.setMap(map);
                             }
                             if (location.length == 1) {
@@ -152,12 +86,13 @@ function drawDmaAndPumpStation(zoneId) {
                                             id: 'marker_' + deviceId
                                         });
                                         markers['marker_' + deviceId] = marker;
+                                        map.setZoom(14);
+                                        map.panTo(marker.position);
                                     }
                                 }
                                 
                             }
                         }
-                        //alert(data.Data[key].Name);
 
                     }
                 }
