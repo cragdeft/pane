@@ -1,0 +1,31 @@
+﻿@using NakedObjects.Web.Mvc.Html
+@using AplombTech.WMS.QueryModel.Reports
+@model ScadaMap
+
+<div class="col-md-offset-1">
+    @Html.DropDownListFor(model => model.SelectedZoneId, new SelectList(
+        Model.Zones,
+        "AreaID",
+        "Name",
+        Model.SelectedZoneId), "Select Zone", new {@onchange = "LoadDma(this.value)"})
+
+    @Html.DropDownListFor(model => model.SelectedDmaId, new SelectList(
+        Enumerable.Empty<SelectListItem>(),
+        "AreaID",
+        "Name",
+        Model.SelectedDmaId), "Select Dma", new {@onchange = "LoadPumpStation(this.value)"})
+    @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
+        Enumerable.Empty<SelectListItem>(),
+        "AreaID",
+        "Name",
+        Model.SelectedPumpStationId), "Select Pumpstation")
+    @*@Html.Partial("~/Views/ScadaMap/ScadaMap.cshtml", Model)*@
+
+    <input type="submit" value="Show" onclick="showScada()" class="btn btn-default"/>
+
+    <div id="searchResults"></div>
+
+</div>
+
+    @Scripts.Render("~/bundles/scadamap")
+
