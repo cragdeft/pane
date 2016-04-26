@@ -228,6 +228,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\ScadaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -252,6 +253,7 @@
     <Content Include="Content\Image\pump.png" />
     <Content Include="Content\Image\sensor.png" />
     <Content Include="Content\Image\zone.png" />
+    <Content Include="Content\Image\pump_s.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -389,6 +391,7 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="map\802_DMA_Boundary.kml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\dist\jstree.js" />
     <Content Include="Scripts\dist\jstree.min.js" />
@@ -470,6 +473,8 @@
     <Content Include="Views\Configuration\AddPump.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\Show.cshtml" />
+    <Content Include="Views\Scada\Index.cshtml" />
+    <Content Include="Views\Scada\ShowScada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

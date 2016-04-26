@@ -73,6 +73,7 @@
     <Compile Include="ReportEntity.cs" />
     <Compile Include="ReportSeriesEntity.cs" />
     <Compile Include="RouterEntity.cs" />
+    <Compile Include="ScadaValuesEntity.cs" />
     <Compile Include="SensorDataJsonEntity.cs" />
     <Compile Include="SensorStatusEntity.cs" />
     <Compile Include="SensorEntity.cs" />

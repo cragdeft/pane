@@ -110,7 +110,7 @@ $('#legend').on("changed.jstree", function (e, data) {
 
     if ($('.jstree-clicked').text().trim()) {
 
-        var stationName = $('.jstree-clicked').text().trim;
+        var stationName = $('.jstree-clicked').text();
         var depth=data.node.parents.length;
         var node_id = data.node.id;
 
@@ -146,6 +146,7 @@ $('#legend').on("changed.jstree", function (e, data) {
 
         if (depth == 4) {
             node_id = node_id.split("_")[1];
+            
 
             $.ajax({
                 type: "POST",
@@ -158,7 +159,22 @@ $('#legend').on("changed.jstree", function (e, data) {
 
                         //drawChart(z2marker, model.data, stationName);
                         
-                        drawSensorData(z2marker,'', model.Data.Value );
+                        
+                        if (stationName.includes("(CLT)")) {
+                            var contentString = '<h2>Cholorination = Yes</h2>';
+                            drawChart(z2marker, contentString);
+                        } else {
+                            var unit;
+                            if(stationName.includes("(FT)"))
+                                unit = 'litre/minute';
+                            if (stationName.includes("(PT)"))
+                                unit = 'bar';
+                            if (stationName.includes("(EM)"))
+                                unit = 'kw/h';
+                            if (stationName.includes("(LT)"))
+                                unit = 'meter';
+                            drawSensorData(z2marker, stationName.trim(), model.Data.Value,unit);
+                        }
                     }
 
                 },
@@ -178,21 +194,21 @@ function drawChart(marker, content) {
     infowindow2.open(marker.getMap(), marker);
 }
 
-function drawSensorData(marker,sensorName,sensorValue) {
+function drawSensorData(marker, sensorName, sensorValue, unit) {
 
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
-    data.addColumn('number', 'Slices');
+    data.addColumn('number', unit);
     data.addRows([
-        [sensorName, parseFloat(sensorValue)]
+        [unit, parseFloat(sensorValue)]
     ]);
 
     // Set chart options
     var options = {
-        'title': 'Sensor Information ' + ' ' +
+        'title': sensorName + ' ' +
             marker.getPosition().toString(),
-        'width': 400,
+        'width': 600,
         'height': 150
     };
 

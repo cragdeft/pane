@@ -43,5 +43,7 @@ namespace AplombTech.DWasa.Service.Interfaces
         void SaveSensorStatus(SensorStatusEntity sensorStatus);
         DeviceEntity GetSensor(string uid);
         bool PumpStationExists(int pumpStationId);
+
+        PumpStationEntity GetALLSensorOfPumpStation(PumpStationEntity pumpStationEntity);
     }
 }

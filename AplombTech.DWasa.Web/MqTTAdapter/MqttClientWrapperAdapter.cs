@@ -24,7 +24,6 @@ namespace AplombTech.DWasa.Web.MqTTAdapter
 
                         instance.NotifyMqttMsgSubscribedEvent += new MqttClientWrapper.NotifyMqttMsgSubscribedDelegate(SubscribedMessage_NotifyEvent);
                     }
-
                     return instance;
                 }
             }

@@ -222,33 +222,44 @@ namespace AplombTech.DWasa.Service
 
                     List<PumpStationEntity> pumpStationEntityList = mapper.Map<IEnumerable<PumpStation>, IEnumerable<PumpStationEntity>>(pumpStationList).ToList();
                     dmaEntity.PumpStationList = pumpStationEntityList;
-                    foreach (var pumpStationEntity in pumpStationEntityList)
+                    for(int i=0;i< pumpStationEntityList.Count;i++)
                     {
-                        var wList = GetWaterLevelSensorsList(pumpStationEntity);
-
-                        pumpStationEntity.WaterLevelSensorList = mapper.Map<IEnumerable<WaterLevelSensor>, IEnumerable<WaterLevelSensorEntity>>(wList).ToList();
-
-                        var prList = GetPressureSensorList(pumpStationEntity);
-
-                        pumpStationEntity.PressureSensorList = mapper.Map<IEnumerable<PressureSensor>, IEnumerable<PressureSensorEntity>>(prList).ToList();
-
-                        var pdList = GetProductionSensorsList(pumpStationEntity);
-
-                        pumpStationEntity.ProductionSensorList = mapper.Map<IEnumerable<ProductionSensor>, IEnumerable<ProductionSensorEntity>>(pdList).ToList();
-
-                        var eList = GetEnergySensorsList(pumpStationEntity);
-
-                        pumpStationEntity.EnergySensorList = mapper.Map<IEnumerable<EnergySensor>, IEnumerable<EnergySensorEntity>>(eList).ToList();
-
-                        var cList = GetCholorinationSensorsList(pumpStationEntity);
-
-                        pumpStationEntity.CholorinationSensorList = mapper.Map<IEnumerable<CholorinationSensor>, IEnumerable<CholorinationSensorEntity>>(cList).ToList();
-
+                        pumpStationEntityList[i] = GetALLSensorOfPumpStation(pumpStationEntityList[i]);
                     }
                 }
             }
 
             return zoneEntityList;
+        }
+
+        public PumpStationEntity GetALLSensorOfPumpStation(PumpStationEntity pumpStationEntity)
+        {
+            var wList = GetWaterLevelSensorsList(pumpStationEntity);
+
+            pumpStationEntity.WaterLevelSensorList =
+                mapper.Map<IEnumerable<WaterLevelSensor>, IEnumerable<WaterLevelSensorEntity>>(wList).ToList();
+
+            var prList = GetPressureSensorList(pumpStationEntity);
+
+            pumpStationEntity.PressureSensorList =
+                mapper.Map<IEnumerable<PressureSensor>, IEnumerable<PressureSensorEntity>>(prList).ToList();
+
+            var pdList = GetProductionSensorsList(pumpStationEntity);
+
+            pumpStationEntity.ProductionSensorList =
+                mapper.Map<IEnumerable<ProductionSensor>, IEnumerable<ProductionSensorEntity>>(pdList).ToList();
+
+            var eList = GetEnergySensorsList(pumpStationEntity);
+
+            pumpStationEntity.EnergySensorList =
+                mapper.Map<IEnumerable<EnergySensor>, IEnumerable<EnergySensorEntity>>(eList).ToList();
+
+            var cList = GetCholorinationSensorsList(pumpStationEntity);
+
+            pumpStationEntity.CholorinationSensorList =
+                mapper.Map<IEnumerable<CholorinationSensor>, IEnumerable<CholorinationSensorEntity>>(cList).ToList();
+
+            return pumpStationEntity;
         }
 
         private IEnumerable<CholorinationSensor> GetCholorinationSensorsList(PumpStationEntity pumpStationEntity)
@@ -1370,20 +1381,29 @@ namespace AplombTech.DWasa.Service
 
         public void SaveSensorStatus(SensorStatusEntity sensorStatus)
         {
-            _unitOfWorkAsync.BeginTransaction();
-            try
+            using (IDataContextAsync context = new DWasaDataContext())
+            using (IUnitOfWorkAsync unitOfWork = new UnitOfWork(context))
             {
-                var sensor = mapper.Map<SensorStatusEntity, SensorStatus>(sensorStatus);
-                sensor.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now);
-                sensor.ObjectState = ObjectState.Added;
+                IRepositoryAsync<SensorStatus> sensorStatusRepository = new Repository<SensorStatus>(context, unitOfWork);
+                unitOfWork.BeginTransaction();
+                try
+                {
+                    //var sensor = mapper.Map<SensorStatusEntity, SensorStatus>(sensorStatus);
+                    SensorStatus status = new SensorStatus();
+                    status.Value = sensorStatus.Value;
+                    status.LogDateTime = sensorStatus.LogDateTime;
+                    status.Device = new Device() {Id = sensorStatus.Device.Id};
+                    status.AuditField = new AuditFields(_name, DateTime.Now, _name, DateTime.Now);
+                    status.ObjectState = ObjectState.Added;
 
-                _sensorStatusRepository.Insert(sensor);
-                var changes = _unitOfWorkAsync.SaveChanges();
-                _unitOfWorkAsync.Commit();
-            }
-            catch (Exception ex)
-            {
-                _unitOfWorkAsync.Rollback();
+                    sensorStatusRepository.Insert(status);
+                    var changes = unitOfWork.SaveChanges();
+                    unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                }
             }
         }
 

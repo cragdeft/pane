@@ -51,7 +51,7 @@ namespace AplombTech.DWasa.MQTT.Client
             {
                 if (DWasaMQTT == null || !DWasaMQTT.IsConnected)
                 {
-                    if (BrokerAddress == "192.168.11.182")
+                    if (BrokerAddress == "192.168.11.185")
                     {
                         LocalBrokerConnection(BrokerAddress);
                     }
