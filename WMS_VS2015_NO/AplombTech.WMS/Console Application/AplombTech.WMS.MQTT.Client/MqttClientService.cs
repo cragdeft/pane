@@ -1,6 +1,7 @@
 ﻿using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.Messages.Commands;
 using NakedObjects;
 using NakedObjects.Architecture.Component;
 using NakedObjects.Async;
@@ -151,6 +152,7 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
                 {
+                    PublishMessage(dataLog);
                     try
                     {
                         framework.TransactionManager.StartTransaction();
@@ -174,9 +176,7 @@ namespace AplombTech.WMS.MQTT.Client
                         framework.TransactionManager.EndTransaction();
                     }
                 }
-
             }
-
         }
         private DataLog LogSensorData(string topic, string message)
         {
@@ -186,12 +186,12 @@ namespace AplombTech.WMS.MQTT.Client
                 DataLog dataLog = ProcessRepository.LogData(topic, message);
                 framework.TransactionManager.EndTransaction();
 
-                if (dataLog == null)
-                {
-                    Publish(topic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
-                    return null;
-                }
-                Publish(topic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
+                //if (dataLog == null)
+                //{
+                //    Publish(topic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
+                //    return null;
+                //}
+                //Publish(topic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
                 return dataLog;
             }
             catch (Exception ex)
@@ -200,6 +200,19 @@ namespace AplombTech.WMS.MQTT.Client
                 framework.TransactionManager.AbortTransaction();
                 return null;
             }
+        }
+
+        private void PublishMessage(DataLog datalog)
+        {
+            var cmd = new ProcessSensorData
+            {
+                SensorDataLogId = datalog.SensorDataLogID,
+                Topic = datalog.Topic,
+                Message = datalog.Message,
+                LoggedAtSensor = datalog.LoggedAtSensor
+            };
+
+            ServiceBus.Bus.Send(cmd);
         }
         private string Publish(string messgeTopic, string publishMessage)
         {
@@ -258,6 +271,7 @@ namespace AplombTech.WMS.MQTT.Client
         {
             this.framework = objframework;
             log.Info("MQTT listener is going to start");
+            ServiceBus.Init();
             MqttClientInstance(false);
             log.Info("MQTT listener has been started");
         }

@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\lib\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Logging, Version=3.1.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Common.Logging.3.1.0\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
@@ -120,6 +123,13 @@
       <HintPath>..\..\packages\NakedObjects.Core.7.1.0\lib\net451\NakedObjects.Unity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Core">
+      <HintPath>..\..\lib\NServiceBus.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.0.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.Immutable.1.0.34\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
@@ -141,6 +151,7 @@
     <Compile Include="IWMSBatchStartPoint.cs" />
     <Compile Include="MqttClientService.cs" />
     <Compile Include="MqttClientWrapper.cs" />
+    <Compile Include="ServiceBus.cs" />
     <Compile Include="WMSBatchRunner.cs" />
     <Compile Include="NakedObjectsRunSettings.cs" />
     <Compile Include="Program.cs" />
@@ -160,6 +171,10 @@
     <ProjectReference Include="..\..\Infrastructure\AplombTech.CryptoLib\AplombTech.CryptoLib.csproj">
       <Project>{ad26b877-4368-418b-a20b-9e796dcf6854}</Project>
       <Name>AplombTech.CryptoLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Messages\AplombTech.WMS.Messages.csproj">
+      <Project>{5104d6f2-54a9-4c43-b49d-84fa2a4f7cc0}</Project>
+      <Name>AplombTech.WMS.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
