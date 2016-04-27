@@ -152,7 +152,7 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
                 {
-                    PublishMessage(dataLog);
+                    //PublishMessage(dataLog);
                     try
                     {
                         framework.TransactionManager.StartTransaction();
@@ -201,7 +201,6 @@ namespace AplombTech.WMS.MQTT.Client
                 return null;
             }
         }
-
         private void PublishMessage(DataLog datalog)
         {
             var cmd = new ProcessSensorData
