@@ -74,8 +74,6 @@ namespace AplombTech.WMS.Sensor.Data.Processor {
             AreaRepository.Menu(areaMenu);
 
             return new IMenu[] {
-                //factory.NewMenu<CentralKhelaGharRepository>(true),
-                //asarMenu,
                 areaMenu
             };
         }
