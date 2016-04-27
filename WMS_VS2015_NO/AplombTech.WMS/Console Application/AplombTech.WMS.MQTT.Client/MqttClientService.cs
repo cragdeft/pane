@@ -37,19 +37,19 @@ namespace AplombTech.WMS.MQTT.Client
             sensordata,
             feedback
         }
-        private MqttClient DhakaWasaMQTT { get; set; }
-        private bool IsSSL { get; set; }
+        private MqttClient DhakaWasaMqtt { get; set; }
+        private bool IsSsl { get; set; }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public void MQTTClientInstance(bool isSSL)
+        public void MqttClientInstance(bool isSSL)
         {
-            IsSSL = isSSL;
+            IsSsl = isSSL;
             MakeConnection();
         }
         private void BrokerConnectionWithoutCertificate()
         {
-            DhakaWasaMQTT = new MqttClient(GetBrokerAddress(), GetBrokerPort(), false, null, null, MqttSslProtocols.None, null);
+            DhakaWasaMqtt = new MqttClient(GetBrokerAddress(), GetBrokerPort(), false, null, null, MqttSslProtocols.None, null);
             ConnectToBroker();
         }
         private string GetBrokerAddress()
@@ -87,18 +87,18 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void ConnectToBroker()
         {
-            DhakaWasaMQTT.Connect(GetClientId(), null, null, false, GetBrokerKeepAlivePeriod());
+            DhakaWasaMqtt.Connect(GetClientId(), null, null, false, GetBrokerKeepAlivePeriod());
             log.Info("MQTT Client is connected");
         }
-        private void DefinedMQTTCommunicationEvents()
+        private void DefinedMqttCommunicationEvents()
         {
-            DhakaWasaMQTT.MqttMsgPublished += PublishedMessage_MQTT;//publish
-            DhakaWasaMQTT.MqttMsgSubscribed += SubscribedMessage_MQTT;//subscribe confirmation
-            DhakaWasaMQTT.MqttMsgUnsubscribed += UnsubscribedMessage_MQTT;
-            DhakaWasaMQTT.MqttMsgPublishReceived += ReceivedMessage_MQTT;//received message.
-            DhakaWasaMQTT.ConnectionClosed += ConnectionClosed_MQTT;
+            DhakaWasaMqtt.MqttMsgPublished += PublishedMessage_MQTT;//publish
+            DhakaWasaMqtt.MqttMsgSubscribed += SubscribedMessage_MQTT;//subscribe confirmation
+            DhakaWasaMqtt.MqttMsgUnsubscribed += UnsubscribedMessage_MQTT;
+            DhakaWasaMqtt.MqttMsgPublishReceived += ReceivedMessage_MQTT;//received message.
+            DhakaWasaMqtt.ConnectionClosed += ConnectionClosed_MQTT;
 
-            ushort submsgId = DhakaWasaMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback", "/sensordata" },
+            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "/configuration", "/command", "/feedback", "/sensordata" },
                               new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
                                       MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
@@ -111,9 +111,9 @@ namespace AplombTech.WMS.MQTT.Client
         {
             try
             {
-                if (DhakaWasaMQTT == null || !DhakaWasaMQTT.IsConnected)
+                if (DhakaWasaMqtt == null || !DhakaWasaMqtt.IsConnected)
                 {
-                    if (IsSSL)
+                    if (IsSsl)
                     {
                         //BrokerConnectionWithCertificate();
                     }
@@ -121,7 +121,7 @@ namespace AplombTech.WMS.MQTT.Client
                     {
                         BrokerConnectionWithoutCertificate();
                     }
-                    DefinedMQTTCommunicationEvents();
+                    DefinedMqttCommunicationEvents();
                 }
             }
             catch (Exception ex)
@@ -129,11 +129,11 @@ namespace AplombTech.WMS.MQTT.Client
                 log.Error("Could not stablished connection to MQTT broker - " + ex.Message);
 
                 //don't leave the client connected
-                if (DhakaWasaMQTT != null && DhakaWasaMQTT.IsConnected)
+                if (DhakaWasaMqtt != null && DhakaWasaMqtt.IsConnected)
                 {
                     try
                     {
-                        DhakaWasaMQTT.Disconnect();
+                        DhakaWasaMqtt.Disconnect();
                     }
                     catch
                     {
@@ -203,11 +203,11 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private string Publish(string messgeTopic, string publishMessage)
         {
-            if (DhakaWasaMQTT != null)
+            if (DhakaWasaMqtt != null)
             {
                 try
                 {
-                        ushort msgId = DhakaWasaMQTT.Publish(messgeTopic, // topic
+                        ushort msgId = DhakaWasaMqtt.Publish(messgeTopic, // topic
                                           Encoding.UTF8.GetBytes(publishMessage), // message body
                                           MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, // QoS level
                                           true);
@@ -247,18 +247,18 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void ConnectionClosed_MQTT(object sender, EventArgs e)
         {
-            if (!(sender as MqttClient).IsConnected || DhakaWasaMQTT == null)
+            if (!(sender as MqttClient).IsConnected || DhakaWasaMqtt == null)
             {
                 HandleReconnect();
             }
             log.Info("Connection has been closed");
         }
         #endregion
-        public void Execute(INakedObjectsFramework framework)
+        public void Execute(INakedObjectsFramework objframework)
         {
-            this.framework = framework;
+            this.framework = objframework;
             log.Info("MQTT listener is going to start");
-            MQTTClientInstance(false);
+            MqttClientInstance(false);
             log.Info("MQTT listener has been started");
         }
         
