@@ -1,31 +1,80 @@
-﻿@using NakedObjects.Web.Mvc.Html
+﻿
+
 @using AplombTech.WMS.QueryModel.Reports
-@model ScadaMap
+@using AplombTech.WMS.QueryModel.Sensors
+@model List<AplombTech.WMS.QueryModel.Sensors.Sensor>
 
-<div class="col-md-offset-1">
-    @Html.DropDownListFor(model => model.SelectedZoneId, new SelectList(
-        Model.Zones,
-        "AreaID",
-        "Name",
-        Model.SelectedZoneId), "Select Zone", new {@onchange = "LoadDma(this.value)"})
+@{
+    ViewBag.Title = "Scada Map";
+}
 
-    @Html.DropDownListFor(model => model.SelectedDmaId, new SelectList(
-        Enumerable.Empty<SelectListItem>(),
-        "AreaID",
-        "Name",
-        Model.SelectedDmaId), "Select Dma", new {@onchange = "LoadPumpStation(this.value)"})
-    @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
-        Enumerable.Empty<SelectListItem>(),
-        "AreaID",
-        "Name",
-        Model.SelectedPumpStationId), "Select Pumpstation")
-    @*@Html.Partial("~/Views/ScadaMap/ScadaMap.cshtml", Model)*@
+<div id="imgContainer">
+    <img src="../../Images/scadamap.png" class="img" alt="Scada map">
+    <div style="margin-left: 110px; position: absolute; margin-top: -320px;">
+        <h4>General Information</h4>
+        @foreach (var sensor in Model)
+        {
+            if (@sensor is ChlorinationSensor)
+            {
+                if (@sensor.CurrentValue <= 0)
+                {
+                    <p>Cholorination Off</p>
+                }
+                else
+                {
+                    <p>Cholorination On</p>
+                }
+            }
 
-    <input type="submit" value="Show" onclick="showScada()" class="btn btn-default"/>
+            if (@sensor is EnergySensor)
+            {
+                <p>ET = @(((EnergySensor)sensor).CumulativeValue) kw/h</p>
+            }
 
-    <div id="searchResults"></div>
+        }
+    </div>
+
+    <div style="margin-left: 220px; position: absolute; margin-top: -620px;">
+        @foreach (var sensor in Model)
+        {
+            if (@sensor is PressureSensor)
+            {
+                <p>PT = @sensor.CurrentValue Bar</p>
+            }
+        }
+    </div>
+
+    <div style="margin-left: 660px; position: absolute; margin-top: -250px;">
+        @foreach (var sensor in Model)
+        {
+            if (@sensor is LevelSensor)
+            {
+                <p>LT = @sensor.CurrentValue Metre</p>
+                <p id="ltvalue" style="display: none;">@sensor.CurrentValue</p>
+            }
+        }
+    </div>
+    <div id="waterlevel" style="background-color: transparent; position: absolute; margin-top: -310px; margin-left: 452px; height: 135px; width: 63px"></div>
+
+    <div style="margin-left: 400px; position: absolute; margin-top: -620px;">
+        @foreach (var sensor in Model)
+        {
+            if (@sensor is FlowSensor)
+            {
+                <p>FT = @(((FlowSensor)sensor).CumulativeValue) Metre</p>
+            }
+        }
+    </div>
+
+
 
 </div>
 
-    @Scripts.Render("~/bundles/scadamap")
-
+<script>
+    var unit = parseInt($('#ltvalue').text());
+    var height = parseInt($('#waterlevel').css('height'));
+    var margin = parseInt($('#waterlevel').css('margin-top'));
+    $("#waterlevel").css("background-color", "#2fcff4");
+    $("#waterlevel").css("height", height - (100 - (1.35 * unit)) + "px");
+    $("#waterlevel").css("margin-top", margin+(100 - (1.35 * unit)) + "px");
+</script>

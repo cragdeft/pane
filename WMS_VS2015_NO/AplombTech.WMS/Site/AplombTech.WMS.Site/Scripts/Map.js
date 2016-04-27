@@ -39,6 +39,19 @@ function initMap() {
     map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(legend);
 }
 
+function ShowInfoPopUp(marker) {
+    //alert(marker.id + marker.title + marker.getPosition().lat());
+    $('#pumpname').text(marker.title);
+    $('#myModal').modal('show');
+}
+
+$("#modalSave").click(function () {
+    $('#myModal').modal('hide');
+    var url = "ScadaMap/ShowScadaForMap";
+    $('#body').load(url, { pumpStationId: 3 });
+    
+});
+
 function drawDmaAndPumpStation(zoneId) {
     markers = [];
     $.ajax({
@@ -86,6 +99,9 @@ function drawDmaAndPumpStation(zoneId) {
                                             icon: '../Images/Icons/pump.png',
                                             animation: google.maps.Animation.DROP,
                                             id: 'marker_' + deviceId
+                                        });
+                                        marker.addListener('click', function () {
+                                            ShowInfoPopUp(marker);
                                         });
                                         markers['marker_' + deviceId] = marker;
                                         map.setZoom(15);

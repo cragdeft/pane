@@ -4,9 +4,11 @@ using NakedObjects.Facade;
 using NakedObjects.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.QueryModel.Reports;
 using AplombTech.WMS.QueryModel.Sensors;
@@ -107,6 +109,59 @@ namespace AplombTech.WMS.Site.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        public void ExportToExcel()
+        {
+            Summary model = _reportRepository.Summary();
+            List<Sensor> sensors = new List<Sensor>();
+            foreach (var zone in model.Zones)
+            {
+                foreach (var dma in zone.DMAs)
+                {
+                    foreach (var pumpStation in dma.PumpStations)
+                    {
+                        foreach (var sensor in pumpStation.Sensors)
+                        {
+                            sensors.Add(sensor);
+                        }
+                    }
+                }
+            }
+            try
+            {
+                var grid = new System.Web.UI.WebControls.GridView();
+
+                grid.DataSource = from d in sensors
+                                  select new
+                                  {
+                                      Name = d.GetType().ToString().Split('.')[4].Split('_')[0],
+                                      Active = d.IsActive,
+                                      CurrentValue = d.CurrentValue,
+                                      Dma = d.PumpStation.Parent.Name,
+                                      PumpStation = d.PumpStation.Name,
+                                      ReceivedTime=d.LastDataReceived
+
+                                  };
+
+                grid.DataBind();
+
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=Overview_"+DateTime.Now.ToShortDateString()+".xls");
+                Response.ContentType = "application/excel";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+
+                grid.RenderControl(htw);
+
+                Response.Write(sw.ToString());
+
+                Response.End();
+            }
+            catch
+            {
+                
             }
         }
 

@@ -6,13 +6,13 @@
 
 @{
     Layout = "~/Views/Shared/_NofLayout.cshtml";
-    ViewBag.Title ="Google Map";
+    ViewBag.Title = "Google Map";
 }
 <div id="body">
-    
+
     <section class="main-content">
         @(Html.TabbedHistory(Model))
-        <br/>
+        <br />
         <p>Map View Model for Google Map</p>
         <link href="~/Content/themes/themes/default/style.css" rel="stylesheet" />
         <div id="map" style="height: 600px;">
@@ -22,81 +22,109 @@
         <div id="legend" style="background:white; padding:10px;">
             @foreach (var zone in Model.Zones)
             {
-                <ul>
-                    <li id="zone_@zone.AreaID" data-jstree='{"icon":"../../Images/Icons/zone.png"}'>
-                        @zone.Name
-                        <ul>
-                            @foreach (var dma in zone.DMAs)
+            <ul>
+                <li id="zone_@zone.AreaID" data-jstree='{"icon":"../../Images/Icons/zone.png"}'>
+                    @zone.Name
+                    <ul>
+                        @foreach (var dma in zone.DMAs)
                             {
-                                <li id="dma_@dma.AreaID" data-jstree='{"icon":"../../Images/Icons/dma.png"}'>
-                                    @dma.Name
-                                    <ul>
-                                        @foreach (var pumpStation in dma.PumpStations)
+                            <li id="dma_@dma.AreaID" data-jstree='{"icon":"../../Images/Icons/dma.png"}'>
+                                @dma.Name
+                                <ul>
+                                    @foreach (var pumpStation in dma.PumpStations)
                                         {
-                                            <li id="pump_@pumpStation.AreaID" data-jstree='{"icon":"../../Images/Icons/pump.png"}'>
-                                                @pumpStation.Name
-                                                <ul>
-                                                    @foreach (var sensor in pumpStation.Sensors)
+                                        <li id="pump_@pumpStation.AreaID" data-jstree='{"icon":"../../Images/Icons/pump.png"}'>
+                                            @pumpStation.Name
+                                            <ul>
+                                                @foreach (var sensor in pumpStation.Sensors)
                                                     {
                                                         if (@sensor is EnergySensor)
                                                         {
-                                                            <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/ET.png"}'>
-                                                                ET - @sensor.UUID
-                                                            </li>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/ET.png"}'>
+                                                        ET - @sensor.UUID
+                                                    </li>
 
                                                         }
                                                         if (@sensor is PressureSensor)
                                                         {
-                                                            <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/PT.png"}'>
-                                                                PT - @sensor.UUID
-                                                            </li>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/PT.png"}'>
+                                                        PT - @sensor.UUID
+                                                    </li>
                                                         }
                                                         if (@sensor is FlowSensor)
                                                         {
-                                                            <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/FT.png"}'>
-                                                                FT - @sensor.UUID
-                                                            </li>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/FT.png"}'>
+                                                        FT - @sensor.UUID
+                                                    </li>
                                                         }
                                                         if (@sensor is LevelSensor)
                                                         {
-                                                            <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/LT.png"}'>
-                                                                LT - @sensor.UUID
-                                                            </li>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/LT.png"}'>
+                                                        LT - @sensor.UUID
+                                                    </li>
                                                         }
                                                         if (@sensor is ChlorinationSensor)
                                                         {
-                                                            <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/CT.png"}'>
-                                                                CT - @sensor.UUID
-                                                            </li>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/CT.png"}'>
+                                                        CT - @sensor.UUID
+                                                    </li>
                                                         }
                                                     }
-                                                </ul>
+                                            </ul>
 
-                                            </li>
+                                        </li>
 
                                         }
-                                    </ul>
+                                </ul>
 
-                                </li>
+                            </li>
                             }
-                        </ul>
-                    </li>
-                </ul>
+                    </ul>
+                </li>
+            </ul>
             }
 
         </div>
         @Scripts.Render("~/bundles/jstree")
-        <script src="https://www.google.com/jsapi?.js"></script>
         @Scripts.Render("~/bundles/map")
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTHzA3hwLR5NPQ9Gubaa6EV8hQNMhVuRM&callback=initMap"></script>
         <script>
             LoadMapRelatedScript();
         </script>
-        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div >
+                            <div>Name : <p id="pumpname"></p>
+                            </div>
+                            <div>
+                                Gps Cordinate :
+                                <p id="gpscordinate"></p>
+                            </div>
+                            <label>Service</label>
+                            <select class="input-sm">
+                                <option value="">Select a Service</option>
+                                <option value="AL" >Scada</option>
+                                <option value="AK">Report</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="modalSave" class="btn btn-primary">Go</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
     </section>
 
 </div>
 
 @section Scripts{
-    
+
 }

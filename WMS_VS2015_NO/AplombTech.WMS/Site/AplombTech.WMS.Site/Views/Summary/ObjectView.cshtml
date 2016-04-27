@@ -25,11 +25,11 @@
             }
 
             .table tr:nth-child(even) {
-                background: #b8d1f3!important;
+                background: #b8d1f3 !important;
             }
 
-            .table tr:nth-child(odd){
-                background: #dae5f4!important;
+            .table tr:nth-child(odd) {
+                background: #dae5f4 !important;
             }
 
             table td img {
@@ -38,6 +38,7 @@
         </style>
         <br />
         <div class="col-md-offset-1">
+
             <table class="table">
                 <tr>
                     <th>
@@ -73,21 +74,11 @@
                             <td>
                                 <h4>@dma.Name</h4>
                             </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             @*<th>
 
                                 </th>*@
@@ -132,6 +123,7 @@
                                     csactive = sensor.IsActive;
                                 }
                             }
+
                             <tr>
                                 <td>
                                     @pump.Name
@@ -139,7 +131,7 @@
                                 <td>
                                     @if (@lsactive)
                                     {
-                                        <p>@levelSensorValue <span><img src="~/Images/Icons/green.png" align="middle"/></span></p>
+                                        <p>@levelSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
                                     }
                                     else
                                     {
@@ -189,17 +181,24 @@
 
                                 </td>
                                 @*<th>
-                                        OK
-                                    </th>*@
+                                            OK
+                                        </th>*@
                                 <td>
                                     @lastRecived
                                 </td>
                             </tr>
+                            flowSensorValue = 0;
+                            pressureSensorValue = 0;
+                            levelSensorValue = 0;
+                            energySensorValue = 0;
+                            lastRecived = DateTime.MinValue;
                         }
                     }
                 }
 
             </table>
+            @Html.ActionLink("Export to Excel", "ExportToExcel",null, new { @class = "btn btn-default" })
+            <br/>
         </div>
     </section>
 </div>
