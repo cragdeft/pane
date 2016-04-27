@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NakedObjects.Value;
+using System.Windows.Forms;
 
 namespace AplombTech.WMS.Domain.Areas
 {   
@@ -107,11 +108,34 @@ namespace AplombTech.WMS.Domain.Areas
         }
         #endregion
 
+        public string RemoveZone()
+        {
+            string message = "<b>Zone is not deleted, it may be in use. </b>";
+            string alertMessage = "Are you sure you want to remove this item?";
+            string caption = "Remove Item?";
+            string isConform = GetAlertMessage(caption, alertMessage);
+            if (isConform == "Yes")
+            {
+                message = "<b>Zone is deleted successfully</b>";
+            }
+            
+            return message;
+        }
+        public string GetAlertMessage(string caption, string message)
+        {
+
+            DialogResult r1 = MessageBox.Show(message,
+                                   caption, MessageBoxButtons.YesNo);
+
+            return r1.ToString();
+        }
+
         #region Menu
         public static void Menu(IMenu menu)
         {
             menu.AddAction("AddDMA");
             menu.AddAction("SetAddress");
+            //menu.AddAction("RemoveZone");
         }
         #endregion
     }
