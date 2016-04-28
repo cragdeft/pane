@@ -38,7 +38,9 @@
         </style>
         <br />
         <div class="col-md-offset-1">
-
+            <div style="float: right; margin-bottom: 5px;">
+                @Html.ActionLink("Export to Excel", "ExportToExcel", null, new { @class = "btn btn-default" })
+            </div>
             <table class="table">
                 <tr>
                     <th>
@@ -81,7 +83,7 @@
                             <td></td>
                             @*<th>
 
-                                </th>*@
+                        </th>*@
                             <td></td>
                         </tr>
                         foreach (var pump in dma.PumpStations)
@@ -181,8 +183,8 @@
 
                                 </td>
                                 @*<th>
-                                            OK
-                                        </th>*@
+                                OK
+                            </th>*@
                                 <td>
                                     @lastRecived
                                 </td>
@@ -197,8 +199,6 @@
                 }
 
             </table>
-            @Html.ActionLink("Export to Excel", "ExportToExcel",null, new { @class = "btn btn-default" })
-            <br/>
         </div>
     </section>
 </div>
