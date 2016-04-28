@@ -41,7 +41,7 @@ namespace AplombTech.WMS.Domain.Facade
 
             Database.SetInitializer(new SampleAppInitializer());
 #else
-            Database.SetInitializer(null);
+            Database.SetInitializer<CommandModelDatabase>(null);
 #endif
 
             //Mappings

@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Messages", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Sensor.Data.Processor", "Console Application\AplombTech.WMS.Sensor.Data.Processor\AplombTech.WMS.Sensor.Data.Processor.csproj", "{52402D82-A8D9-42F0-9C28-CA960FFF7C33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Persistence", "Infrastructure\AplombTech.WMS.Persistence\AplombTech.WMS.Persistence.csproj", "{07383CCC-B5AB-499D-AC1C-25BFA183C9B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{52402D82-A8D9-42F0-9C28-CA960FFF7C33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52402D82-A8D9-42F0-9C28-CA960FFF7C33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52402D82-A8D9-42F0-9C28-CA960FFF7C33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07383CCC-B5AB-499D-AC1C-25BFA183C9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07383CCC-B5AB-499D-AC1C-25BFA183C9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07383CCC-B5AB-499D-AC1C-25BFA183C9B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07383CCC-B5AB-499D-AC1C-25BFA183C9B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,5 +125,6 @@ Global
 		{C210A9C9-92BD-41DF-A821-4C21EAF3E483} = {086AD4EF-259F-4626-B660-F0E4A4AFE41B}
 		{5104D6F2-54A9-4C43-B49D-84FA2A4F7CC0} = {C210A9C9-92BD-41DF-A821-4C21EAF3E483}
 		{52402D82-A8D9-42F0-9C28-CA960FFF7C33} = {1F55CDC8-8A0E-4E2C-8CCB-AFA3F27CC0AB}
+		{07383CCC-B5AB-499D-AC1C-25BFA183C9B3} = {183AC6CE-1574-4BD3-BB4A-3365A5A8F73A}
 	EndGlobalSection
 EndGlobal
