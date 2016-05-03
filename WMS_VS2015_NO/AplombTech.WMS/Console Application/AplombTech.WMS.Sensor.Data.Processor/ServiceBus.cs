@@ -29,7 +29,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
                 cfg.UseTransport<MsmqTransport>();
                 cfg.UsePersistence<InMemoryPersistence>();
                 cfg.EndpointName("WMSSensorDataProcess");
-                cfg.PurgeOnStartup(true);
+                cfg.PurgeOnStartup(false);
                 cfg.EnableInstallers();
 
                 Bus = NServiceBus.Bus.Create(cfg).Start();

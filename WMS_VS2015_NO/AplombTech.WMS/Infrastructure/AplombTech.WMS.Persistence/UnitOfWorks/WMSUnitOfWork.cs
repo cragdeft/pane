@@ -10,7 +10,7 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
 {
     public class WMSUnitOfWork : IDisposable
     {
-        [ThreadStatic]
+        //[ThreadStatic]
         private static WMSUnitOfWork _currentScope;
         private WMSDBContext _objectContext;
         private bool _isDisposed, _saveAllChangesAtEndOfScope;
@@ -58,7 +58,7 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
             /* Create a new ObjectContext instance: */
             _objectContext = new WMSDBContext();
             _isDisposed = false;
-            Thread.BeginThreadAffinity();
+            //Thread.BeginThreadAffinity();
             /* Set the current scope to this UnitOfWorkScope object: */
             _currentScope = this;
         }
@@ -73,12 +73,12 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
                 /* End of scope, so clear the thread static
                 * _currentScope member: */
                 _currentScope = null;
-                Thread.EndThreadAffinity();
+                //Thread.EndThreadAffinity();
                 if (_saveAllChangesAtEndOfScope)
                     _objectContext.SaveChanges();
-                /* Dispose the scoped ObjectContext instance: */
+                /* Dispose the scoped ObjectContext instance: */                
+                _objectContext.Dispose();
                 _objectContext = null;
-                //_objectContext.Dispose();
                 _isDisposed = true;
             }
         }

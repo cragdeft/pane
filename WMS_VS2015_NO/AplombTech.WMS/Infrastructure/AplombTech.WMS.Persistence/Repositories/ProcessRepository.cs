@@ -53,10 +53,10 @@ namespace AplombTech.WMS.Persistence.Repositories
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            UpdateLastDataOfSensor(value, loggedAt, sensor);
-            UpdateCumulativeDataOfSensor(value, sensor);
-
             _wmsdbcontext.SensorDatas.Add(data);
+
+            UpdateLastDataOfSensor(value, loggedAt, sensor);
+            UpdateCumulativeDataOfSensor(value, sensor);                    
         }
         private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
         {

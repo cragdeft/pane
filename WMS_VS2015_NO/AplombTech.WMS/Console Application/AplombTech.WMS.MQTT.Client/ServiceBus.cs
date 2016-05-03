@@ -28,7 +28,7 @@ namespace AplombTech.WMS.MQTT.Client
                 cfg.UseTransport<MsmqTransport>();
                 cfg.UsePersistence<InMemoryPersistence>();
                 cfg.EndpointName("WMSSensorDataSender");
-                cfg.PurgeOnStartup(true);
+                cfg.PurgeOnStartup(false);
                 cfg.EnableInstallers();
 
                 Bus = NServiceBus.Bus.Create(cfg).Start();
