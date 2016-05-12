@@ -29,7 +29,7 @@ namespace AplombTech.WMS.Domain.Areas
 
             if (zone != null)
             {
-                if (this.AreaID != zone.AreaID)
+                if (this.AreaId != zone.AreaId)
                 {
                     rb.AppendOnCondition(true, "Duplicate Zone Name");
                 }
@@ -48,7 +48,7 @@ namespace AplombTech.WMS.Domain.Areas
             get
             {
                 IList<DMA> dmas = (from dma in Container.Instances<DMA>()
-                                   where dma.Parent.AreaID == this.AreaID
+                                   where dma.Parent.AreaId == this.AreaId
                                    select dma).ToList();
                 return dmas;
             }

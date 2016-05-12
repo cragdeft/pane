@@ -38,7 +38,7 @@ namespace AplombTech.WMS.Domain.Areas
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        public virtual int AreaID { get; set; }
+        public virtual int AreaId { get; set; }
         [Title]
         [MemberOrder(10)]
         [StringLength(50)]
