@@ -273,7 +273,6 @@ namespace AplombTech.WMS.MQTT.Client
             //ServiceBus.Init();
             MqttClientInstance(false);
             log.Info("MQTT listener has been started");
-        }
-        
+        }       
     }
 }

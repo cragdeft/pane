@@ -27,7 +27,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
         public void Handle(ProcessSensorData message)
         {
             log.Info("Sensor Data process has started for Id : " + message.SensorDataLogId);
-            using (WMSUnitOfWork uow = new WMSUnitOfWork(false))
+            using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
                 ProcessRepository repo = new ProcessRepository(WMSUnitOfWork.CurrentObjectContext);
                 DataLog dataLog = repo.GetDataLogById(message.SensorDataLogId);
