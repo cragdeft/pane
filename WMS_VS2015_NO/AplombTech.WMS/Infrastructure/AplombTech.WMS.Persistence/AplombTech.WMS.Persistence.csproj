@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Facade\WMSDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AlertConfigurationRepository.cs" />
     <Compile Include="Repositories\ProcessRepository.cs" />
     <Compile Include="UnitOfWorks\WMSUnitOfWork.cs" />
   </ItemGroup>

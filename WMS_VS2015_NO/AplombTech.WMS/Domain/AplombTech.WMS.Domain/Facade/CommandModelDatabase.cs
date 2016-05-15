@@ -60,6 +60,16 @@ namespace AplombTech.WMS.Domain.Facade
             //modelBuilder.Properties<DateTime>()
             //.Configure(c => c.HasColumnType("datetime2"));
 
+            //modelBuilder.Entity<AlertRecipient>()
+            //    .HasMany<AlertType>(s => s.AlertTypes)
+            //    .WithMany(c => c.AlertRecipients)
+            //    .Map(cs =>
+            //    {
+            //        cs.MapLeftKey("StudentRefId");
+            //        cs.MapRightKey("CourseRefId");
+            //        cs.ToTable("StudentCourse");
+            //    });
+
             modelBuilder.Entity<SensorData>().Property(sd => sd.Value).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MaximumValue).HasPrecision(18, 2);

@@ -1,6 +1,9 @@
-﻿using AplombTech.WMS.Domain.Areas;
+﻿using AplombTech.WMS.Domain.Alerts;
+using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.JsonParser;
+using AplombTech.WMS.JsonParser.Entity;
 using AplombTech.WMS.Messages.Commands;
 using NakedObjects;
 using NakedObjects.Architecture.Component;
@@ -158,7 +161,8 @@ namespace AplombTech.WMS.MQTT.Client
                         framework.TransactionManager.StartTransaction();
                         if (topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
                         {
-                            ProcessRepository.ParseNStoreSensorData(dataLog);
+                            ParseSensorDataFromMessage(dataLog);
+                            //ProcessRepository.ParseNStoreSensorData(dataLog);
                         }
                         if (topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
                         {
@@ -177,6 +181,81 @@ namespace AplombTech.WMS.MQTT.Client
                     }
                 }
             }
+        }
+
+        private void ParseSensorDataFromMessage(DataLog dataLog)
+        {
+            if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
+            {
+                SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
+
+                foreach (SensorValue data in messageObject.Sensors)
+                {
+                    Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
+                    decimal sensorValue = Convert.ToDecimal(data.Value);
+                    ProcessRepository.CreateNewSensorData(sensorValue, (DateTime)messageObject.SensorLoggedAt, sensor);
+                    PublishAlertMessage(sensorValue, sensor);
+                }
+
+                dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+            }
+        }
+
+        private void PublishAlertMessage(decimal value, Sensor sensor)
+        {
+            if (sensor is EnergySensor) return;
+
+            string sensorName = GetSensorName(sensor);
+          
+            if (value == 0)
+            {
+                SendAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.DataMissing, sensor);               
+                return;
+            }
+
+            if (!(sensor is ChlorinationSensor))
+            {
+                if (value < sensor.MinimumValue)
+                {
+                    SendAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.UnderThreshold, sensor);
+                }
+            }
+        }
+
+        private string GetSensorName(Sensor sensor)
+        {
+            string sensorName = String.Empty;
+            if (sensor is FlowSensor)
+            {
+                sensorName = "FlowSensor";
+            }
+            if (sensor is LevelSensor)
+            {
+                sensorName = "LevelSensor";
+            }
+            if (sensor is PressureSensor)
+            {
+                sensorName = "PressureSensor";
+            }
+            if (sensor is ChlorinationSensor)
+            {
+                sensorName = "ChlorinationSensor";
+            }
+            return sensorName;
+        }
+        private void SendAlertMessage(decimal value, string sensorName, int allertMessageType, Sensor sensor)
+        {
+            var cmd = new AlertMessage
+            {
+                SensorId = sensor.SensorId,
+                SensorName = sensorName,
+                MinimumValue = sensor.MinimumValue,
+                Value = value,
+                PumpStationName = sensor.PumpStation.Name,
+                AlertMessageType = allertMessageType,
+                MessageDateTime = DateTime.Now
+            };
+            ServiceBus.Bus.Send(cmd);
         }
         private DataLog LogSensorData(string topic, string message)
         {

@@ -27,7 +27,7 @@ namespace AplombTech.WMS.Domain.Repositories
             //menu.CreateSubMenu("PumpStation")
             //    .AddAction("FindPumpStation");
         }
-        public AlertRecipient AddAlertReceipient(string name, Designation designation, string mobileNo, string email, IEnumerable<AlertType> alertTypes)
+        public AlertRecipient AddAlertReceipient(string name, Designation designation, [Description("Example: +8801534567890")][RegEx(Validation = @"^(?:\+88|01)?\d{11}\r?$", Message = "Not a valid mobile no")]string mobileNo, [RegEx(Validation = @"^[\-\w\.]+@[\-\w\.]+\.[A-Za-z]+$", Message = "Not a valid email address")]string email, IEnumerable<AlertType> alertTypes)
         {
             AlertRecipient recipient  = Container.NewTransientInstance<AlertRecipient>();
 

@@ -136,6 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlertMessageProcessor.cs" />
     <Compile Include="BatchStartPoint.cs" />
     <Compile Include="DataProcessor.cs" />
     <Compile Include="IWMSBatchRunner.cs" />

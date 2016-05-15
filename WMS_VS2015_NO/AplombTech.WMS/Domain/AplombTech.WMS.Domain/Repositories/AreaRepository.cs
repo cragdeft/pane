@@ -129,7 +129,7 @@ namespace AplombTech.WMS.Domain.Repositories
             return stations;
         }
         #endregion
-        public Sensor FindSensorByUid(string uid)
+        public Sensor FindSensorByUuid(string uid)
         {
             Sensor station = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
             return station;

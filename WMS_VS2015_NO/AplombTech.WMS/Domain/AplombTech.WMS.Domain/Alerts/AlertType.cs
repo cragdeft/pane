@@ -78,5 +78,23 @@ namespace AplombTech.WMS.Domain.Alerts
         }
         #endregion
         #endregion
+
+        #region Collection Properties
+        private ICollection<AlertRecipient> _alertrecipients = new List<AlertRecipient>();
+        [MemberOrder(50), NakedObjectsIgnore]
+        //[Eagerly(EagerlyAttribute.Do.Rendering)]
+        //[TableView(false, "AlertName")]
+        public virtual ICollection<AlertRecipient> AlertRecipients
+        {
+            get
+            {
+                return _alertrecipients;
+            }
+            set
+            {
+                _alertrecipients = value;
+            }
+        }
+        #endregion
     }
 }

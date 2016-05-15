@@ -2,6 +2,7 @@
 using NakedObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -41,8 +42,12 @@ namespace AplombTech.WMS.Domain.Alerts
         [StringLength(100)]
         public virtual string Name { get; set; }
         [MemberOrder(30), Required]
+        [Description("Example: +8801523456789")]
+        [RegEx(Validation = @"^(?:\+88|01)?\d{11}\r?$", Message = "Not a valid mobile no")]
         public virtual string MobileNo { get; set; }
         [MemberOrder(40), Required]
+        [RegEx(Validation = @"^[\-\w\.]+@[\-\w\.]+\.[A-Za-z]+$", Message = "Not a valid email address")]
+        //\b[A - Z0 - 9._ % +-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b
         public virtual string Email { get; set; }
         #endregion
 

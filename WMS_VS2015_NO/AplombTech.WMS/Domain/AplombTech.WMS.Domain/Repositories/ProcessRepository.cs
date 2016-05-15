@@ -35,7 +35,7 @@ namespace AplombTech.WMS.Domain.Repositories
 
                     foreach (SensorValue data in messageObject.Sensors)
                     {
-                        Sensor sensor = AreaRepository.FindSensorByUid(data.SensorUUID);
+                        Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
                         CreateNewSensorData(Convert.ToDecimal(data.Value), (DateTime)messageObject.SensorLoggedAt, sensor);
                     }
 
