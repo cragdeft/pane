@@ -227,19 +227,19 @@ namespace AplombTech.WMS.MQTT.Client
             string sensorName = String.Empty;
             if (sensor is FlowSensor)
             {
-                sensorName = "FlowSensor";
+                sensorName = "Flow Sensor";
             }
             if (sensor is LevelSensor)
             {
-                sensorName = "LevelSensor";
+                sensorName = "Level Sensor";
             }
             if (sensor is PressureSensor)
             {
-                sensorName = "PressureSensor";
+                sensorName = "Pressure Sensor";
             }
             if (sensor is ChlorinationSensor)
             {
-                sensorName = "ChlorinationSensor";
+                sensorName = "Chlorination Sensor";
             }
             return sensorName;
         }
@@ -349,7 +349,7 @@ namespace AplombTech.WMS.MQTT.Client
         {
             this.framework = objframework;
             log.Info("MQTT listener is going to start");
-            //ServiceBus.Init();
+            ServiceBus.Init();
             MqttClientInstance(false);
             log.Info("MQTT listener has been started");
         }       
