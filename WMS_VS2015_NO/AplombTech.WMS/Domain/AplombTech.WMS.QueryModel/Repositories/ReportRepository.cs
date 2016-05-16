@@ -108,6 +108,11 @@ namespace AplombTech.WMS.QueryModel.Repositories
             return model;
         }
 
+        public PumpStation GetPumpStationById(int pumpStationId)
+        {
+            return Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).SingleOrDefault();
+        }
+
         public Dictionary<string, string> GetPumpStationOverView(int pumpStationId)
         {
             var model = Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).FirstOrDefault();
@@ -337,7 +342,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 {
                     avgValue.Add(GetTotalDataWithinTime(sensorId, model.ToDateTime.AddHours(i),
                     model.ToDateTime.AddHours(i + 1)));
-                    model.XaxisCategory[i] = (i + 1).ToString();
+                    model.XaxisCategory[i] = model.ToDateTime.AddHours(i + 1).ToString();
                 }
             }
             return avgValue;
@@ -364,7 +369,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 {
                     avgValue.Add(GetTotalDataWithinTime(sensorId, model.ToDateTime.AddDays(i),
                     model.ToDateTime.AddDays(i + 1)));
-                    model.XaxisCategory[i] = (i + 1).ToString();
+                    model.XaxisCategory[i] = model.ToDateTime.AddDays(i + 1).ToString();
                 }
             }
             return avgValue;
@@ -379,7 +384,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 {
                     avgValue.Add(GetTotalDataWithinTime(sensorId, model.ToDateTime.AddDays(i),
                     model.ToDateTime.AddDays(i + 1)));
-                    model.XaxisCategory[i] = model.ToDateTime.AddDays(i).Day.ToString();
+                    model.XaxisCategory[i] = model.ToDateTime.AddDays(i).ToString();
                 }
             }
             return avgValue;

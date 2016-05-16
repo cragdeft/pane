@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using AplombTech.WMS.QueryModel.Reports;
 using AplombTech.WMS.QueryModel.Repositories;
+using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.QueryModel.Shared;
 using NakedObjects;
 using NakedObjects.Facade;
 using NakedObjects.Web.Mvc.Controllers;
@@ -39,6 +43,56 @@ namespace AplombTech.WMS.Site.Controllers
             model = _reportRepository.GetReportData(model);
 
             return Json(new { Data = model, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult ExportToExcel(DrillDown m)
+        {
+            m = _reportRepository.GetReportData(m);
+            Summary model = _reportRepository.Summary();
+            
+            try
+            {
+                var grid = new System.Web.UI.WebControls.GridView();
+                List<ExcelDrillDownReport> report = new List<ExcelDrillDownReport>();
+                foreach (var series in m.Series)
+                {
+                    for (int index = 0; index < series.data.Count; index++)
+                    {
+                        var data = series.data[index];
+                        report.Add(new ExcelDrillDownReport()
+                        {
+                            Sensor = series.name,
+                            Unit = m.Unit,
+                            Value = data.ToString(),
+                            Date = m.XaxisCategory[index]
+                        });
+                    }
+                }
+                grid.DataSource = report;
+
+                grid.DataBind();
+
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename="+m.ReportType+"_" + DateTime.Now.ToShortDateString() + ".xls");
+                Response.ContentType = "application/excel";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+
+                grid.RenderControl(htw);
+
+                Response.Write(sw.ToString());
+
+                Response.End();
+
+                return Json(new { IsSuccess = true }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch
+            {
+
+            }
+
+            return Json(new { IsSuccess = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }

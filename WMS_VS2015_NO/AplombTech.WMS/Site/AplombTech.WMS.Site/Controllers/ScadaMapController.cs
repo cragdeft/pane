@@ -146,5 +146,16 @@ namespace AplombTech.WMS.Site.Controllers
             return PartialView("~/Views/ScadaMap/PlainScada.cshtml", sensorList.ToList());
         }
 
+        public ActionResult DemoScada(int pumpStationId)
+        {
+            //List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(3));
+            var station = _reportRepository.GetPumpStationById(pumpStationId);
+            ScadaMap model = _reportRepository.ScadaMap();
+            model.SelectedZoneId = station.Parent.Parent.AreaID;
+            model.SelectedDmaId = station.Parent.AreaID;
+            model.SelectedZoneId = station.AreaID;
+            return View("~/Views/ScadaMap/PlainScada.cshtml", model);
+        }
+
     }
 }

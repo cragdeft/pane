@@ -47,8 +47,9 @@ function ShowInfoPopUp(marker) {
 
 $("#modalSave").click(function () {
     $('#myModal').modal('hide');
-    var url = "ScadaMap/ShowScadaForMap";
-    $('#body').load(url, { pumpStationId: 3 });
+    var url = '@Url.Action("DemoScada", "ScadaMap")';//"ScadaMap/DemoScada?id=3";
+    window.location = scadaUrl + '?pumpStationId=3';
+    //$('#body').load(url, { pumpStationId: 3 });
     
 });
 

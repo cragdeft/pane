@@ -150,6 +150,7 @@
     <Compile Include="Sensors\SensorData.cs" />
     <Compile Include="Shared\Address.cs" />
     <Compile Include="Shared\AuditFields.cs" />
+    <Compile Include="Shared\ExcelDrillDownReport.cs" />
     <Compile Include="Shared\ReportType.cs" />
     <Compile Include="Shared\Unit.cs" />
   </ItemGroup>

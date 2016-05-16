@@ -112,7 +112,7 @@ namespace AplombTech.WMS.Site.Controllers
             }
         }
 
-        public void ExportToExcel()
+        public void ExportToExcel(Summary m)
         {
             Summary model = _reportRepository.Summary();
             List<Sensor> sensors = new List<Sensor>();

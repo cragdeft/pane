@@ -29,29 +29,34 @@
 <div id="body">
     <section class="main-content">
         @(Html.TabbedHistory(Model))
-        <br />
+        <br/>
+
         <div class="col-md-offset-1">
-            @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
-                Model.PumpStations,
-                "AreaID",
-                "Name",
-                Model.SelectedPumpStationId), "Select Pump Station")
-            @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
-            @Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")
+            @using (Html.BeginForm("ExportToExcel", "DrillDown", FormMethod.Post))
+            {
+                @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
+                    Model.PumpStations,
+                    "AreaID",
+                    "Name",
+                    Model.SelectedPumpStationId), "Select Pump Station")
+                @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
+                @Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")
 
-            
-            <div id="inputPanel">
 
-                @Html.DropDownListFor(model => model.Year, years, "- Select Year -")
+                <div id="inputPanel">
 
-                @Html.EnumDropDownListFor(m => m.Month, "- Select Month -")
+                    @Html.DropDownListFor(model => model.Year, years, "- Select Year -")
 
-                @Html.DropDownListFor(model => model.Week, weeks, "- Select Week -")
-                @Html.DropDownListFor(model => model.Day, days, "- Select Day -")
-                @Html.DropDownListFor(model => model.Hour, hours, "- Select Hour -")
-            </div>
-            <input type="submit" id="show" value="Show" class="btn btn-default"/>
-        </div>
+                    @Html.EnumDropDownListFor(m => m.Month, "- Select Month -")
+
+                    @Html.DropDownListFor(model => model.Week, weeks, "- Select Week -")
+                    @Html.DropDownListFor(model => model.Day, days, "- Select Day -")
+                    @Html.DropDownListFor(model => model.Hour, hours, "- Select Hour -")
+                </div>
+                <input type="submit" id="show" value="Show" class="btn btn-default"/>
+                <input type="submit" id="exp" value="Export" class="btn btn-default" />
+            }
+             </div>
         <br />
         <div id="chart_div"></div>
         <div id="chartContainer" style="height: 300px; width:100%;">

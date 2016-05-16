@@ -3,7 +3,7 @@
     var dmaDownList = $('#SelectedDmaId');
     $.ajax({
         type: "POST",
-        url: "ScadaMap/GetDmaDropdownData",
+        url: window.location.origin+"/ScadaMap/GetDmaDropdownData",
         data: JSON.stringify({ zoneId: zoneId }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -35,7 +35,7 @@ function LoadPumpStation(dmaId) {
     var dmaDownList = $('#SelectedPumpStationId');
     $.ajax({
         type: "POST",
-        url: "ScadaMap/GetPumpStationDropdownData",
+        url: window.location.origin+"/ScadaMap/GetPumpStationDropdownData",
         data: JSON.stringify({ dmaId: dmaId }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -65,7 +65,7 @@ function LoadPumpStation(dmaId) {
 function showScada() {
 
     $('#searchResults').html('<img src="../../Images/ajax-loader.gif">').delay(50000).fadeIn(4000);
-    var url = "ScadaMap/ShowScada";
+    var url = window.location.origin + "/ScadaMap/ShowScada";
     var pumpStationId = $('#SelectedPumpStationId').val();
     $('#searchResults').load(url, { pumpStationId: pumpStationId });
 }

@@ -9,6 +9,9 @@
         @(Html.TabbedHistory(Model))
         <br/>
         <div class="col-md-offset-1">
+            <p id="selectedZone" style="display: none;">1</p>
+            <p id="selectedDma" style="display: none;">2</p>
+            <p id="selectedPumpStation" style="display: none;">3</p>
             @Html.DropDownListFor(model => model.SelectedZoneId, new SelectList(
                 Model.Zones,
                 "AreaID",
@@ -31,6 +34,19 @@
 
             <div id="searchResults"></div>
             @Scripts.Render("~/bundles/scadamap")
+            <script>
+                var zoneId = $('#selectedZone').text();
+                var dmaId = $('#selectedDma').text();
+                var pumpStationId = $('#selectedPumpStation').text();
+                if (dmaId && pumpStationId) {
+                    $("#SelectedZoneId").val("1").trigger('change');
+                    //$("#SelectedDmaId").val("2");
+                    //console.log($("#SelectedDmaId").val("2").trigger('change'));
+                    //alert($("#SelectedDmaId").val());
+                    //$("#SelectedPumpStationId").val("3").trigger('change');;
+                    //showScada();
+                }
+            </script>
         </div>
     </section>
 </div>

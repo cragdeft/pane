@@ -35,6 +35,7 @@ $("#show").click(function (e) {
     });
 
 });
+
 function showRealChart(data2) {
     Highcharts.setOptions({
         global: {
@@ -159,7 +160,7 @@ $("#ReportType").change(function () {
         $('#Month').show();
         $('#Day').hide();
     }
-
+    $('#exp').show();
     if (reportType == 5) {
         $('#Month').hide();
         $('#Day').hide();
@@ -171,6 +172,7 @@ $("#ReportType").change(function () {
         $("#TransmeType option[value='1']").show();
         $("#TransmeType option[value='2']").show();
         $("#TransmeType option[value='5']").show();
+        $('#exp').hide();
     }
 
     if (reportType != 5 && reportType != 1) {
@@ -196,102 +198,10 @@ function setModel() {
 }
 
 function GetHourValue(name) {
-    if (name == '12:00 AM') {
-        return 0;
-    }
-
-    if (name == '1:00 AM') {
-        return 1;
-    }
-
-    if (name == '2:00 AM') {
-        return 2;
-    }
-
-    if (name == '3:00 AM') {
-        return 3;
-    }
-
-    if (name == '4:00 AM') {
-        return 4;
-    }
-    if (name == '5:00 AM') {
-        return 5;
-    }
-
-    if (name == '6:00 AM') {
-        return 6;
-    }
-
-    if (name == '7:00 AM') {
-        return 7;
-    }
-
-    if (name == '8:00 AM') {
-        return 8;
-    }
-
-    if (name == '9:00 AM') {
-        return 9;
-    }
-
-    if (name == '10:00 AM') {
-        return 10;
-    }
-
-    if (name == '11:00 AM') {
-        return 11;
-    }
-
-    if (name == '12:00 PM') {
-        return 12;
-    }
-
-    if (name == '1:00 PM') {
-        return 13;
-    }
-
-    if (name == '2:00 PM') {
-        return 14;
-    }
-
-    if (name == '3:00 PM') {
-        return 15;
-    }
-
-    if (name == '4:00 PM') {
-        return 16;
-    }
-
-    if (name == '5:00 PM') {
-        return 17;
-    }
-
-    if (name == '6:00 PM') {
-        return 18;
-    }
-
-    if (name == '7:00 PM') {
-        return 19;
-    }
-
-    if (name == '8:00 PM') {
-        return 20;
-    }
-
-    if (name == '9:00 PM') {
-        return 21;
-    }
-
-    if (name == '10:00 PM') {
-        return 22;
-    }
-
-    if (name == '11:00 PM') {
-        return 23;
-    }
-
-    return 0;
+    var d = new Date(name);
+    
+    return d.getHours();
+   
 }
 function getDateOfWeek(w, y) {
     var d = (1 + (w - 1) * 7); // 1st of January + 7 days for each week
@@ -313,6 +223,7 @@ function showGraph(data) {
             categories: categories,
             gridLineWidth: 1
         },
+
         credits: {
             text: 'Aplombtech BD',
             href: 'http://www.example.com'
@@ -326,19 +237,24 @@ function showGraph(data) {
 
                             if ($('#ReportType').val() == 2) {
                                 $('#ReportType').val('1').change();
-                                $("#Hour").val(GetHourValue(this.category) + 1);
+                                $("#Hour").val(GetHourValue(this.category));
                             }
 
                             if ($('#ReportType').val() == 3) {
                                 $('#ReportType').val('2').change();
                                 var date = getDateOfWeek($('#Week').val(), $('#Year').val());
                                 $('#Month').val(date.getMonth() + 1);
-                                $("#Day").val(this.category);
+                                
+                                $("#Day").val(date.getDate());
+                                
                             }
 
                             if ($('#ReportType').val() == 4) {
                                 $('#ReportType').val('2').change();
-                                $("#Day").val(this.category);
+                                var d = new Date(this.category);
+                                console.log(this.category);
+                                var n = d.getDate();
+                                $("#Day").val(n);
                             }
 
                             var model = setModel();
@@ -367,7 +283,18 @@ function showGraph(data) {
             },
             lineWidth: 0,
             gridLineWidth: 0,
-            lineColor: 'transparent'
+            lineColor: 'transparent',
+            plotLines: [{
+
+                color: '#FF0000',
+                dashStyle: 'ShortDash',
+                width: 2,
+                value: 55,
+                zIndex: 0,
+                label: {
+                    text: 'Minimum value'
+                }
+            }]
         },
         tooltip: {
             valueSuffix: ' ' + data.Data.Unit
@@ -382,6 +309,7 @@ function showGraph(data) {
         exporting: {
             enabled: true
         }
+        
     });
 
 }
