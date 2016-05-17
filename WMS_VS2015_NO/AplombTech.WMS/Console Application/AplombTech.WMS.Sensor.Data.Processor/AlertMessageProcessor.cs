@@ -47,8 +47,8 @@ namespace AplombTech.WMS.Sensor.Data.Processor
 
             foreach (AlertRecipient recipient in recipients)
             {
-                SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Data Missing", message);
-                SendSMS(recipient.MobileNo, message);
+                EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Data Missing", message);
+                SmsSender.SendSMS(recipient.MobileNo, message);
             }
         }
         private void SendUnderThresholdMessage(AlertMessage objmessage, string alertMessage, IList<AlertRecipient> recipients)
@@ -58,17 +58,9 @@ namespace AplombTech.WMS.Sensor.Data.Processor
 
             foreach (AlertRecipient recipient in recipients)
             {
-                SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com","Under threshold Data", message);
-                SendSMS(recipient.MobileNo, message);
+                EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com","Under threshold Data", message);
+                SmsSender.SendSMS(recipient.MobileNo, message);
             }
-        }
-        private string SendEmail(string to, string from, string subject, string body)
-        {
-            return EmailSender.SendEmail(to,from,subject,body);
-        }
-        private void SendSMS(string mobileno, string message)
-        {
-            
         }
     }
 }
