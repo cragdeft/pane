@@ -21,22 +21,13 @@ namespace AplombTech.WMS.JsonParser
             DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
             return loggesAtTime;
         }
-        public static DateTime? GetConfigurationLoggedAtTime(string message)
+        public static DateTime GetConfigurationLoggedAtTime(string message)
         {
             JObject o = JObject.Parse(message);
 
             string loggedAt = o["PumpStation"]["ConfigureDateTime"].ToString();
-
-            try
-            {
-                DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
-                return loggesAtTime;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
+            DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
+            return loggesAtTime;
         }
         public static int GetPumpStationIDFromJson(string message)
         {

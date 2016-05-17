@@ -48,26 +48,6 @@ namespace AplombTech.WMS.MQTT.Client {
             //}
             //catch (Exception ex) { Console.WriteLine(ex.ToString()); }            
         }
-        public void RunAllProcesses()
-        {
-            IList<DataLog> due =
-                                 ProcessRepository.GetUnprocessedData();
-            //var tasks = due.Select(pd => AsyncService.RunAsync((domainObjectContainer) =>
-            //                     FindAndRunProcess(pd.SensorDataLogID))).ToArray();
-            //Task.WaitAll(tasks);
-            foreach (DataLog log in due)
-            {
-                FindAndRunProcess(log.SensorDataLogID);
-            }
-        }
-
-        private void FindAndRunProcess(int processId)
-        {
-            //var repository = container.GetService<ProcessRepository>();
-            var proc = ProcessRepository.GetDataLogById(processId);
-            proc.Process();
-        }
-
         #endregion
     }
 }

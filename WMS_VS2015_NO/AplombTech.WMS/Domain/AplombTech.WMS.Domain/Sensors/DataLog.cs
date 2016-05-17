@@ -50,26 +50,5 @@ namespace AplombTech.WMS.Domain.Sensors
         [MemberOrder(60)]
         public virtual PumpStation PumpStation { get; set; }
         #endregion
-
-        public void Process()
-        {
-            if (this.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
-            {
-                try
-                {
-                    //framework.TransactionManager.StartTransaction();
-                    ProcessRepository.ParseNStoreSensorData(this);
-                    //framework.TransactionManager.EndTransaction();
-                }
-                catch (Exception ex)
-                {
-                    //log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
-                    //framework.TransactionManager.AbortTransaction();
-                    //framework.TransactionManager.StartTransaction();
-                    this.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
-                    //framework.TransactionManager.EndTransaction();
-                }
-            }
-        }
     }
 }

@@ -17,15 +17,11 @@ namespace AplombTech.WMS.JsonParser.Entity
             Router = new Router();
             Pump = new Pump();
         }
-        public int? PumpStationId { get; set; }
-        public DateTime? ConfigurationLoggedAt { get; set; }
-
+        public int PumpStationId { get; set; }
+        public DateTime ConfigurationLoggedAt { get; set; }
         public IList<Camera> Cameras { get; set; }
-
         public Router Router { get; set; }
-
         public Pump Pump { get; set; }
-
         public IList<Sensor> Sensors { get; set; }
     }
 }
