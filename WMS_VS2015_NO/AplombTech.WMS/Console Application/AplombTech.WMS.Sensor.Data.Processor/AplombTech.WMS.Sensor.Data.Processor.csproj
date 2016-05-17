@@ -166,6 +166,10 @@
       <Project>{07383ccc-b5ab-499d-ac1c-25bfa183c9b3}</Project>
       <Name>AplombTech.WMS.Persistence</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Utility\AplombTech.WMS.Utility.csproj">
+      <Project>{52ea4cb2-2fe4-44af-a638-4b1a1f9786ef}</Project>
+      <Name>AplombTech.WMS.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

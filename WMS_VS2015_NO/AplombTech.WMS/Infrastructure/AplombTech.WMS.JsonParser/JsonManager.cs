@@ -12,77 +12,52 @@ namespace AplombTech.WMS.JsonParser
 {
     public class JsonManager
     {
-        public static DateTime? GetSensorLoggedAtTime(string message)
+        public static DateTime GetSensorLoggedAtTime(string message)
         {
             JObject o = JObject.Parse(message);
 
             string loggedAt = o["PumpStation"]["LogDateTime"].ToString();
 
-            try
-            {
-                DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
-                return loggesAtTime;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
+            DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
+            return loggesAtTime;
         }
-
-        public static DateTime? GetConfigurationLoggedAtTime(string message)
+        public static DateTime GetConfigurationLoggedAtTime(string message)
         {
             JObject o = JObject.Parse(message);
 
             string loggedAt = o["PumpStation"]["ConfigureDateTime"].ToString();
-
-            try
-            {
-                DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
-                return loggesAtTime;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
+            DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
+            return loggesAtTime;
         }
-        public static int? GetPumpStationIDFromJson(string message)
+        public static int GetPumpStationIDFromJson(string message)
         {
             JObject o = JObject.Parse(message);
 
             string pumpStationId = o["PumpStation"]["PumoStation_Id"].ToString();
-
-            try
-            {
-                int stationId = Convert.ToInt32(pumpStationId);
-                return stationId;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
+            int stationId = Convert.ToInt32(pumpStationId);
+            return stationId;
         }
-
         public static SensorMessage GetSensorObject(string message)
         {
-            JObject o = JObject.Parse(message);
-
             SensorMessage sensorObject = new SensorMessage();
-
-            sensorObject.PumpStationId = GetPumpStationIDFromJson(message);
-            sensorObject.SensorLoggedAt = GetSensorLoggedAtTime(message);
-
-            for (int i = 0; i < 5; i++)
+            try
             {
-                sensorObject.Sensors.Add(GetSensorData(o, i));
+                JObject o = JObject.Parse(message);
+                //o["Sensor"][0]["uid"],o["Sensor"][0]["value"]
+                sensorObject.PumpStationId = GetPumpStationIDFromJson(message);
+                sensorObject.SensorLoggedAt = GetSensorLoggedAtTime(message);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    sensorObject.Sensors.Add(GetSensorData(o, i));
+                }
+                return sensorObject;
             }
-            //o["Sensor"][0]["uid"],o["Sensor"][0]["value"]
-
-            return sensorObject;
+            catch (Exception)
+            {
+                return null;
+            }            
         }
-
         public static ConfigurationMessage GetConfigurationObject(string message)
         {
             JObject o = JObject.Parse(message);
@@ -107,6 +82,7 @@ namespace AplombTech.WMS.JsonParser
 
             return configurationObject;
         }
+
         private static SensorValue GetSensorData(JObject o, int index)
         {
             SensorValue data = new SensorValue();
@@ -116,7 +92,6 @@ namespace AplombTech.WMS.JsonParser
 
             return data;
         }
-
         private static Camera GetCamera(JObject o, int index)
         {
             Camera camera = new Camera();
@@ -125,7 +100,6 @@ namespace AplombTech.WMS.JsonParser
 
             return camera;
         }
-
         private static Router GetRouter(JObject o)
         {
             Router router = new Router();
@@ -136,14 +110,12 @@ namespace AplombTech.WMS.JsonParser
 
             return router;
         }
-
         private static Pump GetPump(JObject o)
         {
             Pump pump = new Pump();
             pump.UUID = (string)o["PumpStation"]["Pump"]["uid"];
             return pump;
         }
-
         private static Sensor GetSensor(JObject o, int index)
         {
             string type = (string)o["PumpStation"]["Sensor"][index]["type"];
@@ -151,7 +123,6 @@ namespace AplombTech.WMS.JsonParser
             //Sensor sensor = GetCommonSensor(uid);
             return GetMatchedSensor(type,uid);
         }
-
         private static Sensor GetMatchedSensor(string type,string uid)
         {
             switch (type)
@@ -180,7 +151,6 @@ namespace AplombTech.WMS.JsonParser
 
             return null;
         }
-
         private static Sensor CreateChlorinationSensor(string uid)
         {
             ChlorinationSensor sensor = new ChlorinationSensor();
@@ -194,7 +164,6 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-
         private static Sensor CreatePressureSensor(string uid)
         {
             PressureSensor sensor = new PressureSensor();
@@ -208,7 +177,6 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-
         private static Sensor CreateLevelSensor(string uid)
         {
             LevelSensor sensor = new LevelSensor();
@@ -222,7 +190,6 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-
         private static Sensor CreateEnergySensor(string uid)
         {
             EnergySensor sensor = new EnergySensor();
@@ -237,7 +204,6 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-
         private static Sensor CreateFlowSensor(string uid)
         {
             FlowSensor sensor = new FlowSensor();
@@ -252,7 +218,6 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-
         private static Sensor GetCommonSensor(string uid)
         {
             Sensor sensor = new Sensor();

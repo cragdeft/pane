@@ -34,7 +34,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
 
                 if (dataLog.Topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
                 {
-                    repo.ParseNStoreSensorData(dataLog);
+                    //repo.ParseNStoreSensorData(dataLog);
                 }
                 if (dataLog.Topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
                 {

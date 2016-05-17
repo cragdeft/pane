@@ -72,7 +72,7 @@ namespace AplombTech.WMS.MQTT.Client
             }
             return Convert.ToInt32(ConfigurationManager.AppSettings["BrokerPort"]);
         }
-        private UInt16 GetBrokerKeepAlivePeriod()
+        private ushort GetBrokerKeepAlivePeriod()
         {
             if (ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"] == null)
             {
@@ -162,7 +162,6 @@ namespace AplombTech.WMS.MQTT.Client
                         if (topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
                         {
                             ParseSensorDataFromMessage(dataLog);
-                            //ProcessRepository.ParseNStoreSensorData(dataLog);
                         }
                         if (topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
                         {
@@ -182,25 +181,28 @@ namespace AplombTech.WMS.MQTT.Client
                 }
             }
         }
-
         private void ParseSensorDataFromMessage(DataLog dataLog)
         {
             if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
             {
                 SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
 
-                foreach (SensorValue data in messageObject.Sensors)
+                if (messageObject != null)
                 {
-                    Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
-                    decimal sensorValue = Convert.ToDecimal(data.Value);
-                    ProcessRepository.CreateNewSensorData(sensorValue, (DateTime)messageObject.SensorLoggedAt, sensor);
-                    PublishAlertMessage(sensorValue, sensor);
-                }
-
-                dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+                    foreach (SensorValue data in messageObject.Sensors)
+                    {
+                        Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
+                        if (sensor.IsActive)
+                        {
+                            decimal sensorValue = Convert.ToDecimal(data.Value);
+                            ProcessRepository.CreateNewSensorData(sensorValue, messageObject.SensorLoggedAt, sensor);
+                            PublishAlertMessage(sensorValue, sensor);
+                        }
+                    }
+                    dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+                }              
             }
         }
-
         private void PublishAlertMessage(decimal value, Sensor sensor)
         {
             if (sensor is EnergySensor) return;
@@ -221,7 +223,6 @@ namespace AplombTech.WMS.MQTT.Client
                 }
             }
         }
-
         private string GetSensorName(Sensor sensor)
         {
             string sensorName = String.Empty;
@@ -265,12 +266,6 @@ namespace AplombTech.WMS.MQTT.Client
                 DataLog dataLog = ProcessRepository.LogData(topic, message);
                 framework.TransactionManager.EndTransaction();
 
-                //if (dataLog == null)
-                //{
-                //    Publish(topic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
-                //    return null;
-                //}
-                //Publish(topic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
                 return dataLog;
             }
             catch (Exception ex)

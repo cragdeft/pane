@@ -2,6 +2,7 @@
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Shared;
 using NakedObjects;
+using NakedObjects.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,7 +36,8 @@ namespace AplombTech.WMS.Domain.Sensors
         }
         public virtual void Updating()
         {
-            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
+            if(Container.Principal.Identity.Name != String.Empty)
+                AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         #endregion
@@ -156,5 +158,55 @@ namespace AplombTech.WMS.Domain.Sensors
         //    }
         //    return type;
         //}
+
+        #region Behavior
+
+        public void MakeActive(string confirmation)
+        {
+            if (confirmation == "I want to make Active")
+                this.IsActive = true;
+        }
+        public IList<string> Choices0MakeActive()
+        {
+            IList<string> messages = new List<string>();
+            messages.Add("I want to make Active");
+            messages.Add("I do not want to make Active");
+
+            return messages;
+        }
+        public bool HideMakeActive()
+        {
+            if (this.IsActive)
+                return true;
+            return false;
+        }
+        public void MakeInActive(String confirmation)
+        {
+            if (confirmation == "I want to make InActive")
+                this.IsActive = false;
+        }
+        public IList<string> Choices0MakeInActive()
+        {
+            IList<string> messages = new List<string>();
+            messages.Add("I want to make InActive");
+            messages.Add("I do not want to make InActive");
+
+            return messages;
+        }
+        public bool HideMakeInActive()
+        {
+            if (this.IsActive)
+                return false;
+            return true;
+        }
+        #endregion
+
+        #region Menu
+        public static void Menu(IMenu menu)
+        {
+            menu.AddAction("MakeActive");
+            menu.AddAction("MakeInActive");
+        }
+        #endregion
     }
 }

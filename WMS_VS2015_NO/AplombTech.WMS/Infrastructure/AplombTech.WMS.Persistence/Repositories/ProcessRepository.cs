@@ -24,22 +24,6 @@ namespace AplombTech.WMS.Persistence.Repositories
             return (from c in _wmsdbcontext.SensorDataLogs where c.SensorDataLogID == id select c).Single(); ;
         }
 
-        public void ParseNStoreSensorData(DataLog dataLog)
-        {
-            if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
-            {
-                SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
-
-                foreach (SensorValue data in messageObject.Sensors)
-                {
-                    Sensor sensor = GetSensorByUuid(data.SensorUUID);
-                    CreateNewSensorData(Convert.ToDecimal(data.Value), (DateTime)messageObject.SensorLoggedAt, sensor);
-                }
-
-                dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
-            }
-        }
-
         private Sensor GetSensorByUuid(string uuid)
         {
             return (from c in _wmsdbcontext.Sensors where c.UUID == uuid select c).Single(); ;
