@@ -188,15 +188,20 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
 
-                foreach (SensorValue data in messageObject.Sensors)
+                if (messageObject != null)
                 {
-                    Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
-                    decimal sensorValue = Convert.ToDecimal(data.Value);
-                    ProcessRepository.CreateNewSensorData(sensorValue, (DateTime)messageObject.SensorLoggedAt, sensor);
-                    PublishAlertMessage(sensorValue, sensor);
-                }
-
-                dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+                    foreach (SensorValue data in messageObject.Sensors)
+                    {
+                        Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
+                        if (sensor.IsActive)
+                        {
+                            decimal sensorValue = Convert.ToDecimal(data.Value);
+                            ProcessRepository.CreateNewSensorData(sensorValue, messageObject.SensorLoggedAt, sensor);
+                            PublishAlertMessage(sensorValue, sensor);
+                        }
+                    }
+                    dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+                }              
             }
         }
         private void PublishAlertMessage(decimal value, Sensor sensor)
