@@ -36,6 +36,28 @@ $("#show").click(function (e) {
 
 });
 
+$("#Month").change(function () {
+    var monthValue = $('#Month').val();
+    if (monthValue == 4 || monthValue == 6 || monthValue == 9 || monthValue == 11) {
+        $("#Day option[value='31']").hide();
+    } else if (monthValue == 2) {
+        $("#Day option[value='30']").hide();
+        $("#Day option[value='31']").hide();
+
+        if ($('#Year').val() > 0) {
+            if (!leapYear($('#Year').val()))
+                $("#Day option[value='29']").hide();
+            else {
+                $("#Day option[value='29']").show();
+            }
+        }
+    } else {
+        $("#Day option[value='29']").show();
+        $("#Day option[value='30']").show();
+        $("#Day option[value='31']").show();
+    }
+});
+
 function showRealChart(data2) {
     Highcharts.setOptions({
         global: {
@@ -216,14 +238,13 @@ function showGraph(data) {
                 color: '#FF0000',
                 dashStyle: 'ShortDash',
                 width: 2,
-                value: 25,
+                value: data.Data.SelectedSensor.MinimumValue,
                 zIndex: 0,
                 label: {
                     text: 'Minimum value'
                 }
             }
         ];
-        alert('hourly');
     } else {
         plotline = [{}];
     }

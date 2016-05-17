@@ -38,6 +38,8 @@ namespace AplombTech.WMS.QueryModel.Reports
             return ids;
         }
         public Sensor.TransmitterType TransmeType { get; set; }
+
+        public Sensor SelectedSensor { get; set; }
         public ReportType ReportType { get; set; }
         public Month Month { get; set; }
         public int Year { get; set; }

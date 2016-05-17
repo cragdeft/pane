@@ -33,7 +33,33 @@ $("#showUT").click(function () {
         $('#inputPanel').hide();
     });
 
-    $("#ReportType").change(function () {
+    $("#Month").change(function() {
+        var monthValue = $('#Month').val();
+        if (monthValue == 4 || monthValue == 6 || monthValue == 9 || monthValue == 11) {
+            $("#Day option[value='31']").hide();
+        } else if (monthValue == 2) {
+            $("#Day option[value='30']").hide();
+            $("#Day option[value='31']").hide();
+
+            if ($('#Year').val() > 0) {
+                if (!leapYear($('#Year').val()))
+                    $("#Day option[value='29']").hide();
+                else {
+                    $("#Day option[value='29']").show();
+                }
+            }
+        } else {
+            $("#Day option[value='29']").show();
+            $("#Day option[value='30']").show();
+            $("#Day option[value='31']").show();
+        }
+    });
+
+    function leapYear(year) {
+        return new Date(year, 1, 29).getMonth() == 1;
+    }
+
+$("#ReportType").change(function () {
         var reportType = $('#ReportType').val();
         $('#inputPanel').show();
         if (reportType == 1) {

@@ -56,7 +56,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         public ZoneGoogleMap GetSingleAreaGoogleMap(int zoneId)
         {
             var zones = Container.NewViewModel<ZoneGoogleMap>();
-            zones.Zones = Container.Instances<Zone>().Where(x=>x.AreaID == zoneId).ToList();
+            zones.Zones = Container.Instances<Zone>().Where(x => x.AreaID == zoneId).ToList();
 
             return zones;
         }
@@ -219,8 +219,8 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             if (model.ReportType == ReportType.Daily)
             {
-                model.FromDateTime = new DateTime(model.Year, (int)model.Month, model.Day,0,0,0);
-                model.ToDateTime = new DateTime(model.Year, (int)model.Month, model.Day,23,59,59);
+                model.FromDateTime = new DateTime(model.Year, (int)model.Month, model.Day, 0, 0, 0);
+                model.ToDateTime = new DateTime(model.Year, (int)model.Month, model.Day, 23, 59, 59);
 
             }
             if (model.ReportType == ReportType.Hourly)
@@ -248,7 +248,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
             Sensor sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
-            model.SensorDatas = GetCurrentDataListWithinTime(sensor.SensorID,model.FromDateTime, model.ToDateTime);
+            model.SensorDatas = GetCurrentDataListWithinTime(sensor, model.FromDateTime, model.ToDateTime);
             return model;
         }
 
@@ -263,7 +263,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             SetGraphTitleAndSubTitle(ref model, "Daily Data Review", "Data for " + model.ToDateTime.DayOfWeek);
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-
+            model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupDailyData(model, pumpStation);
         }
         private DrillDown SetupDailyData(DrillDown model, PumpStation pumpStation)
@@ -275,7 +275,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             model.Series.Add(data);
             return model;
         }
-        
+
         private DrillDown SetupLiveData(DrillDown model, PumpStation pumpStation)
         {
             var sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
@@ -287,15 +287,15 @@ namespace AplombTech.WMS.QueryModel.Repositories
         }
         private DrillDown GeneratetSeriesDataHourly(DrillDown model)
         {
-            SetGraphTitleAndSubTitle(ref model, "Hourly Data Review", "Data between Hour no = " + model.ToDateTime.Hour+" to "+ ((model.ToDateTime.Hour)+1));
+            SetGraphTitleAndSubTitle(ref model, "Hourly Data Review", "Data between Hour no = " + model.ToDateTime.Hour + " to " + ((model.ToDateTime.Hour) + 1));
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-
+            model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupHourlyData(model, pumpStation);
         }
         private DrillDown SetupHourlyData(DrillDown model, PumpStation pumpStation)
         {
             Sensor sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
-            ReportSeries data = new ReportSeries();
+            ReportSeries data = new ReportSeries(sensor.MinimumValue);
             data.name = model.TransmeType.ToString().Replace("_", " ") + "-" + sensor.UUID;
             data.data = GetHourlyData(ref model, sensor.SensorID);
             model.Series.Add(data);
@@ -305,7 +305,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             SetGraphTitleAndSubTitle(ref model, "Weekly Data Review", "Data for Week no = " + model.Week);
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-
+            model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupWeeklyData(model, pumpStation);
         }
         private DrillDown SetupWeeklyData(DrillDown model, PumpStation pumpStation)
@@ -321,7 +321,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             SetGraphTitleAndSubTitle(ref model, "Monthly Data Review", "Data for " + model.ToDateTime.ToString("MMM"));
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
-
+            model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupMonthlyData(model, pumpStation);
         }
         private static void SetGraphTitleAndSubTitle(ref DrillDown model, string title, string subtitle)
@@ -345,35 +345,35 @@ namespace AplombTech.WMS.QueryModel.Repositories
             {
                 if (sensor is WMS.QueryModel.Sensors.PressureSensor && model.TransmeType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
                 {
-                    Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue,MinimumValue = sensor.MinimumValue};
                     model.Unit = "Bar";
                     return (T)p;
                 }
 
                 if (sensor is LevelSensor && model.TransmeType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
                 {
-                    Sensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = "meter";
                     return (T)p;
                 }
 
                 if (sensor is EnergySensor && model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
-                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = "kw/h";
                     return (T)p;
                 }
 
                 if (sensor is WMS.QueryModel.Sensors.FlowSensor && model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
                 {
-                    Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = "litre/min";
                     return (T)p;
 
                 }
                 if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
                 {
-                    Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     return (T)p;
 
                 }
@@ -517,10 +517,10 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 return 0;
         }
 
-        private List<SensorData> GetCurrentDataListWithinTime(int sensorId, DateTime from, DateTime to)
+        private List<SensorData> GetCurrentDataListWithinTime(Sensor sensor, DateTime from, DateTime to)
         {
             return Container.Instances<SensorData>()
-                   .Where(x => (x.Sensor.SensorID == sensorId && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
+                   .Where(x => (x.Sensor.SensorID == sensor.SensorID && x.LoggedAt >= from && x.LoggedAt <= to && x.Value <= sensor.MinimumValue)).ToList();
         }
         #endregion
     }

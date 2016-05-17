@@ -8,15 +8,22 @@ namespace AplombTech.WMS.QueryModel.Reports
 {
     public class ReportSeries
     {
+        public ReportSeries(decimal thresold)
+        {
+            data = new List<double>();
+            threshold = thresold;
+            negativeColor = "red";
+        }
+
         public ReportSeries()
         {
             data = new List<double>();
-            threshold = 25;
-            negativeColor = "red";
+            threshold = null;
+            negativeColor = "transperant";
         }
         public string name { get; set; }
         public List<double> data { get; set; }
-        public int threshold { get; set; }
+        public decimal? threshold { get; set; }
         public string negativeColor { get; set; }
     }
 }
