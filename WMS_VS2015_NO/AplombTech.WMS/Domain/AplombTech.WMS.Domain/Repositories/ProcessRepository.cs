@@ -35,7 +35,7 @@ namespace AplombTech.WMS.Domain.Repositories
 
                     foreach (SensorValue data in messageObject.Sensors)
                     {
-                        Sensor sensor = AreaRepository.FindSensorByUid(data.SensorUUID);
+                        Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
                         CreateNewSensorData(Convert.ToDecimal(data.Value), (DateTime)messageObject.SensorLoggedAt, sensor);
                     }
 
@@ -135,7 +135,7 @@ namespace AplombTech.WMS.Domain.Repositories
 
         private DataLog GetDataLog(string topic, DateTime loggedAtSensor, int stationId)
         {
-            DataLog dataLog = Container.Instances<DataLog>().Where(w => w.PumpStation.AreaID == stationId && w.Topic == topic && w.LoggedAtSensor == loggedAtSensor).FirstOrDefault();
+            DataLog dataLog = Container.Instances<DataLog>().Where(w => w.PumpStation.AreaId == stationId && w.Topic == topic && w.LoggedAtSensor == loggedAtSensor).FirstOrDefault();
 
             return dataLog;
         }
@@ -144,7 +144,7 @@ namespace AplombTech.WMS.Domain.Repositories
         public DataLog CreateDataLog(string topic, string message, DateTime loggedAtSensor, int stationId)
         {
             DataLog data = Container.NewTransientInstance<DataLog>();
-            PumpStation station = Container.Instances<PumpStation>().Where(w => w.AreaID == stationId).First();
+            PumpStation station = Container.Instances<PumpStation>().Where(w => w.AreaId == stationId).First();
 
             data.Topic = topic;
             data.Message = message;

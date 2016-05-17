@@ -47,6 +47,7 @@ namespace AplombTech.WMS.Site {
                 return new Type[] {
                     typeof(AreaRepository),
                     typeof(ReportRepository),
+                    typeof(AlertConfigurationRepository),
                     typeof(ProcessRepository)
                 };
             }
@@ -130,10 +131,14 @@ namespace AplombTech.WMS.Site {
             var reportMenu = factory.NewMenu<ReportRepository>();
             ReportRepository.Menu(reportMenu);
 
+            var reportAlert = factory.NewMenu<AlertConfigurationRepository>();
+            AlertConfigurationRepository.Menu(reportAlert);
+
             return new IMenu[] {
                 //factory.NewMenu<CentralKhelaGharRepository>(true),
                 //asarMenu,
                 areaMenu,
+                reportAlert,
                 reportMenu
             };
         }

@@ -1,4 +1,5 @@
-﻿using AplombTech.WMS.Domain.Areas;
+﻿using AplombTech.WMS.Domain.Alerts;
+using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
@@ -46,7 +47,15 @@ namespace AplombTech.WMS.Domain.Facade
             PumpStation Shahjadpur = CreatePumpStation("Shahjadpur", dma811,shahjadpurPumpBoundary, context);
             PumpStation baridhara2 = CreatePumpStation("Baridhara2", dma811,baridhara2PumpBoundary, context);
 
-            
+            CreateDesignation("PO", "Pump Operator", context);
+            CreateDesignation("SAE", "Sub Asst. Engineer", context);
+            CreateDesignation("SDE/AE", "Sub Divisional Engineer/Asst. Engineer", context);
+            CreateDesignation("EE", "Executive Engineer", context);
+            CreateDesignation("CO", "Complain Operator", context);
+
+            CreateAlertType("Pump On/Off", "Pump is off. Pump Station Name is ", context);
+            CreateAlertType("Under Threshold", "Under Threshold value of Sensor|of Pump Station ", context);
+            CreateAlertType("Data Missing", " Data is missing of Sensor|of Pump Station ", context);
 
             base.Seed(context);
         }
@@ -177,7 +186,6 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             context.Sensors.Add(sensor);
         }
-
         private Unit AddUnit(string name, CommandModelDatabase context)
         {
             Unit unit = new Unit();
@@ -190,6 +198,30 @@ namespace AplombTech.WMS.Domain.Facade
             context.Units.Add(unit);
 
             return unit;
+        }
+        private void CreateDesignation(string shortName, string fullName, CommandModelDatabase context)
+        {
+            Designation desig = new Designation();
+            desig.DesignationShortName = shortName;
+            desig.DesignationName = fullName;
+            
+            desig.AuditFields.InsertedBy = "Automated";
+            desig.AuditFields.InsertedDateTime = DateTime.Now;
+            desig.AuditFields.LastUpdatedBy = "Automated";
+            desig.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Designations.Add(desig);
+        }
+        private void CreateAlertType(string alertName, string alertMessage, CommandModelDatabase context)
+        {
+            AlertType alert = new AlertType();
+            alert.AlertName = alertName;
+            alert.AlertMessage = alertMessage;
+
+            alert.AuditFields.InsertedBy = "Automated";
+            alert.AuditFields.InsertedDateTime = DateTime.Now;
+            alert.AuditFields.LastUpdatedBy = "Automated";
+            alert.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.AlertTypes.Add(alert);
         }
     }
 }

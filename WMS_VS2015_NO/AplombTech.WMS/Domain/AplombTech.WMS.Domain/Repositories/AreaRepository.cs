@@ -129,14 +129,14 @@ namespace AplombTech.WMS.Domain.Repositories
             return stations;
         }
         #endregion
-        public Sensor FindSensorByUid(string uid)
+        public Sensor FindSensorByUuid(string uid)
         {
             Sensor station = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
             return station;
         }
         public void AddCamera(int pumpStationId, string uid, string url)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
             if (pumpStation.Cameras.Where(x => x.UUID == uid).Count() == 0)
             {
                 pumpStation.AddCamera(url, uid);
@@ -144,7 +144,7 @@ namespace AplombTech.WMS.Domain.Repositories
         }
         public void AddRouter(int pumpStationId, string uid, string ip, int port)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
             if (pumpStation.Router == null)
             {
                 pumpStation.AddRouter(uid, ip, port);
@@ -152,7 +152,7 @@ namespace AplombTech.WMS.Domain.Repositories
         }
         public void AddPump(int pumpStationId, string uid, string modelNo)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
             if (pumpStation.Pump == null)
             {
                 pumpStation.AddPump(modelNo, uid);
@@ -160,7 +160,7 @@ namespace AplombTech.WMS.Domain.Repositories
         }
         public void AddSensor(int pumpStationId, string uid, decimal minValue, decimal maxValue, Sensor.TransmitterType type)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == pumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
             if (!SameTypeSensorExists(pumpStation.Sensors,type))
             {
                 pumpStation.AddSensor(type, uid, minValue, maxValue);

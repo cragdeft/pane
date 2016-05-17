@@ -13,17 +13,17 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
         //[ThreadStatic]
         private static WMSUnitOfWork _currentScope;
         private WMSDBContext _objectContext;
-        private bool _isDisposed, _saveAllChangesAtEndOfScope;
+        private bool _isDisposed;  //, _saveAllChangesAtEndOfScope;
 
         /// <summary>
         /// Gets or sets a boolean value that indicates whether to automatically save
         /// all object changes at end of the scope.
         /// </summary>
-        public bool SaveAllChangesAtEndOfScope
-        {
-            get { return _saveAllChangesAtEndOfScope; }
-            set { _saveAllChangesAtEndOfScope = value; }
-        }
+        //public bool SaveAllChangesAtEndOfScope
+        //{
+        //    get { return _saveAllChangesAtEndOfScope; }
+        //    set { _saveAllChangesAtEndOfScope = value; }
+        //}
 
         /// <summary>
         /// Returns a reference to the CMSObjectContext that is created
@@ -38,9 +38,9 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
         /// Default constructor. Object changes are not automatically saved
         /// at the end of the scope.
         /// </summary>
-        public WMSUnitOfWork()
-            : this(false)
-        { }
+        //public WMSUnitOfWork()
+        //    : this(false)
+        //{ }
 
         /// <summary>
         /// Parameterized constructor.
@@ -49,12 +49,12 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
         /// A boolean value that indicates whether to automatically save
         /// all object changes at end of the scope.
         /// </param>
-        public WMSUnitOfWork(bool saveAllChangesAtEndOfScope)
+        public WMSUnitOfWork()
         {
             if (_currentScope != null && !_currentScope._isDisposed)
                 throw new InvalidOperationException("ObjectContextScope instances " +
                 "cannot be nested.");
-            _saveAllChangesAtEndOfScope = saveAllChangesAtEndOfScope;
+            //_saveAllChangesAtEndOfScope = saveAllChangesAtEndOfScope;
             /* Create a new ObjectContext instance: */
             _objectContext = new WMSDBContext();
             _isDisposed = false;
@@ -74,8 +74,8 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
                 * _currentScope member: */
                 _currentScope = null;
                 //Thread.EndThreadAffinity();
-                if (_saveAllChangesAtEndOfScope)
-                    _objectContext.SaveChanges();
+                //if (_saveAllChangesAtEndOfScope)
+                //    _objectContext.SaveChanges();
                 /* Dispose the scoped ObjectContext instance: */                
                 _objectContext.Dispose();
                 _objectContext = null;

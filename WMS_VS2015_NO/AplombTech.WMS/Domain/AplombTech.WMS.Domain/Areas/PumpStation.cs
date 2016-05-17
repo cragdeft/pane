@@ -29,7 +29,7 @@ namespace AplombTech.WMS.Domain.Areas
 
             if (station != null)
             {
-                if (this.AreaID != station.AreaID)
+                if (this.AreaId != station.AreaId)
                 {
                     rb.AppendOnCondition(true, "Duplicate PumpStation Name");
                 }
@@ -48,7 +48,7 @@ namespace AplombTech.WMS.Domain.Areas
             get
             {
                 Pump pumps = (from pump in Container.Instances<Pump>()
-                              where pump.PumpStation.AreaID == this.AreaID
+                              where pump.PumpStation.AreaId == this.AreaId
                               && pump.IsRemoved == false
                               select pump).FirstOrDefault();
                 return pumps;
@@ -64,7 +64,7 @@ namespace AplombTech.WMS.Domain.Areas
             get
             {
                 Router router = (from r in Container.Instances<Router>()
-                                 where r.PumpStation.AreaID == this.AreaID
+                                 where r.PumpStation.AreaId == this.AreaId
                                  select r).FirstOrDefault();
                 return router;
             }
@@ -79,7 +79,7 @@ namespace AplombTech.WMS.Domain.Areas
             get
             {
                 IList<Sensor> sensors = (from sensor in Container.Instances<Sensor>()
-                                         where sensor.PumpStation.AreaID == this.AreaID
+                                         where sensor.PumpStation.AreaId == this.AreaId
                                          select sensor).ToList();
                 return sensors;
             }
@@ -94,7 +94,7 @@ namespace AplombTech.WMS.Domain.Areas
             get
             {
                 IList<Camera> cameras = (from camera in Container.Instances<Camera>()
-                                         where camera.PumpStation.AreaID == this.AreaID
+                                         where camera.PumpStation.AreaId == this.AreaId
                                          select camera).ToList();
                 return cameras;
             }

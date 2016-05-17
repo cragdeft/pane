@@ -1,4 +1,5 @@
-﻿using AplombTech.WMS.Domain.Areas;
+﻿using AplombTech.WMS.Domain.Alerts;
+using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
@@ -32,6 +33,9 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<DataLog> SensorDataLogs { get; set; }
+        public DbSet<AlertType> AlertTypes { get; set; }
+        public DbSet<Designation> Designations { get; set; }
+        public DbSet<AlertRecipient> AlertRecipients { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -55,6 +59,16 @@ namespace AplombTech.WMS.Domain.Facade
 
             //modelBuilder.Properties<DateTime>()
             //.Configure(c => c.HasColumnType("datetime2"));
+
+            //modelBuilder.Entity<AlertRecipient>()
+            //    .HasMany<AlertType>(s => s.AlertTypes)
+            //    .WithMany(c => c.AlertRecipients)
+            //    .Map(cs =>
+            //    {
+            //        cs.MapLeftKey("StudentRefId");
+            //        cs.MapRightKey("CourseRefId");
+            //        cs.ToTable("StudentCourse");
+            //    });
 
             modelBuilder.Entity<SensorData>().Property(sd => sd.Value).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);

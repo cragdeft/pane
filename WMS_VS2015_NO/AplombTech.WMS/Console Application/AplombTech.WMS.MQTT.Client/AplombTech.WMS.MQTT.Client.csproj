@@ -172,6 +172,10 @@
       <Project>{ad26b877-4368-418b-a20b-9e796dcf6854}</Project>
       <Name>AplombTech.CryptoLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.JsonParser\AplombTech.WMS.JsonParser.csproj">
+      <Project>{d64fe817-7a39-455e-aa81-ac8201659990}</Project>
+      <Name>AplombTech.WMS.JsonParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Messages\AplombTech.WMS.Messages.csproj">
       <Project>{5104d6f2-54a9-4c43-b49d-84fa2a4f7cc0}</Project>
       <Name>AplombTech.WMS.Messages</Name>

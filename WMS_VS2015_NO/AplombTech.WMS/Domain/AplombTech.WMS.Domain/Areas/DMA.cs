@@ -27,7 +27,7 @@ namespace AplombTech.WMS.Domain.Areas
 
             if (dma != null)
             {
-                if (this.AreaID != dma.AreaID)
+                if (this.AreaId != dma.AreaId)
                 {
                     rb.AppendOnCondition(true, "Duplicate DMA Name");
                 }
@@ -46,7 +46,7 @@ namespace AplombTech.WMS.Domain.Areas
             get
             {
                 IList<PumpStation> stations = (from station in Container.Instances<PumpStation>()
-                                               where station.Parent.AreaID == this.AreaID
+                                               where station.Parent.AreaId == this.AreaId
                                                select station).ToList();
                 return stations;
             }
