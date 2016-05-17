@@ -182,7 +182,6 @@ namespace AplombTech.WMS.MQTT.Client
                 }
             }
         }
-
         private void ParseSensorDataFromMessage(DataLog dataLog)
         {
             if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
@@ -200,7 +199,6 @@ namespace AplombTech.WMS.MQTT.Client
                 dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
             }
         }
-
         private void PublishAlertMessage(decimal value, Sensor sensor)
         {
             if (sensor is EnergySensor) return;
@@ -221,7 +219,6 @@ namespace AplombTech.WMS.MQTT.Client
                 }
             }
         }
-
         private string GetSensorName(Sensor sensor)
         {
             string sensorName = String.Empty;
