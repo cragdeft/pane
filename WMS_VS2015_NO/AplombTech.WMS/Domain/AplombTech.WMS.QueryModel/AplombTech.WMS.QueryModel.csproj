@@ -139,6 +139,7 @@
     <Compile Include="Reports\ReportSeries.cs" />
     <Compile Include="Reports\Summary.cs" />
     <Compile Include="Reports\ScadaMap.cs" />
+    <Compile Include="Reports\UnderThresold.cs" />
     <Compile Include="Reports\ZoneGoogleMap.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Sensors\ChlorinationSensor.cs" />

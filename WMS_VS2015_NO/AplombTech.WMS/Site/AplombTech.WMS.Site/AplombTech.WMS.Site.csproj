@@ -317,6 +317,7 @@
     <Compile Include="Controllers\RestfulObjectsController.cs" />
     <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\ScadaMapController.cs" />
+    <Compile Include="Controllers\UnderThresoldController.cs" />
     <Compile Include="Controllers\ZoneGoogleMapController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -479,6 +480,7 @@
     <Content Include="Scripts\source\excanvas.js" />
     <Content Include="Scripts\source\jquery.canvasjs.js" />
     <Content Include="Scripts\ui\i18n\jquery.ui.datepicker-en-GB.js" />
+    <Content Include="Scripts\underthresold.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -546,6 +548,9 @@
     <Content Include="Views\Summary\ObjectView.cshtml" />
     <Content Include="Views\Summary\Summary.cshtml" />
     <Content Include="Views\Summary\ViewModel.cshtml" />
+    <Content Include="Views\UnderThresold\ObjectView.cshtml" />
+    <Content Include="Views\UnderThresold\ViewModel.cshtml" />
+    <Content Include="Views\UnderThresold\UnderThresold.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

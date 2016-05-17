@@ -22,6 +22,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             menu.AddAction("ScadaMap");
             menu.AddAction("DrillDown");
             menu.AddAction("Summary");
+            menu.AddAction("UnderThresold");
             //menu.CreateSubMenu("Zone")
             //    .AddAction("CreateZone")
             //    .AddAction("FindZone")
@@ -63,6 +64,15 @@ namespace AplombTech.WMS.QueryModel.Repositories
         public DrillDown DrillDown()
         {
             var model = Container.NewViewModel<DrillDown>();
+            model.PumpStations = Container.Instances<PumpStation>().ToList();
+
+            return model;
+        }
+
+        [DisplayName("Under Thresold")]
+        public UnderThresold UnderThresold()
+        {
+            var model = Container.NewViewModel<UnderThresold>();
             model.PumpStations = Container.Instances<PumpStation>().ToList();
 
             return model;
@@ -204,6 +214,44 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             return null;
         }
+
+        public UnderThresold GetUnderThresoldtData(UnderThresold model)
+        {
+            if (model.ReportType == ReportType.Daily)
+            {
+                model.FromDateTime = new DateTime(model.Year, (int)model.Month, model.Day,0,0,0);
+                model.ToDateTime = new DateTime(model.Year, (int)model.Month, model.Day,23,59,59);
+
+            }
+            if (model.ReportType == ReportType.Hourly)
+            {
+                model.FromDateTime = new DateTime(model.Year, (int)model.Month, model.Day, model.Hour - 1, 0, 0);
+                model.ToDateTime = new DateTime(model.Year, (int)model.Month, model.Day, model.Hour - 1, 59, 59);
+
+            }
+            if (model.ReportType == ReportType.Weekly)
+            {
+                model.FromDateTime = new DateTime(model.Year, 1, 1).AddDays((model.Week - 1) * 7);
+                model.ToDateTime = model.FromDateTime.AddDays(7);
+            }
+
+            if (model.ReportType == ReportType.Monthly)
+            {
+                model.FromDateTime = new DateTime(model.Year, (int)model.Month, 1);
+                model.ToDateTime = model.FromDateTime.AddDays(DateTime.DaysInMonth(model.Year, (int)model.Month));
+
+            }
+            return GenerateUnderThresoldData(model);
+        }
+
+        private UnderThresold GenerateUnderThresoldData(UnderThresold model)
+        {
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
+            Sensor sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
+            model.SensorDatas = GetCurrentDataListWithinTime(sensor.SensorID,model.FromDateTime, model.ToDateTime);
+            return model;
+        }
+
         private DrillDown GeneratetSeriesDataRealTime(DrillDown model)
         {
             SetGraphTitleAndSubTitle(ref model, "Live Data Review", null);
@@ -227,6 +275,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             model.Series.Add(data);
             return model;
         }
+        
         private DrillDown SetupLiveData(DrillDown model, PumpStation pumpStation)
         {
             var sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
@@ -238,7 +287,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         }
         private DrillDown GeneratetSeriesDataHourly(DrillDown model)
         {
-            SetGraphTitleAndSubTitle(ref model, "Hourly Data Review", "Data for Hour no = " + model.ToDateTime.Hour);
+            SetGraphTitleAndSubTitle(ref model, "Hourly Data Review", "Data between Hour no = " + model.ToDateTime.Hour+" to "+ ((model.ToDateTime.Hour)+1));
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
 
             return SetupHourlyData(model, pumpStation);
@@ -332,6 +381,49 @@ namespace AplombTech.WMS.QueryModel.Repositories
             return (T)Activator.CreateInstance(typeof(T));
 
         }
+
+        private T GetPumpStationSensor<T>(PumpStation pumpStation, ref UnderThresold model) where T : Sensor
+        {
+            foreach (var sensor in pumpStation.Sensors)
+            {
+                if (sensor is WMS.QueryModel.Sensors.PressureSensor && model.TransmeType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
+                {
+                    Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    model.Unit = "Bar";
+                    return (T)p;
+                }
+
+                if (sensor is LevelSensor && model.TransmeType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
+                {
+                    Sensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    model.Unit = "meter";
+                    return (T)p;
+                }
+
+                if (sensor is EnergySensor && model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+                {
+                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    model.Unit = "kw/h";
+                    return (T)p;
+                }
+
+                if (sensor is WMS.QueryModel.Sensors.FlowSensor && model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
+                {
+                    Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    model.Unit = "litre/min";
+                    return (T)p;
+
+                }
+                if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
+                {
+                    Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    return (T)p;
+
+                }
+            }
+            return (T)Activator.CreateInstance(typeof(T));
+
+        }
         private List<double> GetDailyData(ref DrillDown model, int sensorId)
         {
             model.XaxisCategory = new string[25];
@@ -339,6 +431,21 @@ namespace AplombTech.WMS.QueryModel.Repositories
             for (int i = 0; i <= 24; i++)
             {
                 if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER || model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
+                {
+                    avgValue.Add(GetTotalDataWithinTime(sensorId, model.ToDateTime.AddHours(i),
+                    model.ToDateTime.AddHours(i + 1)));
+                    model.XaxisCategory[i] = model.ToDateTime.AddHours(i + 1).ToString();
+                }
+            }
+            return avgValue;
+        }
+
+        private List<double> GetUnderThresoldData(ref DrillDown model, int sensorId)
+        {
+            List<double> avgValue = new List<double>();
+            for (int i = 0; i <= 24; i++)
+            {
+                if (model.TransmeType != Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
                     avgValue.Add(GetTotalDataWithinTime(sensorId, model.ToDateTime.AddHours(i),
                     model.ToDateTime.AddHours(i + 1)));
@@ -408,7 +515,13 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 return ((double)sensorData.Value);
             else
                 return 0;
-        } 
+        }
+
+        private List<SensorData> GetCurrentDataListWithinTime(int sensorId, DateTime from, DateTime to)
+        {
+            return Container.Instances<SensorData>()
+                   .Where(x => (x.Sensor.SensorID == sensorId && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
+        }
         #endregion
     }
 }

@@ -1,0 +1,73 @@
+@using NakedObjects.Facade.Utility;
+@using NakedObjects.Web.Mvc.Html
+@using AplombTech.WMS.QueryModel.Reports
+@model UnderThresold
+@{
+    var days = new List<SelectListItem>();
+    for (var i = 1; i <= 31; i++)
+    {
+        days.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Day == i });
+    }
+    var years = new List<SelectListItem>();
+    for (var i = 2015; i <= 2019; i++)
+    {
+        years.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Year == i });
+    }
+
+    var weeks = new List<SelectListItem>();
+    for (var i = 1; i <= 52; i++)
+    {
+        weeks.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Week == i });
+    }
+
+    var hours = new List<SelectListItem>();
+    for (var i = 1; i <= 24; i++)
+    {
+        hours.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Hour == i });
+    }
+}
+<div id="body">
+    <section class="main-content">
+        @(Html.TabbedHistory(Model))
+        <br/>
+
+        <div class="col-md-offset-1">
+            @using (Html.BeginForm("ExportToExcel", "UnderThresold", FormMethod.Post))
+            {
+                @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
+                    Model.PumpStations,
+                    "AreaID",
+                    "Name",
+                    Model.SelectedPumpStationId), "Select Pump Station")
+                @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
+                @Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")
+
+
+                <div id="inputPanel">
+
+                    @Html.DropDownListFor(model => model.Year, years, "- Select Year -")
+
+                    @Html.EnumDropDownListFor(m => m.Month, "- Select Month -")
+
+                    @Html.DropDownListFor(model => model.Week, weeks, "- Select Week -")
+                    @Html.DropDownListFor(model => model.Day, days, "- Select Day -")
+                    @Html.DropDownListFor(model => model.Hour, hours, "- Select Hour -")
+                </div>
+                <div id="results"></div>
+                <input type="button" id="showUT" value="Show" class="btn btn-default"/>
+                <input type="submit" id="exp" value="Export" class="btn btn-default" />
+            }
+             </div>
+        <br />
+        <div id="chart_div"></div>
+        <div id="chartContainer" style="height: 300px; width:100%;">
+        </div>
+        @Scripts.Render("~/bundles/UnderThresold")
+    </section>
+</div>
+
+@section Scripts{
+
+}
+
+

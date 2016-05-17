@@ -55,6 +55,9 @@ namespace AplombTech.WMS.Site {
             bundles.Add(new ScriptBundle("~/bundles/report").Include(
                 "~/Scripts/report.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/UnderThresold").Include(
+                "~/Scripts/underthresold.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/scadamap").Include(
                 "~/Scripts/scadamap.js"));
 

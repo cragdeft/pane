@@ -21,11 +21,11 @@ $("#show").click(function (e) {
                     if ($('#ReportType').val() == 5) {
                         $('#chart_div').empty();
                         showRealChart(data);
-                        
+
                     } else {
                         $('#chartContainer').empty();
                         showGraph(data);
-                        
+
                     }
 
                 }
@@ -112,16 +112,16 @@ function showRealChart(data2) {
             name: data2.Data.Series[0].name,
             data: []
         }],
-    exporting: {
-        enabled: true
-    }
-});
+        exporting: {
+            enabled: true
+        }
+    });
 
-chart.setOptions({
-    global: {
-        useUTC: false
-    }
-});
+    chart.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
 }
 $("#ReportType").change(function () {
     if (interval != null)
@@ -199,9 +199,9 @@ function setModel() {
 
 function GetHourValue(name) {
     var d = new Date(name);
-    
+
     return d.getHours();
-   
+
 }
 function getDateOfWeek(w, y) {
     var d = (1 + (w - 1) * 7); // 1st of January + 7 days for each week
@@ -209,6 +209,24 @@ function getDateOfWeek(w, y) {
     return new Date(y, 0, d);
 }
 function showGraph(data) {
+    var plotline;
+    if ($('#ReportType').val() == 1) {
+        plotline = [
+            {
+                color: '#FF0000',
+                dashStyle: 'ShortDash',
+                width: 2,
+                value: 25,
+                zIndex: 0,
+                label: {
+                    text: 'Minimum value'
+                }
+            }
+        ];
+        alert('hourly');
+    } else {
+        plotline = [{}];
+    }
     var categories = data.Data.XaxisCategory;
     $('#chart_div').highcharts({
         title: {
@@ -244,9 +262,9 @@ function showGraph(data) {
                                 $('#ReportType').val('2').change();
                                 var date = getDateOfWeek($('#Week').val(), $('#Year').val());
                                 $('#Month').val(date.getMonth() + 1);
-                                
+
                                 $("#Day").val(date.getDate());
-                                
+
                             }
 
                             if ($('#ReportType').val() == 4) {
@@ -284,17 +302,7 @@ function showGraph(data) {
             lineWidth: 0,
             gridLineWidth: 0,
             lineColor: 'transparent',
-            plotLines: [{
-
-                color: '#FF0000',
-                dashStyle: 'ShortDash',
-                width: 2,
-                value: 55,
-                zIndex: 0,
-                label: {
-                    text: 'Minimum value'
-                }
-            }]
+            plotLines: plotline
         },
         tooltip: {
             valueSuffix: ' ' + data.Data.Unit
@@ -309,7 +317,7 @@ function showGraph(data) {
         exporting: {
             enabled: true
         }
-        
+
     });
 
 }

@@ -12,13 +12,11 @@ namespace AplombTech.WMS.QueryModel.Reports
         {
             data = new List<double>();
             threshold = 25;
-            color = "red";
-            negativeColor = "green";
+            negativeColor = "red";
         }
         public string name { get; set; }
         public List<double> data { get; set; }
         public int threshold { get; set; }
         public string negativeColor { get; set; }
-        public string color { get; set; }
     }
 }

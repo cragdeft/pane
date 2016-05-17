@@ -1,0 +1,32 @@
+﻿@model AplombTech.WMS.QueryModel.Reports.UnderThresold
+
+<table class="table">
+    <tr>
+        
+        <th>
+            <h3>Name</h3>
+        </th>
+        <th>
+            <h3>Value</h3>
+        </th>
+        <th>
+            <h3>Unit</h3>
+        </th>
+        <th>
+            <h3>Recived</h3>
+        </th>
+    </tr>
+    @foreach (var sensorData in Model.SensorDatas)
+    {
+        <tr>
+            <td>@Model.TransmeType</td>
+            <td>@sensorData.Value</td>
+            <td>@Model.Unit</td>
+            <td>@sensorData.LoggedAt</td>
+        </tr>
+    }
+
+</table>
+
+
+
