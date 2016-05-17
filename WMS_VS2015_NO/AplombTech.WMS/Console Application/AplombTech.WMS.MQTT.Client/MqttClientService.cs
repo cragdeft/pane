@@ -72,7 +72,7 @@ namespace AplombTech.WMS.MQTT.Client
             }
             return Convert.ToInt32(ConfigurationManager.AppSettings["BrokerPort"]);
         }
-        private UInt16 GetBrokerKeepAlivePeriod()
+        private ushort GetBrokerKeepAlivePeriod()
         {
             if (ConfigurationManager.AppSettings["BrokerKeepAlivePeriod"] == null)
             {
@@ -162,7 +162,6 @@ namespace AplombTech.WMS.MQTT.Client
                         if (topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
                         {
                             ParseSensorDataFromMessage(dataLog);
-                            //ProcessRepository.ParseNStoreSensorData(dataLog);
                         }
                         if (topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
                         {
@@ -267,12 +266,6 @@ namespace AplombTech.WMS.MQTT.Client
                 DataLog dataLog = ProcessRepository.LogData(topic, message);
                 framework.TransactionManager.EndTransaction();
 
-                //if (dataLog == null)
-                //{
-                //    Publish(topic + JsonMessageType.feedback.ToString(), "Logged Date & Time is missing");
-                //    return null;
-                //}
-                //Publish(topic + JsonMessageType.feedback.ToString(), "Message has been logged Sucessfully");
                 return dataLog;
             }
             catch (Exception ex)
