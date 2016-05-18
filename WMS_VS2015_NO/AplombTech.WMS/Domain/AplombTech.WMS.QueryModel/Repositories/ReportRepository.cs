@@ -388,35 +388,35 @@ namespace AplombTech.WMS.QueryModel.Repositories
             {
                 if (sensor is WMS.QueryModel.Sensors.PressureSensor && model.TransmeType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
                 {
-                    Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = "Bar";
                     return (T)p;
                 }
 
                 if (sensor is LevelSensor && model.TransmeType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
                 {
-                    Sensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = "meter";
                     return (T)p;
                 }
 
                 if (sensor is EnergySensor && model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
-                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = "kw/h";
                     return (T)p;
                 }
 
                 if (sensor is WMS.QueryModel.Sensors.FlowSensor && model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
                 {
-                    Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = "litre/min";
                     return (T)p;
 
                 }
                 if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
                 {
-                    Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue };
+                    Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     return (T)p;
 
                 }
