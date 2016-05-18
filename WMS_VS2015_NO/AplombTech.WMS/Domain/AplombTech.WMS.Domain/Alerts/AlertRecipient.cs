@@ -45,7 +45,7 @@ namespace AplombTech.WMS.Domain.Alerts
         [Description("Example: +8801523456789")]
         [RegEx(Validation = @"^(?:\+88|01)?\d{11}\r?$", Message = "Not a valid mobile no")]
         public virtual string MobileNo { get; set; }
-        [MemberOrder(40), Required]
+        [MemberOrder(40), Optionally]
         [RegEx(Validation = @"^[\-\w\.]+@[\-\w\.]+\.[A-Za-z]+$", Message = "Not a valid email address")]
         //\b[A - Z0 - 9._ % +-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b
         public virtual string Email { get; set; }
