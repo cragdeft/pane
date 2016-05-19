@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,11 @@ namespace AplombTech.WMS.QueryModel.Reports
     {
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
         public virtual IList<PumpStation> PumpStations { get; set; }
+        [Required(ErrorMessage = "Pump Station is required")]
         public int SelectedPumpStationId { get; set; }
+        [Required(ErrorMessage = "Sensor Type is required")]
         public Sensor.TransmitterType TransmeType { get; set; }
+        [Required(ErrorMessage = "Report Type is required")]
         public ReportType ReportType { get; set; }
         public Month Month { get; set; }
         public int Year { get; set; }
