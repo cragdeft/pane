@@ -40,6 +40,7 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<Role> Roles { get; set; }
         public DbSet<LoginUser> LoginUsers { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
+        public DbSet<UserLogins> UserLogins { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -22,6 +22,7 @@ namespace AplombTech.WMS.Domain.UserAccounts
         [Key, NakedObjectsIgnore]
         public virtual string Id { get; set; }
         [Title, Required]
+        [MemberOrder(10)]
         public virtual string Name { get; set; }
         #endregion   
 

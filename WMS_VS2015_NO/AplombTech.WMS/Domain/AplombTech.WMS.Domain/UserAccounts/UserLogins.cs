@@ -9,25 +9,23 @@ using System.Threading.Tasks;
 
 namespace AplombTech.WMS.Domain.UserAccounts
 {
-    [Table("AspNetUserRoles")]
-    public class UserRoles
+    [Table("AspNetUserLogins")]
+    public class UserLogins
     {
         #region Primitive Properties
-        [Key, Column(Order = 0)]
+        [Key, Column(Order = 0), NakedObjectsIgnore]
+        public virtual string LoginProvider { get; set; }
+        [Key, Column(Order = 1)]
+        public virtual string ProviderKey { get; set; }
+        [Key, Column(Order = 2)]
         [NakedObjectsIgnore]
         [ForeignKey("LoginUser")]
         public virtual string UserId { get; set; }
-        [Key, Column(Order = 1)]
-        [NakedObjectsIgnore]
-        [ForeignKey("Role")]
-        public virtual string RoleId { get; set; }
-        #endregion
+        #endregion   
 
         #region Navigation Properties
         [MemberOrder(40), Disabled]
         public virtual LoginUser LoginUser { get; set; }
-        [MemberOrder(50), Disabled]
-        public virtual Role Role { get; set; }
         #endregion
     }
 }

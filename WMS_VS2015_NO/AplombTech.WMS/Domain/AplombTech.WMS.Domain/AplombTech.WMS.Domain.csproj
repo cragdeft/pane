@@ -97,6 +97,8 @@
     <Compile Include="Shared\Unit.cs" />
     <Compile Include="UserAccounts\LoginUser.cs" />
     <Compile Include="UserAccounts\Role.cs" />
+    <Compile Include="UserAccounts\UserClaims.cs" />
+    <Compile Include="UserAccounts\UserLogins.cs" />
     <Compile Include="UserAccounts\UserRoles.cs" />
   </ItemGroup>
   <ItemGroup />
