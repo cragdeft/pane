@@ -56,8 +56,8 @@ namespace AplombTech.WMS.Domain.UserAccounts
             get
             {
                 IList<Feature> features = (from r in Container.Instances<RoleFeatures>()
-                                          where r.Role.Id == this.Id
-                                          select r.Feature).ToList();
+                                            where r.Role.Id == this.Id
+                                            select r.Feature).OrderBy(o => o.FeatureName).ToList();
                 return features;
             }
         }

@@ -32,7 +32,7 @@ namespace AplombTech.WMS.Domain.Features
         [MemberOrder(50), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Features")]
-        [TableView(false, "FeatureName", "FeatureType")]
+        [TableView(false, "FeatureName")]
         public IList<Feature> Features
         {
             get
