@@ -87,3 +87,7 @@ border-top: 1px solid #d6d6d6;
     #imgContainer {
         position: relative;
     }
+
+    .validation-red {
+        color: red;
+    }

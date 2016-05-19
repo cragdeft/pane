@@ -9,7 +9,7 @@
         days.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Day == i });
     }
     var years = new List<SelectListItem>();
-    for (var i = 2015; i <= 2019; i++)
+    for (var i = 2016; i <= 2019; i++)
     {
         years.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = Model.Year == i });
     }
@@ -39,25 +39,28 @@
                     "AreaID",
                     "Name",
                     Model.SelectedPumpStationId), "Select Pump Station")
-                @Html.ValidationMessageFor(x => x.SelectedPumpStationId)
+                <span class="validation-red" id="pumpstationvalid"></span>
                 @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
-                @Html.ValidationMessageFor(x => x.ReportType)
+                <span class="validation-red" id="reporttypevalid"></span>
                 @Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")
-                @Html.ValidationMessageFor(x => x.TransmeType)
+                <span class="validation-red" id="sensorvalid"></span>
 
                 <div id="inputPanel">
 
                     @Html.DropDownListFor(model => model.Year, years, "- Select Year -")
-                    @Html.ValidationMessageFor(x => x.Year)
+                    <span class="validation-red" id="yearvalid"></span>
 
                     @Html.EnumDropDownListFor(m => m.Month, "- Select Month -")
-
+                    <span class="validation-red" id="monthvalid"></span>
                     @Html.DropDownListFor(model => model.Week, weeks, "- Select Week -")
+                    <span class="validation-red" id="weekvalid"></span>
                     @Html.DropDownListFor(model => model.Day, days, "- Select Day -")
+                    <span class="validation-red" id="dayvalid"></span>
                     @Html.DropDownListFor(model => model.Hour, hours, "- Select Hour -")
+                    <span class="validation-red" id="hourvalid"></span>
                 </div>
                 <div id="results"></div>
-                <input type="button" id="showUT" value="Show" class="btn btn-default"/>
+                <input type="submit" id="showUT" value="Show" class="btn btn-default"/>
                 <input type="submit" id="exp" value="Export" class="btn btn-default" />
             }
              </div>
