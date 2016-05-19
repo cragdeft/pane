@@ -24,6 +24,11 @@ using NakedObjects.Meta.Profile;
 using AplombTech.WMS.Site.Controllers;
 using NakedObjects.Persistor.Entity.Configuration;
 using NakedObjects.Unity;
+using Microsoft.Owin.Security;
+using System.Data.Entity;
+using AplombTech.WMS.Site.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AplombTech.WMS.Site {
     /// <summary>
@@ -40,6 +45,11 @@ namespace AplombTech.WMS.Site {
             StandardUnityConfig.RegisterStandardFacetFactories(container);
             StandardUnityConfig.RegisterCoreContainerControlledTypes(container);
             StandardUnityConfig.RegisterCorePerTransactionTypes<PerRequestLifetimeManager>(container);
+
+            //authentication
+            container.RegisterType(typeof(IUserStore<ApplicationUser>), typeof(UserStore<ApplicationUser>));
+            container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
+            container.RegisterType<IAuthenticationManager>(new InjectionFactory(o => HttpContext.Current.GetOwinContext().Authentication));
 
             // config
             container.RegisterInstance<IReflectorConfiguration>(NakedObjectsRunSettings.ReflectorConfig(), (new ContainerControlledLifetimeManager()));

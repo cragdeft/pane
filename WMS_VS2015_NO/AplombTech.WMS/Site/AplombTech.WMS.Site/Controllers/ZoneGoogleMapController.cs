@@ -13,6 +13,7 @@ using AplombTech.WMS.QueryModel.Sensors;
 
 namespace AplombTech.WMS.Site.Controllers
 {
+    [Authorize]
     public class ZoneGoogleMapController : SystemControllerImpl
     {
         #region Injected Services

@@ -12,7 +12,7 @@ using NakedObjects.Web.Mvc.Controllers;
 
 namespace AplombTech.WMS.Site.Controllers {
     [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
-    //[Authorize]
+    [Authorize]
     public class AjaxController : AjaxControllerImpl {
 
         public AjaxController(IFrameworkFacade facade,  IIdHelper idHelper) : base(facade, idHelper) {}

@@ -33,8 +33,7 @@ namespace AplombTech.WMS.MQTT.Client
         public MqttClientService()
         {
             
-        }
-        
+        }       
         public enum JsonMessageType
         {
             configuration,
@@ -43,9 +42,7 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private MqttClient DhakaWasaMqtt { get; set; }
         private bool IsSsl { get; set; }
-
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public void MqttClientInstance(bool isSSL)
         {
             IsSsl = isSSL;

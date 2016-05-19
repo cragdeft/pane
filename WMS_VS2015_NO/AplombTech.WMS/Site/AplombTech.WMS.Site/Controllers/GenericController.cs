@@ -9,7 +9,7 @@ using NakedObjects.Web.Mvc.Models;
 
 namespace AplombTech.WMS.Site.Controllers {
 
-    //[Authorize] 
+    [Authorize] 
     public class GenericController : GenericControllerImpl {
 
         public GenericController(IFrameworkFacade facade,  IIdHelper idHelper) : base(facade, idHelper)  {}

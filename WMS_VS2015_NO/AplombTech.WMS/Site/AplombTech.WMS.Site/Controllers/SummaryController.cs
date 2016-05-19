@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 
 namespace AplombTech.WMS.Site.Controllers
 {
+    [Authorize]
     public class SummaryController : SystemControllerImpl
     {
         #region Injected Services
