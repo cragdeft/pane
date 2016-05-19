@@ -15,6 +15,7 @@ using NakedObjects.Web.Mvc.Controllers;
 
 namespace AplombTech.WMS.Site.Controllers
 {
+    [Authorize]
     public class DrillDownController : SystemControllerImpl
     {
         #region Injected Services

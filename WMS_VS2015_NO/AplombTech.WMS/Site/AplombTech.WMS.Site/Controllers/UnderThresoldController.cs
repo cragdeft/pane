@@ -13,6 +13,7 @@ using NakedObjects.Web.Mvc.Controllers;
 
 namespace AplombTech.WMS.Site.Controllers
 {
+    [Authorize]
     public class UnderThresoldController : SystemControllerImpl
     {
         #region Injected Services

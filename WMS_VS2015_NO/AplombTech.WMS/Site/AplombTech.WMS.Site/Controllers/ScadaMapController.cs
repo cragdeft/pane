@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace AplombTech.WMS.Site.Controllers
 {
+    [Authorize]
     public class ScadaMapController : SystemControllerImpl
     {
         #region Injected Services

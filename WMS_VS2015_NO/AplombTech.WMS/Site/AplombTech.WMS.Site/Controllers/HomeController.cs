@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace AplombTech.WMS.Site.Controllers {
 
-    //[Authorize]
+    [Authorize]
     public class HomeController : SystemControllerImpl {
         public HomeController(IFrameworkFacade facade, IIdHelper idHelper) : base(facade, idHelper) {}
 
