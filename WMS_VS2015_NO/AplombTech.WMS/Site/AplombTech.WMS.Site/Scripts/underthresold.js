@@ -2,8 +2,10 @@
 
 $("#showUT").click(function (e) {
     e.preventDefault();
+    $('#results').empty();
     if (!validate())
         return;
+
     var model = setModel();
     $.ajax({
         type: 'POST',
@@ -228,4 +230,11 @@ function validate() {
 
     return valid;
 }
+
+$('#exp').click(function(e) {
+    if (!validate())
+        e.preventDefault();
+});
+
+
 

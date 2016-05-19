@@ -456,3 +456,8 @@ function validate() {
 
     return valid;
 }
+
+$('#exp').click(function (e) {
+    if (!validate())
+        e.preventDefault();
+});
