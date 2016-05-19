@@ -42,7 +42,7 @@ namespace AplombTech.WMS.Domain.Areas
         [MemberOrder(50), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Pump")]
-        [TableView(true, "UUID", "ModelNo")]
+        //[TableView(true, "UUID", "ModelNo")]
         public Pump Pump
         {
             get

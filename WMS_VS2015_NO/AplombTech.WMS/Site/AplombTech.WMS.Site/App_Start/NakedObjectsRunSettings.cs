@@ -23,6 +23,7 @@ using AplombTech.WMS.QueryModel.Repositories;
 using AplombTech.WMS.QueryModel.Facade;
 using AplombTech.WMS.QueryModel.Sensors;
 using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.Domain.UserAccounts;
 
 namespace AplombTech.WMS.Site {
 
@@ -48,7 +49,8 @@ namespace AplombTech.WMS.Site {
                     typeof(AreaRepository),
                     typeof(ReportRepository),
                     typeof(AlertConfigurationRepository),
-                    typeof(ProcessRepository)
+                    typeof(ProcessRepository),
+                    typeof(UserAccountRepository)
                 };
             }
         }
@@ -76,7 +78,8 @@ namespace AplombTech.WMS.Site {
                     typeof(AplombTech.WMS.QueryModel.Sensors.EnergySensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.LevelSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.PressureSensor),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.SensorData)
+                    typeof(AplombTech.WMS.QueryModel.Sensors.SensorData),
+                    typeof(UserRoles)
 
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };
@@ -134,11 +137,15 @@ namespace AplombTech.WMS.Site {
             var reportAlert = factory.NewMenu<AlertConfigurationRepository>();
             AlertConfigurationRepository.Menu(reportAlert);
 
+            var userAccounts = factory.NewMenu<UserAccountRepository>();
+            UserAccountRepository.Menu(userAccounts);
+            
+
             return new IMenu[] {
                 //factory.NewMenu<CentralKhelaGharRepository>(true),
-                //asarMenu,
                 areaMenu,
                 reportAlert,
+                userAccounts,
                 reportMenu
             };
         }

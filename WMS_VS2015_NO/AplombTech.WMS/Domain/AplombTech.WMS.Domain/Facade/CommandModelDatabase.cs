@@ -3,6 +3,7 @@ using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
+using AplombTech.WMS.Domain.UserAccounts;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -36,6 +37,9 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<AlertType> AlertTypes { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<AlertRecipient> AlertRecipients { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<LoginUser> LoginUsers { get; set; }
+        public DbSet<UserRoles> UserRoles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -43,7 +47,8 @@ namespace AplombTech.WMS.Domain.Facade
             //Use the Naked Objects > DbInitialiser template to add an initialiser, then reference thus:
 #if DEBUG
 
-            Database.SetInitializer(new SampleAppInitializer());
+            //Database.SetInitializer(new SampleAppInitializer());
+            Database.SetInitializer<CommandModelDatabase>(null);
 #else
             Database.SetInitializer<CommandModelDatabase>(null);
 #endif

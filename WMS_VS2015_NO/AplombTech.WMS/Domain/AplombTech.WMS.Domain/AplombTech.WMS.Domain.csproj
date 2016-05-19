@@ -83,6 +83,7 @@
     <Compile Include="Repositories\AlertConfigurationRepository.cs" />
     <Compile Include="Repositories\AreaRepository.cs" />
     <Compile Include="Repositories\ProcessRepository.cs" />
+    <Compile Include="Repositories\UserAccountRepository.cs" />
     <Compile Include="Sensors\ChlorinationSensor.cs" />
     <Compile Include="Sensors\EnergySensor.cs" />
     <Compile Include="Sensors\FlowSensor.cs" />
@@ -94,6 +95,9 @@
     <Compile Include="Shared\Address.cs" />
     <Compile Include="Shared\AuditFields.cs" />
     <Compile Include="Shared\Unit.cs" />
+    <Compile Include="UserAccounts\LoginUser.cs" />
+    <Compile Include="UserAccounts\Role.cs" />
+    <Compile Include="UserAccounts\UserRoles.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -104,6 +108,10 @@
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.JsonParser\AplombTech.WMS.JsonParser.csproj">
       <Project>{d64fe817-7a39-455e-aa81-ac8201659990}</Project>
       <Name>AplombTech.WMS.JsonParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Utility\AplombTech.WMS.Utility.csproj">
+      <Project>{52ea4cb2-2fe4-44af-a638-4b1a1f9786ef}</Project>
+      <Name>AplombTech.WMS.Utility</Name>
     </ProjectReference>
     <ProjectReference Include="..\AplombTech.WMS.QueryModel\AplombTech.WMS.QueryModel.csproj">
       <Project>{53b3230d-c147-4e26-a5e2-2189dc13c9d2}</Project>
