@@ -39,8 +39,8 @@ namespace AplombTech.WMS.Domain.UserAccounts
             get
             {
                 IList<LoginUser> users = (from r in Container.Instances<UserRoles>()
-                    where r.Role.Id == this.Id
-                    select r.LoginUser).ToList();
+                                            where r.Role.Id == this.Id
+                                            select r.LoginUser).OrderBy(o => o.UserName).ToList();
                 return users;
             }
         }
@@ -89,7 +89,7 @@ namespace AplombTech.WMS.Domain.UserAccounts
             IList<Feature> features = (from f in Container.Instances<Feature>()
                                         where f.FeatureType.FeatureTypeId == type.FeatureTypeId
                                         && (!featureIds.Contains(f.FeatureId))
-                                        select f).ToList();
+                                        select f).OrderBy(o => o.FeatureName).ToList();
             return features;
         }
         #endregion
@@ -111,8 +111,8 @@ namespace AplombTech.WMS.Domain.UserAccounts
         {
             if (type == null) return new List<Feature>();
             IList<Feature> features = (from f in this.Features
-                                       where f.FeatureType.FeatureTypeId==type.FeatureTypeId
-                                       select f).ToList();
+                                        where f.FeatureType.FeatureTypeId == type.FeatureTypeId
+                                        select f).OrderBy(o => o.FeatureName).ToList();
             return features; 
         }
         #endregion
