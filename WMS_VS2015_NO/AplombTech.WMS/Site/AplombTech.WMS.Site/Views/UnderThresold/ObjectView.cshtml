@@ -39,13 +39,16 @@
                     "AreaID",
                     "Name",
                     Model.SelectedPumpStationId), "Select Pump Station")
+                @Html.ValidationMessageFor(x => x.SelectedPumpStationId)
                 @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
+                @Html.ValidationMessageFor(x => x.ReportType)
                 @Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")
-
+                @Html.ValidationMessageFor(x => x.TransmeType)
 
                 <div id="inputPanel">
 
                     @Html.DropDownListFor(model => model.Year, years, "- Select Year -")
+                    @Html.ValidationMessageFor(x => x.Year)
 
                     @Html.EnumDropDownListFor(m => m.Month, "- Select Month -")
 

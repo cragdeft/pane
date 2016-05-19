@@ -14,7 +14,7 @@ $("#showUT").click(function () {
         });
     });
 
-    function setModel() {
+function setModel() {
         var model = {
             ReportType: $('#ReportType').val(),
             Month: $('#Month').val(),
@@ -29,11 +29,11 @@ $("#showUT").click(function () {
         return model;
     }
 
-    $(function () {
+$(function () {
         $('#inputPanel').hide();
     });
 
-    $("#Month").change(function() {
+$("#Month").change(function() {
         var monthValue = $('#Month').val();
         if (monthValue == 4 || monthValue == 6 || monthValue == 9 || monthValue == 11) {
             $("#Day option[value='31']").hide();
@@ -55,7 +55,7 @@ $("#showUT").click(function () {
         }
     });
 
-    function leapYear(year) {
+function leapYear(year) {
         return new Date(year, 1, 29).getMonth() == 1;
     }
 
@@ -114,4 +114,8 @@ $("#ReportType").change(function () {
             //$("#TransmeType option[value='2']").hide();
             //$("#TransmeType option[value='5']").hide();
         }
-    });
+});
+
+$(function () {
+    $("form").validate();
+});

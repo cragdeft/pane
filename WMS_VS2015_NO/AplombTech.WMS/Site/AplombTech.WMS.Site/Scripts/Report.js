@@ -3,9 +3,13 @@ var chart;
 
 $(function () {
     $('#inputPanel').hide();
+    
 });
 $("#show").click(function (e) {
     e.preventDefault();
+    if (!$("form").validate().form()) {
+        return;
+    } 
     if (interval != null)
         clearInterval(interval);
     var model = setModel();
