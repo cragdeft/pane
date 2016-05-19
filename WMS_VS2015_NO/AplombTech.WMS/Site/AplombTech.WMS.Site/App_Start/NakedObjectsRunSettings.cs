@@ -24,6 +24,7 @@ using AplombTech.WMS.QueryModel.Facade;
 using AplombTech.WMS.QueryModel.Sensors;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.UserAccounts;
+using AplombTech.WMS.Domain.Features;
 
 namespace AplombTech.WMS.Site {
 
@@ -79,7 +80,8 @@ namespace AplombTech.WMS.Site {
                     typeof(AplombTech.WMS.QueryModel.Sensors.LevelSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.PressureSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.SensorData),
-                    typeof(UserRoles)
+                    typeof(UserRoles),
+                    typeof(RoleFeatures)
 
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };

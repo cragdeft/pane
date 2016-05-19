@@ -1,4 +1,6 @@
-﻿using NakedObjects;
+﻿using AplombTech.WMS.Domain.Features;
+using NakedObjects;
+using NakedObjects.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,9 +26,10 @@ namespace AplombTech.WMS.Domain.UserAccounts
         [Title, Required]
         [MemberOrder(10)]
         public virtual string Name { get; set; }
-        #endregion   
+        #endregion
 
-        #region Get Properties      
+        #region Get Properties    
+        #region Users  
         [MemberOrder(70), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Users")]
@@ -42,5 +45,85 @@ namespace AplombTech.WMS.Domain.UserAccounts
             }
         }
         #endregion
+
+        #region Features
+        [MemberOrder(50), NotMapped]
+        [Eagerly(EagerlyAttribute.Do.Rendering)]
+        [DisplayName("Features")]
+        [TableView(false, "FeatureName", "FeatureType")]
+        public IList<Feature> Features
+        {
+            get
+            {
+                IList<Feature> features = (from r in Container.Instances<RoleFeatures>()
+                                          where r.Role.Id == this.Id
+                                          select r.Feature).ToList();
+                return features;
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Behavior
+        #region Add Features
+        public void AddFeature(FeatureType type, IEnumerable <Feature> features)
+        {
+            foreach (Feature f in features)
+            {
+                RoleFeatures roleFeatures = Container.NewTransientInstance<RoleFeatures>();
+
+                roleFeatures.Role = this;
+                roleFeatures.Feature = f;
+
+                Container.Persist(ref roleFeatures);
+            }
+        }
+        
+        public IList<Feature> Choices1AddFeature(FeatureType type)
+        {
+            if (type == null) return new List<Feature>();
+            IList<int> featureIds = (from f in this.Features
+                                     where f.FeatureType.FeatureTypeId == type.FeatureTypeId
+                                     select f.FeatureId).ToList();
+
+            IList<Feature> features = (from f in Container.Instances<Feature>()
+                                        where f.FeatureType.FeatureTypeId == type.FeatureTypeId
+                                        && (!featureIds.Contains(f.FeatureId))
+                                        select f).ToList();
+            return features;
+        }
+        #endregion
+
+        #region Remove Features
+
+        public void RemoveFeatures(FeatureType type, IEnumerable<Feature> features)
+        {
+            foreach (Feature f in features)
+            {
+                RoleFeatures roleFeature = (from rf in Container.Instances<RoleFeatures>()
+                                            where rf.Role.Id == this.Id
+                                            && rf.Feature.FeatureId == f.FeatureId
+                                            select rf).Single();
+                Container.DisposeInstance(roleFeature);
+            }
+        }
+        public IList<Feature> Choices1RemoveFeatures(FeatureType type)
+        {
+            if (type == null) return new List<Feature>();
+            IList<Feature> features = (from f in this.Features
+                                       where f.FeatureType.FeatureTypeId==type.FeatureTypeId
+                                       select f).ToList();
+            return features; 
+        }
+        #endregion
+        #endregion
+
+        #region Menu
+        public static void Menu(IMenu menu)
+        {
+            menu.AddAction("AddFeature");
+            menu.AddAction("RemoveFeatures");
+        }
+        #endregion        
     }
 }

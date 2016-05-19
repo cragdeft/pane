@@ -1,6 +1,7 @@
 ﻿using AplombTech.WMS.Domain.Alerts;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Devices;
+using AplombTech.WMS.Domain.Features;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
 using AplombTech.WMS.Domain.UserAccounts;
@@ -41,18 +42,16 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<LoginUser> LoginUsers { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<UserLogins> UserLogins { get; set; }
+        public DbSet<UserClaims> UserClaims { get; set; }
+        public DbSet<FeatureType> FeatureTypes { get; set; }
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<RoleFeatures> RoleFeatures { get; set; }
+        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //Initialisation
-            //Use the Naked Objects > DbInitialiser template to add an initialiser, then reference thus:
-#if DEBUG
-
-            //Database.SetInitializer(new SampleAppInitializer());
-            Database.SetInitializer<CommandModelDatabase>(null);
-#else
-            Database.SetInitializer<CommandModelDatabase>(null);
-#endif
+            Database.SetInitializer(new SampleAppInitializer());
+            //Database.SetInitializer<CommandModelDatabase>(null);
 
             //Mappings
             //Use the Naked Objects > DbMapping template to create mapping classes & reference them thus:

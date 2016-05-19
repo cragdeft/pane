@@ -1,4 +1,5 @@
-﻿using AplombTech.WMS.Domain.UserAccounts;
+﻿using AplombTech.WMS.Domain.Features;
+using AplombTech.WMS.Domain.UserAccounts;
 using AplombTech.WMS.Utility;
 using NakedObjects;
 using NakedObjects.Menu;
@@ -25,6 +26,11 @@ namespace AplombTech.WMS.Domain.Repositories
             menu.CreateSubMenu("Role")
                 .AddAction("AddRole")
                 .AddAction("ShowAllRoles");
+            menu.CreateSubMenu("FeatureType")
+                .AddAction("AddFeatureType")
+                .AddAction("ShowAllFeatureTypes");
+            menu.CreateSubMenu("Feature")
+                .AddAction("AddFeature");
         }
 
         #region ASP DOT NET MEMBERSHIP
@@ -75,12 +81,41 @@ namespace AplombTech.WMS.Domain.Repositories
         }
 
         [Eagerly(EagerlyAttribute.Do.Rendering)]
-        [TableView(true, "UserName", "Email")]
+        [TableView(true, "Email", "Role")]
         public IQueryable<LoginUser> ShowAllUsers()
         {
             return Container.Instances<LoginUser>();
         }
-        #endregion 
+        #endregion
+
+        #region Feature Type
+        public void AddFeatureType(string typeName)
+        {
+            FeatureType feature = Container.NewTransientInstance<FeatureType>();
+
+            feature.FeatureTypeName = typeName;
+
+            Container.Persist(ref feature);
+        }
+        [Eagerly(EagerlyAttribute.Do.Rendering)]
+        [TableView(true, "FeatureTypeName")]
+        public IQueryable<FeatureType> ShowAllFeatureTypes()
+        {
+            return Container.Instances<FeatureType>();
+        }
+        #endregion
+
+        #region Feature
+        public void AddFeature(string featureName, FeatureType featureType)
+        {
+            Feature feature = Container.NewTransientInstance<Feature>();
+
+            feature.FeatureName = featureName;
+            feature.FeatureType = featureType;
+
+            Container.Persist(ref feature);
+        }
+        #endregion
         #endregion
     }
 }

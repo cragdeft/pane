@@ -79,6 +79,9 @@
     <Compile Include="Devices\Router.cs" />
     <Compile Include="Facade\CommandModelDatabase.cs" />
     <Compile Include="Facade\SampleAppInitializer.cs" />
+    <Compile Include="Features\Feature.cs" />
+    <Compile Include="Features\FeatureType.cs" />
+    <Compile Include="Features\RoleFeatures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AlertConfigurationRepository.cs" />
     <Compile Include="Repositories\AreaRepository.cs" />
