@@ -30,10 +30,10 @@ namespace AplombTech.WMS.Domain.Repositories
                 .AddAction("AddRole")
                 .AddAction("ShowAllRoles");
             menu.CreateSubMenu("FeatureType")
-                .AddAction("AddFeatureType")
+                //.AddAction("AddFeatureType")
                 .AddAction("ShowAllFeatureTypes");
-            menu.CreateSubMenu("Feature")
-                .AddAction("AddFeature");
+            //menu.CreateSubMenu("Feature")
+            //    .AddAction("AddFeature");
         }
 
         #region ASP DOT NET MEMBERSHIP
@@ -46,6 +46,19 @@ namespace AplombTech.WMS.Domain.Repositories
             role.Name = name;
 
             Container.Persist(ref role);
+        }
+        public string Validate0AddRole(string name)
+        {
+            Role role = (from r in Container.Instances<Role>()
+                           where r.Name.ToLower() == name.ToLower()
+                           select r).FirstOrDefault();
+
+            if (role != null)
+            {
+                return "Duplicate Role";
+            }
+
+            return null;
         }
         public bool HideAddRole()
         {
@@ -111,10 +124,19 @@ namespace AplombTech.WMS.Domain.Repositories
         }
         public string ValidateAddUser(string email, string password, string confirmPassword)
         {
+            LoginUser user = (from u in Container.Instances<LoginUser>()
+                              where u.Email.ToLower() == email.ToLower()
+                              select u).FirstOrDefault();
+
+            if (user != null)
+            {
+                return "Duplicate User Name/Email";
+            }
             if (password != confirmPassword)
             {
                 return "Password does not match";
             }
+
             return null;
         }
 

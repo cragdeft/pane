@@ -19,8 +19,8 @@ namespace AplombTech.WMS.Domain.Repositories
                 return _features;
 
             LoginUser user = (from f in Container.Instances<LoginUser>()
-                              where f.Email == Container.Principal.Identity.Name
-                              select f).SingleOrDefault();
+                where f.Email == Container.Principal.Identity.Name
+                select f).FirstOrDefault();
 
             if (user != null)
                 _features = user.Role.Features;
