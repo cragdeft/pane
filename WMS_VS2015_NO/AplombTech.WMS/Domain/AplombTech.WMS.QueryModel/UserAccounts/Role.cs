@@ -1,4 +1,4 @@
-﻿using AplombTech.WMS.Domain.Shared;
+﻿using AplombTech.WMS.QueryModel.Features;
 using NakedObjects;
 using System;
 using System.Collections.Generic;
@@ -9,10 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.WMS.Domain.Features
+namespace AplombTech.WMS.QueryModel.UserAccounts
 {
+    [Table("AspNetRoles")]
     [Bounded]
-    public class FeatureType
+    public class Role
     {
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
@@ -20,40 +21,29 @@ namespace AplombTech.WMS.Domain.Features
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        public virtual int FeatureTypeId { get; set; }
+        public virtual string Id { get; set; }
         [Title, Required]
         [MemberOrder(10)]
-        [StringLength(50)]
-        public virtual string FeatureTypeName { get; set; }
+        public virtual string Name { get; set; }
         #endregion
 
-        #region Get Properties
+        #region Get Properties    
         #region Features
         [MemberOrder(50), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Features")]
-        [TableView(false, "FeatureName")]
+        [TableView(false, "FeatureName", "FeatureType")]
         public IList<Feature> Features
         {
             get
             {
-                IList<Feature> features = (from r in Container.Instances<Feature>()
-                                           where r.FeatureType.FeatureTypeId == this.FeatureTypeId
-                                           select r).ToList();
+                IList<Feature> features = (from r in Container.Instances<RoleFeatures>()
+                                           where r.Role.Id == this.Id
+                                           select r.Feature).OrderBy(o => o.FeatureName).ToList();
                 return features;
             }
         }
         #endregion
-        #endregion
-
-        #region FeatureType
-        public enum FeatureTypeEnums
-        {
-            Area = 1,
-            Alert = 2,
-            UserAccount = 3,
-            Report = 4            
-        }
-        #endregion
+        #endregion       
     }
 }

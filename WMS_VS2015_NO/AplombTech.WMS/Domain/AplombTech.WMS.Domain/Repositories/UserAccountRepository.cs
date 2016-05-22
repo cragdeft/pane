@@ -17,6 +17,9 @@ namespace AplombTech.WMS.Domain.Repositories
     [DisplayName("User Accounts")]
     public class UserAccountRepository : AbstractFactoryAndRepository
     {
+        #region Injected Services
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
+        #endregion
         public static void Menu(IMenu menu)
         {
             menu.CreateSubMenu("Users")
@@ -44,11 +47,35 @@ namespace AplombTech.WMS.Domain.Repositories
 
             Container.Persist(ref role);
         }
+        public bool HideAddRole()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.AddRole
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [TableView(true, "Name")]
         public IQueryable<Role> ShowAllRoles()
         {
             return Container.Instances<Role>();
+        }
+        public bool HideShowAllRoles()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.ShowAllRoles
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
         }
         #endregion
 
@@ -70,7 +97,18 @@ namespace AplombTech.WMS.Domain.Repositories
 
             Container.Persist(ref user);
         }
+        public bool HideAddUser()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.AddLoginUser
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         public string ValidateAddUser(string email, string password, string confirmPassword)
         {
             if (password != confirmPassword)
@@ -86,6 +124,18 @@ namespace AplombTech.WMS.Domain.Repositories
         {
             return Container.Instances<LoginUser>();
         }
+        public bool HideShowAllUsers()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.ShowAllUsers
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         #endregion
 
         #region Feature Type
@@ -97,11 +147,35 @@ namespace AplombTech.WMS.Domain.Repositories
 
             Container.Persist(ref feature);
         }
+        public bool HideAddFeatureType()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.AddFeatureType
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [TableView(true, "FeatureTypeName")]
         public IQueryable<FeatureType> ShowAllFeatureTypes()
         {
             return Container.Instances<FeatureType>();
+        }
+        public bool HideShowAllFeatureTypes()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.ShowAllFeatureTypes
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
         }
         #endregion
 
@@ -114,6 +188,18 @@ namespace AplombTech.WMS.Domain.Repositories
             feature.FeatureType = featureType;
 
             Container.Persist(ref feature);
+        }
+        public bool HideAddFeature()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.AddFeature
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
         }
         #endregion
         #endregion

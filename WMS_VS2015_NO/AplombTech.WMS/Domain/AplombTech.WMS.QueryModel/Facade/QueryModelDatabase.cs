@@ -1,7 +1,9 @@
 ﻿using AplombTech.WMS.QueryModel.Areas;
 using AplombTech.WMS.QueryModel.Devices;
+using AplombTech.WMS.QueryModel.Features;
 using AplombTech.WMS.QueryModel.Sensors;
 using AplombTech.WMS.QueryModel.Shared;
+using AplombTech.WMS.QueryModel.UserAccounts;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -24,6 +26,12 @@ namespace AplombTech.WMS.QueryModel.Facade
             Sensors = base.Set<Sensor>();
             SensorDatas = base.Set<SensorData>();
             Addresses = base.Set<Address>();
+            Roles = base.Set<Role>();
+            LoginUsers = base.Set<LoginUser>();
+            UserRoles = base.Set<UserRoles>();
+            FeatureTypes = base.Set<FeatureType>();
+            Features = base.Set<Feature>();
+            RoleFeatures = base.Set<RoleFeatures>();
         }
 
         public DbSet<Area> Areas { get; private set; }
@@ -35,6 +43,14 @@ namespace AplombTech.WMS.QueryModel.Facade
         public DbSet<SensorData> SensorDatas { get; private set; }
         public DbSet<Address> Addresses { get; private set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<Role> Roles { get; private set; }
+        public DbSet<LoginUser> LoginUsers { get; private set; }
+        public DbSet<UserRoles> UserRoles { get; private set; }
+        //public DbSet<UserLogins> UserLogins { get; set; }
+        //public DbSet<UserClaims> UserClaims { get; set; }
+        public DbSet<FeatureType> FeatureTypes { get; private set; }
+        public DbSet<Feature> Features { get; private set; }
+        public DbSet<RoleFeatures> RoleFeatures { get; private set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

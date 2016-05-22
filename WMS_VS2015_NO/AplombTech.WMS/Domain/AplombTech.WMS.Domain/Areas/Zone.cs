@@ -11,11 +11,16 @@ using System.Text;
 using System.Threading.Tasks;
 using NakedObjects.Value;
 using System.Windows.Forms;
+using AplombTech.WMS.Domain.Repositories;
+using AplombTech.WMS.Domain.Features;
 
 namespace AplombTech.WMS.Domain.Areas
 {   
     public class Zone : Area
     {
+        #region Injected Services
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
+        #endregion
         public override string Name { get; set; }
 
         #region Validations
@@ -66,7 +71,18 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref dma);
         }
+        public bool HideAddDMA()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddDma
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         #region Validations
         public string ValidateAddDMA(string name)
         {
@@ -98,10 +114,19 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref address);
             this.Address = address;
-        }
+        }       
         public bool HideSetAddress()
         {
-            if(this.Address != null)
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.SetZoneAddress
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
+            if (this.Address != null)
                 return true;
 
             return false;

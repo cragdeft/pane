@@ -120,6 +120,6 @@ namespace AplombTech.WMS.Domain.Alerts
             return AlertTypes.ToList();
         }
 
-        #endregion
+        #endregion       
     }
 }

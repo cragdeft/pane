@@ -1,4 +1,6 @@
 ﻿using AplombTech.WMS.Domain.Devices;
+using AplombTech.WMS.Domain.Features;
+using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
 using NakedObjects;
@@ -16,6 +18,9 @@ namespace AplombTech.WMS.Domain.Areas
 {
     public class PumpStation : Area
     {
+        #region Injected Services
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
+        #endregion
         public override string Name { get; set; }
 
         #region Validations
@@ -116,6 +121,15 @@ namespace AplombTech.WMS.Domain.Areas
         }
         public bool HideAddPump()
         {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddPump
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
             if (this.Pump != null)
                 return true;
 
@@ -136,7 +150,19 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref camera);
         }
+        public bool HideAddCamera()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddCamera
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
+            return false;
+        }
         #endregion
 
         #region AddRouter (Action)
@@ -155,6 +181,15 @@ namespace AplombTech.WMS.Domain.Areas
         }
         public bool HideAddRouter()
         {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddRouter
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
             if (this.Router != null)
                 return true;
 
@@ -190,7 +225,19 @@ namespace AplombTech.WMS.Domain.Areas
                     break;
             }
         }
+        public bool HideAddSensor()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddSensor
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
+            return false;
+        }
         private void CreateChlorinationSensor(string uuid, decimal minValue, decimal maxValue)
         {
             ChlorinationSensor sensor = Container.NewTransientInstance<ChlorinationSensor>();
@@ -272,6 +319,15 @@ namespace AplombTech.WMS.Domain.Areas
         }
         public bool HideSetAddress()
         {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.SetPumpStationAddress
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
             if (this.Address != null)
                 return true;
 

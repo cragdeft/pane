@@ -1,5 +1,4 @@
 ﻿using NakedObjects;
-using NakedObjects.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.WMS.Domain.UserAccounts
+namespace AplombTech.WMS.QueryModel.UserAccounts
 {
     [Table("AspNetUsers")]
     public class LoginUser
@@ -54,48 +53,11 @@ namespace AplombTech.WMS.Domain.UserAccounts
             get
             {
                 Role role = (from r in Container.Instances<UserRoles>()
-                              where r.LoginUser.Id == this.Id
-                              select r.Role).FirstOrDefault();
+                             where r.LoginUser.Id == this.Id
+                             select r.Role).FirstOrDefault();
                 return role;
             }
         }
         #endregion
-
-        #region Behavior
-        #region Change Password
-        public void ChangePassword([DataType(DataType.Password)] string password,
-            [DataType(DataType.Password)] string confirmPassword)
-        {
-            this.PasswordHash = AplombTech.WMS.Utility.PasswordHash.HashPassword(password);
-        }
-        public string ValidateChangePassword(string password, string confirmPassword)
-        {
-            if (password != confirmPassword)
-            {
-                return "Password does not match";
-            }
-            return null;
-        }
-        #endregion
-        #region Add Role
-        public void AddRole(Role role)
-        {
-            UserRoles user = Container.NewTransientInstance<UserRoles>();
-
-            user.Role = role;
-            user.LoginUser = this;
-
-            Container.Persist(ref user);
-        }
-        #endregion
-        #endregion
-
-        #region Menu
-        public static void Menu(IMenu menu)
-        {
-            menu.AddAction("AddRole");
-            menu.AddAction("ChangePassword");           
-        }
-        #endregion                
     }
 }

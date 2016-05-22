@@ -1,5 +1,4 @@
-﻿using AplombTech.WMS.Domain.Shared;
-using NakedObjects;
+﻿using NakedObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.WMS.Domain.Features
+namespace AplombTech.WMS.QueryModel.Features
 {
     public class Feature
     {
@@ -62,7 +61,6 @@ namespace AplombTech.WMS.Domain.Features
             EditDesignation = 4,
             AddAlertRecipient = 5,
             EditAlertRecipient = 6,
-            ShowAlertRecipients = 7
         }
         public enum UserAccountsFeatureEnums
         {
@@ -72,11 +70,6 @@ namespace AplombTech.WMS.Domain.Features
             EditRole = 4,
             AssignRoleToUser = 5,
             AssignFeatureToRole = 6,
-            ShowAllRoles = 7,
-            ShowAllUsers = 8,
-            AddFeatureType = 9,
-            ShowAllFeatureTypes = 10,
-            AddFeature = 11
         }
         public enum ReportFeatureEnums
         {
@@ -86,6 +79,6 @@ namespace AplombTech.WMS.Domain.Features
             SummaryReport = 4,
             UnderThreshold = 5
         }
-        #endregion       
+        #endregion
     }
 }

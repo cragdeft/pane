@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Alerts;
 using NakedObjects.Menu;
 using NakedObjects;
+using AplombTech.WMS.Domain.Features;
 
 namespace AplombTech.WMS.Domain.Repositories
 {
     [DisplayName("Alerts")]
     public class AlertConfigurationRepository : AbstractFactoryAndRepository
     {
+        #region Injected Services
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
+        #endregion
+
         public static void Menu(IMenu menu)
         {
             menu.AddAction("AddAlertReceipient");
@@ -43,12 +48,36 @@ namespace AplombTech.WMS.Domain.Repositories
 
             return recipient;
         }
+        public bool HideAddAlertReceipient()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AlertFeatureEnums.AddAlertRecipient
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Alert.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         //[DisplayName("All Zones")]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [TableView(false, "AlertName")]
         public IQueryable<AlertRecipient> ShowAlertRecipients()
         {
             return Container.Instances<AlertRecipient>();
+        }
+        public bool HideShowAlertRecipients()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AlertFeatureEnums.ShowAlertRecipients
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Alert.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
         }
     }
 }
