@@ -92,7 +92,9 @@
             LoadMapRelatedScript();
         </script>
         <script>
-                var scadaUrl = '@Url.Action("DemoScada", "ScadaMap")';
+            var scadaUrl = '@Url.Action("DemoScada", "ScadaMap")';
+            var drillDownUrl = '@Url.Action("ShowDrillDownFromMap", "DrillDown")';
+            var underThresoldUrl = '@Url.Action("DemoScada", "ScadaMap")';
         </script>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
@@ -110,11 +112,8 @@
                                 <p id="gpscordinate"></p>
                             </div>
                             <label>Service</label>
-                            <select class="input-sm">
-                                <option value="">Select a Service</option>
-                                <option value="AL" >Scada</option>
-                                <option value="AK">Report</option>
-                            </select>
+                            @Html.EnumDropDownListFor(m => m.ServiceType, "- Select Service -")
+                            <span class="validation-red" id="servicevalid"></span>
                         </div>
                     </div>
                     <div class="modal-footer">

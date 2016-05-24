@@ -30,9 +30,10 @@ namespace AplombTech.WMS.Site.Controllers
             nakedObjectsFramework.DomainObjectInjector.InjectInto(this);
         }
         // GET: UnderThresold
-        public ActionResult Index()
+        public ActionResult UnderThresoldFromMap()
         {
-            return View();
+            UnderThresold model = _reportRepository.UnderThresold();
+            return View("~/Views/UnderThresold/ObjectView.cshtml", model);
         }
         [HttpPost]
         public ActionResult GetUnderThresoldReportModel(UnderThresold model)

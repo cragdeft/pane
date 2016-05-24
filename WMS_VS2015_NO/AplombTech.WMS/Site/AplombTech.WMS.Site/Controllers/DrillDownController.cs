@@ -33,10 +33,10 @@ namespace AplombTech.WMS.Site.Controllers
         }
 
         // GET: Report
-        public ActionResult Index()
+        public ActionResult ShowDrillDownFromMap()
         {
             DrillDown model = _reportRepository.DrillDown();
-            return View("~/Views/DrillDown/ObjectView.cshtml", model);
+            return View("~/Views/DrillDown/DrillDown.cshtml", model);
         }
 
         public JsonResult GetReportModel(DrillDown model)

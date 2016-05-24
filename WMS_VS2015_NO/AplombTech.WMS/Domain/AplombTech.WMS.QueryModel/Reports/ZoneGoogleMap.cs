@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.QueryModel.Shared;
 
 namespace AplombTech.WMS.QueryModel.Reports
 {
@@ -25,6 +26,8 @@ namespace AplombTech.WMS.QueryModel.Reports
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
         [DisplayName("Zone Map")]
         public virtual IList<Zone> Zones { get; set; }
+
+        public ServiceType ServiceType { get; set; }
         public string[] DeriveKeys()
         {
             string[] ids = Zones.Select(s => s.AreaID.ToString()).ToArray();

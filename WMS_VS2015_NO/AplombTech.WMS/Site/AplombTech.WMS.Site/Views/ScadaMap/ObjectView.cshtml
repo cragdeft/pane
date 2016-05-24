@@ -35,17 +35,7 @@
             <div id="searchResults"></div>
             @Scripts.Render("~/bundles/scadamap")
             <script>
-                var zoneId = $('#selectedZone').text();
-                var dmaId = $('#selectedDma').text();
-                var pumpStationId = $('#selectedPumpStation').text();
-                if (dmaId && pumpStationId) {
-                    $("#SelectedZoneId").val("1").trigger('change');
-                    //$("#SelectedDmaId").val("2");
-                    //console.log($("#SelectedDmaId").val("2").trigger('change'));
-                    //alert($("#SelectedDmaId").val());
-                    //$("#SelectedPumpStationId").val("3").trigger('change');;
-                    //showScada();
-                }
+                showPreloadedScada();
             </script>
         </div>
     </section>

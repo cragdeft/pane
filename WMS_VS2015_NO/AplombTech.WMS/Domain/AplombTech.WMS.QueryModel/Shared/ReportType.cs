@@ -15,6 +15,12 @@ namespace AplombTech.WMS.QueryModel.Shared
         Realtime = 5
     }
 
+    public enum ServiceType
+    {
+        Scada = 1,
+        Drill_Down = 2
+    }
+
     public enum Month
     {
         January = 1,

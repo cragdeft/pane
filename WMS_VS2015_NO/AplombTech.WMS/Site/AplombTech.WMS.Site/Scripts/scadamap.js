@@ -1,5 +1,5 @@
 ﻿function LoadDma(zoneId) {
-    if (!zoneId) zoneId = 0;
+    if (!zoneId) return;//zoneId = 0;
     var dmaDownList = $('#SelectedDmaId');
     $.ajax({
         type: "POST",
@@ -7,6 +7,7 @@
         data: JSON.stringify({ zoneId: zoneId }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (data) {
             var res = JSON.parse(data.Data);
             dmaDownList.empty();
@@ -31,7 +32,7 @@
 }
 
 function LoadPumpStation(dmaId) {
-    if (!dmaId) dmaId = 0;
+    if (!dmaId) return;// dmaId = 0;
     var dmaDownList = $('#SelectedPumpStationId');
     $.ajax({
         type: "POST",
@@ -39,6 +40,7 @@ function LoadPumpStation(dmaId) {
         data: JSON.stringify({ dmaId: dmaId }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (data) {
             var res = JSON.parse(data.Data);
             dmaDownList.empty();
@@ -69,3 +71,5 @@ function showScada() {
     var pumpStationId = $('#SelectedPumpStationId').val();
     $('#searchResults').load(url, { pumpStationId: pumpStationId });
 }
+
+

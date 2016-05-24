@@ -46,11 +46,25 @@ function ShowInfoPopUp(marker) {
 }
 
 $("#modalSave").click(function () {
-    $('#myModal').modal('hide');
-    var url = '@Url.Action("DemoScada", "ScadaMap")';//"ScadaMap/DemoScada?id=3";
-    window.location = scadaUrl + '?pumpStationId=3';
-    //$('#body').load(url, { pumpStationId: 3 });
     
+    if ($('#ServiceType').val() > 0) {
+        $('#myModal').modal('hide');
+        $("#servicevalid").text("");
+        if ($('#ServiceType').val() == 1) {
+            window.location = scadaUrl + '?pumpStationId=3';
+        } 
+        if ($('#ServiceType').val() == 2) {
+            window.location = drillDownUrl;
+        }
+
+        if ($('#ServiceType').val() == 3) {
+            window.location = underThresoldUrl;
+        }
+    } else {
+        $("#servicevalid").text("Select a Service");
+    }
+    //$('#body').load(url, { pumpStationId: 3 });
+
 });
 
 function drawDmaAndPumpStation(zoneId) {
@@ -77,8 +91,8 @@ function drawDmaAndPumpStation(zoneId) {
                                     }
                                 }
                                 // Construct the polygon.
-                                
-                                 dmaPolygon = new window.google.maps.Polygon({
+
+                                dmaPolygon = new window.google.maps.Polygon({
                                     paths: polyCoords,
                                     strokeColor: 'green',
                                     strokeOpacity: 0.8,
@@ -86,8 +100,8 @@ function drawDmaAndPumpStation(zoneId) {
                                     fillColor: 'green',
                                     fillOpacity: 0.35
                                 });
-                                
-                                 dmaPolygon.setMap(map);
+
+                                dmaPolygon.setMap(map);
                             }
                             if (location.length == 1) {
                                 for (var k in location) {
@@ -109,7 +123,7 @@ function drawDmaAndPumpStation(zoneId) {
                                         map.panTo(marker.position);
                                     }
                                 }
-                                
+
                             }
                         }
 
