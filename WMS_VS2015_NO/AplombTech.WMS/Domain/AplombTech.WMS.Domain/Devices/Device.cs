@@ -1,4 +1,5 @@
 ﻿using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Shared;
 using NakedObjects;
 using System;
@@ -15,6 +16,7 @@ namespace AplombTech.WMS.Domain.Devices
     {
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
 
         #region Life Cycle Methods

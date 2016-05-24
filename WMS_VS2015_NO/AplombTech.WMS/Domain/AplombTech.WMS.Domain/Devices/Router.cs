@@ -1,4 +1,5 @@
-﻿using NakedObjects;
+﻿using AplombTech.WMS.Domain.Features;
+using NakedObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,5 +21,21 @@ namespace AplombTech.WMS.Domain.Devices
         public virtual string IP { get; set; }
         [MemberOrder(40)]
         public virtual int Port { get; set; }
+
+        public string DisablePropertyDefault()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditRouter
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+            {
+                return "You do not have permission to Edit";
+            }
+
+            return null;
+        }
     }
 }

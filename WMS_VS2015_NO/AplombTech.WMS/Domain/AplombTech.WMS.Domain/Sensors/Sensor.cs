@@ -73,6 +73,21 @@ namespace AplombTech.WMS.Domain.Sensors
         }
         #endregion
 
+        public string DisablePropertyDefault()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditSensor
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+            {
+                return "You do not have permission to Edit";
+            }
+
+            return null;
+        }
         //#region Get Properties
         //[MemberOrder(40), NotMapped]
         //[DisplayName("Current Value")]

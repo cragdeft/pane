@@ -1,4 +1,6 @@
-﻿using AplombTech.WMS.Domain.Shared;
+﻿using AplombTech.WMS.Domain.Features;
+using AplombTech.WMS.Domain.Repositories;
+using AplombTech.WMS.Domain.Shared;
 using NakedObjects;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ namespace AplombTech.WMS.Domain.Alerts
     {
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
 
         #region Life Cycle Methods
@@ -50,6 +53,22 @@ namespace AplombTech.WMS.Domain.Alerts
         //\b[A - Z0 - 9._ % +-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b
         public virtual string Email { get; set; }
         #endregion
+
+        public string DisablePropertyDefault()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AlertFeatureEnums.EditAlertRecipient
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Alert.ToString()).FirstOrDefault();
+
+            if (feature == null)
+            {
+                return "You do not have permission to Edit";
+            }
+
+            return null;
+        }
 
         #region Complex Properties
         #region AuditFields (AuditFields)
