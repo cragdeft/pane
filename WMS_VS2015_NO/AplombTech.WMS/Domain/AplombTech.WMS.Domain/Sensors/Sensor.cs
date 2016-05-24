@@ -1,4 +1,5 @@
 ﻿using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Features;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Shared;
 using NakedObjects;
@@ -19,6 +20,7 @@ namespace AplombTech.WMS.Domain.Sensors
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         public AreaRepository AreaRepository { set; protected get; }
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
 
         #region Life Cycle Methods
@@ -176,8 +178,18 @@ namespace AplombTech.WMS.Domain.Sensors
         }
         public bool HideMakeActive()
         {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.SensorActiveInactive
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
             if (this.IsActive)
                 return true;
+
             return false;
         }
         public void MakeInActive(String confirmation)
@@ -195,9 +207,19 @@ namespace AplombTech.WMS.Domain.Sensors
         }
         public bool HideMakeInActive()
         {
-            if (this.IsActive)
-                return false;
-            return true;
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.SensorActiveInactive
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
+            if (!this.IsActive)
+                return true;
+
+            return false;
         }
         #endregion
 

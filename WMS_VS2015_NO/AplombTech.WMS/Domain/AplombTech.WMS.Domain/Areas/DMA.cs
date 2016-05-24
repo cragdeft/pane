@@ -9,11 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Shared;
 using NakedObjects.Menu;
+using AplombTech.WMS.Domain.Repositories;
+using AplombTech.WMS.Domain.Features;
 
 namespace AplombTech.WMS.Domain.Areas
 {
     public class DMA : Area
     {
+        #region Injected Services
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
+        #endregion
         public override string Name { get; set; }
 
         #region Validations
@@ -81,6 +86,19 @@ namespace AplombTech.WMS.Domain.Areas
             return rb.Reason;
         }
         #endregion
+        public bool HideAddPumpStation()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddPumpStation
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
+            return false;
+        }
         #endregion
 
         #region SetAddress (Action)
@@ -100,6 +118,15 @@ namespace AplombTech.WMS.Domain.Areas
         }
         public bool HideSetAddress()
         {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.SetPumpStationAddress
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+
             if (this.Address != null)
                 return true;
 

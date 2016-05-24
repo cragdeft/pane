@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Devices;
+using AplombTech.WMS.Domain.Features;
 
 namespace AplombTech.WMS.Domain.Repositories
 {
@@ -19,6 +20,7 @@ namespace AplombTech.WMS.Domain.Repositories
     {
         #region Injected Services
         public ProcessRepository ProcessRepository { set; protected get; }
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
         public static void Menu(IMenu menu)
         {
@@ -74,7 +76,18 @@ namespace AplombTech.WMS.Domain.Repositories
             return rb.Reason;
         }
         #endregion
+        public bool HideCreateZone()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddNewZone
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         //[AuthorizeAction(Roles = "AMSAdmin")]
         [DisplayName("Find Zone")]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
@@ -87,7 +100,18 @@ namespace AplombTech.WMS.Domain.Repositories
 
             return zones;
         }
+        public bool HideFindZone()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.FindZone
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         //[AuthorizeAction(Roles = "AMSAdmin")]
         [DisplayName("All Zones")]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
@@ -96,7 +120,18 @@ namespace AplombTech.WMS.Domain.Repositories
         {
             return Container.Instances<Zone>();
         }
+        public bool HideAllZones()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.FindAllZones
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         #endregion
 
         #region DMA
@@ -112,7 +147,18 @@ namespace AplombTech.WMS.Domain.Repositories
 
             return dmas;
         }
+        public bool HideFindDMA()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.FindDma
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         #endregion
 
         #region PumpStation
@@ -127,6 +173,18 @@ namespace AplombTech.WMS.Domain.Repositories
                                                 select z).OrderBy(o => o.Name);
 
             return stations;
+        }
+        public bool HideFindPumpStation()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.FindPumpStation
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
         }
         #endregion
         public Sensor FindSensorByUuid(string uid)

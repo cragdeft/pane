@@ -51,7 +51,9 @@ namespace AplombTech.WMS.Site {
                     typeof(ReportRepository),
                     typeof(AlertConfigurationRepository),
                     typeof(ProcessRepository),
-                    typeof(UserAccountRepository)
+                    typeof(UserAccountRepository),
+                    typeof(LoggedInUserInfoRepository),
+                    typeof(LoggedInUserInfoDomainRepository)
                 };
             }
         }
@@ -80,8 +82,14 @@ namespace AplombTech.WMS.Site {
                     typeof(AplombTech.WMS.QueryModel.Sensors.LevelSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.PressureSensor),
                     typeof(AplombTech.WMS.QueryModel.Sensors.SensorData),
-                    typeof(UserRoles),
-                    typeof(RoleFeatures)
+                    typeof(AplombTech.WMS.QueryModel.UserAccounts.Role),
+                    typeof(AplombTech.WMS.QueryModel.UserAccounts.LoginUser),
+                    typeof(AplombTech.WMS.QueryModel.UserAccounts.UserRoles),
+                    typeof(AplombTech.WMS.QueryModel.Features.RoleFeatures),
+                    typeof(AplombTech.WMS.Domain.UserAccounts.Role),
+                    typeof(AplombTech.WMS.Domain.UserAccounts.LoginUser),
+                    typeof(AplombTech.WMS.Domain.UserAccounts.UserRoles),
+                    typeof(AplombTech.WMS.Domain.Features.RoleFeatures)
 
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };

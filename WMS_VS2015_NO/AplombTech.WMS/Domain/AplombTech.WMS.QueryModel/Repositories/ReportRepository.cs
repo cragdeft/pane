@@ -10,12 +10,19 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.QueryModel.Sensors;
 using AplombTech.WMS.QueryModel.Shared;
+using AplombTech.WMS.QueryModel.UserAccounts;
+using AplombTech.WMS.QueryModel.Features;
+using NakedObjects.Core.Util.Enumer;
 
 namespace AplombTech.WMS.QueryModel.Repositories
 {
     [DisplayName("Reports")]
     public class ReportRepository : AbstractFactoryAndRepository
     {
+        #region Injected Services
+        public LoggedInUserInfoRepository LoggedInUserInfoRepository { set; protected get; }
+        #endregion
+        
         public static void Menu(IMenu menu)
         {
             menu.AddAction("GoogleMap");
@@ -60,6 +67,18 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             return zones;
         }
+        public bool HideUnderGoogleMap()
+        {
+            IList<Feature> features = LoggedInUserInfoRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.ReportFeatureEnums.GoogleMap
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Report.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         [DisplayName("Drill Down")]
         public DrillDown DrillDown()
         {
@@ -68,7 +87,18 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             return model;
         }
+        public bool HideUnderDrillDown()
+        {
+            IList<Feature> features = LoggedInUserInfoRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.ReportFeatureEnums.DrillDown
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Report.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         [DisplayName("Under Thresold")]
         public UnderThresold UnderThresold()
         {
@@ -77,7 +107,18 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             return model;
         }
+        public bool HideUnderThresold()
+        {
+            IList<Feature> features = LoggedInUserInfoRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.ReportFeatureEnums.UnderThreshold
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Report.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         public Summary Summary()
         {
             var model = Container.NewViewModel<Summary>();
@@ -85,14 +126,37 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
             return model;
         }
+        public bool HideSummary()
+        {
+            IList<Feature> features = LoggedInUserInfoRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.ReportFeatureEnums.SummaryReport
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Report.ToString()).FirstOrDefault();
+
+            if (feature == null)
+                return true;
+            return false;
+        }
         public ScadaMap ScadaMap()
         {
             var model = Container.NewViewModel<ScadaMap>();
             model.Zones = Container.Instances<Zone>().ToList();
             return model;
         }
+        public bool HideScadaMap()
+        {
+            IList<Feature> features = LoggedInUserInfoRepository.GetFeatureListByLoginUser();
 
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int) Feature.ReportFeatureEnums.ScadaMap
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Report.ToString()).FirstOrDefault();
+
+            if (feature  == null)
+                return true;
+            return false;
+        }
+        
         public List<DMA> GetDmaList(int zoneId)
         {
             var model = Container.Instances<DMA>().Where(x => x.Parent.AreaID == zoneId).ToList();
