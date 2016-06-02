@@ -1,4 +1,5 @@
 ﻿using AplombTech.WMS.Domain.Features;
+using AplombTech.WMS.Domain.Repositories;
 using NakedObjects;
 using NakedObjects.Menu;
 using System;
@@ -18,6 +19,7 @@ namespace AplombTech.WMS.Domain.UserAccounts
     {
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
+        public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
 
         #region Primitive Properties
@@ -26,7 +28,37 @@ namespace AplombTech.WMS.Domain.UserAccounts
         [Title, Required]
         [MemberOrder(10)]
         public virtual string Name { get; set; }
+        public string ValidateName()
+        {
+            Role role = (from r in Container.Instances<Role>()
+                         where r.Name.ToLower() == this.Name.ToLower()
+                         select r).FirstOrDefault();
+
+            if (role != null)
+            {
+                if(role.Id != this.Id)
+                    return "Duplicate Role";
+            }
+
+            return null;
+        }
         #endregion
+
+        public string DisablePropertyDefault()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.UserAccountsFeatureEnums.EditRole
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.UserAccount.ToString()).FirstOrDefault();
+
+            if (feature == null)
+            {
+                return "You do not have permission to Edit";
+            }
+
+            return null;
+        }
 
         #region Get Properties    
         #region Users  

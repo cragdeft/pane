@@ -23,6 +23,22 @@ namespace AplombTech.WMS.Domain.Areas
         #endregion
         public override string Name { get; set; }
 
+        public string DisablePropertyDefault()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditZone
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+            {
+                return "You do not have permission to Edit";
+            }
+                
+            return null;
+        }
+
         #region Validations
         public string ValidateName(string areaName)
         {

@@ -1,4 +1,5 @@
-﻿using NakedObjects;
+﻿using AplombTech.WMS.Domain.Features;
+using NakedObjects;
 using NakedObjects.Menu;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,22 @@ namespace AplombTech.WMS.Domain.Devices
         public bool HideIsRemoved()
         {
             return true;
+        }
+
+        public string DisablePropertyDefault()
+        {
+            IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
+
+            Feature feature =
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditPump
+                && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
+
+            if (feature == null)
+            {
+                return "You do not have permission to Edit";
+            }
+
+            return null;
         }
 
         #region RemovePump (Action)

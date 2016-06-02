@@ -11,6 +11,7 @@ namespace AplombTech.WMS.QueryModel.Areas
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         #endregion
+
         #region Show PumpStation
         [MemberOrder(20), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
