@@ -380,6 +380,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\application-logo.png" />
+    <Content Include="Images\body_graphix.jpg" />
     <Content Include="Images\checked.png" />
     <Content Include="Images\concurrency-error.png" />
     <Content Include="Images\default.png" />
@@ -400,6 +401,7 @@
     <Content Include="Images\Last-disabled.png" />
     <Content Include="Images\Last.png" />
     <Content Include="Images\List.png" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\Max.png" />
     <Content Include="Images\Min.png" />
     <Content Include="Images\nakedobjects.ico" />
@@ -414,6 +416,8 @@
     <Content Include="Images\tab-close-hover.png" />
     <Content Include="Images\tab-close.png" />
     <Content Include="Images\Table.png" />
+    <Content Include="Images\tab_bg_n.png" />
+    <Content Include="Images\tab_bg_s.png" />
     <Content Include="Images\unchecked.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -438,7 +442,8 @@
     <Content Include="App_Data\Pump_DMA_809.kml" />
     <Content Include="App_Data\Pump_DMA_810.kml" />
     <Content Include="Images\Icons\icons.psd" />
-    <None Include="Properties\PublishProfiles\SD.pubxml" />
+    <None Include="Properties\PublishProfiles\watermanagementsystem - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\watermanagementsystem - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\canvasjs.min.js" />
     <Content Include="Scripts\dist\jstree.js" />

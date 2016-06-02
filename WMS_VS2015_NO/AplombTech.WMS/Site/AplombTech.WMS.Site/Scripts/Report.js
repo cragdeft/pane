@@ -304,25 +304,28 @@ function showGraph(data) {
                         click: function () {
 
                             if ($('#ReportType').val() == 2) {
-                                $('#ReportType').val('1').change();
+                                
                                 $("#Hour").val(GetHourValue(this.category));
+                                $('#ReportType').val('1').change();
                             }
 
                             if ($('#ReportType').val() == 3) {
-                                $('#ReportType').val('2').change();
+                                
                                 var date = getDateOfWeek($('#Week').val(), $('#Year').val());
                                 $('#Month').val(date.getMonth() + 1);
 
                                 $("#Day").val(date.getDate());
+                                $('#ReportType').val('2').change();
 
                             }
 
                             if ($('#ReportType').val() == 4) {
-                                $('#ReportType').val('2').change();
+                                
                                 var d = new Date(this.category);
                                 console.log(this.category);
                                 var n = d.getDate();
                                 $("#Day").val(n);
+                                $('#ReportType').val('2').change();
                             }
 
                             var model = setModel();

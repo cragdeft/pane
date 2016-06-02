@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
@@ -53,6 +55,18 @@ namespace AplombTech.WMS.MQTT.Client
             DhakaWasaMqtt = new MqttClient(GetBrokerAddress(), GetBrokerPort(), false, null, null, MqttSslProtocols.None, null);
             ConnectToBroker();
         }
+        private void BrokerConnectionWithCertificate()
+        {
+            DhakaWasaMqtt = new MqttClient(GetBrokerAddress(), MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, new X509Certificate(Resource.ca), null, MqttSslProtocols.TLSv1_2, client_RemoteCertificateValidationCallback);
+            ConnectToBroker("kanok", "kanok");
+        }
+
+        public bool client_RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+            // logic for validation here
+        }
+
         private string GetBrokerAddress()
         {
             if (ConfigurationManager.AppSettings["BrokerAddress"] == null)
@@ -91,6 +105,11 @@ namespace AplombTech.WMS.MQTT.Client
             DhakaWasaMqtt.Connect(GetClientId(), null, null, false, GetBrokerKeepAlivePeriod());
             log.Info("MQTT Client is connected");
         }
+        private void ConnectToBroker(string username,string password)
+        {
+            DhakaWasaMqtt.Connect(GetClientId(), username, password, false, GetBrokerKeepAlivePeriod());
+            log.Info("MQTT Client is connected via SSL");
+        }
         private void DefinedMqttCommunicationEvents()
         {
             DhakaWasaMqtt.MqttMsgPublished += PublishedMessage_MQTT;//publish
@@ -116,7 +135,7 @@ namespace AplombTech.WMS.MQTT.Client
                 {
                     if (IsSsl)
                     {
-                        //BrokerConnectionWithCertificate();
+                        BrokerConnectionWithCertificate();
                     }
                     else
                     {
@@ -156,11 +175,11 @@ namespace AplombTech.WMS.MQTT.Client
                     try
                     {
                         framework.TransactionManager.StartTransaction();
-                        if (topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
+                        if (topic.Replace("wasa/", String.Empty) == JsonMessageType.sensordata.ToString())
                         {
                             ParseSensorDataFromMessage(dataLog);
                         }
-                        if (topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
+                        if (topic.Replace("wasa/", String.Empty) == JsonMessageType.configuration.ToString())
                         {
                             ProcessRepository.ParseNStoreConfigurationData(dataLog);
                         }
@@ -342,7 +361,7 @@ namespace AplombTech.WMS.MQTT.Client
             this.framework = objframework;
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
-            MqttClientInstance(false);
+            MqttClientInstance(true);
             log.Info("MQTT listener has been started");
         }       
     }
