@@ -28,7 +28,7 @@ namespace AplombTech.WMS.QueryModel.Sensors
         [MemberOrder(30), Required, Disabled]
         [DisplayName("Total")]
         public virtual decimal CumulativeValue { get; set; }
-        [MemberOrder(80)]
-        public virtual Unit Unit { get; set; }
+        //[MemberOrder(80)]
+        //public virtual Unit Unit { get; set; }
     }
 }

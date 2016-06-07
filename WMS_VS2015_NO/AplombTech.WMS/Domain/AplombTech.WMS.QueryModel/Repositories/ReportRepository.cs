@@ -203,34 +203,26 @@ namespace AplombTech.WMS.QueryModel.Repositories
             {
                 if (sensor is PressureSensor)
                 {
-                    var unitName = ((PressureSensor)sensor).Unit != null
-                        ? ((PressureSensor)sensor).Unit.Name
-                        : string.Empty;
+                    var unitName = sensor.UnitName;
                     dictonary.Add("PT-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
                 }
 
 
                 else if (sensor is LevelSensor)
                 {
-                    var unitName = ((LevelSensor)sensor).Unit != null
-                        ? ((LevelSensor)sensor).Unit.Name
-                        : string.Empty;
+                    var unitName = sensor.UnitName;
                     dictonary.Add("LT-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
                 }
 
                 else if (sensor is EnergySensor)
                 {
-                    var unitName = ((EnergySensor)sensor).Unit != null
-                        ? ((EnergySensor)sensor).Unit.Name
-                        : string.Empty;
+                    var unitName = sensor.UnitName;
                     dictonary.Add("ET-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
                 }
 
                 else if (sensor is FlowSensor)
                 {
-                    var unitName = ((FlowSensor)sensor).Unit != null
-                        ? ((FlowSensor)sensor).Unit.Name
-                        : string.Empty;
+                    var unitName = sensor.UnitName;
                     dictonary.Add("FT-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
                 }
 

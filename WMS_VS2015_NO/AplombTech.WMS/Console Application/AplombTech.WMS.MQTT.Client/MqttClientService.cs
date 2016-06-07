@@ -118,7 +118,7 @@ namespace AplombTech.WMS.MQTT.Client
             DhakaWasaMqtt.MqttMsgPublishReceived += ReceivedMessage_MQTT;//received message.
             DhakaWasaMqtt.ConnectionClosed += ConnectionClosed_MQTT;
 
-            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "/configuration", "/command", "/feedback", "/sensordata" },
+            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "/configuration", "/command", "/feedback", "sensor_data" },
                               new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
                                       MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 

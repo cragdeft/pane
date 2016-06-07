@@ -125,29 +125,29 @@ namespace AplombTech.WMS.Site.Controllers
 
         private string GetSensorUnit(Sensor sensor)
         {
-            if (sensor is PressureSensor)
-            {
-                return ((PressureSensor)sensor).Unit != null ? ((PressureSensor)sensor).Unit.Name : string.Empty;
-            }
+            //if (sensor is PressureSensor)
+            //{
+                return sensor.UnitName != null ? sensor.UnitName : string.Empty;
+            //}
 
-            else if (sensor is FlowSensor)
-            {
-                return ((FlowSensor)sensor).Unit != null?((FlowSensor)sensor).Unit.Name:string.Empty;
-            }
+            //else if (sensor is FlowSensor)
+            //{
+            //    return ((FlowSensor)sensor).Unit != null?((FlowSensor)sensor).Unit.Name:string.Empty;
+            //}
 
-            else if (sensor is LevelSensor)
-            {
-                return ((LevelSensor)sensor).Unit != null?((LevelSensor)sensor).Unit.Name:string.Empty;
-            }
+            //else if (sensor is LevelSensor)
+            //{
+            //    return ((LevelSensor)sensor).Unit != null?((LevelSensor)sensor).Unit.Name:string.Empty;
+            //}
 
-            else if (sensor is EnergySensor)
-            {
-                return ((EnergySensor)sensor).Unit != null ? ((EnergySensor)sensor).Unit.Name:string.Empty;
-            }
-            else
-            {
-                return string.Empty;
-            }
+            //else if (sensor is EnergySensor)
+            //{
+            //    return ((EnergySensor)sensor).Unit != null ? ((EnergySensor)sensor).Unit.Name:string.Empty;
+            //}
+            //else
+            //{
+            //    return string.Empty;
+            //}
 
 
 

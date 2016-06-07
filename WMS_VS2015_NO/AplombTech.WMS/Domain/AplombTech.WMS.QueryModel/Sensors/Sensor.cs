@@ -34,6 +34,10 @@ namespace AplombTech.WMS.QueryModel.Sensors
         public virtual DateTime? LastDataReceived { get; set; }
         [MemberOrder(70), Required, Disabled]
         public virtual bool IsActive { get; set; }
+        public virtual Data_Type DataType { get; set; }
+        public virtual string UnitName { get; set; }
+        public virtual string Model { get; set; }
+        public virtual string Version { get; set; }
         public enum TransmitterType
         {
             PRESSURE_TRANSMITTER = 1,
@@ -41,6 +45,12 @@ namespace AplombTech.WMS.QueryModel.Sensors
             ENERGY_TRANSMITTER = 3,
             FLOW_TRANSMITTER = 4,
             LEVEL_TRANSMITTER = 5,
+        }
+
+        public enum Data_Type
+        {
+            Float = 1,
+            Boolean = 2
         }
         #endregion
 

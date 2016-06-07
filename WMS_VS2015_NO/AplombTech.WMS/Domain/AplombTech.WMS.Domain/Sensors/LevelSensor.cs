@@ -22,7 +22,7 @@ namespace AplombTech.WMS.Domain.Sensors
 
             return t.ToString();
         }
-        [MemberOrder(80)]
-        public virtual Unit Unit { get; set; }
+        //[MemberOrder(80)]
+        //public virtual Unit Unit { get; set; }
     }
 }
