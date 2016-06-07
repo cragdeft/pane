@@ -1,6 +1,7 @@
 ﻿using AplombTech.WMS.Domain.Alerts;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Devices;
+using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
 using System;
@@ -20,9 +21,12 @@ namespace AplombTech.WMS.Persistence.Facade
         //Add DbSet properties for root objects, thus:
         public DbSet<Area> Areas { get; set; }
         public DbSet<Device> Devices { get; set; }
-        public DbSet<Pump> Pumps { get; set; }
+        public DbSet<Domain.Motors.PumpMotor> Pumps { get; set; }
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<Router> Routers { get; set; }
+        public DbSet<Domain.Motors.Motor> Motors { get; set; }
+        public DbSet<Domain.Motors.PumpMotor> PumpMotors { get; set; }
+        public DbSet<Domain.Motors.ChlorineMotor> ChlorineMotors { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
         public DbSet<LevelSensor> LevelSensors { get; set; }
         public DbSet<FlowSensor> FlowSensors { get; set; }
@@ -61,7 +65,7 @@ namespace AplombTech.WMS.Persistence.Facade
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.CurrentValue).HasPrecision(18, 2);
             modelBuilder.Entity<EnergySensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
             modelBuilder.Entity<FlowSensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
-            modelBuilder.Entity<Pump>().Property(pump => pump.Capacity).HasPrecision(18, 2);
+            modelBuilder.Entity<Domain.Motors.PumpMotor>().Property(pump => pump.Capacity).HasPrecision(18, 2);
         }
     }
 }

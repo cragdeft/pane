@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.QueryModel.Motors;
 
 namespace AplombTech.WMS.QueryModel.Facade
 {
@@ -20,7 +21,8 @@ namespace AplombTech.WMS.QueryModel.Facade
         {
             Areas = base.Set<Area>();
             Devices = base.Set<Device>();
-            Pumps = base.Set<Pump>();
+            PumpMotors = base.Set<PumpMotor>();
+            ChlorineMotors = base.Set<ChlorineMotor>();
             Cameras = base.Set<Camera>();
             Routers = base.Set<Router>();
             Sensors = base.Set<Sensor>();
@@ -36,7 +38,8 @@ namespace AplombTech.WMS.QueryModel.Facade
 
         public DbSet<Area> Areas { get; private set; }
         public DbSet<Device> Devices { get; private set; }
-        public DbSet<Pump> Pumps { get; private set; }
+        public DbSet<PumpMotor> PumpMotors { get; private set; }
+        public DbSet<ChlorineMotor> ChlorineMotors { get; private set; }
         public DbSet<Camera> Cameras { get; private set; }
         public DbSet<Router> Routers { get; private set; }
         public DbSet<Sensor> Sensors { get; private set; }

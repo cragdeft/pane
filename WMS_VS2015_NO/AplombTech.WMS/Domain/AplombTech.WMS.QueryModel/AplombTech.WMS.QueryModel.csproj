@@ -128,12 +128,14 @@
     <Compile Include="Areas\Zone.cs" />
     <Compile Include="Devices\Camera.cs" />
     <Compile Include="Devices\Device.cs" />
-    <Compile Include="Devices\Pump.cs" />
     <Compile Include="Devices\Router.cs" />
     <Compile Include="Facade\QueryModelDatabase.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\FeatureType.cs" />
     <Compile Include="Features\RoleFeatures.cs" />
+    <Compile Include="Motors\ChlorineMotor.cs" />
+    <Compile Include="Motors\Motor.cs" />
+    <Compile Include="Motors\PumpMotor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\DrillDown.cs" />
     <Compile Include="Reports\ExcelReport.cs" />

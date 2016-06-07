@@ -3,6 +3,7 @@ using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
+using AplombTech.WMS.Domain.Motors;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Features;
 using AplombTech.WMS.Domain.UserAccounts;
 using AplombTech.WMS.Utility;
+using ChlorineMotor = AplombTech.WMS.Domain.Motors.ChlorineMotor;
+using PumpMotor = AplombTech.WMS.Domain.Motors.PumpMotor;
 
 namespace AplombTech.WMS.Domain.Facade
 {
@@ -32,7 +35,8 @@ namespace AplombTech.WMS.Domain.Facade
             PumpStation baridhara1 = CreatePumpStation("Baridhara1",dma810,baridhara1PumpBoundary, context);
             AddUnit("cubic/sec", context);
 
-            CreatePump("456", "123KL", baridhara1, context);
+            CreatePumpMotor("456", "123KL", baridhara1, context);
+            CreateCholorineMotor("456", "123KL", baridhara1, context);
             CreateFlowTransmitter("741", baridhara1, context, "");
             CreatePressureTransmitter("369", baridhara1, context, "");
             CreateLevelTransmitter("852", baridhara1, context, "");
@@ -104,17 +108,33 @@ namespace AplombTech.WMS.Domain.Facade
 
             return station;
         }
-        private void CreatePump(string modelNo, string uuid,PumpStation station, CommandModelDatabase context)
+        private void CreatePumpMotor(string modelNo, string uuid,PumpStation station, CommandModelDatabase context)
         {
-            Pump pump = new Pump();
+            PumpMotor pump = new PumpMotor();
             pump.ModelNo = modelNo;
             pump.UUID = uuid;
+            pump.Controllable = true;
+            pump.Auto = true;
             pump.PumpStation = station;
             pump.AuditFields.InsertedBy = "Automated";
             pump.AuditFields.InsertedDateTime = DateTime.Now;
             pump.AuditFields.LastUpdatedBy = "Automated";
             pump.AuditFields.LastUpdatedDateTime = DateTime.Now;
-            context.Devices.Add(pump);
+            context.Motors.Add(pump);
+        }
+
+        private void CreateCholorineMotor(string modelNo, string uuid, PumpStation station, CommandModelDatabase context)
+        {
+            ChlorineMotor pump = new ChlorineMotor();
+            pump.UUID = uuid;
+            pump.Controllable = false;
+            pump.Auto = false;
+            pump.PumpStation = station;
+            pump.AuditFields.InsertedBy = "Automated";
+            pump.AuditFields.InsertedDateTime = DateTime.Now;
+            pump.AuditFields.LastUpdatedBy = "Automated";
+            pump.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Motors.Add(pump);
         }
         private void CreateFlowTransmitter(string uuid, PumpStation station, CommandModelDatabase context,string unit)
         {

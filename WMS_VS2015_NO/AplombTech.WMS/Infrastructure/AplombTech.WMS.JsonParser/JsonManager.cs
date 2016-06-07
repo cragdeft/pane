@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.QueryModel.Devices;
+using AplombTech.WMS.QueryModel.Motors;
 using AplombTech.WMS.QueryModel.Sensors;
 
 namespace AplombTech.WMS.JsonParser
@@ -110,9 +111,9 @@ namespace AplombTech.WMS.JsonParser
 
             return router;
         }
-        private static Pump GetPump(JObject o)
+        private static PumpMotor GetPump(JObject o)
         {
-            Pump pump = new Pump();
+            PumpMotor pump = new PumpMotor();
             pump.UUID = (string)o["PumpStation"]["Pump"]["uid"];
             return pump;
         }

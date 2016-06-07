@@ -7,13 +7,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AplombTech.WMS.Domain.Devices
+namespace AplombTech.WMS.Domain.Motors
 {
-    [Table("Pumps")]
-    public class Pump : Device
+    public class PumpMotor : Motor
     {
         [Title]
         [MemberOrder(20)]
@@ -75,7 +72,7 @@ namespace AplombTech.WMS.Domain.Devices
         #region Menu
         public static void Menu(IMenu menu)
         {
-            menu.AddAction("RemovePump");           
+            menu.AddAction("RemovePump");
         }
         #endregion
     }

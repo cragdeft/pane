@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using AplombTech.WMS.QueryModel.Motors;
 
 namespace AplombTech.WMS.QueryModel.Areas
 {
@@ -19,11 +20,11 @@ namespace AplombTech.WMS.QueryModel.Areas
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Pump")]
         [TableView(true, "UUID", "ModelNo")]
-        public Pump Pumps
+        public PumpMotor PumpMotors
         {
             get
             {
-                Pump pumps = (from pump in Container.Instances<Pump>()
+                PumpMotor pumps = (from pump in Container.Instances<PumpMotor>()
                               where pump.PumpStation.AreaID == this.AreaID
                               select pump).FirstOrDefault();
                 return pumps;
@@ -73,7 +74,20 @@ namespace AplombTech.WMS.QueryModel.Areas
                                          select sensor).ToList();
                 return sensors;
             }
-        }       
+        }
+        [DisplayName("CholorineMotor")]
+        //[TableView(true, "UUID", "ModelNo")]
+        public ChlorineMotor ChlorineMotors
+        {
+            get
+            {
+                ChlorineMotor pumps = (from pump in Container.Instances<ChlorineMotor>()
+                                       where pump.PumpStation.AreaID == this.AreaID
+                                       && pump.IsRemoved == false
+                                       select pump).FirstOrDefault();
+                return pumps;
+            }
+        }
         #endregion
     }
 }

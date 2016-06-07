@@ -13,6 +13,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.Domain.Motors;
+using ChlorineMotor = AplombTech.WMS.Domain.Motors.ChlorineMotor;
+using PumpMotor = AplombTech.WMS.Domain.Motors.PumpMotor;
 
 namespace AplombTech.WMS.Domain.Areas
 {
@@ -63,11 +66,11 @@ namespace AplombTech.WMS.Domain.Areas
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Pump")]
         //[TableView(true, "UUID", "ModelNo")]
-        public Pump Pump
+        public PumpMotor PumpMotors
         {
             get
             {
-                Pump pumps = (from pump in Container.Instances<Pump>()
+                PumpMotor pumps = (from pump in Container.Instances<PumpMotor>()
                               where pump.PumpStation.AreaId == this.AreaId
                               && pump.IsRemoved == false
                               select pump).FirstOrDefault();
@@ -119,13 +122,29 @@ namespace AplombTech.WMS.Domain.Areas
                 return cameras;
             }
         }
+
+        [MemberOrder(90), NotMapped]
+        //[Eagerly(EagerlyAttribute.Do.Rendering)]
+        [DisplayName("CholorineMotor")]
+        //[TableView(true, "UUID", "ModelNo")]
+        public ChlorineMotor ChlorineMotors
+        {
+            get
+            {
+                ChlorineMotor pumps = (from pump in Container.Instances<ChlorineMotor>()
+                                   where pump.PumpStation.AreaId == this.AreaId
+                                   && pump.IsRemoved == false
+                                   select pump).FirstOrDefault();
+                return pumps;
+            }
+        }
         #endregion
 
         #region AddPump (Action)
         [DisplayName("Add Pump")]
         public void AddPump(string modelNo, string uuid)
         {
-            Pump pump = Container.NewTransientInstance<Pump>();
+            PumpMotor pump = Container.NewTransientInstance<PumpMotor>();
             pump.ModelNo = modelNo;
             pump.UUID = uuid;
             pump.IsRemoved = false;
@@ -145,7 +164,7 @@ namespace AplombTech.WMS.Domain.Areas
             if (feature == null)
                 return true;
 
-            if (this.Pump != null)
+            if (this.PumpMotors != null)
                 return true;
 
             return false;

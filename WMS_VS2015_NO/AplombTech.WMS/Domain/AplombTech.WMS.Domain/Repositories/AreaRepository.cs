@@ -211,7 +211,7 @@ namespace AplombTech.WMS.Domain.Repositories
         public void AddPump(int pumpStationId, string uid, string modelNo)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
-            if (pumpStation.Pump == null)
+            if (pumpStation.PumpMotors == null)
             {
                 pumpStation.AddPump(modelNo, uid);
             }
