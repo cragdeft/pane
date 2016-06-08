@@ -156,7 +156,7 @@ namespace AplombTech.WMS.JsonParser
         {
             ChlorinationSensor sensor = new ChlorinationSensor();
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -169,7 +169,7 @@ namespace AplombTech.WMS.JsonParser
         {
             PressureSensor sensor = new PressureSensor();
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -182,7 +182,7 @@ namespace AplombTech.WMS.JsonParser
         {
             LevelSensor sensor = new LevelSensor();
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -194,9 +194,9 @@ namespace AplombTech.WMS.JsonParser
         private static Sensor CreateEnergySensor(string uid)
         {
             EnergySensor sensor = new EnergySensor();
-            sensor.CumulativeValue = 0;
+            sensor.CumulativeValue = "0";
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -208,9 +208,9 @@ namespace AplombTech.WMS.JsonParser
         private static Sensor CreateFlowSensor(string uid)
         {
             FlowSensor sensor = new FlowSensor();
-            sensor.CumulativeValue = 0;
+            sensor.CumulativeValue = "0";
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -223,7 +223,7 @@ namespace AplombTech.WMS.JsonParser
         {
             Sensor sensor = new Sensor();
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.AuditFields.InsertedBy = "Automated";

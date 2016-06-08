@@ -279,7 +279,7 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.UUID = uuid;
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             //sensor.CumulativeValue = 0;
             sensor.PumpStation = this;
 
@@ -292,8 +292,8 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.UUID = uuid;
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
-            sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
+            sensor.CurrentValue = "0";
+            sensor.CumulativeValue = "0";
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
@@ -305,8 +305,8 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.UUID = uuid;
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
-            sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
+            sensor.CurrentValue = "0";
+            sensor.CumulativeValue = "";
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
@@ -318,7 +318,7 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.UUID = uuid;
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
@@ -330,7 +330,7 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.UUID = uuid;
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);

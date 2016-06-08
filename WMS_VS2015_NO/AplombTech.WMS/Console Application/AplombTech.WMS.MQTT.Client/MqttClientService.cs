@@ -211,7 +211,7 @@ namespace AplombTech.WMS.MQTT.Client
                         if (sensor.IsActive)
                         {
                             decimal sensorValue = Convert.ToDecimal(data.Value);
-                            ProcessRepository.CreateNewSensorData(sensorValue, messageObject.SensorLoggedAt, sensor);
+                            ProcessRepository.CreateNewSensorData(sensorValue.ToString(), messageObject.SensorLoggedAt, sensor);
                             PublishAlertMessage(sensorValue, sensor);
                         }
                     }

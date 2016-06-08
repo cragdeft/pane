@@ -58,13 +58,9 @@ namespace AplombTech.WMS.Persistence.Facade
 
             //modelBuilder.Properties<DateTime>()
             //.Configure(c => c.HasColumnType("datetime2"));
-
-            modelBuilder.Entity<SensorData>().Property(sd => sd.Value).HasPrecision(18, 2);
+            
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MaximumValue).HasPrecision(18, 2);
-            modelBuilder.Entity<Sensor>().Property(sensor => sensor.CurrentValue).HasPrecision(18, 2);
-            modelBuilder.Entity<EnergySensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
-            modelBuilder.Entity<FlowSensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
             modelBuilder.Entity<Domain.Motors.PumpMotor>().Property(pump => pump.Capacity).HasPrecision(18, 2);
         }
     }

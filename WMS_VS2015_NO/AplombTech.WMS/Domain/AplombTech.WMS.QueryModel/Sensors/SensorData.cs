@@ -16,7 +16,7 @@ namespace AplombTech.WMS.QueryModel.Sensors
         [Key, NakedObjectsIgnore]
         public virtual int SensorDataID { get; set; }
         [MemberOrder(10), Required]
-        public virtual decimal Value { get; set; }
+        public virtual string Value { get; set; }
         [MemberOrder(30), Required]
         public virtual DateTime LoggedAt { get; set; }
 

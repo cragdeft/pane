@@ -33,7 +33,7 @@ namespace AplombTech.WMS.Domain.Sensors
             AuditFields.InsertedDateTime = DateTime.Now;
             AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
-            this.CurrentValue = 0;
+            this.CurrentValue = "0";
             this.IsActive = true;
         }
         public virtual void Updating()
@@ -55,7 +55,7 @@ namespace AplombTech.WMS.Domain.Sensors
         [MemberOrder(50)]
         public virtual decimal MaximumValue { get; set; }
         [MemberOrder(20), Required, Disabled]
-        public virtual decimal CurrentValue { get; set; }
+        public virtual string CurrentValue { get; set; }
         [MemberOrder(60), Disabled]
         public virtual DateTime? LastDataReceived { get; set; }
         [MemberOrder(70), Required, Disabled]

@@ -229,7 +229,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 else if (sensor is ChlorinationSensor)
                 {
                     string cholorinationValue = null;
-                    cholorinationValue = sensor.CurrentValue > 0 ? "Cholorination on" : "Cholorination off";
+                    cholorinationValue = sensor.CurrentValue.ToString() == "0" ? "Cholorination on" : "Cholorination off";
                     dictonary.Add("CT-" + sensor.UUID, cholorinationValue);
                 }
             }
@@ -337,7 +337,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             var sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             ReportSeries data = new ReportSeries();
             data.name = model.TransmeType.ToString().Replace("_", " ") + "-" + sensor.UUID;
-            data.data = new List<double>() { (double)sensor.CurrentValue };
+            data.data = new List<double>() { Convert.ToDouble(sensor.CurrentValue) };
             model.Series.Add(data);
             return model;
         }
@@ -402,34 +402,35 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 if (sensor is WMS.QueryModel.Sensors.PressureSensor && model.TransmeType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
                 {
                     Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue,MinimumValue = sensor.MinimumValue};
-                    model.Unit = "Bar";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
                 }
 
                 if (sensor is LevelSensor && model.TransmeType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
                 {
                     Sensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
-                    model.Unit = "meter";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
                 }
 
                 if (sensor is EnergySensor && model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
                     Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
-                    model.Unit = "kw/h";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
                 }
 
                 if (sensor is WMS.QueryModel.Sensors.FlowSensor && model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
                 {
                     Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
-                    model.Unit = "litre/min";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
 
                 }
                 if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
                 {
                     Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    model.Unit = sensor.UnitName;
                     return (T)p;
 
                 }
@@ -445,34 +446,35 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 if (sensor is WMS.QueryModel.Sensors.PressureSensor && model.TransmeType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
                 {
                     Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
-                    model.Unit = "Bar";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
                 }
 
                 if (sensor is LevelSensor && model.TransmeType == Sensor.TransmitterType.LEVEL_TRANSMITTER)
                 {
                     Sensor p = new LevelSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
-                    model.Unit = "meter";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
                 }
 
                 if (sensor is EnergySensor && model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
                     Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
-                    model.Unit = "kw/h";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
                 }
 
                 if (sensor is WMS.QueryModel.Sensors.FlowSensor && model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
                 {
                     Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
-                    model.Unit = "litre/min";
+                    model.Unit = sensor.UnitName;
                     return (T)p;
 
                 }
                 if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
                 {
                     Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    model.Unit = sensor.UnitName;
                     return (T)p;
 
                 }
@@ -488,7 +490,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             {
                 if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER || model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
-                    avgValue.Add(GetTotalDataWithinTime(sensorId, model.ToDateTime.AddHours(i),
+                    avgValue.Add(GetTotalDataWithinTime(sensorId,model.TransmeType, model.ToDateTime.AddHours(i),
                     model.ToDateTime.AddHours(i + 1)));
                     model.XaxisCategory[i] = model.ToDateTime.AddHours(i + 1).ToString();
                 }
@@ -516,9 +518,27 @@ namespace AplombTech.WMS.QueryModel.Repositories
             List<double> avgValue = new List<double>();
             for (int i = 0; i <= 12; i++)
             {
-                avgValue.Add(GetCurrentDataWithinTime(sensorId, model.ToDateTime.AddMinutes(i == 0 ? 0 : i + 5),
-                model.ToDateTime.AddMinutes(i == 0 ? 5 : i * 5)));
+                double value =
+                        Convert.ToDouble(GetCurrentDataWithinTime(sensorId,
+                            model.ToDateTime.AddMinutes(i == 0 ? 0 : i + 5),
+                            model.ToDateTime.AddMinutes(i == 0 ? 5 : i * 5)));
+                if (model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
+                {
+                    if (value > 0)
+                    {
+
+                    }
+
+                }
+                else
+                {
+                    
+                    avgValue.Add(value);
+                    
+                }
+
                 model.XaxisCategory[i] = model.ToDateTime.AddMinutes(i * 5).ToShortTimeString();
+
             }
             return avgValue;
         }
@@ -558,25 +578,25 @@ namespace AplombTech.WMS.QueryModel.Repositories
                    .Where(x => (x.Sensor.SensorID == sensorId && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
 
             if (sensorDataList != null)
-                return ((double)sensorDataList.Sum(x => x.Value));
+                return ((double)sensorDataList.Sum(x => Convert.ToDecimal(x.Value)));
             else
                 return 0;
         }
-        private double GetCurrentDataWithinTime(int sensorId, DateTime from, DateTime to)
+        private string GetCurrentDataWithinTime(int sensorId, DateTime from, DateTime to)
         {
             SensorData sensorData = Container.Instances<SensorData>()
                    .Where(x => (x.Sensor.SensorID == sensorId && x.LoggedAt >= from && x.LoggedAt <= to)).FirstOrDefault();
 
             if (sensorData != null)
-                return ((double)sensorData.Value);
+                return (sensorData.Value);
             else
-                return 0;
+                return "";
         }
 
         private List<SensorData> GetCurrentDataListWithinTime(Sensor sensor, DateTime from, DateTime to)
         {
             return Container.Instances<SensorData>()
-                   .Where(x => (x.Sensor.SensorID == sensor.SensorID && x.LoggedAt >= from && x.LoggedAt <= to && x.Value <= sensor.MinimumValue)).ToList();
+                   .Where(x => (x.Sensor.SensorID == sensor.SensorID && x.LoggedAt >= from && x.LoggedAt <= to && (Convert.ToDecimal(x.Value) <= sensor.MinimumValue))).ToList();
         }
         #endregion
     }

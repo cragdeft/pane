@@ -75,13 +75,9 @@ namespace AplombTech.WMS.Domain.Facade
             //        cs.MapRightKey("CourseRefId");
             //        cs.ToTable("StudentCourse");
             //    });
-
-            modelBuilder.Entity<SensorData>().Property(sd => sd.Value).HasPrecision(18, 2);
+            
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MaximumValue).HasPrecision(18, 2);
-            modelBuilder.Entity<Sensor>().Property(sensor => sensor.CurrentValue).HasPrecision(18, 2);
-            modelBuilder.Entity<EnergySensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
-            modelBuilder.Entity<FlowSensor>().Property(sensor => sensor.CumulativeValue).HasPrecision(18, 2);
             modelBuilder.Entity<Motors.PumpMotor>().Property(pump => pump.Capacity).HasPrecision(18, 2);
         }
     }

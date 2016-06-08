@@ -140,8 +140,8 @@ namespace AplombTech.WMS.Domain.Facade
         {
             FlowSensor sensor = new FlowSensor();
             sensor.UUID = uuid;
-            sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
+            sensor.CurrentValue = "0";
+            sensor.CumulativeValue = "0";
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -155,7 +155,7 @@ namespace AplombTech.WMS.Domain.Facade
         {
             PressureSensor sensor = new PressureSensor();
             sensor.UUID = uuid;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -169,7 +169,7 @@ namespace AplombTech.WMS.Domain.Facade
         {
             LevelSensor sensor = new LevelSensor();
             sensor.UUID = uuid;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -183,8 +183,8 @@ namespace AplombTech.WMS.Domain.Facade
         {
             EnergySensor sensor = new EnergySensor();
             sensor.UUID = uuid;
-            sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
+            sensor.CurrentValue = "0";
+            sensor.CumulativeValue = "0";
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -198,7 +198,7 @@ namespace AplombTech.WMS.Domain.Facade
         {
             ChlorinationSensor sensor = new ChlorinationSensor();
             sensor.UUID = uuid;
-            sensor.CurrentValue = 0;
+            sensor.CurrentValue = "0";
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";

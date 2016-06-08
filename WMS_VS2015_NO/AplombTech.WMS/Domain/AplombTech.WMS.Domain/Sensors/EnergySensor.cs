@@ -24,8 +24,8 @@ namespace AplombTech.WMS.Domain.Sensors
             AuditFields.InsertedDateTime = DateTime.Now;
             AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
-            this.CurrentValue = 0;
-            this.CumulativeValue = 0;
+            this.CurrentValue = "0";
+            this.CumulativeValue = "0";
         }
 
         #endregion
@@ -42,7 +42,7 @@ namespace AplombTech.WMS.Domain.Sensors
         }
         [MemberOrder(30), Required, Disabled]
         [DisplayName("Total")]
-        public virtual decimal CumulativeValue { get; set; }
+        public virtual string CumulativeValue { get; set; }
         //[MemberOrder(80)]
         //public virtual Unit Unit { get; set; }
     }

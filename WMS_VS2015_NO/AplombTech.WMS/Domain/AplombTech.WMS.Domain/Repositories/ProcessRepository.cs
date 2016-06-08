@@ -136,7 +136,7 @@ namespace AplombTech.WMS.Domain.Repositories
 
             return data;
         }
-        public void CreateNewSensorData(decimal value, DateTime loggedAt, Sensor sensor)
+        public void CreateNewSensorData(string value, DateTime loggedAt, Sensor sensor)
         {           
             SensorData data = Container.NewTransientInstance<SensorData>();
 
@@ -150,18 +150,18 @@ namespace AplombTech.WMS.Domain.Repositories
           
             Container.Persist(ref data);            
         }
-        private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
+        private void UpdateCumulativeDataOfSensor(String value, Sensor sensor)
         {
             if (sensor is EnergySensor)
             {
-                ((EnergySensor)sensor).CumulativeValue += value;
+                ((EnergySensor)sensor).CumulativeValue += (Convert.ToDecimal(((EnergySensor)sensor).CumulativeValue) + Convert.ToDecimal(value)).ToString(); ;
             }
             if (sensor is FlowSensor)
             {
-                ((FlowSensor)sensor).CumulativeValue += value;
+                ((FlowSensor)sensor).CumulativeValue += (Convert.ToDecimal(((FlowSensor)sensor).CumulativeValue) + Convert.ToDecimal(value)).ToString(); ;
             }
         }
-        private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
+        private void UpdateLastDataOfSensor(string value, DateTime loggedAt, Sensor sensor)
         {
             if (sensor.LastDataReceived != null)
             {
