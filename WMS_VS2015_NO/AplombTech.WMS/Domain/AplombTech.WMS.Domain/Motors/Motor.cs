@@ -43,8 +43,29 @@ namespace AplombTech.WMS.Domain.Motors
         [MemberOrder(10)]
         [StringLength(20)]
         public virtual string UUID { get; set; }
+        [MemberOrder(50)]
         public virtual bool Auto { get; set; }
+        [MemberOrder(60)]
         public virtual bool Controllable { get; set; }
+        [MemberOrder(70)]
+        public virtual string RemoveRemarks { get; set; }
+        public bool HideRemoveRemarks()
+        {
+            if (IsRemoved)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        [MemberOrder(80)]
+        public virtual bool IsRemoved { get; set; }
+        public bool HideIsRemoved()
+        {
+            return true;
+        }
         #endregion
 
         #region Complex Properties
@@ -73,7 +94,7 @@ namespace AplombTech.WMS.Domain.Motors
         #endregion
 
         #region  Navigation Properties
-        [MemberOrder(50)]
+        [MemberOrder(100)]
         public virtual PumpStation PumpStation { get; set; }
         #endregion
     }

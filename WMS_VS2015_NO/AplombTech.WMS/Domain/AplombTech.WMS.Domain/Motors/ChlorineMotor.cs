@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Features;
 using NakedObjects.Menu;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AplombTech.WMS.Domain.Motors
 {
+    [Table("ChlorineMotors")]
     public class ChlorineMotor : Motor
     {
         public string Title()
@@ -21,24 +23,7 @@ namespace AplombTech.WMS.Domain.Motors
 
             return t.ToString();
         }
-        public virtual string RemoveRemarks { get; set; }
-        public bool HideRemoveRemarks()
-        {
-            if (IsRemoved)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        public virtual bool IsRemoved { get; set; }
-        public bool HideIsRemoved()
-        {
-            return true;
-        }
-
+        
         public string DisablePropertyDefault()
         {
             IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
