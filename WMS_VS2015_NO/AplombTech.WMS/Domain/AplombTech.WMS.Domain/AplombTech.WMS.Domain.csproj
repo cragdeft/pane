@@ -83,6 +83,7 @@
     <Compile Include="Features\RoleFeatures.cs" />
     <Compile Include="Motors\ChlorineMotor.cs" />
     <Compile Include="Motors\Motor.cs" />
+    <Compile Include="Motors\MotorData.cs" />
     <Compile Include="Motors\PumpMotor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AlertConfigurationRepository.cs" />

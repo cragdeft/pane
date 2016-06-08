@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\ConfigurationMessage.cs" />
+    <Compile Include="Entity\MotorValue.cs" />
     <Compile Include="JsonManager.cs" />
     <Compile Include="Entity\SensorValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

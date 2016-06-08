@@ -1,5 +1,6 @@
 ﻿using AplombTech.WMS.Domain.Alerts;
 using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.JsonParser;
@@ -204,18 +205,62 @@ namespace AplombTech.WMS.MQTT.Client
 
             if (messageObject == null) return;
 
+            ProcessSensorData(messageObject);
+            ProcessMotorData(messageObject);
+            dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+        }
+        private void ProcessMotorData(SensorMessage messageObject)
+        {
+            foreach (MotorValue data in messageObject.Motors)
+            {
+                Motor motor = AreaRepository.FindMotorByUuid(data.MotorUid);
+                if (motor.IsActive)
+                {
+                    ProcessRepository.CreateNewMotorData(data, messageObject.SensorLoggedAt, motor);
+                    if(data.MotorStatus == "OFF")
+                        PublishMotorAlertMessage(data, motor);
+                }
+            }
+        }
+        private void PublishMotorAlertMessage(MotorValue data, Motor motor)
+        {
+            var cmd = new MotorAlertMessage
+            {
+                MotorId = motor.MotorID,
+                MotorName = GetMotorName(motor),             
+                MotorStatus = data.MotorStatus,
+                PumpStationName = motor.PumpStation.Name,
+                AlertMessageType = (int)AlertType.AlertTypeEnum.PumpOnOff,
+                MessageDateTime = DateTime.Now
+            };
+            ServiceBus.Bus.Send(cmd);
+        }
+        private string GetMotorName(Motor motor)
+        {
+            string motorName = String.Empty;
+            if (motor is PumpMotor)
+            {
+                motorName = "Pump Motor";
+            }
+            if (motor is ChlorineMotor)
+            {
+                motorName = "Chlorine Motor";
+            }
+            return motorName;
+        }
+        private void ProcessSensorData(SensorMessage messageObject)
+        {
             foreach (SensorValue data in messageObject.Sensors)
             {
                 Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
                 if (sensor.IsActive)
                 {
                     ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);
-                    PublishAlertMessage(data.Value, sensor);
+                    PublishSensorAlertMessage(data.Value, sensor);
                 }
             }
-            dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
         }
-        private void PublishAlertMessage(string dataValue, Sensor sensor)
+        private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
         {
             if (sensor is EnergySensor) return;
 
@@ -228,7 +273,7 @@ namespace AplombTech.WMS.MQTT.Client
                 value = Convert.ToDecimal(Convert.ToBoolean(dataValue));
             if (value == 0)
             {
-                SendAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.DataMissing, sensor);               
+                SendSensorAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.DataMissing, sensor);               
                 return;
             }
 
@@ -236,7 +281,7 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 if (value < sensor.MinimumValue)
                 {
-                    SendAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.UnderThreshold, sensor);
+                    SendSensorAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.UnderThreshold, sensor);
                 }
             }
         }
@@ -261,9 +306,9 @@ namespace AplombTech.WMS.MQTT.Client
             }
             return sensorName;
         }
-        private void SendAlertMessage(decimal value, string sensorName, int allertMessageType, Sensor sensor)
+        private void SendSensorAlertMessage(decimal value, string sensorName, int allertMessageType, Sensor sensor)
         {
-            var cmd = new AlertMessage
+            var cmd = new SensorAlertMessage
             {
                 SensorId = sensor.SensorId,
                 SensorName = sensorName,

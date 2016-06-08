@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Features;
+using AplombTech.WMS.Domain.Motors;
 
 namespace AplombTech.WMS.Domain.Repositories
 {
@@ -177,8 +178,13 @@ namespace AplombTech.WMS.Domain.Repositories
         #endregion
         public Sensor FindSensorByUuid(string uid)
         {
-            Sensor station = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
-            return station;
+            Sensor sensor = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
+            return sensor;
+        }
+        public Motor FindMotorByUuid(string uid)
+        {
+            Motor motor = Container.Instances<Motor>().Where(w => w.UUID == uid).First();
+            return motor;
         }
         public void AddCamera(int pumpStationId, string uid, string url)
         {

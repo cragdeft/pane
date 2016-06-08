@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Devices;
 using Camera = AplombTech.WMS.QueryModel.Devices.Camera;
+using AplombTech.WMS.Domain.Motors;
 
 namespace AplombTech.WMS.Domain.Repositories
 {
@@ -152,6 +153,28 @@ namespace AplombTech.WMS.Domain.Repositories
           
             Container.Persist(ref data);            
         }
+
+        public void CreateNewMotorData(MotorValue data, DateTime loggedAt, Motor motor)
+        {
+            MotorData motorData = Container.NewTransientInstance<MotorData>();
+            motorData.MotorStatus = data.MotorStatus;
+            motorData.LastCommand = data.LastCommand;
+            motorData.LastCommandTime = data.LastCommandTime;
+            motorData.LoggedAt = loggedAt;
+            motorData.ProcessAt = DateTime.Now;
+            motorData.Motor = motor;
+            Container.Persist(ref motorData);
+
+            UpdateLastDataOfMotor(data, loggedAt, motor);
+        }
+
+        private void UpdateLastDataOfMotor(MotorValue data, DateTime loggedAt, Motor motor)
+        {
+            motor.Auto = data.Auto;
+            motor.Controllable = data.Controllable;
+            motor.MotorStatus = data.MotorStatus;
+        }
+
         private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
         {
             if (sensor is EnergySensor)
