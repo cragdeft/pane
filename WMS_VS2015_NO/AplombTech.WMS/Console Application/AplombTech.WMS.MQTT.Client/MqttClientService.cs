@@ -199,24 +199,23 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void ParseSensorDataFromMessage(DataLog dataLog)
         {
-            if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
-            {
-                SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
+            if (dataLog.ProcessingStatus != DataLog.ProcessingStatusEnum.None) return;
 
-                if (messageObject != null)
+            SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
+
+            if (messageObject == null) return;
+
+            foreach (SensorValue data in messageObject.Sensors)
+            {
+                Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
+                if (sensor.IsActive)
                 {
-                    foreach (SensorValue data in messageObject.Sensors)
-                    {
-                        Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
-                        if (sensor.IsActive)
-                        {                           
-                            ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);
-                            PublishAlertMessage(data.Value, sensor);
-                        }
-                    }
-                    dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
-                }              
+                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);
+                    PublishAlertMessage(data.Value, sensor);
+                }
             }
+            dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+
         }
         private void PublishAlertMessage(string dataValue, Sensor sensor)
         {
