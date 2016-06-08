@@ -40,12 +40,12 @@ namespace AplombTech.WMS.Sensor.Data.Processor
         private void HandleMotorMessage(MotorAlertMessage motorMessage, string alertMessage, IList<AlertRecipient> recipients)
         {
             string[] messageList = alertMessage.Split('|');
-            string message = messageList[0] + " " + motorMessage.MotorName + " " + messageList[1] + " " + motorMessage.PumpStationName;
+            string message = motorMessage.MotorName + " " + messageList[0] + " " + motorMessage.PumpStationName + messageList[1];
 
             foreach (AlertRecipient recipient in recipients)
             {
                 if (recipient.Email.Trim().Length > 0)
-                    EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Data Missing", message);
+                    EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Pump Motor Is Off", message);
 
                 SmsSender.SendSMS(recipient.MobileNo, message);
             }
