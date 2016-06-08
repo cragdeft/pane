@@ -147,7 +147,6 @@ namespace AplombTech.WMS.MQTT.Client
             catch (Exception ex)
             {
                 log.Error("Could not stablished connection to MQTT broker - " + ex.Message);
-
                 //don't leave the client connected
                 if (DhakaWasaMqtt != null && DhakaWasaMqtt.IsConnected)
                 {
@@ -215,7 +214,6 @@ namespace AplombTech.WMS.MQTT.Client
                 }
             }
             dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
-
         }
         private void PublishAlertMessage(string dataValue, Sensor sensor)
         {
