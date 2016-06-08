@@ -6,35 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Features;
 using NakedObjects.Menu;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AplombTech.WMS.Domain.Motors
 {
+    [Table("ChlorineMotors")]
     public class ChlorineMotor : Motor
     {
-        public virtual string RemoveRemarks { get; set; }
-        public bool HideRemoveRemarks()
+        public string Title()
         {
-            if (IsRemoved)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        public virtual bool IsRemoved { get; set; }
-        public bool HideIsRemoved()
-        {
-            return true;
-        }
+            var t = Container.NewTitleBuilder();
 
+            string title = "Chlorine Motor";
+
+            t.Append(title);
+
+            return t.ToString();
+        }
+        
         public string DisablePropertyDefault()
         {
             IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
             Feature feature =
-                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditPump
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditMotor
                 && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
 
             if (feature == null)

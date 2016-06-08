@@ -29,6 +29,8 @@ namespace AplombTech.WMS.Domain.Motors
             AuditFields.InsertedDateTime = DateTime.Now;
             AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
+
+            this.IsActive = true;
         }
         public virtual void Updating()
         {
@@ -39,14 +41,43 @@ namespace AplombTech.WMS.Domain.Motors
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int MotorID { get; set; }
-        [MemberOrder(10), NakedObjectsIgnore]
-        [StringLength(20)]
+        [MemberOrder(10),Required]
+        [StringLength(20),Disabled]
         public virtual string UUID { get; set; }
+        [MemberOrder(50), Disabled,Required]
         public virtual bool Auto { get; set; }
+        [MemberOrder(60),Disabled, Required]
         public virtual bool Controllable { get; set; }
+        [MemberOrder(65), Disabled]
+        public virtual string MotorStatus { get; set; }
+        [MemberOrder(70)]
+        public virtual string RemoveRemarks { get; set; }
+        public bool HideRemoveRemarks()
+        {
+            if (IsRemoved)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        [MemberOrder(80)]
+        public virtual bool IsRemoved { get; set; }
+        public bool HideIsRemoved()
+        {
+            return true;
+        }
+        [MemberOrder(90), Required, Disabled]
+        public virtual bool IsActive { get; set; }
         #endregion
+        public enum MotorType
+        {
+            PumpMotor = 1,
+            ChlorineMotor = 2
+        }
 
         #region Complex Properties
         #region AuditFields (AuditFields)
@@ -74,9 +105,8 @@ namespace AplombTech.WMS.Domain.Motors
         #endregion
 
         #region  Navigation Properties
-        [MemberOrder(50)]
+        [MemberOrder(110)]
         public virtual PumpStation PumpStation { get; set; }
         #endregion
-
     }
 }

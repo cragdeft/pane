@@ -10,39 +10,33 @@ using System.Linq;
 
 namespace AplombTech.WMS.Domain.Motors
 {
+    [Table("PumpMotors")]
     public class PumpMotor : Motor
     {
-        [Title]
+        public string Title()
+        {
+            var t = Container.NewTitleBuilder();
+
+            string title = "Pump Motor";
+
+            t.Append(title);
+
+            return t.ToString();
+        }
         [MemberOrder(20)]
         [StringLength(50)]
         public virtual string ModelNo { get; set; }
+        [MemberOrder(30)]
         public virtual decimal Capacity { get; set; }
-        public virtual int StaticWaterLevel { get; set; }
-        [StringLength(250)]
-        public virtual string RemoveRemarks { get; set; }
-        public bool HideRemoveRemarks()
-        {
-            if (IsRemoved)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        public virtual bool IsRemoved { get; set; }
-        public bool HideIsRemoved()
-        {
-            return true;
-        }
+        [MemberOrder(40)]
+        public virtual int StaticWaterLevel { get; set; }        
 
         public string DisablePropertyDefault()
         {
             IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
             Feature feature =
-                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditPump
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditMotor
                 && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
 
             if (feature == null)

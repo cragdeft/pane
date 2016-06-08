@@ -22,7 +22,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                               where f.Email == Container.Principal.Identity.Name
                               select f).FirstOrDefault();
 
-            if (user != null)
+            if (user != null && user.Role != null)
                 _features = user.Role.Features;
 
             return _features;

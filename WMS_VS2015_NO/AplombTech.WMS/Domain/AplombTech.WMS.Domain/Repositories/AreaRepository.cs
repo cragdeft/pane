@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Features;
+using AplombTech.WMS.Domain.Motors;
 
 namespace AplombTech.WMS.Domain.Repositories
 {
@@ -33,18 +34,6 @@ namespace AplombTech.WMS.Domain.Repositories
                 .AddAction("FindDMA");
             menu.CreateSubMenu("PumpStation")
                 .AddAction("FindPumpStation");
-            //    .AddAction("AllCities");
-            //menu.CreateSubMenu("উপজেলা")
-            //    .AddAction("AddSubDistrict")
-            //    .AddAction("BySubDistrictName")
-            //    .AddAction("AllSubDistricts");
-            //menu.CreateSubMenu("জেলা")
-            //    .AddAction("AddDistrict")
-            //    .AddAction("ByDistrictName")
-            //    .AddAction("AllDistrict");
-            //menu.CreateSubMenu("বিভাগ")
-            //    .AddAction("AllDivisions");
-            //menu.AddAction("CustomerDashboard");
         }
 
         #region Zone
@@ -189,8 +178,13 @@ namespace AplombTech.WMS.Domain.Repositories
         #endregion
         public Sensor FindSensorByUuid(string uid)
         {
-            Sensor station = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
-            return station;
+            Sensor sensor = Container.Instances<Sensor>().Where(w => w.UUID == uid).First();
+            return sensor;
+        }
+        public Motor FindMotorByUuid(string uid)
+        {
+            Motor motor = Container.Instances<Motor>().Where(w => w.UUID == uid).First();
+            return motor;
         }
         public void AddCamera(int pumpStationId, string uid, string url)
         {
@@ -203,18 +197,18 @@ namespace AplombTech.WMS.Domain.Repositories
         public void AddRouter(int pumpStationId, string uid, string ip, int port)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
-            if (pumpStation.Router == null)
-            {
-                pumpStation.AddRouter(uid, ip, port);
-            }
+            //if (pumpStation.Router == null)
+            //{
+            //    pumpStation.AddRouter(uid, ip, port);
+            //}
         }
         public void AddPump(int pumpStationId, string uid, string modelNo)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
-            if (pumpStation.PumpMotors == null)
-            {
-                pumpStation.AddPump(modelNo, uid);
-            }
+            //if (pumpStation.PumpMotors == null)
+            //{
+            //    pumpStation.AddPump(modelNo, uid);
+            //}
         }
         public void AddSensor(int pumpStationId, string uid, decimal minValue, decimal maxValue, Sensor.TransmitterType type)
         {

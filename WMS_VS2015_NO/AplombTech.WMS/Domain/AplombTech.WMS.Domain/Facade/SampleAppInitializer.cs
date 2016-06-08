@@ -56,7 +56,7 @@ namespace AplombTech.WMS.Domain.Facade
             CreateDesignation("EE", "Executive Engineer", context);
             CreateDesignation("CO", "Complain Operator", context);
 
-            CreateAlertType("Pump On/Off", "Pump is off. Pump Station Name is ", context);
+            CreateAlertType("Pump On/Off", "of Pump Station|is Off. ", context);
             CreateAlertType("Under Threshold", "Under Threshold value of Sensor|of Pump Station ", context);
             CreateAlertType("Data Missing", " Data is missing of Sensor|of Pump Station ", context);
 
