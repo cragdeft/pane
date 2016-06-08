@@ -50,20 +50,24 @@ namespace AplombTech.WMS.Domain.Sensors
         [MemberOrder(10)]
         [StringLength(50)]
         public virtual string UUID { get; set; }
-        [MemberOrder(40)]
-        public virtual decimal MinimumValue { get; set; }
         [MemberOrder(50)]
-        public virtual decimal MaximumValue { get; set; }
-        [MemberOrder(20), Required, Disabled]
-        public virtual decimal CurrentValue { get; set; }
-        [MemberOrder(60), Disabled]
-        public virtual DateTime? LastDataReceived { get; set; }
-        [MemberOrder(70), Required, Disabled]
-        public virtual bool IsActive { get; set; }
-        public virtual Data_Type DataType { get; set; }
+        public virtual DataTypeEnum DataType { get; set; }
+        [MemberOrder(40)]
         public virtual string UnitName { get; set; }
+        [MemberOrder(20)]
         public virtual string Model { get; set; }
+        [MemberOrder(30)]
         public virtual string Version { get; set; }
+        [MemberOrder(70)]
+        public virtual decimal MinimumValue { get; set; }
+        [MemberOrder(80)]
+        public virtual decimal MaximumValue { get; set; }
+        [MemberOrder(60), Required, Disabled]
+        public virtual decimal CurrentValue { get; set; }
+        [MemberOrder(90), Disabled]
+        public virtual DateTime? LastDataReceived { get; set; }
+        [MemberOrder(100), Required, Disabled]
+        public virtual bool IsActive { get; set; }        
 
         //[DisplayName("SensorType"), MemberOrder(10), Required]
         //public virtual TransmitterType SensorType { get; set; }
@@ -77,7 +81,7 @@ namespace AplombTech.WMS.Domain.Sensors
             LEVEL_TRANSMITTER = 5,
         }
 
-        public enum Data_Type
+        public enum DataTypeEnum
         {
             Float = 1,
             Boolean = 2
@@ -147,7 +151,7 @@ namespace AplombTech.WMS.Domain.Sensors
         #endregion
 
         #region  Navigation Properties
-        [MemberOrder(100)]
+        [MemberOrder(110)]
         public virtual PumpStation PumpStation { get; set; }
 
         [PageSize(10)]

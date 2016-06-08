@@ -36,7 +36,7 @@ namespace AplombTech.WMS.Domain.Motors
             IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
 
             Feature feature =
-                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditPump
+                features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.EditMotor
                 && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
 
             if (feature == null)

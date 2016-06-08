@@ -67,6 +67,11 @@ namespace AplombTech.WMS.Domain.Motors
             return true;
         }
         #endregion
+        public enum MotorType
+        {
+            PumpMotor = 1,
+            ChlorineMotor = 2
+        }
 
         #region Complex Properties
         #region AuditFields (AuditFields)
