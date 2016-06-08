@@ -136,17 +136,19 @@ namespace AplombTech.WMS.Domain.Repositories
 
             return data;
         }
-        public void CreateNewSensorData(decimal value, DateTime loggedAt, Sensor sensor)
+        public void CreateNewSensorData(string value, DateTime loggedAt, Sensor sensor)
         {           
             SensorData data = Container.NewTransientInstance<SensorData>();
-
-            data.Value = value;
+            if (sensor.DataType == Sensor.DataTypeEnum.Float)
+                data.Value = Convert.ToDecimal(data.Value);
+            if (sensor.DataType == Sensor.DataTypeEnum.Boolean)
+                data.Value = Convert.ToDecimal(Convert.ToBoolean(data.Value));
             data.LoggedAt = loggedAt;
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            UpdateLastDataOfSensor(value, loggedAt, sensor);
-            UpdateCumulativeDataOfSensor(value, sensor);
+            UpdateLastDataOfSensor(data.Value, loggedAt, sensor);
+            UpdateCumulativeDataOfSensor(data.Value, sensor);
           
             Container.Persist(ref data);            
         }

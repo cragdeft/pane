@@ -188,38 +188,6 @@ namespace AplombTech.WMS.Domain.Areas
         }
         #endregion
 
-        //#region AddRouter (Action)
-
-        //[DisplayName("Add Router")]
-        //public void AddRouter(string uuid, string ip, int port)
-        //{
-        //    Router router = Container.NewTransientInstance<Router>();
-        //    router.UUID = uuid;
-        //    router.IP = ip;
-        //    router.Port = port;
-        //    router.MACAddress = uuid;
-        //    router.PumpStation = this;
-
-        //    Container.Persist(ref router);
-        //}
-        //public bool HideAddRouter()
-        //{
-        //    IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
-
-        //    Feature feature =
-        //        features.Where(w => w.FeatureCode == (int)Feature.AreaFeatureEnums.AddRouter
-        //        && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Area.ToString()).FirstOrDefault();
-
-        //    if (feature == null)
-        //        return true;
-
-        //    //if (this.Router != null)
-        //    //    return true;
-
-        //    return false;
-        //}
-        //#endregion
-
         #region AddSensor (Action)
 
         [DisplayName("Add Sensor")]
@@ -364,7 +332,6 @@ namespace AplombTech.WMS.Domain.Areas
             var sub = menu.CreateSubMenu("Device");
             sub.AddAction("AddMotor");
             sub.AddAction("AddCamera");
-            //sub.AddAction("AddRouter");
             sub.AddAction("AddSensor");
 
             menu.AddAction("SetAddress");

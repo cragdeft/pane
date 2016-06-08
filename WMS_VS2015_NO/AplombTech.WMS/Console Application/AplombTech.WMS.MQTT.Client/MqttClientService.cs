@@ -209,22 +209,26 @@ namespace AplombTech.WMS.MQTT.Client
                     {
                         Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
                         if (sensor.IsActive)
-                        {
-                            decimal sensorValue = Convert.ToDecimal(data.Value);
-                            ProcessRepository.CreateNewSensorData(sensorValue, messageObject.SensorLoggedAt, sensor);
-                            PublishAlertMessage(sensorValue, sensor);
+                        {                           
+                            ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);
+                            PublishAlertMessage(data.Value, sensor);
                         }
                     }
                     dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
                 }              
             }
         }
-        private void PublishAlertMessage(decimal value, Sensor sensor)
+        private void PublishAlertMessage(string dataValue, Sensor sensor)
         {
             if (sensor is EnergySensor) return;
 
             string sensorName = GetSensorName(sensor);
-          
+
+            decimal value = 0;
+            if (sensor.DataType == Sensor.DataTypeEnum.Float)
+                value = Convert.ToDecimal(dataValue);
+            if (sensor.DataType == Sensor.DataTypeEnum.Boolean)
+                value = Convert.ToDecimal(Convert.ToBoolean(dataValue));
             if (value == 0)
             {
                 SendAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.DataMissing, sensor);               
