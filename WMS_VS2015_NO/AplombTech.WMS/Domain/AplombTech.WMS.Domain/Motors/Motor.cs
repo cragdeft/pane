@@ -39,9 +39,8 @@ namespace AplombTech.WMS.Domain.Motors
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int MotorID { get; set; }
-        [MemberOrder(10), NakedObjectsIgnore]
+        [MemberOrder(10)]
         [StringLength(20)]
         public virtual string UUID { get; set; }
         public virtual bool Auto { get; set; }
@@ -77,6 +76,5 @@ namespace AplombTech.WMS.Domain.Motors
         [MemberOrder(50)]
         public virtual PumpStation PumpStation { get; set; }
         #endregion
-
     }
 }

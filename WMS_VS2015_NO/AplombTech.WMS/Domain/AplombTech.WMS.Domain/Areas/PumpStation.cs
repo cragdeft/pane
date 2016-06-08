@@ -62,37 +62,6 @@ namespace AplombTech.WMS.Domain.Areas
         #endregion
 
         #region Get Properties      
-        [MemberOrder(50), NotMapped]
-        //[Eagerly(EagerlyAttribute.Do.Rendering)]
-        [DisplayName("Pump")]
-        //[TableView(true, "UUID", "ModelNo")]
-        public PumpMotor PumpMotors
-        {
-            get
-            {
-                PumpMotor pumps = (from pump in Container.Instances<PumpMotor>()
-                              where pump.PumpStation.AreaId == this.AreaId
-                              && pump.IsRemoved == false
-                              select pump).FirstOrDefault();
-                return pumps;
-            }
-        }
-
-        [MemberOrder(60), NotMapped]
-        //[Eagerly(EagerlyAttribute.Do.Rendering)]
-        [DisplayName("Router")]
-        [TableView(true, "UUID", "MACAddress", "IP", "Port")]
-        public Router Router
-        {
-            get
-            {
-                Router router = (from r in Container.Instances<Router>()
-                                 where r.PumpStation.AreaId == this.AreaId
-                                 select r).FirstOrDefault();
-                return router;
-            }
-        }
-
         [MemberOrder(70), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Sensors")]
@@ -109,6 +78,22 @@ namespace AplombTech.WMS.Domain.Areas
         }
 
         [MemberOrder(80), NotMapped]
+        [Eagerly(EagerlyAttribute.Do.Rendering)]
+        [DisplayName("Motors")]
+        [TableView(true, "UUID")]
+        public IList<Motor> Motors
+        {
+            get
+            {
+                IList<Motor> motors = (from pump in Container.Instances<Motor>()
+                    where pump.PumpStation.AreaId == this.AreaId
+                    //&& pump.IsRemoved == false
+                    select pump).ToList();
+                return motors;
+            }
+        }
+
+        [MemberOrder(90), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Camera")]
         [TableView(true, "UUID", "URL")]
@@ -121,23 +106,7 @@ namespace AplombTech.WMS.Domain.Areas
                                          select camera).ToList();
                 return cameras;
             }
-        }
-
-        [MemberOrder(90), NotMapped]
-        //[Eagerly(EagerlyAttribute.Do.Rendering)]
-        [DisplayName("CholorineMotor")]
-        //[TableView(true, "UUID", "ModelNo")]
-        public ChlorineMotor ChlorineMotors
-        {
-            get
-            {
-                ChlorineMotor pumps = (from pump in Container.Instances<ChlorineMotor>()
-                                   where pump.PumpStation.AreaId == this.AreaId
-                                   && pump.IsRemoved == false
-                                   select pump).FirstOrDefault();
-                return pumps;
-            }
-        }
+        }       
         #endregion
 
         #region AddPump (Action)
@@ -164,8 +133,8 @@ namespace AplombTech.WMS.Domain.Areas
             if (feature == null)
                 return true;
 
-            if (this.PumpMotors != null)
-                return true;
+            //if (this.PumpMotors != null)
+            //    return true;
 
             return false;
         }
@@ -224,8 +193,8 @@ namespace AplombTech.WMS.Domain.Areas
             if (feature == null)
                 return true;
 
-            if (this.Router != null)
-                return true;
+            //if (this.Router != null)
+            //    return true;
 
             return false;
         }
@@ -372,7 +341,6 @@ namespace AplombTech.WMS.Domain.Areas
         #region Menu
         public static void Menu(IMenu menu)
         {
-            //
             var sub = menu.CreateSubMenu("Device");
             sub.AddAction("AddPump");
             sub.AddAction("AddCamera");

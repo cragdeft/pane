@@ -12,7 +12,16 @@ namespace AplombTech.WMS.Domain.Motors
 {
     public class PumpMotor : Motor
     {
-        [Title]
+        public string Title()
+        {
+            var t = Container.NewTitleBuilder();
+
+            string title = "Pump Motor";
+
+            t.Append(title);
+
+            return t.ToString();
+        }
         [MemberOrder(20)]
         [StringLength(50)]
         public virtual string ModelNo { get; set; }

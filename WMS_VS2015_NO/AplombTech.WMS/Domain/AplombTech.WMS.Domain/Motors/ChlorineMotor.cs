@@ -11,6 +11,16 @@ namespace AplombTech.WMS.Domain.Motors
 {
     public class ChlorineMotor : Motor
     {
+        public string Title()
+        {
+            var t = Container.NewTitleBuilder();
+
+            string title = "Chlorine Motor";
+
+            t.Append(title);
+
+            return t.ToString();
+        }
         public virtual string RemoveRemarks { get; set; }
         public bool HideRemoveRemarks()
         {
