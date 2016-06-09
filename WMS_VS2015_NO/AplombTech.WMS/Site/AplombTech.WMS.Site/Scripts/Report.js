@@ -228,6 +228,8 @@ $("#ReportType").change(function () {
         $("#TransmeType option[value='1']").show();
         $("#TransmeType option[value='2']").show();
         $("#TransmeType option[value='5']").show();
+        $("#TransmeType option[value='6']").show();
+        $("#TransmeType option[value='7']").show();
         $('#exp').hide();
     }
 
@@ -235,6 +237,8 @@ $("#ReportType").change(function () {
         $("#TransmeType option[value='1']").hide();
         $("#TransmeType option[value='2']").hide();
         $("#TransmeType option[value='5']").hide();
+        $("#TransmeType option[value='6']").hide();
+        $("#TransmeType option[value='7']").hide();
     }
 });
 
@@ -461,7 +465,6 @@ function validate() {
         $("#Hour").addClass("valid");
         $("#hourvalid").text("");
     }
-    alert(valid);
     return valid;
 }
 

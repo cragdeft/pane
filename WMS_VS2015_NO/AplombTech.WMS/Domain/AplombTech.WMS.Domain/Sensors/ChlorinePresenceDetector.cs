@@ -14,7 +14,7 @@ namespace AplombTech.WMS.Domain.Sensors
         {
             var t = Container.NewTitleBuilder();
 
-            string title = "Chlorination Sensor";
+            string title = "Chlorine Presence Detectors";
 
             t.Append(title);
 
