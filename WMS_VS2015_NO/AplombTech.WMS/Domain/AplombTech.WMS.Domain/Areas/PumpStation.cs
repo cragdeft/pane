@@ -195,7 +195,7 @@ namespace AplombTech.WMS.Domain.Areas
         {
             switch (sensorType)
             {
-                case Sensor.TransmitterType.CHLORINE_TRANSMITTER:
+                case Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR:
                     CreateChlorinationSensor(uuid, minValue, maxValue);
                     break;
 

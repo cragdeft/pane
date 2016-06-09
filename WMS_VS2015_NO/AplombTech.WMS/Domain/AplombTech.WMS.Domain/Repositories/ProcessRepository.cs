@@ -82,7 +82,7 @@ namespace AplombTech.WMS.Domain.Repositories
                 type = Sensor.TransmitterType.LEVEL_TRANSMITTER;
 
             else if (sensor is QueryModel.Sensors.ChlorinationSensor)
-                type = Sensor.TransmitterType.CHLORINE_TRANSMITTER;
+                type = Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR;
             return type;
         }
         public DataLog LogData(string topic, string message)

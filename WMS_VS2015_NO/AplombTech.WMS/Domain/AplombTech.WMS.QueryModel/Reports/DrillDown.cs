@@ -61,7 +61,6 @@ namespace AplombTech.WMS.QueryModel.Reports
             IList<string> ids = keys.ToList();
             PumpStations = Container.Instances<PumpStation>().Where(w => ids.Contains(w.AreaID.ToString())).ToList();
         }
-
         public string Unit { get; set; }
     }
 }

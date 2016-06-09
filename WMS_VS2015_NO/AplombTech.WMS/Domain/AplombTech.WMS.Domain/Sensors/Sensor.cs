@@ -71,10 +71,12 @@ namespace AplombTech.WMS.Domain.Sensors
         public enum TransmitterType
         {
             PRESSURE_TRANSMITTER = 1,
-            CHLORINE_TRANSMITTER = 2,
+            CHLORINE_PRESENCE_DETECTOR = 2,
             ENERGY_TRANSMITTER = 3,
             FLOW_TRANSMITTER = 4,
             LEVEL_TRANSMITTER = 5,
+            AC_PRESENCE_DETECTOR=6,
+            BATTERY_VOLTAGE_DETECTOR =7
         }
 
         public enum Data_Type

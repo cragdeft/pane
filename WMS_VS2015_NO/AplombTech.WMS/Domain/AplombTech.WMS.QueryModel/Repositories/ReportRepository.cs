@@ -427,7 +427,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                     return (T)p;
 
                 }
-                if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
+                if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR)
                 {
                     Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = sensor.UnitName;
@@ -471,7 +471,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                     return (T)p;
 
                 }
-                if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
+                if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR)
                 {
                     Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = sensor.UnitName;
@@ -490,7 +490,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             {
                 if (model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER || model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
-                    avgValue.Add(GetTotalDataWithinTime(sensorId,model.TransmeType, model.ToDateTime.AddHours(i),
+                    avgValue.Add(GetTotalDataWithinTime(sensorId, model.ToDateTime.AddHours(i),
                     model.ToDateTime.AddHours(i + 1)));
                     model.XaxisCategory[i] = model.ToDateTime.AddHours(i + 1).ToString();
                 }
@@ -522,20 +522,8 @@ namespace AplombTech.WMS.QueryModel.Repositories
                         Convert.ToDouble(GetCurrentDataWithinTime(sensorId,
                             model.ToDateTime.AddMinutes(i == 0 ? 0 : i + 5),
                             model.ToDateTime.AddMinutes(i == 0 ? 5 : i * 5)));
-                if (model.TransmeType == Sensor.TransmitterType.CHLORINE_TRANSMITTER)
-                {
-                    if (value > 0)
-                    {
-
-                    }
-
-                }
-                else
-                {
-                    
-                    avgValue.Add(value);
-                    
-                }
+                avgValue.Add(value);
+                
 
                 model.XaxisCategory[i] = model.ToDateTime.AddMinutes(i * 5).ToShortTimeString();
 
