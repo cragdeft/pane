@@ -23,51 +23,5 @@ namespace AplombTech.WMS.Persistence.Repositories
         {
             return (from c in _wmsdbcontext.SensorDataLogs where c.SensorDataLogID == id select c).Single(); ;
         }
-
-        private Sensor GetSensorByUuid(string uuid)
-        {
-            return (from c in _wmsdbcontext.Sensors where c.UUID == uuid select c).Single(); ;
-        }
-        private void CreateNewSensorData(decimal value, DateTime loggedAt, Sensor sensor)
-        {
-            SensorData data = new SensorData();
-
-            data.Value = value;
-            data.LoggedAt = loggedAt;
-            data.Sensor = sensor;
-            data.ProcessAt = DateTime.Now;
-
-            _wmsdbcontext.SensorDatas.Add(data);
-
-            UpdateLastDataOfSensor(value, loggedAt, sensor);
-            UpdateCumulativeDataOfSensor(value, sensor);                    
-        }
-        private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
-        {
-            if (sensor is EnergySensor)
-            {
-                ((EnergySensor)sensor).CumulativeValue += value;
-            }
-            if (sensor is FlowSensor)
-            {
-                ((FlowSensor)sensor).CumulativeValue += value;
-            }
-        }
-        private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
-        {
-            if (sensor.LastDataReceived != null)
-            {
-                if (sensor.LastDataReceived < loggedAt)
-                {
-                    sensor.CurrentValue = value;
-                    sensor.LastDataReceived = loggedAt;
-                }
-            }
-            else
-            {
-                sensor.CurrentValue = value;
-                sensor.LastDataReceived = loggedAt;
-            }
-        }
     }
 }
