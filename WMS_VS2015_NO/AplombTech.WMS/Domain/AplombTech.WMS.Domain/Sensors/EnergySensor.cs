@@ -24,7 +24,7 @@ namespace AplombTech.WMS.Domain.Sensors
             AuditFields.InsertedDateTime = DateTime.Now;
             AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
             AuditFields.LastUpdatedDateTime = DateTime.Now;
-            this.CurrentValue = "0";
+            this.CurrentValue = 0;
             this.CumulativeValue = 0;
         }
 

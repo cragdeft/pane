@@ -189,13 +189,13 @@ namespace AplombTech.WMS.Domain.Repositories
             {
                 if (sensor.LastDataReceived < loggedAt)
                 {
-                    sensor.CurrentValue = value.ToString();
+                    sensor.CurrentValue = value;
                     sensor.LastDataReceived = loggedAt;
                 }
             }
             else
             {
-                sensor.CurrentValue = value.ToString();
+                sensor.CurrentValue = value;
                 sensor.LastDataReceived = loggedAt;
             }
         }
