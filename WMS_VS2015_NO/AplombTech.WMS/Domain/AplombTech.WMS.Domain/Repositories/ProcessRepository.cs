@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Devices;
+using AplombTech.WMS.Domain.Motors;
 using Camera = AplombTech.WMS.QueryModel.Devices.Camera;
 
 namespace AplombTech.WMS.Domain.Repositories
@@ -81,7 +82,7 @@ namespace AplombTech.WMS.Domain.Repositories
             else if (sensor is QueryModel.Sensors.LevelSensor)
                 type = Sensor.TransmitterType.LEVEL_TRANSMITTER;
 
-            else if (sensor is QueryModel.Sensors.ChlorinationSensor)
+            else if (sensor is QueryModel.Sensors.ChlorinePresenceDetector)
                 type = Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR;
             return type;
         }
@@ -139,41 +140,62 @@ namespace AplombTech.WMS.Domain.Repositories
         public void CreateNewSensorData(string value, DateTime loggedAt, Sensor sensor)
         {           
             SensorData data = Container.NewTransientInstance<SensorData>();
-
-            data.Value = value;
+            if (sensor.DataType == Sensor.Data_Type.Float)
+                data.Value = Convert.ToDecimal(data.Value);
+            if (sensor.DataType == Sensor.Data_Type.Boolean)
+                data.Value = Convert.ToDecimal(Convert.ToBoolean(data.Value));
             data.LoggedAt = loggedAt;
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            UpdateLastDataOfSensor(value, loggedAt, sensor);
-            UpdateCumulativeDataOfSensor(value, sensor);
+            UpdateLastDataOfSensor(data.Value, loggedAt, sensor);
+            UpdateCumulativeDataOfSensor(data.Value, sensor);
           
             Container.Persist(ref data);            
         }
-        private void UpdateCumulativeDataOfSensor(String value, Sensor sensor)
+        public void CreateNewMotorData(MotorValue data, DateTime loggedAt, Motor motor)
+        {
+            MotorData motorData = Container.NewTransientInstance<MotorData>();
+            motorData.MotorStatus = data.MotorStatus;
+            motorData.LastCommand = data.LastCommand;
+            motorData.LastCommandTime = data.LastCommandTime;
+            motorData.LoggedAt = loggedAt;
+            motorData.ProcessAt = DateTime.Now;
+            motorData.Motor = motor;
+            Container.Persist(ref motorData);
+
+            UpdateLastDataOfMotor(data, loggedAt, motor);
+        }
+        private void UpdateLastDataOfMotor(MotorValue data, DateTime loggedAt, Motor motor)
+        {
+            motor.Auto = data.Auto;
+            motor.Controllable = data.Controllable;
+            motor.MotorStatus = data.MotorStatus;
+        }
+        private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
         {
             if (sensor is EnergySensor)
             {
-                ((EnergySensor)sensor).CumulativeValue += (Convert.ToDecimal(((EnergySensor)sensor).CumulativeValue) + Convert.ToDecimal(value)).ToString(); ;
+                ((EnergySensor)sensor).CumulativeValue += value;
             }
             if (sensor is FlowSensor)
             {
-                ((FlowSensor)sensor).CumulativeValue += (Convert.ToDecimal(((FlowSensor)sensor).CumulativeValue) + Convert.ToDecimal(value)).ToString(); ;
+                ((FlowSensor)sensor).CumulativeValue += value;
             }
         }
-        private void UpdateLastDataOfSensor(string value, DateTime loggedAt, Sensor sensor)
+        private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
         {
             if (sensor.LastDataReceived != null)
             {
                 if (sensor.LastDataReceived < loggedAt)
                 {
-                    sensor.CurrentValue = value;
+                    sensor.CurrentValue = value.ToString();
                     sensor.LastDataReceived = loggedAt;
                 }
             }
             else
             {
-                sensor.CurrentValue = value;
+                sensor.CurrentValue = value.ToString();
                 sensor.LastDataReceived = loggedAt;
             }
         }

@@ -231,7 +231,7 @@ namespace AplombTech.WMS.Domain.Areas
         }
         private void CreateChlorinationSensor(string uuid, decimal minValue, decimal maxValue)
         {
-            ChlorinationSensor sensor = Container.NewTransientInstance<ChlorinationSensor>();
+            ChlorinePresenceDetector sensor = Container.NewTransientInstance<ChlorinePresenceDetector>();
 
             sensor.UUID = uuid;
             sensor.MinimumValue = minValue;
@@ -250,7 +250,7 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = "0";
-            sensor.CumulativeValue = "0";
+            sensor.CumulativeValue = 0;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
@@ -263,7 +263,7 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = "0";
-            sensor.CumulativeValue = "";
+            sensor.CumulativeValue = 0;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);

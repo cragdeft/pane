@@ -42,6 +42,8 @@ namespace AplombTech.WMS.Domain.Facade
             CreateLevelTransmitter("852", baridhara1, context, "");
             CreateEnergySensor("2465", baridhara1, context, "");
             CreateChlorinationSensor("87654", baridhara1, context);
+            CreateAcPresenceDetector("554", baridhara1, context);
+            CreateBatteryVoltageDetector("37844", baridhara1, context);
 
             PumpStation baridhara3 = CreatePumpStation("Baridhara3",dma810, baridhara3PumpBoundary, context);
             //CreatePump("123", "456KL", baridhara3, context);
@@ -141,7 +143,7 @@ namespace AplombTech.WMS.Domain.Facade
             FlowSensor sensor = new FlowSensor();
             sensor.UUID = uuid;
             sensor.CurrentValue = "0";
-            sensor.CumulativeValue = "0";
+            sensor.CumulativeValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -184,7 +186,7 @@ namespace AplombTech.WMS.Domain.Facade
             EnergySensor sensor = new EnergySensor();
             sensor.UUID = uuid;
             sensor.CurrentValue = "0";
-            sensor.CumulativeValue = "0";
+            sensor.CumulativeValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -196,7 +198,35 @@ namespace AplombTech.WMS.Domain.Facade
         }
         private void CreateChlorinationSensor(string uuid, PumpStation station, CommandModelDatabase context)
         {
-            ChlorinationSensor sensor = new ChlorinationSensor();
+            ChlorinePresenceDetector sensor = new ChlorinePresenceDetector();
+            sensor.UUID = uuid;
+            sensor.CurrentValue = "0";
+            sensor.IsActive = true;
+            sensor.PumpStation = station;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Sensors.Add(sensor);
+        }
+
+        private void CreateAcPresenceDetector(string uuid, PumpStation station, CommandModelDatabase context)
+        {
+            ACPresenceDetector sensor = new ACPresenceDetector();
+            sensor.UUID = uuid;
+            sensor.CurrentValue = "0";
+            sensor.IsActive = true;
+            sensor.PumpStation = station;
+            sensor.AuditFields.InsertedBy = "Automated";
+            sensor.AuditFields.InsertedDateTime = DateTime.Now;
+            sensor.AuditFields.LastUpdatedBy = "Automated";
+            sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
+            context.Sensors.Add(sensor);
+        }
+
+        private void CreateBatteryVoltageDetector(string uuid, PumpStation station, CommandModelDatabase context)
+        {
+            BatteryVoltageDetector sensor = new BatteryVoltageDetector();
             sensor.UUID = uuid;
             sensor.CurrentValue = "0";
             sensor.IsActive = true;

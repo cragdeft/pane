@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace AplombTech.WMS.QueryModel.Sensors
 {
-    [Table("ChlorinationSensors")]
-    public class ChlorinationSensor : Sensor
+    [Table("ChlorinePresenceDetectors")]
+    public class ChlorinePresenceDetector : Sensor
     {
         public string Title()
         {

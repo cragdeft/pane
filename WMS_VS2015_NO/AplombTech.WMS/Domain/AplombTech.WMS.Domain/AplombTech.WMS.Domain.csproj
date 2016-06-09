@@ -91,7 +91,9 @@
     <Compile Include="Repositories\LoggedInUserInfoDomainRepository.cs" />
     <Compile Include="Repositories\ProcessRepository.cs" />
     <Compile Include="Repositories\UserAccountRepository.cs" />
-    <Compile Include="Sensors\ChlorinationSensor.cs" />
+    <Compile Include="Sensors\ACPresenceDetector.cs" />
+    <Compile Include="Sensors\BatteryVoltageDetector.cs" />
+    <Compile Include="Sensors\ChlorinePresenceDetector.cs" />
     <Compile Include="Sensors\EnergySensor.cs" />
     <Compile Include="Sensors\FlowSensor.cs" />
     <Compile Include="Sensors\LevelSensor.cs" />

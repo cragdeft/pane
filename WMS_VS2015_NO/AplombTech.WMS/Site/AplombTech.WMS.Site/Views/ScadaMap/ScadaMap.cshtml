@@ -8,7 +8,7 @@
         <h4>General Information</h4>
         @foreach (var sensor in Model)
         {
-            if (@sensor is ChlorinationSensor)
+            if (@sensor is ChlorinePresenceDetector)
             {
                 if (@sensor.CurrentValue <= 0)
                 {

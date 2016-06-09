@@ -148,7 +148,9 @@
     <Compile Include="Reports\ZoneGoogleMap.cs" />
     <Compile Include="Repositories\LoggedInUserInfoRepository.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
-    <Compile Include="Sensors\ChlorinationSensor.cs" />
+    <Compile Include="Sensors\ACPresenceDetector.cs" />
+    <Compile Include="Sensors\BatteryVoltageDetector.cs" />
+    <Compile Include="Sensors\ChlorinePresenceDetector.cs" />
     <Compile Include="Sensors\EnergySensor.cs" />
     <Compile Include="Sensors\FlowSensor.cs" />
     <Compile Include="Sensors\LevelSensor.cs" />

@@ -119,7 +119,7 @@
                                     fsactive = sensor.IsActive;
                                 }
 
-                                if (sensor is ChlorinationSensor)
+                                if (sensor is ChlorinePresenceDetector)
                                 {
                                     cholorinationSensorValue = (sensor.CurrentValue > 0) ? "On" : "Off";
                                     csactive = sensor.IsActive;

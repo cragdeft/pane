@@ -267,9 +267,9 @@ namespace AplombTech.WMS.MQTT.Client
             string sensorName = GetSensorName(sensor);
 
             decimal value = 0;
-            if (sensor.DataType == Sensor.DataTypeEnum.Float)
+            if (sensor.DataType == Sensor.Data_Type.Float)
                 value = Convert.ToDecimal(dataValue);
-            if (sensor.DataType == Sensor.DataTypeEnum.Boolean)
+            if (sensor.DataType == Sensor.Data_Type.Boolean)
                 value = Convert.ToDecimal(Convert.ToBoolean(dataValue));
             if (value == 0)
             {
@@ -277,7 +277,7 @@ namespace AplombTech.WMS.MQTT.Client
                 return;
             }
 
-            if (!(sensor is ChlorinationSensor))
+            if (!(sensor is ChlorinePresenceDetector))
             {
                 if (value < sensor.MinimumValue)
                 {
@@ -300,7 +300,7 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 sensorName = "Pressure Sensor";
             }
-            if (sensor is ChlorinationSensor)
+            if (sensor is ChlorinePresenceDetector)
             {
                 sensorName = "Chlorination Sensor";
             }

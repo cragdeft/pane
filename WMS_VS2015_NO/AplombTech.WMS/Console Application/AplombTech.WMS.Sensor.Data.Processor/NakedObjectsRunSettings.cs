@@ -47,7 +47,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor {
                     typeof(FlowSensor),
                     typeof(LevelSensor),
                     typeof(PressureSensor),
-                    typeof(ChlorinationSensor),
+                    typeof(ChlorinePresenceDetector),
                     typeof(SensorData),
                     typeof(DataLog)
                 };

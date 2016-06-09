@@ -226,7 +226,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                     dictonary.Add("FT-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
                 }
 
-                else if (sensor is ChlorinationSensor)
+                else if (sensor is ChlorinePresenceDetector)
                 {
                     string cholorinationValue = null;
                     cholorinationValue = sensor.CurrentValue.ToString() == "0" ? "Cholorination on" : "Cholorination off";
@@ -427,9 +427,9 @@ namespace AplombTech.WMS.QueryModel.Repositories
                     return (T)p;
 
                 }
-                if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR)
+                if (sensor is WMS.QueryModel.Sensors.ChlorinePresenceDetector && model.TransmeType == Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR)
                 {
-                    Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    Sensor p = new ChlorinePresenceDetector() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = sensor.UnitName;
                     return (T)p;
 
@@ -471,9 +471,9 @@ namespace AplombTech.WMS.QueryModel.Repositories
                     return (T)p;
 
                 }
-                if (sensor is WMS.QueryModel.Sensors.ChlorinationSensor && model.TransmeType == Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR)
+                if (sensor is WMS.QueryModel.Sensors.ChlorinePresenceDetector && model.TransmeType == Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR)
                 {
-                    Sensor p = new ChlorinationSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    Sensor p = new ChlorinePresenceDetector() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = sensor.UnitName;
                     return (T)p;
 
@@ -518,13 +518,10 @@ namespace AplombTech.WMS.QueryModel.Repositories
             List<double> avgValue = new List<double>();
             for (int i = 0; i <= 12; i++)
             {
-                double value =
-                        Convert.ToDouble(GetCurrentDataWithinTime(sensorId,
-                            model.ToDateTime.AddMinutes(i == 0 ? 0 : i + 5),
-                            model.ToDateTime.AddMinutes(i == 0 ? 5 : i * 5)));
+                double value =(double) GetCurrentDataWithinTime(sensorId,
+                    model.ToDateTime.AddMinutes(i == 0 ? 0 : i + 5),
+                    model.ToDateTime.AddMinutes(i == 0 ? 5 : i * 5));
                 avgValue.Add(value);
-                
-
                 model.XaxisCategory[i] = model.ToDateTime.AddMinutes(i * 5).ToShortTimeString();
 
             }
@@ -566,11 +563,11 @@ namespace AplombTech.WMS.QueryModel.Repositories
                    .Where(x => (x.Sensor.SensorID == sensorId && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
 
             if (sensorDataList != null)
-                return ((double)sensorDataList.Sum(x => Convert.ToDecimal(x.Value)));
+                return (double)sensorDataList.Sum(x => x.Value);
             else
                 return 0;
         }
-        private string GetCurrentDataWithinTime(int sensorId, DateTime from, DateTime to)
+        private decimal GetCurrentDataWithinTime(int sensorId, DateTime from, DateTime to)
         {
             SensorData sensorData = Container.Instances<SensorData>()
                    .Where(x => (x.Sensor.SensorID == sensorId && x.LoggedAt >= from && x.LoggedAt <= to)).FirstOrDefault();
@@ -578,13 +575,13 @@ namespace AplombTech.WMS.QueryModel.Repositories
             if (sensorData != null)
                 return (sensorData.Value);
             else
-                return "";
+                return 0;
         }
 
         private List<SensorData> GetCurrentDataListWithinTime(Sensor sensor, DateTime from, DateTime to)
         {
             return Container.Instances<SensorData>()
-                   .Where(x => (x.Sensor.SensorID == sensor.SensorID && x.LoggedAt >= from && x.LoggedAt <= to && (Convert.ToDecimal(x.Value) <= sensor.MinimumValue))).ToList();
+                   .Where(x => (x.Sensor.SensorID == sensor.SensorID && x.LoggedAt >= from && x.LoggedAt <= to && (x.Value <= sensor.MinimumValue))).ToList();
         }
         #endregion
     }

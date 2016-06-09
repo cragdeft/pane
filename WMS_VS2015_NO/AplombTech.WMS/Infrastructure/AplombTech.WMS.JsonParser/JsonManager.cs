@@ -154,7 +154,7 @@ namespace AplombTech.WMS.JsonParser
         }
         private static Sensor CreateChlorinationSensor(string uid)
         {
-            ChlorinationSensor sensor = new ChlorinationSensor();
+            ChlorinePresenceDetector sensor = new ChlorinePresenceDetector();
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
@@ -194,7 +194,7 @@ namespace AplombTech.WMS.JsonParser
         private static Sensor CreateEnergySensor(string uid)
         {
             EnergySensor sensor = new EnergySensor();
-            sensor.CumulativeValue = "0";
+            sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
@@ -208,7 +208,7 @@ namespace AplombTech.WMS.JsonParser
         private static Sensor CreateFlowSensor(string uid)
         {
             FlowSensor sensor = new FlowSensor();
-            sensor.CumulativeValue = "0";
+            sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
