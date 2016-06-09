@@ -32,7 +32,9 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<LevelSensor> LevelSensors { get; set; }
         public DbSet<FlowSensor> FlowSensors { get; set; }
         public DbSet<EnergySensor> EnergySensors { get; set; }
-        public DbSet<ChlorinePresenceDetector> ChlorinationSensors { get; set; }
+        public DbSet<ChlorinePresenceDetector> ChlorinePresenceDetectors { get; set; }
+        public DbSet<ACPresenceDetector> ACPresenceDetectors { get; set; }
+        public DbSet<BatteryVoltageDetector> BatteryVoltageDetectors { get; set; }
         public DbSet<PressureSensor> PressureSensors { get; set; }
         public DbSet<SensorData> SensorDatas { get; set; }
         public DbSet<Address> Addresses { get; set; }

@@ -6,12 +6,15 @@ $(function () {
     
 });
 $("#show").click(function (e) {
+    
     e.preventDefault();
     if (!validate())
         return;
     if (interval != null)
         clearInterval(interval);
+    
     var model = setModel();
+    
     $.ajax({
         type: "POST",
         url: '/DrillDown/GetReportModel',
@@ -34,7 +37,9 @@ $("#show").click(function (e) {
                 }
 
             },
-        error: function () { }
+        error: function(e) {
+            alert(e);
+        }
     });
 
 });
@@ -407,7 +412,7 @@ function validate() {
         $("#sensorvalid").text("");
     }
 
-    if ($('#Year').val() < 2016) {
+    if ($('#Year').val() < 2016 && $('#ReportType').val() != 5) {
         $("#Year").addClass("input-validation-error");
         $("#yearvalid").text("year required");
         valid = false;
@@ -456,7 +461,7 @@ function validate() {
         $("#Hour").addClass("valid");
         $("#hourvalid").text("");
     }
-
+    alert(valid);
     return valid;
 }
 

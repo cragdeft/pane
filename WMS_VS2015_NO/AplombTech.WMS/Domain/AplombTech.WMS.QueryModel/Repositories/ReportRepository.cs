@@ -434,6 +434,22 @@ namespace AplombTech.WMS.QueryModel.Repositories
                     return (T)p;
 
                 }
+
+                if (sensor is WMS.QueryModel.Sensors.ACPresenceDetector && model.TransmeType == Sensor.TransmitterType.AC_PRESENCE_DETECTOR)
+                {
+                    Sensor p = new ACPresenceDetector() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    model.Unit = sensor.UnitName;
+                    return (T)p;
+
+                }
+
+                if (sensor is WMS.QueryModel.Sensors.BatteryVoltageDetector && model.TransmeType == Sensor.TransmitterType.BATTERY_VOLTAGE_DETECTOR)
+                {
+                    Sensor p = new BatteryVoltageDetector() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    model.Unit = sensor.UnitName;
+                    return (T)p;
+
+                }
             }
             return (T)Activator.CreateInstance(typeof(T));
 
@@ -474,6 +490,22 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 if (sensor is WMS.QueryModel.Sensors.ChlorinePresenceDetector && model.TransmeType == Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR)
                 {
                     Sensor p = new ChlorinePresenceDetector() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    model.Unit = sensor.UnitName;
+                    return (T)p;
+
+                }
+
+                if (sensor is WMS.QueryModel.Sensors.ACPresenceDetector && model.TransmeType == Sensor.TransmitterType.AC_PRESENCE_DETECTOR)
+                {
+                    Sensor p = new ACPresenceDetector() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    model.Unit = sensor.UnitName;
+                    return (T)p;
+
+                }
+
+                if (sensor is WMS.QueryModel.Sensors.BatteryVoltageDetector && model.TransmeType == Sensor.TransmitterType.BATTERY_VOLTAGE_DETECTOR)
+                {
+                    Sensor p = new BatteryVoltageDetector() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = sensor.UnitName;
                     return (T)p;
 

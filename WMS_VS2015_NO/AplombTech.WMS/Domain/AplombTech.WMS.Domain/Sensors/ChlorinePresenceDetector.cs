@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AplombTech.WMS.Domain.Sensors
 {
-    [Table("ChlorinationSensors")]
+    [Table("ChlorinePresenceDetectors")]
     public class ChlorinePresenceDetector : Sensor
     {
         public string Title()
