@@ -39,6 +39,11 @@ namespace AplombTech.WMS.Domain.Motors
         }
         #endregion
 
+        #region CONSTANT
+        public const string OFF = "OFF";
+        public const string ON = "ON";
+        #endregion
+
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
         public virtual int MotorID { get; set; }
