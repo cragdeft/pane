@@ -191,28 +191,35 @@ namespace AplombTech.WMS.Domain.Areas
         #region AddSensor (Action)
 
         [DisplayName("Add Sensor")]
-        public void AddSensor([Required]Sensor.TransmitterType sensorType, string uuid, decimal minValue, decimal maxValue)
+        public void AddSensor([Required]Sensor.TransmitterType sensorType, string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             switch (sensorType)
             {
                 case Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR:
-                    CreateChlorinationSensor(uuid, minValue, maxValue);
+                    CreateChlorinationSensor(uuid, minValue, maxValue,dataType,model,version,unit);
                     break;
 
                 case Sensor.TransmitterType.ENERGY_TRANSMITTER:
-                    CreateEnergySensor(uuid, minValue, maxValue);
+                    CreateEnergySensor(uuid, minValue, maxValue, dataType, model, version, unit);
                     break;
 
                 case Sensor.TransmitterType.FLOW_TRANSMITTER:
-                    CreateFlowSensor(uuid, minValue, maxValue);
+                    CreateFlowSensor(uuid, minValue, maxValue, dataType, model, version, unit);
                     break;
 
                 case Sensor.TransmitterType.LEVEL_TRANSMITTER:
-                    CreateLevelSensor(uuid, minValue, maxValue);
+                    CreateLevelSensor(uuid, minValue, maxValue, dataType, model, version, unit);
                     break;
 
                 case Sensor.TransmitterType.PRESSURE_TRANSMITTER:
-                    CreatePressureSensor(uuid, minValue, maxValue);
+                    CreatePressureSensor(uuid, minValue, maxValue, dataType, model, version, unit);
+                    break;
+                case Sensor.TransmitterType.AC_PRESENCE_DETECTOR:
+                    CreateAcPresenseDetector(uuid, minValue, maxValue, dataType, model, version, unit);
+                    break;
+
+                case Sensor.TransmitterType.BATTERY_VOLTAGE_DETECTOR:
+                    CreateBatteryVoltageDetector(uuid, minValue, maxValue, dataType, model, version, unit);
                     break;
             }
         }
@@ -229,7 +236,7 @@ namespace AplombTech.WMS.Domain.Areas
 
             return false;
         }
-        private void CreateChlorinationSensor(string uuid, decimal minValue, decimal maxValue)
+        private void CreateChlorinationSensor(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType,string model,string version,string unit)
         {
             ChlorinePresenceDetector sensor = Container.NewTransientInstance<ChlorinePresenceDetector>();
 
@@ -237,12 +244,16 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
+            sensor.DataType =  dataType;
+            sensor.Model = model;
+            sensor.UnitName = unit;
+            sensor.Version = version;
             //sensor.CumulativeValue = 0;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
         }
-        private void CreateFlowSensor(string uuid, decimal minValue, decimal maxValue)
+        private void CreateFlowSensor(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             FlowSensor sensor = Container.NewTransientInstance<FlowSensor>();
 
@@ -251,11 +262,15 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
             sensor.CumulativeValue = 0;
+            sensor.DataType =  dataType;
+            sensor.Model = model;
+            sensor.UnitName = unit;
+            sensor.Version = version;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
         }
-        private void CreateEnergySensor(string uuid, decimal minValue, decimal maxValue)
+        private void CreateEnergySensor(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             EnergySensor sensor = Container.NewTransientInstance<EnergySensor>();
 
@@ -264,11 +279,16 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
             sensor.CumulativeValue = 0;
+            sensor.DataType = dataType;
+            sensor.Model = model;
+            sensor.UnitName = unit;
+            sensor.Version = version;
+            sensor.PumpStation = this;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
         }
-        private void CreateLevelSensor(string uuid, decimal minValue, decimal maxValue)
+        private void CreateLevelSensor(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             LevelSensor sensor = Container.NewTransientInstance<LevelSensor>();
 
@@ -276,11 +296,15 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
+            sensor.DataType = dataType;
+            sensor.Model = model;
+            sensor.UnitName = unit;
+            sensor.Version = version;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
         }
-        private void CreatePressureSensor(string uuid, decimal minValue, decimal maxValue)
+        private void CreateAcPresenseDetector(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             PressureSensor sensor = Container.NewTransientInstance<PressureSensor>();
 
@@ -288,10 +312,49 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
+            sensor.DataType =  dataType;
+            sensor.Model = model;
+            sensor.UnitName = unit;
+            sensor.Version = version;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
         }
+
+        private void CreateBatteryVoltageDetector(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
+        {
+            PressureSensor sensor = Container.NewTransientInstance<PressureSensor>();
+
+            sensor.UUID = uuid;
+            sensor.MinimumValue = minValue;
+            sensor.MaximumValue = maxValue;
+            sensor.CurrentValue = 0;
+            sensor.DataType =  dataType;
+            sensor.Model = model;
+            sensor.UnitName = unit;
+            sensor.Version = version;
+            sensor.PumpStation = this;
+
+            Container.Persist(ref sensor);
+        }
+
+        private void CreatePressureSensor(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
+        {
+            PressureSensor sensor = Container.NewTransientInstance<PressureSensor>();
+
+            sensor.UUID = uuid;
+            sensor.MinimumValue = minValue;
+            sensor.MaximumValue = maxValue;
+            sensor.CurrentValue = 0;
+            sensor.DataType =  dataType;
+            sensor.Model = model;
+            sensor.UnitName = unit;
+            sensor.Version = version;
+            sensor.PumpStation = this;
+
+            Container.Persist(ref sensor);
+        }
+
         #endregion
 
         #region SetAddress (Action)

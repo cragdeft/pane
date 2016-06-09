@@ -58,7 +58,7 @@ namespace AplombTech.WMS.Domain.Repositories
             {
                 Sensor.TransmitterType type = Sensor.TransmitterType.FLOW_TRANSMITTER;
                 type = GetSensorType(sensor, type);
-                AreaRepository.AddSensor(messageObject.PumpStationId, sensor.UUID, sensor.MinimumValue,sensor.MaximumValue,type);
+                AreaRepository.AddSensor(messageObject.PumpStationId, sensor.UUID, sensor.MinimumValue,sensor.MaximumValue,type,sensor.DataType,sensor.Model,sensor.Version,sensor.UnitName);
             }
         }
         private static Sensor.TransmitterType GetSensorType(QueryModel.Sensors.Sensor sensor, Sensor.TransmitterType type)
@@ -76,6 +76,12 @@ namespace AplombTech.WMS.Domain.Repositories
 
             else if (sensor is QueryModel.Sensors.ChlorinePresenceDetector)
                 type = Sensor.TransmitterType.CHLORINE_PRESENCE_DETECTOR;
+
+            else if (sensor is QueryModel.Sensors.ACPresenceDetector)
+                type = Sensor.TransmitterType.AC_PRESENCE_DETECTOR;
+
+            else if (sensor is QueryModel.Sensors.BatteryVoltageDetector)
+                type = Sensor.TransmitterType.BATTERY_VOLTAGE_DETECTOR;
             return type;
         }
         public DataLog LogData(string topic, string message)

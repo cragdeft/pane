@@ -210,12 +210,12 @@ namespace AplombTech.WMS.Domain.Repositories
             //    pumpStation.AddPump(modelNo, uid);
             //}
         }
-        public void AddSensor(int pumpStationId, string uid, decimal minValue, decimal maxValue, Sensor.TransmitterType type)
+        public void AddSensor(int pumpStationId, string uid, decimal minValue, decimal maxValue, Sensor.TransmitterType type, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
             if (!SameTypeSensorExists(pumpStation.Sensors,type))
             {
-                pumpStation.AddSensor(type, uid, minValue, maxValue);
+                pumpStation.AddSensor(type, uid, minValue, maxValue,dataType,model,version,unit);
             }
         }
         private bool SameTypeSensorExists(IList<Sensor> sensors, Sensor.TransmitterType type)

@@ -22,7 +22,9 @@ namespace AplombTech.WMS.JsonParser.Entity
         public DateTime ConfigurationLoggedAt { get; set; }
         public IList<Camera> Cameras { get; set; }
         public Router Router { get; set; }
-        public PumpMotor Pump { get; set; }
+        public PumpMotor PumpMotor { get; set; }
+
+        public ChlorineMotor ChlorineMotor { get; set; }
         public IList<Sensor> Sensors { get; set; }
     }
 }
