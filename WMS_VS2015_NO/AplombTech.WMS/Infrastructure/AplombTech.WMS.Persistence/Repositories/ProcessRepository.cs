@@ -39,7 +39,7 @@ namespace AplombTech.WMS.Persistence.Repositories
 
             _wmsdbcontext.SensorDatas.Add(data);
 
-            UpdateLastDataOfSensor(value.ToString(), loggedAt, sensor);
+            UpdateLastDataOfSensor(value, loggedAt, sensor);
             UpdateCumulativeDataOfSensor(value, sensor);                    
         }
         private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
@@ -53,7 +53,7 @@ namespace AplombTech.WMS.Persistence.Repositories
                 ((FlowSensor)sensor).CumulativeValue += (((FlowSensor)sensor).CumulativeValue) + value;
             }
         }
-        private void UpdateLastDataOfSensor(string value, DateTime loggedAt, Sensor sensor)
+        private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
         {
             if (sensor.LastDataReceived != null)
             {

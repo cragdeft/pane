@@ -20,14 +20,6 @@ namespace AplombTech.WMS.Domain.Repositories
         public AreaRepository AreaRepository { set; protected get; }
         #endregion
 
-        public IList<DataLog> GetUnprocessedData()
-        {
-            return Container.Instances<DataLog>().Where(w => w.ProcessingStatus == DataLog.ProcessingStatusEnum.None).OrderBy(o=>o.LoggedAtSensor).Take(10).ToList();
-        }
-        public DataLog GetDataLogById(int id)
-        {
-            return Container.Instances<DataLog>().Where(w => w.SensorDataLogID == id).FirstOrDefault();
-        }
         public void ParseNStoreConfigurationData(DataLog dataLog)
         {
             if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
@@ -189,13 +181,13 @@ namespace AplombTech.WMS.Domain.Repositories
             {
                 if (sensor.LastDataReceived < loggedAt)
                 {
-                    sensor.CurrentValue = value.ToString();
+                    sensor.CurrentValue = value;
                     sensor.LastDataReceived = loggedAt;
                 }
             }
             else
             {
-                sensor.CurrentValue = value.ToString();
+                sensor.CurrentValue = value;
                 sensor.LastDataReceived = loggedAt;
             }
         }

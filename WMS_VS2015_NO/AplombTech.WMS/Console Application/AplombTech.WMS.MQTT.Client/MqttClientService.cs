@@ -217,7 +217,7 @@ namespace AplombTech.WMS.MQTT.Client
                 if (motor.IsActive)
                 {
                     ProcessRepository.CreateNewMotorData(data, messageObject.SensorLoggedAt, motor);
-                    if(data.MotorStatus == "OFF")
+                    if(data.MotorStatus == Motor.OFF)
                         PublishMotorAlertMessage(data, motor);
                 }
             }
