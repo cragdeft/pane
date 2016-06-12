@@ -144,6 +144,9 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
             sensor.CumulativeValue = 0;
+            sensor.Name = "Flow Transmitter";
+            sensor.Model = "APL-FT";
+            sensor.Version = "1.1a";
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
@@ -159,6 +162,9 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
             sensor.IsActive = true;
+            sensor.Name = "Pressure Transmitter";
+            sensor.Model = "APL-PT";
+            sensor.Version = "1.1a";
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
@@ -174,6 +180,9 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.CurrentValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
+            sensor.Name = "Level Transmitter";
+            sensor.Model = "APL-LT";
+            sensor.Version = "1.1a";
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
@@ -189,6 +198,9 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.CumulativeValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
+            sensor.Name = "Energy Transmitter";
+            sensor.Model = "APL-ET";
+            sensor.Version = "1.1a";
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
@@ -203,13 +215,15 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.CurrentValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
+            sensor.Name = "Chlorine Presence Detector";
+            sensor.Model = "APL-CPD";
+            sensor.Version = "1.1a";
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             context.Sensors.Add(sensor);
         }
-
         private void CreateAcPresenceDetector(string uuid, PumpStation station, CommandModelDatabase context)
         {
             ACPresenceDetector sensor = new ACPresenceDetector();
@@ -217,6 +231,9 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.CurrentValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
+            sensor.Name = "AC Presence Detector";
+            sensor.Model = "APL-ACP";
+            sensor.Version = "1.1a";
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
@@ -231,6 +248,9 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.CurrentValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
+            sensor.Name = "Battery Voltage Detector";
+            sensor.Model = "APL-BV";
+            sensor.Version = "1.1a";
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";

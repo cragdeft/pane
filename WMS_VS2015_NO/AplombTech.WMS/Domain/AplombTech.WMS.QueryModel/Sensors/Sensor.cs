@@ -29,7 +29,7 @@ namespace AplombTech.WMS.QueryModel.Sensors
         [MemberOrder(50)]
         public virtual decimal MaximumValue { get; set; }
         [MemberOrder(20), Required, Disabled]
-        public virtual string CurrentValue { get; set; }
+        public virtual decimal CurrentValue { get; set; }
         [MemberOrder(60), Disabled]
         public virtual DateTime? LastDataReceived { get; set; }
         [MemberOrder(70), Required, Disabled]

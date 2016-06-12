@@ -29,6 +29,7 @@ namespace AplombTech.WMS.QueryModel.Reports
         public DrillDown()
         {
             Series = new List<ReportSeries>();
+            SelectedSensor = new Sensor();
         }
         public IDomainObjectContainer Container { set; protected get; }  //Injected service
         public virtual IList<PumpStation> PumpStations { get; set; }

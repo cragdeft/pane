@@ -229,7 +229,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 else if (sensor is ChlorinePresenceDetector)
                 {
                     string cholorinationValue = null;
-                    cholorinationValue = sensor.CurrentValue.ToString() == "0" ? "Cholorination on" : "Cholorination off";
+                    cholorinationValue = sensor.CurrentValue == 0 ? "Cholorination on" : "Cholorination off";
                     dictonary.Add("CT-" + sensor.UUID, cholorinationValue);
                 }
             }
@@ -337,7 +337,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             var sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             ReportSeries data = new ReportSeries();
             data.name = model.TransmeType.ToString().Replace("_", " ") + "-" + sensor.UUID;
-            data.data = new List<double>() { Convert.ToDouble(sensor.CurrentValue) };
+            data.data = new List<double>() {(double) sensor.CurrentValue };
             model.Series.Add(data);
             return model;
         }

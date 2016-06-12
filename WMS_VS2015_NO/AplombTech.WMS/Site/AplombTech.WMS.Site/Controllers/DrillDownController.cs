@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ using AplombTech.WMS.QueryModel.Shared;
 using NakedObjects;
 using NakedObjects.Facade;
 using NakedObjects.Web.Mvc.Controllers;
+using Newtonsoft.Json;
 
 namespace AplombTech.WMS.Site.Controllers
 {
@@ -94,6 +96,23 @@ namespace AplombTech.WMS.Site.Controllers
             }
 
             return Json(new { IsSuccess = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSensorDropdownData(int pumpstationId)
+        {
+            List<AplombTech.WMS.QueryModel.Sensors.Sensor> sensorList = _reportRepository.GetSensorData(pumpstationId);
+            var sendingSensorList = new List<dynamic>();
+            foreach (var sensor in sensorList)
+            {
+                dynamic sendingSensor = new ExpandoObject();
+                sendingSensor.SensorID = sensor.SensorID;
+                sendingSensor.Name = sensor.Name;
+                sendingSensor.Model = sensor.Model;
+                sendingSensor.Version = sensor.Version;
+                sendingSensorList.Add(sendingSensor);
+            }
+
+            return Json(new { Data = JsonConvert.SerializeObject(sendingSensorList),OptionGroup=new List<string>() {"ACP","BV","CPD","ET","FT","PT","LT"}, IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

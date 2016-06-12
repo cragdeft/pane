@@ -282,7 +282,7 @@ namespace AplombTech.WMS.JsonParser
             ChlorinePresenceDetector sensor = new ChlorinePresenceDetector();
             sensor.Name = name;
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.DataType = (Sensor.Data_Type)Enum.Parse(typeof(Sensor.Data_Type), dataType, true);
@@ -300,7 +300,7 @@ namespace AplombTech.WMS.JsonParser
             PressureSensor sensor = new PressureSensor();
             sensor.Name = name;
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.DataType = (Sensor.Data_Type)Enum.Parse(typeof(Sensor.Data_Type), dataType, true);
@@ -318,7 +318,7 @@ namespace AplombTech.WMS.JsonParser
             LevelSensor sensor = new LevelSensor();
             sensor.Name = name;
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.DataType = (Sensor.Data_Type)Enum.Parse(typeof(Sensor.Data_Type), dataType, true);
@@ -337,7 +337,7 @@ namespace AplombTech.WMS.JsonParser
             sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.DataType = (Sensor.Data_Type)Enum.Parse(typeof(Sensor.Data_Type), dataType, true);
@@ -356,7 +356,7 @@ namespace AplombTech.WMS.JsonParser
             sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.DataType = (Sensor.Data_Type)Enum.Parse(typeof(Sensor.Data_Type), dataType, true);
@@ -375,7 +375,7 @@ namespace AplombTech.WMS.JsonParser
             sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.DataType = (Sensor.Data_Type)Enum.Parse(typeof(Sensor.Data_Type), dataType, true);
@@ -394,7 +394,7 @@ namespace AplombTech.WMS.JsonParser
             sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.DataType = (Sensor.Data_Type)Enum.Parse(typeof(Sensor.Data_Type), dataType, true);
@@ -411,7 +411,7 @@ namespace AplombTech.WMS.JsonParser
         {
             Sensor sensor = new Sensor();
             sensor.MaximumValue = 0;
-            sensor.CurrentValue = "0";
+            sensor.CurrentValue = 0;
             sensor.MinimumValue = 0;
             sensor.UUID = uid;
             sensor.AuditFields.InsertedBy = "Automated";
