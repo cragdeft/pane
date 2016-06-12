@@ -14,7 +14,8 @@ namespace AplombTech.WMS.QueryModel.Areas
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         #endregion
-
+        public virtual bool SensorDataComplete { get; set; }
+        public virtual int LogCount { get; set; }
         #region Get Properties      
         [MemberOrder(50), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]

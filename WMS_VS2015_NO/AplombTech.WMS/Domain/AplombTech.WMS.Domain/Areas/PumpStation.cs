@@ -25,6 +25,8 @@ namespace AplombTech.WMS.Domain.Areas
         public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
         public override string Name { get; set; }
+        public virtual bool SensorDataComplete { get; set; }
+        public virtual int LogCount { get; set; }
         public string DisablePropertyDefault()
         {
             IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
