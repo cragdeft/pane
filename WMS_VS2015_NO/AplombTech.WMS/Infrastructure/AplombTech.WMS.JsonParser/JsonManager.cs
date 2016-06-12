@@ -219,65 +219,68 @@ namespace AplombTech.WMS.JsonParser
         private static Sensor GetSensor(JObject o, int index, string rootname)
         {
             string type = rootname;
+            string name = (string)o["PumpStation"]["Sensors"][rootname]["name"];
             string uid = (string)o["PumpStation"]["Sensors"][rootname][index]["uid"];
             string dataType = (string)o["PumpStation"]["Sensors"][rootname][index]["Data_Type"];
             string unit = (string) o["PumpStation"]["Sensors"][rootname][index]["Unit"];
             string model = (string) o["PumpStation"]["Sensors"][rootname][index]["Model"];
             string version = (string) o["PumpStation"]["Sensors"][rootname][index]["Version"];
             //Sensor sensor = GetCommonSensor(uid);
-            return GetMatchedSensor(type, uid,dataType,unit,model,version);
+            return GetMatchedSensor(type, uid,dataType,unit,model,version,name);
         }
 
         private static Sensor GetAcpSensor(JObject o, string rootname)
         {
             string type = rootname;
+            string name = (string) o["PumpStation"]["Sensors"][rootname]["name"];
             string uid = (string)o["PumpStation"]["Sensors"][rootname]["uid"];
             string dataType = (string)o["PumpStation"]["Sensors"][rootname]["Data_Type"];
             string unit = (string)o["PumpStation"]["Sensors"][rootname]["Unit"];
             string model = (string)o["PumpStation"]["Sensors"][rootname]["Model"];
             string version = (string)o["PumpStation"]["Sensors"][rootname]["Version"];
             //Sensor sensor = GetCommonSensor(uid);
-            return GetMatchedSensor(type, uid, dataType, unit, model, version);
+            return GetMatchedSensor(type, uid, dataType, unit, model, version,name);
         }
-        private static Sensor GetMatchedSensor(string type, string uid,string dataType,string unit,string model,string version)
+        private static Sensor GetMatchedSensor(string type, string uid,string dataType,string unit,string model,string version,string name)
         {
             switch (type)
             {
                 case "FT":
                     {
-                        return CreateFlowSensor(uid, dataType,unit,model,version);
+                        return CreateFlowSensor(uid, dataType,unit,model,version,name);
                     }
                 case "ET":
                     {
-                        return CreateEnergySensor(uid, dataType, unit, model, version);
+                        return CreateEnergySensor(uid, dataType, unit, model, version, name);
                     }
                 case "LT":
                     {
-                        return CreateLevelSensor(uid, dataType, unit, model, version);
+                        return CreateLevelSensor(uid, dataType, unit, model, version, name);
                     }
                 case "PT":
                     {
-                        return CreatePressureSensor(uid, dataType, unit, model, version);
+                        return CreatePressureSensor(uid, dataType, unit, model, version, name);
                     }
                 case "CPD":
                     {
-                        return CreateChlorinationSensor(uid, dataType, unit, model, version);
+                        return CreateChlorinationSensor(uid, dataType, unit, model, version, name);
                     }
                 case "ACP":
                     {
-                        return CreateAcPresenseDector(uid, dataType, unit, model, version);
+                        return CreateAcPresenseDector(uid, dataType, unit, model, version, name);
                     }
                 case "BV":
                     {
-                        return CreateBatteryVoltageDetector(uid, dataType, unit, model, version);
+                        return CreateBatteryVoltageDetector(uid, dataType, unit, model, version, name);
                     }
             }
 
             return null;
         }
-        private static Sensor CreateChlorinationSensor(string uid, string dataType, string unit, string model, string version)
+        private static Sensor CreateChlorinationSensor(string uid, string dataType, string unit, string model, string version,string name)
         {
             ChlorinePresenceDetector sensor = new ChlorinePresenceDetector();
+            sensor.Name = name;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
@@ -292,9 +295,10 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-        private static Sensor CreatePressureSensor(string uid, string dataType, string unit, string model, string version)
+        private static Sensor CreatePressureSensor(string uid, string dataType, string unit, string model, string version, string name)
         {
             PressureSensor sensor = new PressureSensor();
+            sensor.Name = name;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
@@ -309,9 +313,10 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-        private static Sensor CreateLevelSensor(string uid, string dataType, string unit, string model, string version)
+        private static Sensor CreateLevelSensor(string uid, string dataType, string unit, string model, string version, string name)
         {
             LevelSensor sensor = new LevelSensor();
+            sensor.Name = name;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
             sensor.MinimumValue = 0;
@@ -326,9 +331,10 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-        private static Sensor CreateEnergySensor(string uid, string dataType, string unit, string model, string version)
+        private static Sensor CreateEnergySensor(string uid, string dataType, string unit, string model, string version, string name)
         {
             EnergySensor sensor = new EnergySensor();
+            sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
@@ -344,9 +350,10 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-        private static Sensor CreateFlowSensor(string uid, string dataType, string unit, string model, string version)
+        private static Sensor CreateFlowSensor(string uid, string dataType, string unit, string model, string version, string name)
         {
             FlowSensor sensor = new FlowSensor();
+            sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
@@ -362,10 +369,10 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-
-        private static Sensor CreateAcPresenseDector(string uid, string dataType, string unit, string model, string version)
+        private static Sensor CreateAcPresenseDector(string uid, string dataType, string unit, string model, string version, string name)
         {
             FlowSensor sensor = new FlowSensor();
+            sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";
@@ -381,10 +388,10 @@ namespace AplombTech.WMS.JsonParser
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
             return sensor;
         }
-
-        private static Sensor CreateBatteryVoltageDetector(string uid, string dataType, string unit, string model, string version)
+        private static Sensor CreateBatteryVoltageDetector(string uid, string dataType, string unit, string model, string version, string name)
         {
             FlowSensor sensor = new FlowSensor();
+            sensor.Name = name;
             sensor.CumulativeValue = 0;
             sensor.MaximumValue = 0;
             sensor.CurrentValue = "0";

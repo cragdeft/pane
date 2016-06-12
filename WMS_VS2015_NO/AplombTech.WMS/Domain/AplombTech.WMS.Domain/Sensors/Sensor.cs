@@ -64,6 +64,7 @@ namespace AplombTech.WMS.Domain.Sensors
         public virtual string UnitName { get; set; }
         public virtual string Model { get; set; }
         public virtual string Version { get; set; }
+        public virtual string Name { get; set; }
 
         //[DisplayName("SensorType"), MemberOrder(10), Required]
         //public virtual TransmitterType SensorType { get; set; }

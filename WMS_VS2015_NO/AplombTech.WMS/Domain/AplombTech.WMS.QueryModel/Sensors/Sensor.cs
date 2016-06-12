@@ -38,6 +38,7 @@ namespace AplombTech.WMS.QueryModel.Sensors
         public virtual string UnitName { get; set; }
         public virtual string Model { get; set; }
         public virtual string Version { get; set; }
+        public virtual string Name { get; set; }
         public enum TransmitterType
         {
             PRESSURE_TRANSMITTER = 1,
