@@ -7,6 +7,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.MQTT.Client;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -205,9 +206,15 @@ namespace AplombTech.MQTTLib
         }
         private void BrokerConnectionWithCertificate()
         {
-            //SmartHomeMQTT = new MqttClient(brokerAddress, MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, new X509Certificate(Resource.ca), null, MqttSslProtocols.TLSv1_2, client_RemoteCertificateValidationCallback);
-            DhakaWasaMQTT.Connect(GetClientId(), "mosharraf", "mosharraf", false, GetBrokerKeepAlivePeriod());
+            DhakaWasaMQTT = new MqttClient(GetBrokerAddress(), MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, new X509Certificate(Resource.ca), null, MqttSslProtocols.TLSv1_2, client_RemoteCertificateValidationCallback);
+            ConnectToBroker("kanok", "kanok");
         }
+
+        private void ConnectToBroker(string username, string password)
+        {
+            DhakaWasaMQTT.Connect(GetClientId(), username, password, false, GetBrokerKeepAlivePeriod());
+        }
+
         private void BrokerConnectionWithoutCertificate()
         {
             DhakaWasaMQTT = new MqttClient(GetBrokerAddress(), GetBrokerPort(), false, null, null, MqttSslProtocols.None, null);
