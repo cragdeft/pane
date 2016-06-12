@@ -119,7 +119,7 @@ namespace AplombTech.WMS.MQTT.Client
             DhakaWasaMqtt.MqttMsgPublishReceived += ReceivedMessage_MQTT;//received message.
             DhakaWasaMqtt.ConnectionClosed += ConnectionClosed_MQTT;
 
-            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "/configuration", "/command", "/feedback", "sensor_data" },
+            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "wasa/configuration", "/command", "/feedback", "wasa/sensor_data" },
                               new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
                                       MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
@@ -175,7 +175,7 @@ namespace AplombTech.WMS.MQTT.Client
                     try
                     {
                         framework.TransactionManager.StartTransaction();
-                        if (topic.Replace("wasa/", String.Empty) == JsonMessageType.sensordata.ToString())
+                        if (topic.Replace("wasa/", String.Empty).Replace("_", string.Empty) == JsonMessageType.sensordata.ToString())
                         {
                             ParseSensorDataFromMessage(dataLog);
                         }
@@ -407,7 +407,7 @@ namespace AplombTech.WMS.MQTT.Client
             this.framework = objframework;
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
-            MqttClientInstance(true);
+            MqttClientInstance(false);
             log.Info("MQTT listener has been started");
         }       
     }

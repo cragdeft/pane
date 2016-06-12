@@ -28,9 +28,11 @@ namespace AplombTech.WMS.Domain.Repositories
 
                 AddCameras(messageObject);
 
-                AddPump(messageObject);
+                AddPumpMotor(messageObject);
 
-                AddRouter(messageObject);
+                AddCholorineMotor(messageObject);
+
+                //AddRouter(messageObject);
 
                 AddSensor(messageObject);
 
@@ -44,9 +46,14 @@ namespace AplombTech.WMS.Domain.Repositories
                 AreaRepository.AddCamera((int) messageObject.PumpStationId, camera.UUID, camera.URL);
             }
         }
-        private void AddPump(ConfigurationMessage messageObject)
+        private void AddPumpMotor(ConfigurationMessage messageObject)
         {
-                AreaRepository.AddPump((int)messageObject.PumpStationId,messageObject.Pump.UUID,messageObject.Pump.ModelNo);
+                AreaRepository.AddPumpMotor((int)messageObject.PumpStationId,messageObject.PumpMotor.UUID,messageObject.PumpMotor.Auto, messageObject.PumpMotor.Controllable);
+        }
+
+        private void AddCholorineMotor(ConfigurationMessage messageObject)
+        {
+            AreaRepository.AddCholorineMotor((int)messageObject.PumpStationId, messageObject.PumpMotor.UUID, messageObject.PumpMotor.Auto, messageObject.PumpMotor.Controllable);
         }
         private void AddRouter(ConfigurationMessage messageObject)
         {
@@ -58,7 +65,7 @@ namespace AplombTech.WMS.Domain.Repositories
             {
                 Sensor.TransmitterType type = Sensor.TransmitterType.FLOW_TRANSMITTER;
                 type = GetSensorType(sensor, type);
-                AreaRepository.AddSensor(messageObject.PumpStationId, sensor.UUID, sensor.MinimumValue,sensor.MaximumValue,type,sensor.DataType,sensor.Model,sensor.Version,sensor.UnitName);
+                AreaRepository.AddSensor(messageObject.PumpStationId, sensor.UUID, sensor.MinimumValue,sensor.MaximumValue,type,(Sensor.Data_Type) sensor.DataType,sensor.Model,sensor.Version,sensor.UnitName);
             }
         }
         private static Sensor.TransmitterType GetSensorType(QueryModel.Sensors.Sensor sensor, Sensor.TransmitterType type)
@@ -91,9 +98,9 @@ namespace AplombTech.WMS.Domain.Repositories
 
             try
             {
-                if (topic == "/sensordata")
+                if (topic == "wasa/sensor_data")
                     loggedAtTime = JsonManager.GetSensorLoggedAtTime(message);
-                if (topic == "/configuration")
+                if (topic == "wasa/configuration")
                     loggedAtTime = JsonManager.GetConfigurationLoggedAtTime(message);
 
                 pumpStationId = JsonManager.GetPumpStationIDFromJson(message);

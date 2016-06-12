@@ -202,13 +202,22 @@ namespace AplombTech.WMS.Domain.Repositories
             //    pumpStation.AddRouter(uid, ip, port);
             //}
         }
-        public void AddPump(int pumpStationId, string uid, string modelNo)
+        public void AddPumpMotor(int pumpStationId, string uid, bool controllable,bool auto)
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
-            //if (pumpStation.PumpMotors == null)
-            //{
-            //    pumpStation.AddPump(modelNo, uid);
-            //}
+            if (pumpStation.Motors == null || pumpStation.Motors.Count == 0)
+            {
+                pumpStation.AddMotor(Motor.MotorType.PumpMotor, uid,auto,controllable);
+            }
+        }
+
+        public void AddCholorineMotor(int pumpStationId, string uid, bool controllable, bool auto)
+        {
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == pumpStationId).First();
+            if (pumpStation.Motors == null || pumpStation.Motors.Count == 0)
+            {
+                pumpStation.AddMotor(Motor.MotorType.ChlorineMotor, uid, auto, controllable);
+            }
         }
         public void AddSensor(int pumpStationId, string uid, decimal minValue, decimal maxValue, Sensor.TransmitterType type, Sensor.Data_Type dataType, string model, string version, string unit)
         {

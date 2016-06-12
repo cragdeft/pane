@@ -16,7 +16,8 @@ namespace AplombTech.WMS.JsonParser.Entity
             Cameras = new List<Camera>();
             Sensors = new List<Sensor>();
             Router = new Router();
-            Pump = new PumpMotor();
+            PumpMotor = new PumpMotor();
+            ChlorineMotor = new ChlorineMotor();
         }
         public int PumpStationId { get; set; }
         public DateTime ConfigurationLoggedAt { get; set; }

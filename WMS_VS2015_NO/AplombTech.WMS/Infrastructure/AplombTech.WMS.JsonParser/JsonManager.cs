@@ -34,7 +34,7 @@ namespace AplombTech.WMS.JsonParser
         {
             JObject o = JObject.Parse(message);
 
-            string pumpStationId = o["PumpStation"]["PumoStation_Id"].ToString();
+            string pumpStationId = o["PumpStation"]["PumpStation_Id"].ToString();
             int stationId = Convert.ToInt32(pumpStationId);
             return stationId;
         }
@@ -47,10 +47,46 @@ namespace AplombTech.WMS.JsonParser
                 //o["Sensor"][0]["uid"],o["Sensor"][0]["value"]
                 sensorObject.PumpStationId = GetPumpStationIDFromJson(message);
                 sensorObject.SensorLoggedAt = GetSensorLoggedAtTime(message);
-
-                for (int i = 0; i < 5; i++)
+                //for (int i = 0; i < o["PumpStation"]["Sensors"]["PT"].Count(); i++)
+                //{
+                //    configurationObject.Sensors.Add(GetSensor(o, i, "PT"));
+                //}
+                //if (!string.IsNullOrEmpty((o["PumpStation"]["Motor"]["Pump_Motor"]).ToString()))
+                //{
+                //    configurationObject.PumpMotor = GetPumpMotor(o);
+                //}
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
                 {
-                    sensorObject.Sensors.Add(GetSensorData(o, i));
+                    sensorObject.Sensors.Add(GetSensorData("BV", o, 0)); ;
+                }
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                {
+                    sensorObject.Sensors.Add(GetSensorData("CPD", o, 0)); ;
+                }
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                {
+                    sensorObject.Sensors.Add(GetSensorData("ET", o, 0)); ;
+                }
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                {
+                    sensorObject.Sensors.Add(GetSensorData("FT", o, 0));
+                }
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                {
+                    sensorObject.Sensors.Add(GetSensorData("LT", o, 0)); ;
+                }
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                {
+                    sensorObject.Sensors.Add(GetSensorData("PT", o, 0));
+                }
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Motor"]).ToString()))
+                {
+                    sensorObject.Motors.Add(GetMotorData("Pump_Motor", o, 0));
+                }
+
+                if (!string.IsNullOrEmpty((o["PumpStation"]["Motor"]).ToString()))
+                {
+                    sensorObject.Motors.Add(GetMotorData("Chlorine_Motor", o, 0));
                 }
                 return sensorObject;
             }
@@ -68,14 +104,14 @@ namespace AplombTech.WMS.JsonParser
             configurationObject.PumpStationId = GetPumpStationIDFromJson(message);
             configurationObject.ConfigurationLoggedAt = GetConfigurationLoggedAtTime(message);
 
-            for (int i = 0; i < o["PumpStation"]["Camera"].Count(); i++)
-            {
-                configurationObject.Cameras.Add(GetCamera(o, i));
-            }
+            //for (int i = 0; i < o["PumpStation"]["Camera"].Count(); i++)
+            //{
+            //    configurationObject.Cameras.Add(GetCamera(o, i));
+            //}
 
-            for (int i = 0; i < o["PumpStation"]["Sensors"]["ACP"].Count(); i++)
+            if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]["ACP"]).ToString()))
             {
-                configurationObject.Sensors.Add(GetSensor(o, i, "ACP"));
+                configurationObject.Sensors.Add(GetAcpSensor(o, "ACP"));
             }
 
             for (int i = 0; i < o["PumpStation"]["Sensors"]["BV"].Count(); i++)
@@ -107,20 +143,40 @@ namespace AplombTech.WMS.JsonParser
             {
                 configurationObject.Sensors.Add(GetSensor(o, i,"PT"));
             }
-
+            if (!string.IsNullOrEmpty((o["PumpStation"]["Motor"]["Pump_Motor"]).ToString()))
+            {
+                configurationObject.PumpMotor = GetPumpMotor(o);
+            }
+            if (!string.IsNullOrEmpty((o["PumpStation"]["Motor"]["Pump_Motor"]).ToString()))
+            {
+                configurationObject.ChlorineMotor = GetCholorineMotor(o);
+            }
             //configurationObject.Router = (GetRouter(o));
-            configurationObject.PumpMotor = GetPumpMotor(o);
-            configurationObject.ChlorineMotor = GetCholorineMotor(o);
+            
+            
 
             return configurationObject;
         }
 
-        private static SensorValue GetSensorData(JObject o, int index)
+        private static SensorValue GetSensorData(string root,JObject o, int index)
         {
             SensorValue data = new SensorValue();
-            data.SensorUUID = (string)o["PumpStation"]["Sensor"][index]["uid"];
-            data.Value = (string)o["PumpStation"]["Sensor"][index]["value"];
+            data.SensorUUID = (string)o["PumpStation"]["Sensors"][root][index]["uid"];
+            data.Value = (string)o["PumpStation"]["Sensors"][root][index]["value"];
 
+
+            return data;
+        }
+
+        private static MotorValue GetMotorData(string root, JObject o, int index)
+        {
+            MotorValue data = new MotorValue();
+            data.MotorUid = (string)o["PumpStation"]["Motor"][root][index]["uid"];
+            data.Auto = (bool)o["PumpStation"]["Motor"][root][index]["Auto"];
+            data.Controllable = (bool)o["PumpStation"]["Motor"][root][index]["Controllable"];
+            data.MotorStatus = (string)o["PumpStation"]["Motor"][root][index]["Motor_Status"];
+            data.LastCommand = (string)o["PumpStation"]["Motor"][root][index]["Last_Command"];
+            data.LastCommandTime = (string)o["PumpStation"]["Motor"][root][index]["Last_Command_Time"];
 
             return data;
         }
@@ -142,33 +198,46 @@ namespace AplombTech.WMS.JsonParser
 
             return router;
         }
+
         private static PumpMotor GetPumpMotor(JObject o)
         {
             PumpMotor pump = new PumpMotor();
-            pump.UUID = (string)o["PumpStation"]["Motor"]["Pump_Motor"]["uid"];
-            pump.Controllable = (bool)o["PumpStation"]["Motor"]["Pump_Motor"]["Controllable"];
-            pump.Auto = (bool)o["PumpStation"]["Motor"]["Pump_Motor"]["Auto"];
+            pump.UUID = (string)o["PumpStation"]["Motor"]["Pump_Motor"][0]["uid"];
+            pump.Controllable = (bool)o["PumpStation"]["Motor"]["Pump_Motor"][0]["Controllable"];
+            pump.Auto = (bool)o["PumpStation"]["Motor"]["Pump_Motor"][0]["Auto"];
             return pump;
         }
 
         private static ChlorineMotor GetCholorineMotor(JObject o)
         {
             ChlorineMotor motor = new ChlorineMotor();
-            motor.UUID = (string)o["PumpStation"]["Motor"]["Chlorine_Motor"]["uid"];
-            motor.Controllable = (bool)o["PumpStation"]["Motor"]["Chlorine_Motor"]["Controllable"];
-            motor.Auto = (bool)o["PumpStation"]["Motor"]["Chlorine_Motor"]["Auto"];
+            motor.UUID = (string)o["PumpStation"]["Motor"]["Chlorine_Motor"][0]["uid"];
+            motor.Controllable = (bool)o["PumpStation"]["Motor"]["Chlorine_Motor"][0]["Controllable"];
+            motor.Auto = (bool)o["PumpStation"]["Motor"]["Chlorine_Motor"][0]["Auto"];
             return motor;
         }
         private static Sensor GetSensor(JObject o, int index, string rootname)
         {
             string type = rootname;
-            string uid = (string)o["PumpStation"]["Sensor"][rootname][index]["uid"];
-            string dataType = (string)o["PumpStation"]["Sensor"][rootname][index]["Data_Type"];
-            string unit = (string) o["PumpStation"]["Sensor"][rootname][index]["Unit"];
-            string model = (string) o["PumpStation"]["Sensor"][rootname][index]["Model"];
-            string version = (string) o["PumpStation"]["Sensor"][rootname][index]["Version"];
+            string uid = (string)o["PumpStation"]["Sensors"][rootname][index]["uid"];
+            string dataType = (string)o["PumpStation"]["Sensors"][rootname][index]["Data_Type"];
+            string unit = (string) o["PumpStation"]["Sensors"][rootname][index]["Unit"];
+            string model = (string) o["PumpStation"]["Sensors"][rootname][index]["Model"];
+            string version = (string) o["PumpStation"]["Sensors"][rootname][index]["Version"];
             //Sensor sensor = GetCommonSensor(uid);
             return GetMatchedSensor(type, uid,dataType,unit,model,version);
+        }
+
+        private static Sensor GetAcpSensor(JObject o, string rootname)
+        {
+            string type = rootname;
+            string uid = (string)o["PumpStation"]["Sensors"][rootname]["uid"];
+            string dataType = (string)o["PumpStation"]["Sensors"][rootname]["Data_Type"];
+            string unit = (string)o["PumpStation"]["Sensors"][rootname]["Unit"];
+            string model = (string)o["PumpStation"]["Sensors"][rootname]["Model"];
+            string version = (string)o["PumpStation"]["Sensors"][rootname]["Version"];
+            //Sensor sensor = GetCommonSensor(uid);
+            return GetMatchedSensor(type, uid, dataType, unit, model, version);
         }
         private static Sensor GetMatchedSensor(string type, string uid,string dataType,string unit,string model,string version)
         {
