@@ -199,9 +199,9 @@ namespace AplombTech.MQTTLib
             DhakaWasaMQTT.MqttMsgPublishReceived += client_MqttMsgPublishReceived;//received message.
             DhakaWasaMQTT.ConnectionClosed += client_ConnectionClosed;
 
-            ushort submsgId = DhakaWasaMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback" },
-                              new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
-                                      MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            //ushort submsgId = DhakaWasaMQTT.Subscribe(new string[] { "/configuration", "/command", "/feedback" },
+            //                  new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
+            //                          MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
         }
         private void BrokerConnectionWithCertificate()
@@ -209,12 +209,10 @@ namespace AplombTech.MQTTLib
             DhakaWasaMQTT = new MqttClient(GetBrokerAddress(), MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, new X509Certificate(Resource.ca), null, MqttSslProtocols.TLSv1_2, client_RemoteCertificateValidationCallback);
             ConnectToBroker("kanok", "kanok");
         }
-
         private void ConnectToBroker(string username, string password)
         {
             DhakaWasaMQTT.Connect(GetClientId(), username, password, false, GetBrokerKeepAlivePeriod());
         }
-
         private void BrokerConnectionWithoutCertificate()
         {
             DhakaWasaMQTT = new MqttClient(GetBrokerAddress(), GetBrokerPort(), false, null, null, MqttSslProtocols.None, null);
@@ -268,7 +266,6 @@ namespace AplombTech.MQTTLib
         }
         #endregion
     }
-
 
     public class MQTTEventArgs : EventArgs
     {
