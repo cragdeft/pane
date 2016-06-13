@@ -145,7 +145,7 @@ namespace AplombTech.WMS.Site.Controllers
             List<QueryModel.Motors.MotorData> motorDataList = new List<QueryModel.Motors.MotorData>();
             motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
             motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
-
+            ViewBag.MotorDataList = motorDataList;
             //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
             return PartialView("~/Views/ScadaMap/ScadaMap.cshtml", sensorList);
         }

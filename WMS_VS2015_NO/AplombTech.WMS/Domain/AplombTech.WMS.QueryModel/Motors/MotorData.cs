@@ -13,8 +13,8 @@ namespace AplombTech.WMS.QueryModel.Motors
         #region Primitive Properties
         public virtual int MotorDataID { get; set; }
         public virtual string MotorStatus { get; set; }
-        public string LastCommand { get; set; }
-        public string LastCommandTime { get; set; }
+        public virtual string LastCommand { get; set; }
+        public virtual string LastCommandTime { get; set; }
         public virtual DateTime LoggedAt { get; set; }
         public virtual DateTime ProcessAt { get; set; }
 
