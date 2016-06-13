@@ -86,6 +86,7 @@ namespace AplombTech.WMS.Domain.Features
             SummaryReport = 4,
             UnderThreshold = 5
         }
+
         #endregion       
     }
 }
