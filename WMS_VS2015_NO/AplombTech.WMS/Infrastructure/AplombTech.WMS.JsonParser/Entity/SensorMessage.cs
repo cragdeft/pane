@@ -15,7 +15,8 @@ namespace AplombTech.WMS.JsonParser.Entity
         }
         public int PumpStationId { get; set; }
         public DateTime SensorLoggedAt { get; set; }
-
+        public bool SensorDataComplete { get; set; }
+        public int LogCount { get; set; }
         public IList<SensorValue> Sensors { get; set; }
         public IList<MotorValue> Motors { get; set; }
     }

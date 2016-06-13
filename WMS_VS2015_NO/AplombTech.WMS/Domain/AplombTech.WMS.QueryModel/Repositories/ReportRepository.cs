@@ -12,6 +12,7 @@ using AplombTech.WMS.QueryModel.Sensors;
 using AplombTech.WMS.QueryModel.Shared;
 using AplombTech.WMS.QueryModel.UserAccounts;
 using AplombTech.WMS.QueryModel.Features;
+using AplombTech.WMS.QueryModel.Motors;
 using NakedObjects.Core.Util.Enumer;
 
 namespace AplombTech.WMS.QueryModel.Repositories
@@ -174,6 +175,22 @@ namespace AplombTech.WMS.QueryModel.Repositories
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).FirstOrDefault();
             //var temp = pumpStation.Sensors.ToList();
             return pumpStation.Sensors.ToList();
+        }
+
+        public MotorData GetPumpMotorData(int pumpStationId)
+        {
+           PumpMotor motor = Container.Instances<PumpMotor>().Where(x => x.PumpStation.AreaID == pumpStationId).FirstOrDefault();
+            var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).FirstOrDefault();
+
+            return motorData;
+        }
+
+        public MotorData GetCholorineMotorData(int pumpStationId)
+        {
+            ChlorineMotor motor = Container.Instances<ChlorineMotor>().Where(x => x.PumpStation.AreaID == pumpStationId).FirstOrDefault();
+            var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).FirstOrDefault();
+
+            return motorData;
         }
 
         public Sensor GetPumpSingleSensor(int sensorId)

@@ -60,7 +60,9 @@
         }
     </div>
 
-
+    <div class="make-switch">
+        <input type="checkbox" checked="true" class="probeProbe" />
+    </div>
 
 </div>
 
@@ -70,5 +72,39 @@
     var margin = parseInt($('#waterlevel').css('margin-top'));
     $("#waterlevel").css("background-color", "#2fcff4");
     $("#waterlevel").css("height", height - (100 - (1.35 * unit)) + "px");
-    $("#waterlevel").css("margin-top", margin+(100 - (1.35 * unit)) + "px");
+    $("#waterlevel").css("margin-top", margin + (100 - (1.35 * unit)) + "px");
+
+    $(".probeProbe").change(function () {
+        var state = null;
+        if ($('#checkMeOut').prop('checked')) {
+            state = "OFF";
+        } else
+            state = "ON";
+        $.ajax({
+            type: "POST",
+            url: '/ScadaMap/PublishMessage',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ state: state }),
+            dataType: "json",
+            success:
+                function (data) {
+                    if (data.IsSuccess) {
+                        if (data.Data == '') {
+                            alert('Success');
+                        } else {
+                            alert('failure');
+                        }
+
+                    } else {
+                        alert('unsuccessfull');
+
+                        }
+                },
+            error: function (e) {
+                alert(e);
+            }
+        });
+    });
+
+    
 </script>

@@ -22,6 +22,24 @@ namespace AplombTech.WMS.JsonParser
             DateTime loggesAtTime = Convert.ToDateTime(loggedAt);
             return loggesAtTime;
         }
+        public static bool GetPumpStationSensorDataComplete(string message)
+        {
+            JObject o = JObject.Parse(message);
+
+            string sensorDataComplete = o["PumpStation"]["SensorDataComplete"].ToString();
+
+            bool dataComplete = Convert.ToBoolean(sensorDataComplete);
+            return dataComplete;
+        }
+        public static int GetSensorDataLogCount(string message)
+        {
+            JObject o = JObject.Parse(message);
+
+            string logCount = o["PumpStation"]["logCnt"].ToString();
+
+            int count = Convert.ToInt32(logCount);
+            return count;
+        }
         public static DateTime GetConfigurationLoggedAtTime(string message)
         {
             JObject o = JObject.Parse(message);
@@ -55,36 +73,36 @@ namespace AplombTech.WMS.JsonParser
                 //{
                 //    configurationObject.PumpMotor = GetPumpMotor(o);
                 //}
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
                 {
                     sensorObject.Sensors.Add(GetSensorData("BV", o, 0)); ;
                 }
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
                 {
                     sensorObject.Sensors.Add(GetSensorData("CPD", o, 0)); ;
                 }
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
                 {
                     sensorObject.Sensors.Add(GetSensorData("ET", o, 0)); ;
                 }
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
                 {
                     sensorObject.Sensors.Add(GetSensorData("FT", o, 0));
                 }
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
                 {
                     sensorObject.Sensors.Add(GetSensorData("LT", o, 0)); ;
                 }
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Sensors"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
                 {
                     sensorObject.Sensors.Add(GetSensorData("PT", o, 0));
                 }
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Motor"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Motors"]).ToString()))
                 {
                     sensorObject.Motors.Add(GetMotorData("Pump_Motor", o, 0));
                 }
 
-                if (!string.IsNullOrEmpty((o["PumpStation"]["Motor"]).ToString()))
+                if (!string.IsNullOrEmpty((o["Motors"]).ToString()))
                 {
                     sensorObject.Motors.Add(GetMotorData("Chlorine_Motor", o, 0));
                 }
@@ -161,8 +179,8 @@ namespace AplombTech.WMS.JsonParser
         private static SensorValue GetSensorData(string root,JObject o, int index)
         {
             SensorValue data = new SensorValue();
-            data.SensorUUID = (string)o["PumpStation"]["Sensors"][root][index]["uid"];
-            data.Value = (string)o["PumpStation"]["Sensors"][root][index]["value"];
+            data.SensorUUID = (string)o["Sensors"][root][index]["uid"];
+            data.Value = (string)o["Sensors"][root][index]["value"];
 
 
             return data;
@@ -171,12 +189,11 @@ namespace AplombTech.WMS.JsonParser
         private static MotorValue GetMotorData(string root, JObject o, int index)
         {
             MotorValue data = new MotorValue();
-            data.MotorUid = (string)o["PumpStation"]["Motor"][root][index]["uid"];
-            data.Auto = (bool)o["PumpStation"]["Motor"][root][index]["Auto"];
-            data.Controllable = (bool)o["PumpStation"]["Motor"][root][index]["Controllable"];
-            data.MotorStatus = (string)o["PumpStation"]["Motor"][root][index]["Motor_Status"];
-            data.LastCommand = (string)o["PumpStation"]["Motor"][root][index]["Last_Command"];
-            data.LastCommandTime = (string)o["PumpStation"]["Motor"][root][index]["Last_Command_Time"];
+            data.MotorUid = (string)o["Motors"][root][index]["uid"];
+            data.Auto = string.IsNullOrEmpty((string)o["Motors"][root][index]["Auto"])? false:(bool)o["Motors"][root][index]["Auto"];
+            data.MotorStatus = (string)o["Motors"][root][index]["Motor_Status"];
+            data.LastCommand = (string)o["Motors"][root][index]["Last_Command"];
+            data.LastCommandTime = (string)o["Motors"][root][index]["Last_Command_Time"];
 
             return data;
         }

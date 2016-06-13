@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.QueryModel.Reports;
 using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.Site.Models;
+using AplombTech.WMS.Site.MQTT;
 using Newtonsoft.Json;
 
 namespace AplombTech.WMS.Site.Controllers
@@ -156,6 +158,26 @@ namespace AplombTech.WMS.Site.Controllers
             model.SelectedDmaId = station.Parent.AreaID;
             model.SelectedZoneId = station.AreaID;
             return View("~/Views/ScadaMap/PlainScada.cshtml", model);
+        }
+
+        [HttpPost]
+        public JsonResult PublishMessage(string state)
+        {
+            try
+            {
+                m2mMessageViewModel model = new m2mMessageViewModel();
+                model.MessgeTopic = "wasa/command/PumpStation_Id";
+                model.PublishMessage = state;
+                model.PublishMessageStatus = MQTTService.MQTTClientInstance(true).Publish(model.MessgeTopic, model.PublishMessage);
+                return Json(new { Data = model.PublishMessageStatus, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { Data = "", IsSuccess = false }, JsonRequestBehavior.AllowGet);
+            }
+
+
+
         }
 
     }
