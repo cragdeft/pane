@@ -84,8 +84,10 @@ namespace AplombTech.WMS.Domain.Features
             ScadaMap = 2,
             DrillDown = 3,
             SummaryReport = 4,
-            UnderThreshold = 5
+            UnderThreshold = 5,
+            CustomReport = 6
         }
+
         #endregion       
     }
 }
