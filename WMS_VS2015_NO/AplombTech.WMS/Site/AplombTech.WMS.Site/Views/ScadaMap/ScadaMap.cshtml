@@ -20,18 +20,65 @@
                 }
             }
 
-            if (@sensor is EnergySensor)
+            if (@sensor is BatteryVoltageDetector)
             {
-                <p>ET = @(((EnergySensor) sensor).CumulativeValue) kw/h</p>
+                <p>BV = @(((BatteryVoltageDetector) sensor).CurrentValue) @sensor.UnitName</p>
+            }
+            if (@sensor is ACPresenceDetector)
+            {
+                if (@sensor.CurrentValue <= 0)
+                {
+                    <p>Aircondition Off</p>
+                }
+                else
+                {
+                    <p>Aircondition On</p>
+                }
             }
 
-            
-
+            if (@sensor is EnergySensor)
+            {
+                <p>ET = @(((EnergySensor) sensor).CumulativeValue) @sensor.UnitName</p>
+            }
         }
 
-        <label class="checkbox-inline">
-            <input id="toggle-one" checked type="checkbox" class="probeProbe">
-        </label>
+
+
+
+    </div>
+
+    <div style="margin-left: 810px; position: absolute; margin-top: -320px;">
+        @for (int i = 0; i < @ViewBag.MotorDataList.Count; i++)
+        {
+            if (@ViewBag.MotorDataList[i] != null && i == 0)
+            {
+                <h5>Pump Motor </h5>
+                <p>Motor Status = <span id="motorStatus">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+                <p>Last Command time= @ViewBag.MotorDataList[i].LastCommandTime</p>
+                if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
+                {
+                    <label class="checkbox-inline">
+                        <input id="toggle-one" checked type="checkbox" class="probeProbe">
+                    </label>
+                }
+                else
+                {
+                    <label class="checkbox-inline">
+                        <input id="toggle-one" unchecked type="checkbox" class="probeProbe">
+                    </label>
+                }
+
+            }
+
+            if (@ViewBag.MotorDataList[i] != null && i == 1)
+            {
+                <h5>Cholorine Motor Motor </h5>
+                <p>Motor Status = @ViewBag.MotorDataList[i].MotorStatus</p>
+                <p>Last Command time= @ViewBag.MotorDataList[i].LastCommandTime</p>
+            }
+
+
+        }
     </div>
 
     <div style="margin-left: 220px; position: absolute; margin-top: -620px;">
@@ -83,21 +130,21 @@
     });
     $(".probeProbe").change(function () {
         var state = null;
-        if ($('#checkMeOut').prop('checked')) {
-            state = "OFF";
-        } else
+        if ($('.probeProbe').prop('checked')) {
             state = "ON";
+        } else
+            state = "OFF";
         $.ajax({
             type: "POST",
             url: '/ScadaMap/PublishMessage',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ state: state }),
+            data: JSON.stringify({ state: state, pumpStationId: $('#SelectedPumpStationId').val() }),
             dataType: "json",
             success:
                 function (data) {
                     if (data.IsSuccess) {
                         if (data.Data == 'Success') {
-                            alert('Success');
+                            $('#motorStatus').text(state);
                         } else {
                             alert('failure');
                         }

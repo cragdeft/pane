@@ -168,24 +168,17 @@ namespace AplombTech.WMS.Site.Controllers
         }
 
         [HttpPost]
-        public JsonResult PublishMessage(string state)
+        public JsonResult PublishMessage(string state, string pumpStationId)
         {
             try
             {
                 state = "\"" + state+ "\"";
                 string commandTime = "\"" + DateTime.Now.ToString()+ "\"";
-                string message = @"{
-                                  ""PumpStation_Id"": ""1"",
-                                  ""Pump_Motor"": [
-                                    {
-                                      ""Command"": "+state+ @",
-                                      ""Command_Time"": "+commandTime+ @" 
-                                    }
-                                  ]
-                            }" ;
+                string message = @"{""PumpStation_Id"": ""3"",""Pump_Motor"": [{""Command"": "+state+ @",""Command_Time"": "+commandTime+ @"}]}" ;
+                message.Replace(" ", string.Empty);
                 m2mMessageViewModel model = new m2mMessageViewModel();
-                model.MessgeTopic = "wasa / command / PumpStation_Id";
-                model.PublishMessage = state;
+                model.MessgeTopic = "wasa/command/"+ pumpStationId;
+                model.PublishMessage = message;
                 model.PublishMessageStatus = MQTTService.MQTTClientInstance(true).Publish(model.MessgeTopic, model.PublishMessage);
                 return Json(new { Data = model.PublishMessageStatus, IsSuccess = true }, JsonRequestBehavior.AllowGet);
             }

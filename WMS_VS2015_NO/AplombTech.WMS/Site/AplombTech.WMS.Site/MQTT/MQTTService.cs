@@ -28,6 +28,8 @@ namespace AplombTech.WMS.Site.MQTT
 
                 return instance;
             }
+
+            
         }
         static void PublishReceivedMessage_NotifyEvent(MQTTEventArgs customEventArgs)
         {

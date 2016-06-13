@@ -39,11 +39,18 @@ namespace AplombTech.MQTTLib
         public MqttClientWrapper(bool isSSL)
         {
             IsSSL = isSSL;
+            
         }      
         public MqttClientWrapper()
         {
             
-        }      
+        }  
+        
+        public void Connect()
+        {
+            MakeConnection();
+        }
+
         #endregion
 
         #region Properties
