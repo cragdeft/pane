@@ -277,7 +277,7 @@ namespace AplombTech.WMS.MQTT.Client
                 return;
             }
 
-            if (!(sensor is ChlorinePresenceDetector))
+            if (!(sensor is ChlorinePresenceDetector) && !(sensor is ACPresenceDetector) && !(sensor is BatteryVoltageDetector))
             {
                 if (value < sensor.MinimumValue)
                 {
@@ -303,6 +303,16 @@ namespace AplombTech.WMS.MQTT.Client
             if (sensor is ChlorinePresenceDetector)
             {
                 sensorName = "Chlorination Sensor";
+            }
+
+            if (sensor is ACPresenceDetector)
+            {
+                sensorName = "AC Presence Detector";
+            }
+
+            if (sensor is BatteryVoltageDetector)
+            {
+                sensorName = "Battery Voltage Detector";
             }
             return sensorName;
         }
