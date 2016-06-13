@@ -21,6 +21,7 @@ namespace AplombTech.WMS.QueryModel.Facade
         {
             Areas = base.Set<Area>();
             Devices = base.Set<Device>();
+            Motors = base.Set<Motor>();
             PumpMotors = base.Set<PumpMotor>();
             ChlorineMotors = base.Set<ChlorineMotor>();
             Cameras = base.Set<Camera>();
@@ -38,12 +39,14 @@ namespace AplombTech.WMS.QueryModel.Facade
 
         public DbSet<Area> Areas { get; private set; }
         public DbSet<Device> Devices { get; private set; }
+        public DbSet<Motor> Motors { get; private set; }
         public DbSet<PumpMotor> PumpMotors { get; private set; }
         public DbSet<ChlorineMotor> ChlorineMotors { get; private set; }
         public DbSet<Camera> Cameras { get; private set; }
         public DbSet<Router> Routers { get; private set; }
         public DbSet<Sensor> Sensors { get; private set; }
         public DbSet<SensorData> SensorDatas { get; private set; }
+        public DbSet<MotorData> MotorDatas { get; set; }
         public DbSet<Address> Addresses { get; private set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Role> Roles { get; private set; }

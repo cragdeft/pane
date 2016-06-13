@@ -56,6 +56,7 @@ namespace AplombTech.WMS.MQTT.Client {
                     typeof(PumpMotor),
                     typeof(ChlorineMotor),
                     typeof(SensorData),
+                    typeof(MotorData),
                     typeof(DataLog)
                 };
             }

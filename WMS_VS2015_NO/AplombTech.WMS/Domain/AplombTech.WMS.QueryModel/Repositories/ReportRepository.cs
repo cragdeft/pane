@@ -64,7 +64,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         public ZoneGoogleMap GetSingleAreaGoogleMap(int zoneId)
         {
             var zones = Container.NewViewModel<ZoneGoogleMap>();
-            zones.Zones = Container.Instances<Zone>().Where(x => x.AreaID == zoneId).ToList();
+            zones.Zones = Container.Instances<Zone>().Where(x => x.AreaId == zoneId).ToList();
 
             return zones;
         }
@@ -160,26 +160,28 @@ namespace AplombTech.WMS.QueryModel.Repositories
         
         public List<DMA> GetDmaList(int zoneId)
         {
-            var model = Container.Instances<DMA>().Where(x => x.Parent.AreaID == zoneId).ToList();
+            var model = Container.Instances<DMA>().Where(x => x.Parent.AreaId == zoneId).ToList();
             return model;
         }
 
         public List<PumpStation> GetPumpStationList(int dmaId)
         {
-            var model = Container.Instances<PumpStation>().Where(x => x.Parent.AreaID == dmaId).ToList();
+            var model = Container.Instances<PumpStation>().Where(x => x.Parent.AreaId == dmaId).ToList();
             return model;
         }
 
         public List<Sensor> GetSensorData(int pumpStationId)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).FirstOrDefault();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
             //var temp = pumpStation.Sensors.ToList();
             return pumpStation.Sensors.ToList();
         }
 
         public MotorData GetPumpMotorData(int pumpStationId)
         {
-           PumpMotor motor = Container.Instances<PumpMotor>().Where(x => x.PumpStation.AreaID == pumpStationId).FirstOrDefault();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
+
+            PumpMotor motor = pumpStation.PumpMotors;
             var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).FirstOrDefault();
 
             return motorData;
@@ -187,7 +189,9 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         public MotorData GetCholorineMotorData(int pumpStationId)
         {
-            ChlorineMotor motor = Container.Instances<ChlorineMotor>().Where(x => x.PumpStation.AreaID == pumpStationId).FirstOrDefault();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
+
+            ChlorineMotor motor = pumpStation.ChlorineMotors;
             var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).FirstOrDefault();
 
             return motorData;
@@ -201,12 +205,12 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         public PumpStation GetPumpStationById(int pumpStationId)
         {
-            return Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).SingleOrDefault();
+            return Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).SingleOrDefault();
         }
 
         public Dictionary<string, string> GetPumpStationOverView(int pumpStationId)
         {
-            var model = Container.Instances<PumpStation>().Where(x => x.AreaID == pumpStationId).FirstOrDefault();
+            var model = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
             Dictionary<string, string> dictonary = new Dictionary<string, string>();
             GetSensorDataDictonary(model, dictonary);
 
@@ -319,7 +323,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         private UnderThresold GenerateUnderThresoldData(UnderThresold model)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == model.SelectedPumpStationId).First();
             Sensor sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             model.SensorDatas = GetCurrentDataListWithinTime(sensor, model.FromDateTime, model.ToDateTime);
             return model;
@@ -328,14 +332,14 @@ namespace AplombTech.WMS.QueryModel.Repositories
         private DrillDown GeneratetSeriesDataRealTime(DrillDown model)
         {
             SetGraphTitleAndSubTitle(ref model, "Live Data Review", null);
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == model.SelectedPumpStationId).First();
 
             return SetupLiveData(model, pumpStation);
         }
         private DrillDown GeneratetSeriesDataDaily(DrillDown model)
         {
             SetGraphTitleAndSubTitle(ref model, "Daily Data Review", "Data for " + model.ToDateTime.DayOfWeek);
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == model.SelectedPumpStationId).First();
             model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupDailyData(model, pumpStation);
         }
@@ -361,7 +365,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         private DrillDown GeneratetSeriesDataHourly(DrillDown model)
         {
             SetGraphTitleAndSubTitle(ref model, "Hourly Data Review", "Data between Hour no = " + model.ToDateTime.Hour + " to " + ((model.ToDateTime.Hour) + 1));
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == model.SelectedPumpStationId).First();
             model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupHourlyData(model, pumpStation);
         }
@@ -377,7 +381,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         private DrillDown GeneratetSeriesDataWeekly(DrillDown model)
         {
             SetGraphTitleAndSubTitle(ref model, "Weekly Data Review", "Data for Week no = " + model.Week);
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == model.SelectedPumpStationId).First();
             model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupWeeklyData(model, pumpStation);
         }
@@ -393,7 +397,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         private DrillDown GeneratetSeriesDataMonthly(DrillDown model)
         {
             SetGraphTitleAndSubTitle(ref model, "Monthly Data Review", "Data for " + model.ToDateTime.ToString("MMM"));
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaID == model.SelectedPumpStationId).First();
+            PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == model.SelectedPumpStationId).First();
             model.SelectedSensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             return SetupMonthlyData(model, pumpStation);
         }

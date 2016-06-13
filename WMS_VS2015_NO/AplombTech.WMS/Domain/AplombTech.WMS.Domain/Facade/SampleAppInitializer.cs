@@ -35,15 +35,15 @@ namespace AplombTech.WMS.Domain.Facade
             PumpStation baridhara1 = CreatePumpStation("Baridhara1",dma810,baridhara1PumpBoundary, context);
             AddUnit("cubic/sec", context);
 
-            CreatePumpMotor("456", "123KL", baridhara1, context);
-            CreateCholorineMotor("456", "123KL", baridhara1, context);
-            CreateFlowTransmitter("741", baridhara1, context, "");
-            CreatePressureTransmitter("369", baridhara1, context, "");
-            CreateLevelTransmitter("852", baridhara1, context, "");
-            CreateEnergySensor("2465", baridhara1, context, "");
-            CreateChlorinationSensor("87654", baridhara1, context);
-            CreateAcPresenceDetector("554", baridhara1, context);
-            CreateBatteryVoltageDetector("37844", baridhara1, context);
+            CreatePumpMotor("456", "1", baridhara1, context);
+            CreateCholorineMotor("456", "2", baridhara1, context);
+            CreateFlowTransmitter("4", baridhara1, context, "");
+            CreatePressureTransmitter("5", baridhara1, context, "");
+            CreateLevelTransmitter("6", baridhara1, context, "");
+            CreateEnergySensor("3", baridhara1, context, "");
+            CreateChlorinationSensor("7", baridhara1, context);
+            CreateAcPresenceDetector("8", baridhara1, context);
+            CreateBatteryVoltageDetector("9", baridhara1, context);
 
             PumpStation baridhara3 = CreatePumpStation("Baridhara3",dma810, baridhara3PumpBoundary, context);
             //CreatePump("123", "456KL", baridhara3, context);
@@ -117,6 +117,7 @@ namespace AplombTech.WMS.Domain.Facade
             pump.UUID = uuid;
             pump.Controllable = true;
             pump.Auto = true;
+            pump.IsActive = true;
             pump.PumpStation = station;
             pump.AuditFields.InsertedBy = "Automated";
             pump.AuditFields.InsertedDateTime = DateTime.Now;
@@ -131,6 +132,7 @@ namespace AplombTech.WMS.Domain.Facade
             pump.UUID = uuid;
             pump.Controllable = false;
             pump.Auto = false;
+            pump.IsActive = true;
             pump.PumpStation = station;
             pump.AuditFields.InsertedBy = "Automated";
             pump.AuditFields.InsertedDateTime = DateTime.Now;
@@ -147,13 +149,15 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.Name = "Flow Transmitter";
             sensor.Model = "APL-FT";
             sensor.Version = "1.1a";
+            sensor.UnitName = "Litre/Hr";
+            sensor.DataType=Sensor.Data_Type.Float;
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-            sensor.UnitName = unit;
+            //sensor.UnitName = unit;
             context.Sensors.Add(sensor);
         }
         private void CreatePressureTransmitter(string uuid, PumpStation station, CommandModelDatabase context, string unit)
@@ -165,12 +169,14 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.Name = "Pressure Transmitter";
             sensor.Model = "APL-PT";
             sensor.Version = "1.1a";
+            sensor.UnitName = "Bar";
+            sensor.DataType = Sensor.Data_Type.Float;
             sensor.PumpStation = station;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-            sensor.UnitName = unit;
+            //sensor.UnitName = unit;
             context.Sensors.Add(sensor);
         }
         private void CreateLevelTransmitter(string uuid, PumpStation station, CommandModelDatabase context, string unit)
@@ -183,11 +189,13 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.Name = "Level Transmitter";
             sensor.Model = "APL-LT";
             sensor.Version = "1.1a";
+            sensor.UnitName = "Meter";
+            sensor.DataType = Sensor.Data_Type.Float;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-            sensor.UnitName = unit;
+            //sensor.UnitName = unit;
             context.Sensors.Add(sensor);
         }
         private void CreateEnergySensor(string uuid, PumpStation station, CommandModelDatabase context, string unit)
@@ -201,11 +209,13 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.Name = "Energy Transmitter";
             sensor.Model = "APL-ET";
             sensor.Version = "1.1a";
+            sensor.UnitName = "KW-hr";
+            sensor.DataType = Sensor.Data_Type.Float;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
             sensor.AuditFields.LastUpdatedDateTime = DateTime.Now;
-            sensor.UnitName = unit;
+            //sensor.UnitName = unit;
             context.Sensors.Add(sensor);
         }
         private void CreateChlorinationSensor(string uuid, PumpStation station, CommandModelDatabase context)
@@ -218,6 +228,8 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.Name = "Chlorine Presence Detector";
             sensor.Model = "APL-CPD";
             sensor.Version = "1.1a";
+            sensor.UnitName = "NA";
+            sensor.DataType = Sensor.Data_Type.Boolean;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
@@ -234,6 +246,8 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.Name = "AC Presence Detector";
             sensor.Model = "APL-ACP";
             sensor.Version = "1.1a";
+            sensor.UnitName = "NA";
+            sensor.DataType = Sensor.Data_Type.Boolean;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";
@@ -251,6 +265,8 @@ namespace AplombTech.WMS.Domain.Facade
             sensor.Name = "Battery Voltage Detector";
             sensor.Model = "APL-BV";
             sensor.Version = "1.1a";
+            sensor.UnitName = "V";
+            sensor.DataType = Sensor.Data_Type.Float;
             sensor.AuditFields.InsertedBy = "Automated";
             sensor.AuditFields.InsertedDateTime = DateTime.Now;
             sensor.AuditFields.LastUpdatedBy = "Automated";

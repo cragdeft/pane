@@ -25,8 +25,6 @@ namespace AplombTech.WMS.Domain.Areas
         public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
         public override string Name { get; set; }
-        public virtual bool SensorDataComplete { get; set; }
-        public virtual int LogCount { get; set; }
         public string DisablePropertyDefault()
         {
             IList<Feature> features = LoggedInUserInfoDomainRepository.GetFeatureListByLoginUser();
@@ -94,7 +92,16 @@ namespace AplombTech.WMS.Domain.Areas
                 return motors;
             }
         }
-
+        public PumpMotor PumpMotors
+        {
+            get
+            {
+                PumpMotor pumps = (from pump in Container.Instances<PumpMotor>()
+                                   where pump.PumpStation.AreaId == this.AreaId
+                                   select pump).FirstOrDefault();
+                return pumps;
+            }
+        }
         [MemberOrder(90), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Camera")]

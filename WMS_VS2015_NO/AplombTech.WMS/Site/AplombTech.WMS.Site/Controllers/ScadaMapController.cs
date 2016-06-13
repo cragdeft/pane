@@ -8,8 +8,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.QueryModel.Reports;
 using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.QueryModel.Shared;
 using AplombTech.WMS.Site.Models;
 using AplombTech.WMS.Site.MQTT;
 using Newtonsoft.Json;
@@ -116,12 +118,12 @@ namespace AplombTech.WMS.Site.Controllers
         public JsonResult GetDmaDropdownData(int zoneId)
         {
             List<AplombTech.WMS.QueryModel.Areas.DMA> dmaList = _reportRepository.GetDmaList(zoneId);
-            var dictornaty = new Dictionary<int,string>();
+            var dictornaty = new Dictionary<int, string>();
             foreach (var dma in dmaList)
             {
-                dictornaty.Add(dma.AreaID,dma.Name);
+                dictornaty.Add(dma.AreaId, dma.Name);
             }
-           
+
             return Json(new { Data = JsonConvert.SerializeObject(dictornaty), IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
 
@@ -131,7 +133,7 @@ namespace AplombTech.WMS.Site.Controllers
             var dictornaty = new Dictionary<int, string>();
             foreach (var pumpStation in pumpStationList)
             {
-                dictornaty.Add(pumpStation.AreaID, pumpStation.Name);
+                dictornaty.Add(pumpStation.AreaId, pumpStation.Name);
             }
 
             return Json(new { Data = JsonConvert.SerializeObject(dictornaty), IsSuccess = true }, JsonRequestBehavior.AllowGet);
@@ -140,7 +142,12 @@ namespace AplombTech.WMS.Site.Controllers
         public ActionResult ShowScada(string pumpStationId)
         {
             List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
-            return PartialView("~/Views/ScadaMap/ScadaMap.cshtml", sensorList.ToList());
+            List<QueryModel.Motors.MotorData> motorDataList = new List<QueryModel.Motors.MotorData>();
+            motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
+            motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
+
+            //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
+            return PartialView("~/Views/ScadaMap/ScadaMap.cshtml", sensorList);
         }
 
         public ActionResult ShowScadaForMap(string pumpStationId)
@@ -154,9 +161,9 @@ namespace AplombTech.WMS.Site.Controllers
             //List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(3));
             var station = _reportRepository.GetPumpStationById(pumpStationId);
             ScadaMap model = _reportRepository.ScadaMap();
-            model.SelectedZoneId = station.Parent.Parent.AreaID;
-            model.SelectedDmaId = station.Parent.AreaID;
-            model.SelectedZoneId = station.AreaID;
+            model.SelectedZoneId = station.Parent.Parent.AreaId;
+            model.SelectedDmaId = station.Parent.AreaId;
+            model.SelectedZoneId = station.AreaId;
             return View("~/Views/ScadaMap/PlainScada.cshtml", model);
         }
 
@@ -165,8 +172,19 @@ namespace AplombTech.WMS.Site.Controllers
         {
             try
             {
+                state = "\"" + state+ "\"";
+                string commandTime = "\"" + DateTime.Now.ToString()+ "\"";
+                string message = @"{
+                                  ""PumpStation_Id"": ""1"",
+                                  ""Pump_Motor"": [
+                                    {
+                                      ""Command"": "+state+ @",
+                                      ""Command_Time"": "+commandTime+ @" 
+                                    }
+                                  ]
+                            }" ;
                 m2mMessageViewModel model = new m2mMessageViewModel();
-                model.MessgeTopic = "wasa/command/PumpStation_Id";
+                model.MessgeTopic = "wasa / command / PumpStation_Id";
                 model.PublishMessage = state;
                 model.PublishMessageStatus = MQTTService.MQTTClientInstance(true).Publish(model.MessgeTopic, model.PublishMessage);
                 return Json(new { Data = model.PublishMessageStatus, IsSuccess = true }, JsonRequestBehavior.AllowGet);

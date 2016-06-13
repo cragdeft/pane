@@ -22,7 +22,7 @@ namespace AplombTech.WMS.QueryModel.Areas
             get
             {
                 IList<DMA> dmas = (from dma in Container.Instances<DMA>()
-                                   where dma.Parent.AreaID == this.AreaID
+                                   where dma.Parent.AreaId == this.AreaId
                                    select dma).ToList();
                 return dmas;
             }

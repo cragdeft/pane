@@ -21,6 +21,10 @@ namespace AplombTech.WMS.QueryModel.Motors
         public virtual string UUID { get; set; }
         public virtual bool Auto { get; set; }
         public virtual bool Controllable { get; set; }
+        public virtual bool IsRemoved { get; set; }
+        public virtual bool IsActive { get; set; }
+        public virtual string MotorStatus { get; set; }
+        public virtual string RemoveRemarks { get; set; }
         #endregion
 
         #region Complex Properties

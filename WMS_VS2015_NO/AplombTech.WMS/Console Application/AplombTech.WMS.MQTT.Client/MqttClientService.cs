@@ -270,7 +270,17 @@ namespace AplombTech.WMS.MQTT.Client
             if (sensor.DataType == Sensor.Data_Type.Float)
                 value = Convert.ToDecimal(dataValue);
             if (sensor.DataType == Sensor.Data_Type.Boolean)
-                value = Convert.ToDecimal(Convert.ToBoolean(dataValue));
+            {
+                if (dataValue != null && dataValue.Contains("."))
+                {
+                    value = Convert.ToDecimal(Convert.ToBoolean(Convert.ToDecimal(dataValue)));
+                }
+                else
+                {
+                    value = Convert.ToDecimal(Convert.ToBoolean(Convert.ToDecimal(dataValue)));
+                }
+            }
+            
             if (value == 0)
             {
                 SendSensorAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.DataMissing, sensor);               

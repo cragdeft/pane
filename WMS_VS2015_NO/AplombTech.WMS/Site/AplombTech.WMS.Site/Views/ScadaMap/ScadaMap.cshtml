@@ -25,7 +25,13 @@
                 <p>ET = @(((EnergySensor) sensor).CumulativeValue) kw/h</p>
             }
 
+            
+
         }
+
+        <label class="checkbox-inline">
+            <input id="toggle-one" checked type="checkbox" class="probeProbe">
+        </label>
     </div>
 
     <div style="margin-left: 220px; position: absolute; margin-top: -620px;">
@@ -60,9 +66,8 @@
         }
     </div>
 
-    <div class="make-switch">
-        <input type="checkbox" checked="true" class="probeProbe" />
-    </div>
+
+    
 
 </div>
 
@@ -73,7 +78,9 @@
     $("#waterlevel").css("background-color", "#2fcff4");
     $("#waterlevel").css("height", height - (100 - (1.35 * unit)) + "px");
     $("#waterlevel").css("margin-top", margin + (100 - (1.35 * unit)) + "px");
-
+    $(function() {
+        $('#toggle-one').bootstrapToggle();
+    });
     $(".probeProbe").change(function () {
         var state = null;
         if ($('#checkMeOut').prop('checked')) {
@@ -89,7 +96,7 @@
             success:
                 function (data) {
                     if (data.IsSuccess) {
-                        if (data.Data == '') {
+                        if (data.Data == 'Success') {
                             alert('Success');
                         } else {
                             alert('failure');

@@ -37,7 +37,7 @@ namespace AplombTech.WMS.QueryModel.Reports
         public int SelectedPumpStationId { get; set; }
         public string[] DeriveKeys()
         {
-            string[] ids = PumpStations.Select(s => s.AreaID.ToString()).ToArray();
+            string[] ids = PumpStations.Select(s => s.AreaId.ToString()).ToArray();
             return ids;
         }
         [Required(ErrorMessage = "Sensor Type is required")]
@@ -60,7 +60,7 @@ namespace AplombTech.WMS.QueryModel.Reports
         public void PopulateUsingKeys(string[] keys)
         {
             IList<string> ids = keys.ToList();
-            PumpStations = Container.Instances<PumpStation>().Where(w => ids.Contains(w.AreaID.ToString())).ToList();
+            PumpStations = Container.Instances<PumpStation>().Where(w => ids.Contains(w.AreaId.ToString())).ToList();
         }
         public string Unit { get; set; }
     }

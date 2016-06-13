@@ -14,19 +14,17 @@ namespace AplombTech.WMS.QueryModel.Areas
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
         #endregion
-        public virtual bool SensorDataComplete { get; set; }
-        public virtual int LogCount { get; set; }
         #region Get Properties      
         [MemberOrder(50), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Pump")]
-        [TableView(true, "UUID", "ModelNo")]
+        //[TableView(true, "UUID", "ModelNo")]
         public PumpMotor PumpMotors
         {
             get
             {
                 PumpMotor pumps = (from pump in Container.Instances<PumpMotor>()
-                              where pump.PumpStation.AreaID == this.AreaID
+                              where pump.PumpStation.AreaId == this.AreaId
                               select pump).FirstOrDefault();
                 return pumps;
             }
@@ -41,7 +39,7 @@ namespace AplombTech.WMS.QueryModel.Areas
             get
             {
                 IList<Camera> cameras = (from camera in Container.Instances<Camera>()
-                                         where camera.PumpStation.AreaID == this.AreaID
+                                         where camera.PumpStation.AreaId == this.AreaId
                                          select camera).ToList();
                 return cameras;
             }
@@ -56,7 +54,7 @@ namespace AplombTech.WMS.QueryModel.Areas
             get
             {
                 IList<Router> routers = (from router in Container.Instances<Router>()
-                                         where router.PumpStation.AreaID == this.AreaID
+                                         where router.PumpStation.AreaId == this.AreaId
                                          select router).ToList();
                 return routers;
             }
@@ -71,7 +69,7 @@ namespace AplombTech.WMS.QueryModel.Areas
             get
             {
                 IList<Sensor> sensors = (from sensor in Container.Instances<Sensor>()
-                                         where sensor.PumpStation.AreaID == this.AreaID
+                                         where sensor.PumpStation.AreaId == this.AreaId
                                          select sensor).ToList();
                 return sensors;
             }
@@ -83,7 +81,7 @@ namespace AplombTech.WMS.QueryModel.Areas
             get
             {
                 ChlorineMotor pumps = (from pump in Container.Instances<ChlorineMotor>()
-                                       where pump.PumpStation.AreaID == this.AreaID
+                                       where pump.PumpStation.AreaId == this.AreaId
                                        && pump.IsRemoved == false
                                        select pump).FirstOrDefault();
                 return pumps;

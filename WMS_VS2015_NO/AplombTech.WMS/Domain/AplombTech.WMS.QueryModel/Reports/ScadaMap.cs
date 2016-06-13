@@ -27,7 +27,7 @@ namespace AplombTech.WMS.QueryModel.Reports
         public virtual IList<Zone> Zones { get; set; }
         public string[] DeriveKeys()
         {
-            string[] ids = Zones.Select(s => s.AreaID.ToString()).ToArray();
+            string[] ids = Zones.Select(s => s.AreaId.ToString()).ToArray();
             return ids;
         }
         public int SelectedZoneId { get; set; }
@@ -36,7 +36,7 @@ namespace AplombTech.WMS.QueryModel.Reports
         public void PopulateUsingKeys(string[] keys)
         {
             IList<string> ids = keys.ToList();
-            Zones = Container.Instances<Zone>().Where(w => ids.Contains(w.AreaID.ToString())).ToList();
+            Zones = Container.Instances<Zone>().Where(w => ids.Contains(w.AreaId.ToString())).ToList();
         }
     }
 }

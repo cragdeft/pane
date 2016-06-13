@@ -114,7 +114,7 @@ namespace AplombTech.WMS.Site.Controllers
         {
             Sensor sensor = _reportRepository.GetPumpSingleSensor(sensorId);
             string unit = GetSensorUnit(sensor);
-            return Json(new { Value = sensor.CurrentValue,PumpStationId=sensor.PumpStation.AreaID, Unit = unit, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { Value = sensor.CurrentValue,PumpStationId=sensor.PumpStation.AreaId, Unit = unit, IsSuccess = true }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetOverViewDataOfPumpStation(int pumpStationId)
@@ -159,11 +159,11 @@ namespace AplombTech.WMS.Site.Controllers
             ZoneGoogleMap model = _reportRepository.GetSingleAreaGoogleMap(zoneId);
             foreach (var zone in model.Zones)
             {
-                locations.Add(new MapLocation(zone.Name,zone.Location,zone.AreaID));
+                locations.Add(new MapLocation(zone.Name,zone.Location,zone.AreaId));
                 foreach (var dma in zone.DMAs)
                 {
-                    locations.Add(new MapLocation(dma.Name, dma.Location,dma.AreaID));
-                    locations.AddRange(dma.PumpStations.Select(pumpStation => new MapLocation(pumpStation.Name, pumpStation.Location,pumpStation.AreaID)));
+                    locations.Add(new MapLocation(dma.Name, dma.Location,dma.AreaId));
+                    locations.AddRange(dma.PumpStations.Select(pumpStation => new MapLocation(pumpStation.Name, pumpStation.Location,pumpStation.AreaId)));
                 }
             }
             return Json(new { Data = locations, IsSuccess = true }, JsonRequestBehavior.AllowGet);

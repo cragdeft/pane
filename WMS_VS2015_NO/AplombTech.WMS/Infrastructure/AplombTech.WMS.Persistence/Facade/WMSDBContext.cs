@@ -34,6 +34,7 @@ namespace AplombTech.WMS.Persistence.Facade
         public DbSet<ChlorinePresenceDetector> ChlorinePresenceDetectors { get; set; }
         public DbSet<PressureSensor> PressureSensors { get; set; }
         public DbSet<SensorData> SensorDatas { get; set; }
+        public DbSet<MotorData> MotorDatas { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<DataLog> SensorDataLogs { get; set; }
