@@ -146,9 +146,9 @@ namespace AplombTech.WMS.Domain.Repositories
         {           
             SensorData data = Container.NewTransientInstance<SensorData>();
             if (sensor.DataType == Sensor.Data_Type.Float)
-                data.Value = Convert.ToDecimal(data.Value);
+                data.Value = Convert.ToDecimal(value);
             if (sensor.DataType == Sensor.Data_Type.Boolean)
-                data.Value = Convert.ToDecimal(Convert.ToBoolean(data.Value));
+                data.Value = Convert.ToDecimal(Convert.ToBoolean(value));
             data.LoggedAt = loggedAt;
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
