@@ -47,10 +47,10 @@ namespace AplombTech.WMS.Sensor.Data.Processor
                 if (recipient.Email.Trim().Length > 0)
                     EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Pump Motor Is Off", message);
 
-                SmsSender.SendSMS(recipient.MobileNo, message);
+                if(recipient.MobileNo.Trim().Length>0)
+                    SmsSender.SendSMS(recipient.MobileNo, message);
             }
         }
-
         private void HandleSensorMessage(SensorAlertMessage message, string alertMessage, IList<AlertRecipient> recipients)
         {
             switch (message.AlertMessageType)
@@ -72,8 +72,8 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             {
                 if(recipient.Email.Trim().Length > 0)
                     EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Data Missing", message);
-
-                SmsSender.SendSMS(recipient.MobileNo, message);
+                if(recipient.MobileNo.Trim().Length > 0)
+                    SmsSender.SendSMS(recipient.MobileNo, message);
             }
         }
         private void SendUnderThresholdMessage(SensorAlertMessage objmessage, string alertMessage, IList<AlertRecipient> recipients)
@@ -85,7 +85,8 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             {
                 if (recipient.Email.Trim().Length > 0)
                     EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com","Under threshold Data", message);
-                SmsSender.SendSMS(recipient.MobileNo, message);
+                if(recipient.MobileNo.Trim().Length > 0)
+                    SmsSender.SendSMS(recipient.MobileNo, message);
             }
         }
     }
