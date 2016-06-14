@@ -217,7 +217,7 @@ namespace AplombTech.WMS.MQTT.Client
                 if (motor.IsActive)
                 {
                     ProcessRepository.CreateNewMotorData(data, messageObject.SensorLoggedAt, motor);
-                    if(data.MotorStatus == Motor.OFF)
+                    if(motor is PumpMotor && data.MotorStatus == Motor.OFF)
                         PublishMotorAlertMessage(data, motor);
                 }
             }
@@ -262,7 +262,7 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
         {
-            if (sensor is EnergySensor) return;
+            if (sensor is EnergySensor || sensor is ACPresenceDetector || sensor is BatteryVoltageDetector) return;
 
             string sensorName = GetSensorName(sensor);
 
