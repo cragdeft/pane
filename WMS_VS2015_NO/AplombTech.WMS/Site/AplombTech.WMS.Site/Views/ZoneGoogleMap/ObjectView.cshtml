@@ -23,49 +23,49 @@
             @foreach (var zone in Model.Zones)
             {
             <ul>
-                <li id="zone_@zone.AreaID" data-jstree='{"icon":"../../Images/Icons/zone.png"}'>
+                <li id="zone_@zone.AreaId" data-jstree='{"icon":"../../Images/Icons/zone.png"}'>
                     @zone.Name
                     <ul>
                         @foreach (var dma in zone.DMAs)
                             {
-                            <li id="dma_@dma.AreaID" data-jstree='{"icon":"../../Images/Icons/dma.png"}'>
+                            <li id="dma_@dma.AreaId" data-jstree='{"icon":"../../Images/Icons/dma.png"}'>
                                 @dma.Name
                                 <ul>
                                     @foreach (var pumpStation in dma.PumpStations)
                                         {
-                                        <li id="pump_@pumpStation.AreaID" data-jstree='{"icon":"../../Images/Icons/pump.png"}'>
+                                        <li id="pump_@pumpStation.AreaId" data-jstree='{"icon":"@Url.Content("~/Images/Icons/pump.png")"}'>
                                             @pumpStation.Name
                                             <ul>
                                                 @foreach (var sensor in pumpStation.Sensors)
                                                     {
                                                         if (@sensor is EnergySensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/ET.png"}'>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/ET.png")"}'>
                                                         ET - @sensor.UUID
                                                     </li>
 
                                                         }
                                                         if (@sensor is PressureSensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/PT.png"}'>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/PT.png")"}'>
                                                         PT - @sensor.UUID
                                                     </li>
                                                         }
                                                         if (@sensor is FlowSensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/FT.png"}'>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/FT.png")"}'>
                                                         FT - @sensor.UUID
                                                     </li>
                                                         }
                                                         if (@sensor is LevelSensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/LT.png"}'>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images")/Icons/LT.png"}'>
                                                         LT - @sensor.UUID
                                                     </li>
                                                         }
                                                         if (@sensor is ChlorinePresenceDetector)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"../../Images/Icons/CT.png"}'>
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/CT.png")"}'>
                                                         CT - @sensor.UUID
                                                     </li>
                                                         }
@@ -92,9 +92,9 @@
             LoadMapRelatedScript();
         </script>
         <script>
-            var scadaUrl = '@Url.Action("DemoScada", "ScadaMap")';
-            var drillDownUrl = '@Url.Action("ShowDrillDownFromMap", "DrillDown")';
-            var underThresoldUrl = '@Url.Action("DemoScada", "ScadaMap")';
+            var scadaUrl = $("#scadaUrl").val();
+            var drillDownUrl = $("#drillDownUrl").val();
+            var underThresoldUrl = $("#underThresoldUrl").val();
         </script>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
             <div class="modal-dialog">

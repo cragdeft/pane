@@ -9,7 +9,7 @@ $("#showUT").click(function (e) {
     var model = setModel();
     $.ajax({
         type: 'POST',
-        url: "/UnderThresold/GetUnderThresoldReportModel",
+        url: $("#underThresoldReportUrl").val(),
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({ model: model }),
         dataType: "html",

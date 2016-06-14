@@ -182,6 +182,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
 
             PumpMotor motor = pumpStation.PumpMotors;
+            if (motor == null) return null;
             var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).OrderByDescending(x => x.ProcessAt).FirstOrDefault();
 
             return motorData;
@@ -192,6 +193,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
 
             ChlorineMotor motor = pumpStation.ChlorineMotors;
+            if (motor == null) return null;
             var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).OrderByDescending(x => x.ProcessAt).FirstOrDefault();
 
             return motorData;

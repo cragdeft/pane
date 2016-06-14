@@ -448,6 +448,7 @@
     <Content Include="App_Data\Pump_DMA_809.kml" />
     <Content Include="App_Data\Pump_DMA_810.kml" />
     <Content Include="Images\Icons\icons.psd" />
+    <None Include="Properties\PublishProfiles\app server 50.pubxml" />
     <None Include="Properties\PublishProfiles\watermanagementsystem - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\watermanagementsystem - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />

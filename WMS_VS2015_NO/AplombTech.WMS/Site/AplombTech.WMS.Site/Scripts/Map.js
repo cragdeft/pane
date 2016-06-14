@@ -71,7 +71,7 @@ function drawDmaAndPumpStation(zoneId) {
     markers = [];
     $.ajax({
         type: "POST",
-        url: '/ZoneGoogleMap/GetZoneGoogleMap',
+        url: $("#getZoneGooleMapUrl").val(),
         data: JSON.stringify({ zoneId: zoneId }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",

@@ -3,7 +3,8 @@
 @model List<AplombTech.WMS.QueryModel.Sensors.Sensor>
 
 <div id="imgContainer">
-    <img src="../../Images/scadamap.png" class="img" alt="Scada map">
+    <img src= "@Url.Content("~/Images/scadamap.png")" class="img" alt="Scada map">
+    
     <div style="margin-left: 110px; position: absolute; margin-top: -320px;">
         <h4>General Information</h4>
         @foreach (var sensor in Model)
@@ -136,7 +137,7 @@
             state = "OFF";
         $.ajax({
             type: "POST",
-            url: '/ScadaMap/PublishMessage',
+            url: $("#publishCommandUrl").val(),
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ state: state, pumpStationId: $('#SelectedPumpStationId').val() }),
             dataType: "json",

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{296045FB-E728-4027-AD04-F5DF72BDF030}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AplombTech.WMS.MQTT.Client</RootNamespace>
     <AssemblyName>AplombTech.WMS.MQTT.Client</AssemblyName>

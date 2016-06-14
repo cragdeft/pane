@@ -9,7 +9,7 @@
     @(Styles.Render("~/Content/css", "~/Content/themes/base/css", "~/Content/nakedobjectscss"))
     @Scripts.Render("~/bundles/modernizr")
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -65,7 +65,19 @@
     <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
+    @Html.Hidden("publishCommandUrl", Url.Action("PublishMessage", "ScadaMap"))
+    @Html.Hidden("getDmaUrl", Url.Action("GetDmaDropdownData", "ScadaMap"))
+    @Html.Hidden("getPumpStationUrl", Url.Action("GetPumpStationDropdownData", "ScadaMap"))
+    @Html.Hidden("showScadaUrl", Url.Action("ShowScada", "ScadaMap"))
+    @Html.Hidden("drillDownReportUrl", Url.Action("GetReportModel", "DrillDown"))
+    @Html.Hidden("underThresoldReportUrl", Url.Action("GetUnderThresoldReportModel", "UnderThresold"))
+    @Html.Hidden("scadaUrl", Url.Action("DemoScada", "ScadaMap"))
+    @Html.Hidden("drillDownUrl", Url.Action("ShowDrillDownFromMap", "DrillDown"))
+    @Html.Hidden("underThresoldUrl", Url.Action("DemoScada", "ScadaMap"))
+    @Html.Hidden("getZoneGooleMapUrl", Url.Action("GetZoneGoogleMap", "ZoneGoogleMap"))
+    @Html.Hidden("pumpStationOverViewUrl", Url.Action("GetOverViewDataOfPumpStation", "ZoneGoogleMap"))
+    @Html.Hidden("getSingleSensorStatusUrl", Url.Action("GetSingleSensorStatus", "ZoneGoogleMap"))
+    @Html.Hidden("imageUrl", @Url.Content("~/Images"))
     @RenderSection("Scripts", required: false)
 
 

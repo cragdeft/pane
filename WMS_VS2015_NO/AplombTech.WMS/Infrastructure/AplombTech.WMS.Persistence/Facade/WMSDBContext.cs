@@ -21,7 +21,6 @@ namespace AplombTech.WMS.Persistence.Facade
         //Add DbSet properties for root objects, thus:
         public DbSet<Area> Areas { get; set; }
         public DbSet<Device> Devices { get; set; }
-        public DbSet<Domain.Motors.PumpMotor> Pumps { get; set; }
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<Router> Routers { get; set; }
         public DbSet<Domain.Motors.Motor> Motors { get; set; }

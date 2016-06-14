@@ -18,7 +18,7 @@ function LoadMapRelatedScript() {
 
                 $.ajax({
                     type: "POST",
-                    url: '/ZoneGoogleMap/GetOverViewDataOfPumpStation',
+                    url: $("#pumpStationOverViewUrl").val(),
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({ pumpStationId: node_id }),
                     dataType: "json",
@@ -49,7 +49,7 @@ function LoadMapRelatedScript() {
 
                 $.ajax({
                     type: "POST",
-                    url: '/ZoneGoogleMap/GetSingleSensorStatus',
+                    url: $("#getSingleSensorStatusUrl").val(),
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({ sensorId: node_id }),
                     dataType: "json",

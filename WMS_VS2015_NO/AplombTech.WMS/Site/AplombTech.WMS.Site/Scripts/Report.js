@@ -17,7 +17,7 @@ $("#show").click(function (e) {
     
     $.ajax({
         type: "POST",
-        url: '/DrillDown/GetReportModel',
+        url: $("#drillDownReportUrl").val(),
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({ model: model }),
         dataType: "json",
@@ -110,7 +110,7 @@ function showRealChart(data2) {
 
                         $.ajax({
                             type: "POST",
-                            url: '/DrillDown/GetReportModel',
+                            url: $("#drillDownReportUrl").val(),
                             contentType: "application/json; charset=utf-8",
                             data: JSON.stringify({ model: setModel() }),
                             dataType: "json",
@@ -340,7 +340,7 @@ function showGraph(data) {
                             var model = setModel();
                             $.ajax({
                                 type: "POST",
-                                url: '/DrillDown/GetReportModel',
+                                url: $("#drillDownReportUrl").val(),
                                 contentType: "application/json; charset=utf-8",
                                 data: JSON.stringify({ model: model }),
                                 dataType: "json",

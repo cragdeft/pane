@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{52402D82-A8D9-42F0-9C28-CA960FFF7C33}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AplombTech.WMS.Sensor.Data.Processor</RootNamespace>
     <AssemblyName>AplombTech.WMS.Sensor.Data.Processor</AssemblyName>
