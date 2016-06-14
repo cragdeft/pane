@@ -148,7 +148,16 @@ namespace AplombTech.WMS.Domain.Repositories
             if (sensor.DataType == Sensor.Data_Type.Float)
                 data.Value = Convert.ToDecimal(value);
             if (sensor.DataType == Sensor.Data_Type.Boolean)
-                data.Value = Convert.ToDecimal(Convert.ToBoolean(value));
+            {
+                if (value != null && value.Contains("."))
+                {
+                    data.Value = Convert.ToDecimal(Convert.ToBoolean(Convert.ToDecimal(value)));
+                }
+                else
+                {
+                    data.Value = Convert.ToDecimal(Convert.ToBoolean(Convert.ToDecimal(value)));
+                }
+            }
             data.LoggedAt = loggedAt;
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
