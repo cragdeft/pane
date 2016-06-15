@@ -80,7 +80,7 @@ namespace AplombTech.WMS.Domain.Areas
         [MemberOrder(80), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Motors")]
-        [TableView(true, "UUID", "Auto", "Controllable")]
+        [TableView(true, "UUID", "MotorStatus", "Auto", "Controllable", "LastDataReceived")]
         public IList<Motor> Motors
         {
             get

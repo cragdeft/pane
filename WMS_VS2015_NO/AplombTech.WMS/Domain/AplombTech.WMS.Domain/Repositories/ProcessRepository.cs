@@ -162,7 +162,7 @@ namespace AplombTech.WMS.Domain.Repositories
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            UpdateLastDataOfSensor(data.Value, loggedAt, sensor);
+            UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
             UpdateCumulativeDataOfSensor(data.Value, sensor);
           
             Container.Persist(ref data);            
@@ -179,13 +179,14 @@ namespace AplombTech.WMS.Domain.Repositories
             motorData.Motor = motor;
             Container.Persist(ref motorData);
 
-            UpdateLastDataOfMotor(data, loggedAt, motor);
+            UpdateLastDataOfMotor(data, motorData.ProcessAt, motor);
         }
         private void UpdateLastDataOfMotor(MotorValue data, DateTime loggedAt, Motor motor)
         {
             motor.Auto = data.Auto;
             motor.Controllable = data.Controllable;
             motor.MotorStatus = data.MotorStatus;
+            motor.LastDataReceived = loggedAt;
         }
         private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
         {

@@ -77,6 +77,8 @@ namespace AplombTech.WMS.Domain.Motors
         }
         [MemberOrder(90), Required, Disabled]
         public virtual bool IsActive { get; set; }
+        [MemberOrder(100), Required, Disabled]
+        public virtual DateTime? LastDataReceived { get; set; }
         #endregion
         public enum MotorType
         {
