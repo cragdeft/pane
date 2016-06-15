@@ -6,6 +6,7 @@ using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.JsonParser;
 using AplombTech.WMS.JsonParser.Entity;
 using AplombTech.WMS.Messages.Commands;
+using AplombTech.WMS.Utility;
 using NakedObjects;
 using NakedObjects.Architecture.Component;
 using NakedObjects.Async;
@@ -148,6 +149,8 @@ namespace AplombTech.WMS.MQTT.Client
             catch (Exception ex)
             {
                 log.Error("Could not stablished connection to MQTT broker - " + ex.Message);
+                EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "WMS:Could not stablished connection to MQTT broker", ex.Message);
+                EmailSender.SendEmail("sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "WMS:Could not stablished connection to MQTT broker", ex.Message);
                 //don't leave the client connected
                 if (DhakaWasaMqtt != null && DhakaWasaMqtt.IsConnected)
                 {
