@@ -201,6 +201,10 @@
       <Project>{5104d6f2-54a9-4c43-b49d-84fa2a4f7cc0}</Project>
       <Name>AplombTech.WMS.Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Utility\AplombTech.WMS.Utility.csproj">
+      <Project>{52ea4cb2-2fe4-44af-a638-4b1a1f9786ef}</Project>
+      <Name>AplombTech.WMS.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
