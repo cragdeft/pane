@@ -92,16 +92,7 @@ namespace AplombTech.WMS.Domain.Areas
                 return motors;
             }
         }
-        public PumpMotor PumpMotors
-        {
-            get
-            {
-                PumpMotor pumps = (from pump in Container.Instances<PumpMotor>()
-                                   where pump.PumpStation.AreaId == this.AreaId
-                                   select pump).FirstOrDefault();
-                return pumps;
-            }
-        }
+        
         [MemberOrder(90), NotMapped]
         //[Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Camera")]
