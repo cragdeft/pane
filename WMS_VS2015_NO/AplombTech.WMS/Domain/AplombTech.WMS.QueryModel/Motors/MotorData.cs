@@ -15,6 +15,7 @@ namespace AplombTech.WMS.QueryModel.Motors
         public virtual string MotorStatus { get; set; }
         public virtual string LastCommand { get; set; }
         public virtual string LastCommandTime { get; set; }
+        public virtual bool Auto { get; set; }
         public virtual DateTime LoggedAt { get; set; }
         public virtual DateTime ProcessAt { get; set; }
 

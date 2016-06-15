@@ -173,6 +173,7 @@ namespace AplombTech.WMS.Domain.Repositories
             motorData.MotorStatus = data.MotorStatus;
             motorData.LastCommand = data.LastCommand;
             motorData.LastCommandTime = data.LastCommandTime;
+            motorData.Auto = data.Auto;
             motorData.LoggedAt = loggedAt;
             motorData.ProcessAt = DateTime.Now;
             motorData.Motor = motor;

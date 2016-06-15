@@ -203,6 +203,7 @@ namespace AplombTech.WMS.MQTT.Client
 
             SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
 
+
             if (messageObject == null) return;
 
             ProcessSensorData(messageObject);
@@ -214,7 +215,7 @@ namespace AplombTech.WMS.MQTT.Client
             foreach (MotorValue data in messageObject.Motors)
             {
                 Motor motor = AreaRepository.FindMotorByUuid(data.MotorUid);
-                if (motor.IsActive)
+                if (motor != null && motor.IsActive)
                 {
                     ProcessRepository.CreateNewMotorData(data, messageObject.SensorLoggedAt, motor);
                     if(motor is PumpMotor && data.MotorStatus == Motor.OFF)
@@ -253,7 +254,7 @@ namespace AplombTech.WMS.MQTT.Client
             foreach (SensorValue data in messageObject.Sensors)
             {
                 Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
-                if (sensor.IsActive)
+                if (sensor!=null && sensor.IsActive)
                 {
                     ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);
                     PublishSensorAlertMessage(data.Value, sensor);

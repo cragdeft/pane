@@ -63,14 +63,17 @@ function LoadPumpStation(dmaId) {
         }
     });
 }
-
+var interval;
 function showScada() {
+    if (interval != null)
+        clearInterval(interval);
+    interval = setInterval(function() {
+        $('#searchResults').html('<img src="' + $("#imageUrl").val() + '/ajax-loader.gif">').delay(50000).fadeIn(4000);
 
-    $('#searchResults').html('<img src="' + $("#imageUrl").val() + '/ajax-loader.gif">').delay(50000).fadeIn(4000);
-
-    var url = $("#showScadaUrl").val();
-    var pumpStationId = $('#SelectedPumpStationId').val();
-    $('#searchResults').load(url, { pumpStationId: pumpStationId });
+        var url = $("#showScadaUrl").val();
+        var pumpStationId = $('#SelectedPumpStationId').val();
+        $('#searchResults').load(url, { pumpStationId: pumpStationId });
+    }, 10000);
 }
 
 

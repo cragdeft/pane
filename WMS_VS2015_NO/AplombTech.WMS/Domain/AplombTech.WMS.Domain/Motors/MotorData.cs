@@ -15,6 +15,7 @@ namespace AplombTech.WMS.Domain.Motors
         public virtual int MotorDataID { get; set; }
         [MemberOrder(10), Required]
         public virtual string MotorStatus { get; set; }
+        public virtual bool Auto { get; set; }
         public virtual string LastCommand { get; set; }
         public virtual string LastCommandTime { get; set; }
         [MemberOrder(30), Required]
