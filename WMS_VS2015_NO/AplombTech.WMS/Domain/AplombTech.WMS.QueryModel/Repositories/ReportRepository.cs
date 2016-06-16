@@ -23,7 +23,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         #region Injected Services
         public LoggedInUserInfoRepository LoggedInUserInfoRepository { set; protected get; }
         #endregion
-        
+
         public static void Menu(IMenu menu)
         {
             menu.AddAction("GoogleMap");
@@ -150,14 +150,14 @@ namespace AplombTech.WMS.QueryModel.Repositories
             IList<Feature> features = LoggedInUserInfoRepository.GetFeatureListByLoginUser();
 
             Feature feature =
-                features.Where(w => w.FeatureCode == (int) Feature.ReportFeatureEnums.ScadaMap
+                features.Where(w => w.FeatureCode == (int)Feature.ReportFeatureEnums.ScadaMap
                 && w.FeatureType.FeatureTypeName == FeatureType.FeatureTypeEnums.Report.ToString()).FirstOrDefault();
 
-            if (feature  == null)
+            if (feature == null)
                 return true;
             return false;
         }
-        
+
         public List<DMA> GetDmaList(int zoneId)
         {
             var model = Container.Instances<DMA>().Where(x => x.Parent.AreaId == zoneId).ToList();
@@ -360,7 +360,16 @@ namespace AplombTech.WMS.QueryModel.Repositories
             var sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
             ReportSeries data = new ReportSeries();
             data.name = model.TransmeType.ToString().Replace("_", " ") + "-" + sensor.UUID;
-            data.data = new List<double>() {(double) sensor.CurrentValue };
+            if (sensor is EnergySensor)
+            {
+                data.data = new List<double>() { (double)((EnergySensor)sensor).CumulativeValue };
+            }
+            else if (sensor is FlowSensor)
+            {
+                data.data = new List<double>() { (double)((FlowSensor)sensor).CumulativeValue };
+            }
+            else
+                data.data = new List<double>() { (double)sensor.CurrentValue };
             model.Series.Add(data);
             return model;
         }
@@ -424,7 +433,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             {
                 if (sensor is WMS.QueryModel.Sensors.PressureSensor && model.TransmeType == Sensor.TransmitterType.PRESSURE_TRANSMITTER)
                 {
-                    Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue,MinimumValue = sensor.MinimumValue};
+                    Sensor p = new PressureSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
                     model.Unit = sensor.UnitName;
                     return (T)p;
                 }
@@ -438,14 +447,14 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
                 if (sensor is EnergySensor && model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
-                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue, CumulativeValue = ((FlowSensor)sensor).CumulativeValue };
                     model.Unit = sensor.UnitName;
                     return (T)p;
                 }
 
                 if (sensor is WMS.QueryModel.Sensors.FlowSensor && model.TransmeType == Sensor.TransmitterType.FLOW_TRANSMITTER)
                 {
-                    Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue };
+                    Sensor p = new FlowSensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue,CumulativeValue = ((FlowSensor)sensor).CumulativeValue};
                     model.Unit = sensor.UnitName;
                     return (T)p;
 
@@ -573,7 +582,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             List<double> avgValue = new List<double>();
             for (int i = 0; i <= 12; i++)
             {
-                double value =(double) GetCurrentDataWithinTime(sensorId,
+                double value = (double)GetCurrentDataWithinTime(sensorId,
                     model.ToDateTime.AddMinutes(i == 0 ? 0 : i + 5),
                     model.ToDateTime.AddMinutes(i == 0 ? 5 : i * 5));
                 avgValue.Add(value);

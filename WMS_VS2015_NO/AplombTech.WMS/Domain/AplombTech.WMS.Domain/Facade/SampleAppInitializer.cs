@@ -35,22 +35,49 @@ namespace AplombTech.WMS.Domain.Facade
             PumpStation baridhara1 = CreatePumpStation("Baridhara1",dma810,baridhara1PumpBoundary, context);
             AddUnit("cubic/sec", context);
 
-            CreatePumpMotor("456", "1", baridhara1, context);
-            CreateCholorineMotor("456", "2", baridhara1, context);
-            CreateFlowTransmitter("4", baridhara1, context, "");
-            CreatePressureTransmitter("5", baridhara1, context, "");
-            CreateLevelTransmitter("6", baridhara1, context, "");
-            CreateEnergySensor("3", baridhara1, context, "");
-            CreateChlorinationSensor("7", baridhara1, context);
-            CreateAcPresenceDetector("8", baridhara1, context);
-            CreateBatteryVoltageDetector("9", baridhara1, context);
+            CreatePumpMotor("456", "31", baridhara1, context);
+            CreateCholorineMotor("456", "32", baridhara1, context);
+            CreateFlowTransmitter("34", baridhara1, context, "");
+            CreatePressureTransmitter("35", baridhara1, context, "");
+            CreateLevelTransmitter("36", baridhara1, context, "");
+            CreateEnergySensor("33", baridhara1, context, "");
+            CreateChlorinationSensor("37", baridhara1, context);
+            CreateAcPresenceDetector("39", baridhara1, context);
+            CreateBatteryVoltageDetector("38", baridhara1, context);
+            
 
             PumpStation baridhara3 = CreatePumpStation("Baridhara3",dma810, baridhara3PumpBoundary, context);
             //CreatePump("123", "456KL", baridhara3, context);
-
+            CreatePumpMotor("456", "41", baridhara3, context);
+            CreateCholorineMotor("456", "42", baridhara3, context);
+            CreateFlowTransmitter("44", baridhara3, context, "");
+            CreatePressureTransmitter("45", baridhara3, context, "");
+            CreateLevelTransmitter("46", baridhara3, context, "");
+            CreateEnergySensor("43", baridhara3, context, "");
+            CreateChlorinationSensor("47", baridhara3, context);
+            CreateAcPresenceDetector("49", baridhara3, context);
+            CreateBatteryVoltageDetector("48", baridhara3, context);
             DMA dma811 = CreateDMA("DMA 811", zone8, dma810Boundary, context);
             PumpStation Shahjadpur = CreatePumpStation("Shahjadpur", dma811,shahjadpurPumpBoundary, context);
+            CreatePumpMotor("456", "61", Shahjadpur, context);
+            CreateCholorineMotor("456", "62", Shahjadpur, context);
+            CreateFlowTransmitter("64", Shahjadpur, context, "");
+            CreatePressureTransmitter("65", Shahjadpur, context, "");
+            CreateLevelTransmitter("66", Shahjadpur, context, "");
+            CreateEnergySensor("63", Shahjadpur, context, "");
+            CreateChlorinationSensor("67", Shahjadpur, context);
+            CreateAcPresenceDetector("69", Shahjadpur, context);
+            CreateBatteryVoltageDetector("68", Shahjadpur, context);
             PumpStation baridhara2 = CreatePumpStation("Baridhara2", dma811,baridhara2PumpBoundary, context);
+            CreatePumpMotor("456", "71", baridhara2, context);
+            CreateCholorineMotor("456", "72", baridhara2, context);
+            CreateFlowTransmitter("74", baridhara2, context, "");
+            CreatePressureTransmitter("75", baridhara2, context, "");
+            CreateLevelTransmitter("76", baridhara2, context, "");
+            CreateEnergySensor("73", baridhara2, context, "");
+            CreateChlorinationSensor("77", baridhara2, context);
+            CreateAcPresenceDetector("79", baridhara2, context);
+            CreateBatteryVoltageDetector("78", baridhara2, context);
 
             CreateDesignation("PO", "Pump Operator", context);
             CreateDesignation("SAE", "Sub Asst. Engineer", context);

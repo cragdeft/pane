@@ -75,6 +75,10 @@ namespace AplombTech.WMS.JsonParser
                 //}
                 if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
                 {
+                    sensorObject.Sensors.Add(GetAcpSensorData("ACP", o)); ;
+                }
+                if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
+                {
                     sensorObject.Sensors.Add(GetSensorData("BV", o, 0)); ;
                 }
                 if (!string.IsNullOrEmpty((o["Sensors"]).ToString()))
@@ -181,6 +185,16 @@ namespace AplombTech.WMS.JsonParser
             SensorValue data = new SensorValue();
             data.SensorUUID = (string)o["Sensors"][root][index]["uid"];
             data.Value = (string)o["Sensors"][root][index]["value"];
+
+
+            return data;
+        }
+
+        private static SensorValue GetAcpSensorData(string root, JObject o)
+        {
+            SensorValue data = new SensorValue();
+            data.SensorUUID = (string)o["Sensors"][root]["uid"];
+            data.Value = (string)o["Sensors"][root]["value"];
 
 
             return data;

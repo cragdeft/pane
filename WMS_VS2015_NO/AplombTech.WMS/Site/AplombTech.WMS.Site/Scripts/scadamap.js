@@ -1,4 +1,6 @@
 ﻿function LoadDma(zoneId) {
+    if (interval != null)
+        clearInterval(interval);
     if (!zoneId) return;//zoneId = 0;
     var dmaDownList = $('#SelectedDmaId');
     $.ajax({
@@ -32,6 +34,8 @@
 }
 
 function LoadPumpStation(dmaId) {
+    if (interval != null)
+        clearInterval(interval);
     if (!dmaId) return;// dmaId = 0;
     var dmaDownList = $('#SelectedPumpStationId');
     $.ajax({
@@ -76,4 +80,9 @@ function showScada() {
     }, 10000);
 }
 
+function LoadScada() {
+    if (interval != null)
+        clearInterval(interval);
+    
+}
 

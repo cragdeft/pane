@@ -31,7 +31,7 @@
                 Enumerable.Empty<SelectListItem>(),
                 "AreaID",
                 "Name",
-                Model.SelectedPumpStationId), "Select Pumpstation")
+                Model.SelectedPumpStationId), "Select Pumpstation", new { @onchange = "LoadScada(this.value)"})
             @*@Html.Partial("~/Views/ScadaMap/ScadaMap.cshtml", Model)*@
 
             <input type="submit" value="Show" onclick="showScada()" class="btn btn-default"/>
