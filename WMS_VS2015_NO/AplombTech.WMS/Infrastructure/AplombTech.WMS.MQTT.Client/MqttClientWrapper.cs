@@ -81,7 +81,7 @@ namespace AplombTech.MQTTLib
             catch (Exception ex)
             {
                 Logger.LogError(ex, string.Format("Could not stablished connection to MQ broker: {1}", ex.Message));
-
+                
                 //don't leave the client connected
                 if (DhakaWasaMQTT != null && DhakaWasaMQTT.IsConnected)
                     try
