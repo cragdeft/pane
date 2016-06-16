@@ -34,10 +34,10 @@ namespace AplombTech.WMS.Persistence.Repositories
         private void GenerateHourlySummar(Sensor sensor, DateTime summaryDate, int summaryHour, decimal dataValue)
         {
             SensorSummaryDataHourly hourlySummary = (from c in _wmsdbcontext.SensorSummaryDataHourly
-                                                     where c.Sensor.SensorId == sensor.SensorId
-                                                     && c.DataDate == summaryDate
-                                                     && c.DataHour == summaryHour
-                                                     select c).Single();
+                where c.Sensor.SensorId == sensor.SensorId
+                      && c.DataDate == summaryDate
+                      && c.DataHour == summaryHour
+                select c).FirstOrDefault();
 
             if (hourlySummary != null)
             {
@@ -53,7 +53,7 @@ namespace AplombTech.WMS.Persistence.Repositories
             SensorSummaryDataDaily dailySummary = (from c in _wmsdbcontext.SensorSummaryDataDaily
                                                     where c.Sensor.SensorId == sensor.SensorId
                                                      && c.DataDate == summaryDate
-                                                     select c).Single();
+                                                     select c).FirstOrDefault();
             if (dailySummary != null)
             {
                 dailySummary.DataValue += dataValue;

@@ -120,9 +120,9 @@ namespace AplombTech.WMS.MQTT.Client
             DhakaWasaMqtt.MqttMsgPublishReceived += ReceivedMessage_MQTT;//received message.
             DhakaWasaMqtt.ConnectionClosed += ConnectionClosed_MQTT;
 
-            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "wasa/configuration", "/command", "/feedback", "wasa/sensor_data" },
+            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "wasa/configuration", "wasa/sensor_data" },
                               new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
-                                      MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                                      MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
 
         }
         private void HandleReconnect()
@@ -259,7 +259,7 @@ namespace AplombTech.WMS.MQTT.Client
                 if (sensor!=null && sensor.IsActive)
                 {
                     ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);                    
-                    //PublishMessageForSummaryGeneration(data, messageObject.SensorLoggedAt, sensor);
+                    PublishMessageForSummaryGeneration(data, messageObject.SensorLoggedAt, sensor);
                     PublishSensorAlertMessage(data.Value, sensor);
                 }
             }
