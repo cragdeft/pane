@@ -104,6 +104,8 @@
     <Compile Include="Shared\Address.cs" />
     <Compile Include="Shared\AuditFields.cs" />
     <Compile Include="Shared\Unit.cs" />
+    <Compile Include="SummaryData\SensorSummaryDataDaily.cs" />
+    <Compile Include="SummaryData\SensorSummaryDataHourly.cs" />
     <Compile Include="UserAccounts\LoginUser.cs" />
     <Compile Include="UserAccounts\Role.cs" />
     <Compile Include="UserAccounts\UserClaims.cs" />

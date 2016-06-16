@@ -4,6 +4,7 @@ using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
+using AplombTech.WMS.Domain.SummaryData;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -40,6 +41,8 @@ namespace AplombTech.WMS.Persistence.Facade
         public DbSet<AlertType> AlertTypes { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<AlertRecipient> AlertRecipients { get; set; }
+        public DbSet<SensorSummaryDataHourly> SensorSummaryDataHourly { get; set; }
+        public DbSet<SensorSummaryDataDaily> SensorSummaryDataDaily { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

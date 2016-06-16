@@ -258,11 +258,29 @@ namespace AplombTech.WMS.MQTT.Client
                 Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
                 if (sensor!=null && sensor.IsActive)
                 {
-                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);
+                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);                    
+                    //PublishMessageForSummaryGeneration(data, messageObject.SensorLoggedAt, sensor);
                     PublishSensorAlertMessage(data.Value, sensor);
                 }
             }
         }
+
+        private void PublishMessageForSummaryGeneration(SensorValue data, DateTime loggedAt, Sensor sensor)
+        {
+            if (sensor is FlowSensor || sensor is EnergySensor)
+            {
+                var cmd = new SummaryGenerationMessage
+                {
+                    SensorId = sensor.SensorId,
+                    SensorUUID = data.SensorUUID,
+                    Value = Convert.ToDecimal(data.Value),
+                    DataLoggedAt = loggedAt,
+                    MessageDateTime = DateTime.Now
+                };
+                ServiceBus.Bus.Send(cmd);
+            }
+        }
+
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
         {
             if (sensor is EnergySensor || sensor is ACPresenceDetector || sensor is BatteryVoltageDetector) return;

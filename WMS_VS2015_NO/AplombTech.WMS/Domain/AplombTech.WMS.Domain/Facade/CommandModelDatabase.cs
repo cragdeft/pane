@@ -12,6 +12,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.Domain.SummaryData;
 
 namespace AplombTech.WMS.Domain.Facade
 {
@@ -52,6 +53,9 @@ namespace AplombTech.WMS.Domain.Facade
         public DbSet<FeatureType> FeatureTypes { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<RoleFeatures> RoleFeatures { get; set; }
+        public DbSet<SensorSummaryDataHourly> SensorSummaryDataHourly { get; set; }
+        public DbSet<SensorSummaryDataDaily> SensorSummaryDataDaily { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new SampleAppInitializer());
