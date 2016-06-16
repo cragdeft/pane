@@ -448,7 +448,11 @@ namespace AplombTech.WMS.MQTT.Client
             this.framework = objframework;
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
+#if DEBUG
+            MqttClientInstance(false);
+#else
             MqttClientInstance(true);
+#endif
             log.Info("MQTT listener has been started");
         }       
     }

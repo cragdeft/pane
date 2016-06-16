@@ -15,7 +15,11 @@ namespace AplombTech.WMS.Site
         protected void Application_Start()
         {
             //MqttClientFacade.MQTTClientInstance(false).MakeConnection();
-            //MQTTService.MQTTClientInstance(true).MakeConnection();
+#if DEBUG
+            MQTTService.MQTTClientInstance(false).MakeConnection();
+#else
+            MQTTService.MQTTClientInstance(true).MakeConnection();
+#endif
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -58,8 +58,11 @@ namespace AplombTech.WMS.Domain.Facade
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new SampleAppInitializer());
-            //Database.SetInitializer<CommandModelDatabase>(null);
+            #if DEBUG
+                Database.SetInitializer(new SampleAppInitializer());
+            #else
+                Database.SetInitializer<CommandModelDatabase>(null);
+            #endif
 
             //Mappings
             //Use the Naked Objects > DbMapping template to create mapping classes & reference them thus:
