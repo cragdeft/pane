@@ -9,12 +9,15 @@ using System.Web;
 using System.Web.Mvc;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Motors;
+using AplombTech.WMS.QueryModel.Motors;
 using AplombTech.WMS.QueryModel.Reports;
 using AplombTech.WMS.QueryModel.Sensors;
 using AplombTech.WMS.QueryModel.Shared;
 using AplombTech.WMS.Site.Models;
 using AplombTech.WMS.Site.MQTT;
 using Newtonsoft.Json;
+using Motor = AplombTech.WMS.QueryModel.Motors.Motor;
+using MotorData = AplombTech.WMS.QueryModel.Motors.MotorData;
 
 namespace AplombTech.WMS.Site.Controllers
 {
@@ -150,6 +153,115 @@ namespace AplombTech.WMS.Site.Controllers
             return PartialView("~/Views/ScadaMap/ScadaMap.cshtml", sensorList);
         }
 
+        public JsonResult GetScadaData(string pumpStationId)
+        {
+            try
+            {
+                List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
+                var dictornary = new Dictionary<string, string>();
+                dictornary = ConvertSensorData(sensorList);
+                List<QueryModel.Motors.MotorData> motorDataList = new List<QueryModel.Motors.MotorData>();
+                motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
+                motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
+                motorDataList = GetMotorDataList(motorDataList);
+                //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
+                return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorDataList, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { IsSuccess = false }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public JsonResult GetSensorData(string sensorId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(sensorId))
+                {
+                    var sensor = _reportRepository.GetPumpSingleSensorByUid(sensorId);
+                    if (sensor != null)
+                        return Json(new { IsSuccess = true, Unit = sensor.UnitName, Name=GetName(sensor), Value = sensor.CurrentValue }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return Json(new { IsSuccess = false }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        private string GetName(Sensor sensor)
+        {
+            if (sensor is PressureSensor)
+                return "PT-" + sensor.UUID;
+            if (sensor is FlowSensor)
+                return "FT-" + sensor.UUID;
+            if (sensor is EnergySensor)
+                return "ET-" + sensor.UUID;
+            if (sensor is LevelSensor)
+                return "LT-" + sensor.UUID;
+            if (sensor is ACPresenceDetector)
+                return "ACP-" + sensor.UUID;
+            if (sensor is BatteryVoltageDetector)
+                return "BV-" + sensor.UUID;
+            if (sensor is ChlorinePresenceDetector)
+                return "CPD-" + sensor.UUID;
+
+            return string.Empty;
+        }
+
+        private List<MotorData> GetMotorDataList(List<MotorData> motorDataList)
+        {
+            List<MotorData> convertedMotorDataList = new List<MotorData>();
+            foreach (var motorData in motorDataList)
+            {
+                var mdata = new MotorData();
+                mdata.Auto = motorData.Auto;
+                mdata.LastCommand = motorData.LastCommand;
+                mdata.LastCommandTime = motorData.LastCommandTime;
+                mdata.MotorStatus = motorData.MotorStatus;
+                mdata.Motor = new Motor() { MotorID = motorData.Motor.MotorID, UUID = motorData.Motor.UUID };
+                mdata.Motor.MotorID = motorData.Motor.MotorID;
+
+                convertedMotorDataList.Add(mdata);
+            }
+
+            return convertedMotorDataList;
+        }
+
+        private Dictionary<string, string> ConvertSensorData(List<Sensor> sensorList)
+        {
+            var dictornary = new Dictionary<string, string>();
+            foreach (var sensor in sensorList)
+            {
+                if (sensor is FlowSensor)
+                    dictornary.Add("FT"+sensor.UUID, ((FlowSensor)sensor).CumulativeValue.ToString());
+
+                if (sensor is EnergySensor)
+                    dictornary.Add("ET" + sensor.UUID, ((EnergySensor)sensor).CumulativeValue.ToString());
+
+                if (sensor is PressureSensor)
+                    dictornary.Add("PT" + sensor.UUID, sensor.CurrentValue.ToString());
+
+                if (sensor is LevelSensor)
+                    dictornary.Add("LT" + sensor.UUID, sensor.CurrentValue.ToString());
+
+                if (sensor is BatteryVoltageDetector)
+                    dictornary.Add("BV" + sensor.UUID, sensor.CurrentValue.ToString());
+
+                if (sensor is ACPresenceDetector)
+                    dictornary.Add("ACP" + sensor.UUID, sensor.CurrentValue > 0 ? "ON" : "OFF");
+                if (sensor is ChlorinePresenceDetector)
+                    dictornary.Add("CPD" + sensor.UUID, sensor.CurrentValue > 0 ? "ON" : "OFF");
+            }
+
+            return dictornary;
+        }
+
         public ActionResult ShowScadaForMap(string pumpStationId)
         {
             List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
@@ -172,12 +284,12 @@ namespace AplombTech.WMS.Site.Controllers
         {
             try
             {
-                state = "\"" + state+ "\"";
-                string commandTime = "\"" + DateTime.Now.ToString()+ "\"";
-                string message = @"{""PumpStation_Id"": ""3"",""Pump_Motor"": [{""Command"": "+state+ @",""Command_Time"": "+commandTime+ @"}]}" ;
+                state = "\"" + state + "\"";
+                string commandTime = "\"" + DateTime.Now.ToString() + "\"";
+                string message = @"{""PumpStation_Id"": """+pumpStationId+@""",""Pump_Motor"": [{""Command"": " + state + @",""Command_Time"": " + commandTime + @"}]}";
                 message.Replace(" ", string.Empty);
                 m2mMessageViewModel model = new m2mMessageViewModel();
-                model.MessgeTopic = "wasa/command/"+ pumpStationId;
+                model.MessgeTopic = "wasa/command/" + pumpStationId;
                 model.PublishMessage = message;
                 model.PublishMessageStatus = MQTTService.MQTTClientInstance(true).Publish(model.MessgeTopic, model.PublishMessage);
                 return Json(new { Data = model.PublishMessageStatus, IsSuccess = true }, JsonRequestBehavior.AllowGet);

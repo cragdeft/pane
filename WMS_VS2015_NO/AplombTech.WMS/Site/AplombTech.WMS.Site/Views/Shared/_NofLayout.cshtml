@@ -77,6 +77,8 @@
     @Html.Hidden("getZoneGooleMapUrl", Url.Action("GetZoneGoogleMap", "ZoneGoogleMap"))
     @Html.Hidden("pumpStationOverViewUrl", Url.Action("GetOverViewDataOfPumpStation", "ZoneGoogleMap"))
     @Html.Hidden("getSingleSensorStatusUrl", Url.Action("GetSingleSensorStatus", "ZoneGoogleMap"))
+    @Html.Hidden("getScadaDataUrl", Url.Action("GetScadaData", "ScadaMap"))
+    @Html.Hidden("getScadaSensorDataUrl", Url.Action("GetSensorData", "ScadaMap"))
     @Html.Hidden("imageUrl", @Url.Content("~/Images"))
     @RenderSection("Scripts", required: false)
 

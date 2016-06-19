@@ -205,6 +205,12 @@ namespace AplombTech.WMS.QueryModel.Repositories
             return model;
         }
 
+        public Sensor GetPumpSingleSensorByUid(string uid)
+        {
+            var model = Container.Instances<Sensor>().Where(x => x.UUID == uid).SingleOrDefault();
+            return model;
+        }
+
         public PumpStation GetPumpStationById(int pumpStationId)
         {
             return Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).SingleOrDefault();

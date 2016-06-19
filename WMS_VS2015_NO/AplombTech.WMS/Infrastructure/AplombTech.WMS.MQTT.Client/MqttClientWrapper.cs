@@ -106,6 +106,7 @@ namespace AplombTech.MQTTLib
                                           Encoding.UTF8.GetBytes(publishMessage), // message body
                                           MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, // QoS level
                                           true);
+                        return "Success";
                     }
                 }
                 catch (Exception ex)
@@ -113,7 +114,7 @@ namespace AplombTech.MQTTLib
                     //    log.Warn("Error while publishing: " + ex.Message, ex);
                 }
             }
-            return "Success";
+            return "Fail";
         }
         public string Subscribe(string messgeTopic)
         {

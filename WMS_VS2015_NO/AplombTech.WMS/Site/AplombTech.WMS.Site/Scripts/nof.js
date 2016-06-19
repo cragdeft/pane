@@ -1,4 +1,4 @@
-﻿
+﻿var scadachart;
 function LoadMapRelatedScript() {
     $(function () { $('#legend').jstree({ "themes": { "stripes": true }}); });
     $('#legend').on("changed.jstree", function (e, data) {
@@ -105,4 +105,94 @@ function showPreloadedScada()
         $("#SelectedPumpStationId").val("3");
         showScada();
     }
+}
+
+function showRealChartScada(data2,sensorId) {
+    $('#chartModal').modal('show');
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+   scadachart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'chart_div',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function () {
+                    var series = this.series[0];
+
+                    graphInterval = setInterval(function () {
+                        //var shift = series.data.length > 20; // shift if the series is longer than 20
+
+                        $.ajax({
+                            type: "POST",
+                            url: $("#getScadaSensorDataUrl").val(),
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({ sensorId: sensorId }),
+                            dataType: "json",
+                            success:
+                                function (data) {
+                                    if (data.IsSuccess) {
+                                        var x = (new Date()).getTime(), // current time
+                                            y = data.Value;
+                                        series.addPoint([x, y], true, series.data.length > 20);
+
+                                    }
+
+                                },
+                            error: function (e) { alert(e); }
+                        });
+
+
+                    }, 1000);
+                }
+            }
+        },
+        global: {
+            useUTC: false
+        },
+        title: {
+            text: 'Real time Chart'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000,
+            gridLineWidth: 1
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: data2.Unit,
+                margin: 80
+            },
+            lineWidth: 0,
+            gridLineWidth: 0,
+            lineColor: 'transparent'
+        },
+        credits: {
+            text: 'Aplombtech BD',
+            href: 'http://www.example.com'
+        },
+        tooltip: {
+            valueSuffix: ' ' + data2.Unit
+        },
+        series: [{
+            name: data2.Name,
+            data: []
+        }],
+        exporting: {
+            enabled: true
+        }
+    });
+
+   scadachart.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+
+
 }

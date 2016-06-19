@@ -5,41 +5,68 @@
 <div id="imgContainer">
     <img src="@Url.Content("~/Images/scadamap.png")" class="img" alt="Scada map">
 
-    <div style="margin-left: 110px; position: absolute; margin-top: -320px;">
-        <h4>General Information</h4>
+    <style>
+        span {
+            cursor: pointer;
+            cursor: hand;
+        }
+
+        .grad {
+            background: red; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(left, rgba(235, 238, 221, 1), rgba(255, 0, 0, 0)); /*Safari 5.1-6*/
+            background: -o-linear-gradient(right, rgba(235, 238, 221, 1), rgba(255, 0, 0, 0)); /*Opera 11.1-12*/
+            background: -moz-linear-gradient(right, rgba(235, 238, 221, 1), rgba(255, 0, 0, 0)); /*Fx 3.6-15*/
+            background: linear-gradient(to right, rgba(235, 238, 221, 1), rgba(255, 0, 0, 0)); /*Standard*/
+        }
+    </style>
+    <div style="position:absolute; padding-left: 10px; margin-top:-520px;">
+        <span>Data Connection Status</span>
+        @if (@Model[0].LastDataReceived.HasValue && @Model[0].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
+        {
+            <h1><span class="label label-success">Online</span></h1>
+        }
+        else {
+            <h1><span class="label label-danger">Online</span></h1>
+        }
+
+
+        <span class="label label-primary">@Model[0].LastDataReceived</span>
+    </div>
+    <div style="position:absolute; padding-left: 10px; margin-top:-280px;" class="grad">
+        <h4>General</h4>
         @foreach (var sensor in Model)
         {
             if (@sensor is ChlorinePresenceDetector)
             {
                 if (@sensor.CurrentValue <= 0)
                 {
-                    <p>Cholorination Off</p>
+        <p style="text-align:right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>
                 }
                 else
                 {
-                    <p>Cholorination On</p>
+        <p style="text-align:right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>
                 }
             }
 
             if (@sensor is BatteryVoltageDetector)
             {
-                <p>BV = @(((BatteryVoltageDetector)sensor).CurrentValue) @sensor.UnitName</p>
+        <p style="text-align: right"><strong>BV</strong> <span id="BV_@sensor.UUID" class="label label-primary">@(((BatteryVoltageDetector)sensor).CurrentValue) @sensor.UnitName</span></p>
             }
             if (@sensor is ACPresenceDetector)
             {
                 if (@sensor.CurrentValue <= 0)
                 {
-                    <p>Aircondition Off</p>
+        <p style="text-align:right"><strong>ACP</strong>  <span id="ACP_@sensor.UUID" class="label label-danger">Off</span></p>
                 }
                 else
                 {
-                    <p>Aircondition On</p>
+        <p style="text-align:right"><strong>ACP</strong> <span id="ACP_@sensor.UUID" class="label label-success">On</span></p>
                 }
             }
 
             if (@sensor is EnergySensor)
             {
-                <p>ET = @(((EnergySensor)sensor).CumulativeValue) @sensor.UnitName</p>
+        <p style="text-align:right"><strong>ET</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CumulativeValue) @sensor.UnitName</span></p>
             }
         }
 
@@ -48,78 +75,112 @@
 
     </div>
 
-    <div style="margin-left: 810px; position: absolute; margin-top: -320px;">
+    <div id="motorInfo" style="padding-left: 10px; margin-left: 180px; text-align: right; position: absolute; margin-top: -280px;" class="grad">
+        <h4 style="text-align: left">Pump Motor </h4>
         @for (int i = 0; i < @ViewBag.MotorDataList.Count; i++)
         {
             if (@ViewBag.MotorDataList[i] != null && i == 0)
             {
-                <h5>Pump Motor </h5>
-                <p>Motor Status = <span id="motorStatus">@ViewBag.MotorDataList[i].MotorStatus</span></p>
-                <p>Last Command time= @ViewBag.MotorDataList[i].LastCommandTime</p>
+
+                <p style="margin-bottom: 2px;">
+                    <strong>Last Command time</strong>
+                </p>
+                <span id="pmotorCommandTime">@ViewBag.MotorDataList[i].LastCommandTime</span>
+
+
                 if (@ViewBag.MotorDataList[i].Auto)
                 {
+                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong></p>
                     if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
                     {
-                        <label class="checkbox-inline">
-                            <input id="toggle-one" checked type="checkbox" class="probeProbe">
-                        </label>
+
+                        <div id="motorswitch" style="margin-top: 5px;">
+                            <label class="checkbox-inline">
+                                <input id="toggle-one" checked type="checkbox" class="probeProbe">
+                            </label>
+                        </div>
                     }
                     else
                     {
-                        <label class="checkbox-inline">
-                            <input id="toggle-one" unchecked type="checkbox" class="probeProbe">
-                        </label>
+                        <div id="motorswitch">
+                            <label class="checkbox-inline">
+                                <input id="toggle-one" unchecked type="checkbox" class="probeProbe">
+                            </label>
+                        </div>
                     }
                 }
             }
 
             if (@ViewBag.MotorDataList[i] != null && i == 1)
             {
-                <h5>Cholorine Motor Motor </h5>
-                    <p>Motor Status = @ViewBag.MotorDataList[i].MotorStatus</p>
-                    <p>Last Command time= @ViewBag.MotorDataList[i].LastCommandTime</p>
+                <h4>Cholorine Motor </h4>
+                <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+
+                <p style="margin-bottom: 2px;"><strong>Last Command time</strong></p>
+                <span id="cmotorCommandTime">@ViewBag.MotorDataList[i].LastCommandTime</span>
             }
         }
     </div>
 
-    <div style="margin-left: 220px; position: absolute; margin-top: -620px;">
+    <div style="margin-left: 190px; position: absolute; margin-top: -518px;">
         @foreach (var sensor in Model)
         {
             if (@sensor is PressureSensor)
             {
-                <p>PT = @sensor.CurrentValue Bar</p>
+        <p><strong>PT @sensor.UUID</strong>  <span id="PT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Bar</span></p>
             }
         }
     </div>
 
-    <div style="margin-left: 660px; position: absolute; margin-top: -250px;">
+    <div style="margin-left: 550px; position: absolute; margin-top: -200px;">
         @foreach (var sensor in Model)
         {
             if (@sensor is LevelSensor)
             {
-                <p>LT = @sensor.CurrentValue Metre</p>
-                <p id="ltvalue" style="display: none;">@sensor.CurrentValue</p>
+        <p><strong>LT @sensor.UUID</strong> <span id="LT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Metre</span></p>
+        <p id="ltvalue" style="display: none;">@sensor.CurrentValue</p>
             }
         }
     </div>
-    <div id="waterlevel" style="background-color: transparent; position: absolute; margin-top: -310px; margin-left: 452px; height: 135px; width: 63px"></div>
+    <div id="waterlevel" style="background-color: transparent; position: absolute; margin-top: -265px; margin-left: 402px; height: 135px; width: 63px"></div>
 
-    <div style="margin-left: 400px; position: absolute; margin-top: -620px;">
+    <div style="margin-left: 350px; position: absolute; margin-top: -515px;">
         @foreach (var sensor in Model)
         {
             if (@sensor is FlowSensor)
             {
-                <p>FT = @(((FlowSensor)sensor).CumulativeValue) Metre</p>
+        <p><strong>FT @sensor.UUID</strong> <span id="FT_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CumulativeValue) Metre</span></p>
             }
         }
     </div>
 
+    <div class="modal fade" id="chartModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Live Chart</h4>
+                </div>
+                <div class="modal-body">
 
+                    <div id="chart_div">
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 
 
 </div>
 
 <script>
+    var graphInterval;
     var unit = parseInt($('#ltvalue').text());
     var height = parseInt($('#waterlevel').css('height'));
     var margin = parseInt($('#waterlevel').css('margin-top'));
@@ -130,6 +191,7 @@
         $('#toggle-one').bootstrapToggle();
     });
     $(".probeProbe").change(function () {
+        $('#motorswitch *').prop('disabled', true);
         var state = null;
         if ($('.probeProbe').prop('checked')) {
             state = "ON";
@@ -145,7 +207,7 @@
                 function (data) {
                     if (data.IsSuccess) {
                         if (data.Data == 'Success') {
-                            $('#motorStatus').text(state);
+                            $('#pmotorStatus').text(state);
                         } else {
                             alert('failure');
                         }
@@ -159,7 +221,35 @@
                 alert(e);
             }
         });
+
     });
+
+    $('span').on('click', function () {
+
+        var sensorId = $.trim(this.id.split("_")[1]);
+        if (graphInterval != null)
+            clearInterval(graphInterval);
+        $.ajax({
+            type: "POST",
+            url: $("#getScadaSensorDataUrl").val(),
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ sensorId: sensorId }),
+            dataType: "json",
+            success:
+                function (data) {
+                    if (data.IsSuccess) {
+
+                        showRealChartScada(data, sensorId);
+
+                    }
+
+                },
+            error: function () { }
+        });
+
+    });
+
+
 
 
 </script>
