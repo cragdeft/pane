@@ -38,7 +38,6 @@ $("#show").click(function (e) {
 
             },
         error: function(e) {
-            alert(e);
         }
     });
 
@@ -331,7 +330,6 @@ function showGraph(data) {
                             if ($('#ReportType').val() == 4) {
                                 
                                 var d = new Date(this.category);
-                                console.log(this.category);
                                 var n = d.getDate();
                                 $("#Day").val(n);
                                 $('#ReportType').val('2').change();

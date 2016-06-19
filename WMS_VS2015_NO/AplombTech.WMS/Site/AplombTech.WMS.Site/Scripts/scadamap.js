@@ -28,7 +28,6 @@
             }
         },
         failure: function (response) {
-            alert(response);
         }
     });
 }
@@ -63,7 +62,6 @@ function LoadPumpStation(dmaId) {
             }
         },
         failure: function (response) {
-            alert(response);
         }
     });
 }
@@ -100,11 +98,14 @@ function refreshScada() {
             success: function (data) {
                 if (data.IsSuccess == true) {
                     $('#motorswitch *').prop('disabled', false);
+                    $('#connectionStatus').val('Online');
                     for (var i = 0; i < data.MotorList.length; i++) {
                         //if the name is what we are looking for return it
                         if (i % 2 == 0) {
                             $('#pmotorStatus').val(data.MotorList[i].MotorStatus);
                             $('#pmotorCommandTime').val(data.MotorList[i].LastCommandTime);
+                            $('#motorswitchStatus').text('');
+                            $('#motorswitch').text(data.MotorList[i].MotorStatus);
                         }
                         if (i % 2 == 1) {
                             $('#cmotorStatus').val(data.MotorList[i].MotorStatus);
@@ -125,7 +126,6 @@ function refreshScada() {
                     for (var key in res) {
                         if (res.hasOwnProperty(key)) {
                                 $('#' + key).val(res[key]);
-
                                 if (res[key].indexOf("CPD") != -1) {
                                     if (parseFloat(res[key]) > 0) {
                                         $('#' + key).val("On");
@@ -154,7 +154,6 @@ function refreshScada() {
                 }
             },
             failure: function (response) {
-                alert(response);
             }
         });
     }, 10000);

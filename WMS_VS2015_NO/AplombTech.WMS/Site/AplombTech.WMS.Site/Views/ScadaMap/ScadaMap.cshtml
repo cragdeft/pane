@@ -9,6 +9,12 @@
         span {
             cursor: pointer;
             cursor: hand;
+            font-weight: normal;
+            font-size: small;
+        }
+
+        .dateTimeSpan {
+            font-size: smaller;
         }
 
         .grad {
@@ -19,20 +25,21 @@
             background: linear-gradient(to right, rgba(235, 238, 221, 1), rgba(255, 0, 0, 0)); /*Standard*/
         }
     </style>
-    <div style="position:absolute; padding-left: 10px; margin-top:-520px;">
+    <div style="position: absolute; padding-left: 10px; margin-top: -520px;">
         <span>Data Connection Status</span>
         @if (@Model[0].LastDataReceived.HasValue && @Model[0].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
         {
-            <h1><span class="label label-success">Online</span></h1>
+            <h4><span id="connectionStatus" class="label label-success">Online</span></h4>
         }
-        else {
-            <h1><span class="label label-danger">Online</span></h1>
+        else
+        {
+            <h4><span id="connectionStatus" class="label label-danger">Offline</span></h4>
         }
 
 
-        <span class="label label-primary">@Model[0].LastDataReceived</span>
+        <span class="label label-primary dateTimeSpan">@Model[0].LastDataReceived</span>
     </div>
-    <div style="position:absolute; padding-left: 10px; margin-top:-280px;" class="grad">
+    <div style="position: absolute; padding-left: 10px; margin-top: -280px;" class="grad">
         <h4>General</h4>
         @foreach (var sensor in Model)
         {
@@ -40,33 +47,33 @@
             {
                 if (@sensor.CurrentValue <= 0)
                 {
-        <p style="text-align:right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>
+                    <p style="text-align: right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>
                 }
                 else
                 {
-        <p style="text-align:right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>
+                    <p style="text-align: right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>
                 }
             }
 
             if (@sensor is BatteryVoltageDetector)
             {
-        <p style="text-align: right"><strong>BV</strong> <span id="BV_@sensor.UUID" class="label label-primary">@(((BatteryVoltageDetector)sensor).CurrentValue) @sensor.UnitName</span></p>
+                <p style="text-align: right"><strong>BV</strong> <span id="BV_@sensor.UUID" class="label label-primary">@(((BatteryVoltageDetector) sensor).CurrentValue) @sensor.UnitName</span></p>
             }
             if (@sensor is ACPresenceDetector)
             {
                 if (@sensor.CurrentValue <= 0)
                 {
-        <p style="text-align:right"><strong>ACP</strong>  <span id="ACP_@sensor.UUID" class="label label-danger">Off</span></p>
+                    <p style="text-align: right"><strong>ACP</strong> <span id="ACP_@sensor.UUID" class="label label-danger">Off</span></p>
                 }
                 else
                 {
-        <p style="text-align:right"><strong>ACP</strong> <span id="ACP_@sensor.UUID" class="label label-success">On</span></p>
+                    <p style="text-align: right"><strong>ACP</strong> <span id="ACP_@sensor.UUID" class="label label-success">On</span></p>
                 }
             }
 
             if (@sensor is EnergySensor)
             {
-        <p style="text-align:right"><strong>ET</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CumulativeValue) @sensor.UnitName</span></p>
+                <p style="text-align: right"><strong>ET</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor) sensor).CumulativeValue) @sensor.UnitName</span></p>
             }
         }
 
@@ -79,45 +86,54 @@
         <h4 style="text-align: left">Pump Motor </h4>
         @for (int i = 0; i < @ViewBag.MotorDataList.Count; i++)
         {
+            if (@ViewBag.MotorDataList[i].Auto)
+            {
+                <p style="margin-bottom: 2px;">
+                    <strong>Motor Status</strong>
+                    @if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
+                    {
+                        <span id="motorswitch" class="label label-success">ON</span>
+                    }
+                    else
+                    {
+                        <span id="motorswitch" class="label label-danger">OFF</span>
+                    }
+                    <span id="motorswitchStatus"></span>
+                </p>
+            }
             if (@ViewBag.MotorDataList[i] != null && i == 0)
             {
 
                 <p style="margin-bottom: 2px;">
                     <strong>Last Command time</strong>
                 </p>
-                <span id="pmotorCommandTime">@ViewBag.MotorDataList[i].LastCommandTime</span>
+                <span id="pmotorCommandTime" class="label label-primary dateTimeSpan">@ViewBag.MotorDataList[i].LastCommandTime</span>
 
 
-                if (@ViewBag.MotorDataList[i].Auto)
-                {
-                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong></p>
-                    if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
-                    {
 
-                        <div id="motorswitch" style="margin-top: 5px;">
-                            <label class="checkbox-inline">
-                                <input id="toggle-one" checked type="checkbox" class="probeProbe">
-                            </label>
-                        </div>
-                    }
-                    else
-                    {
-                        <div id="motorswitch">
-                            <label class="checkbox-inline">
-                                <input id="toggle-one" unchecked type="checkbox" class="probeProbe">
-                            </label>
-                        </div>
-                    }
-                }
             }
 
             if (@ViewBag.MotorDataList[i] != null && i == 1)
             {
                 <h4>Cholorine Motor </h4>
-                <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+                if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
+                {
+                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-success">@ViewBag.MotorDataList[i].MotorStatus</span></p>
 
-                <p style="margin-bottom: 2px;"><strong>Last Command time</strong></p>
-                <span id="cmotorCommandTime">@ViewBag.MotorDataList[i].LastCommandTime</span>
+                }
+                else if (@ViewBag.MotorDataList[i].MotorStatus == "OFF")
+                {
+                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-danger">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+
+                }
+                else
+                {
+                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-default">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+                }
+
+                <p style="margin-bottom: 2px;"><strong>Last Command time</strong>
+                </p>
+                <span id="cmotorCommandTime" class="label label-primary dateTimeSpan">@ViewBag.MotorDataList[i].LastCommandTime</span>
             }
         }
     </div>
@@ -127,7 +143,7 @@
         {
             if (@sensor is PressureSensor)
             {
-        <p><strong>PT @sensor.UUID</strong>  <span id="PT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Bar</span></p>
+                <p><strong>PT @sensor.UUID</strong> <span id="PT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Bar</span></p>
             }
         }
     </div>
@@ -137,46 +153,46 @@
         {
             if (@sensor is LevelSensor)
             {
-        <p><strong>LT @sensor.UUID</strong> <span id="LT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Metre</span></p>
-        <p id="ltvalue" style="display: none;">@sensor.CurrentValue</p>
+                <p><strong>LT @sensor.UUID</strong> <span id="LT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Metre</span></p>
+                <p id="ltvalue" style="display: none;">@sensor.CurrentValue</p>
             }
         }
     </div>
-    <div id="waterlevel" style="background-color: transparent; position: absolute; margin-top: -265px; margin-left: 402px; height: 135px; width: 63px"></div>
+    <div id="waterlevel" style="background-color: transparent; position: absolute; margin-top: -265px; margin-left: 404px; height: 135px; width: 56px"></div>
 
     <div style="margin-left: 350px; position: absolute; margin-top: -515px;">
         @foreach (var sensor in Model)
         {
             if (@sensor is FlowSensor)
             {
-        <p><strong>FT @sensor.UUID</strong> <span id="FT_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CumulativeValue) Metre</span></p>
+                <p><strong>FT @sensor.UUID</strong> <span id="FT_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).CumulativeValue) Metre</span></p>
             }
         }
     </div>
+</div>
 
-    <div class="modal fade" id="chartModal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Live Chart</h4>
-                </div>
-                <div class="modal-body">
-
+<div class="modal fade" id="chartModal" role="dialog" style="padding: 0px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Live Chart</h4>
+            </div>
+            <div class="modal-body">
+                <div>
                     <div id="chart_div">
 
                     </div>
 
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
 
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
 
 <script>
@@ -187,16 +203,20 @@
     $("#waterlevel").css("background-color", "#2fcff4");
     $("#waterlevel").css("height", height - (100 - (1.35 * unit)) + "px");
     $("#waterlevel").css("margin-top", margin + (100 - (1.35 * unit)) + "px");
-    $(function () {
-        $('#toggle-one').bootstrapToggle();
-    });
-    $(".probeProbe").change(function () {
-        $('#motorswitch *').prop('disabled', true);
-        var state = null;
-        if ($('.probeProbe').prop('checked')) {
+
+    $('#motorswitch').on('click', function () {
+
+        if ($('#motorswitchStatus').text() == "Processing...") {
+            return;
+        }
+        var state;
+        if ($('#motorswitch').text() == 'ON') {
             state = "ON";
-        } else
+        }
+        else
             state = "OFF";
+        $('#motorswitchStatus').text('Processing...');
+
         $.ajax({
             type: "POST",
             url: $("#publishCommandUrl").val(),
@@ -207,13 +227,11 @@
                 function (data) {
                     if (data.IsSuccess) {
                         if (data.Data == 'Success') {
-                            $('#pmotorStatus').text(state);
+
                         } else {
-                            alert('failure');
                         }
 
                     } else {
-                        alert('unsuccessfull');
 
                     }
                 },
@@ -223,7 +241,6 @@
         });
 
     });
-
     $('span').on('click', function () {
 
         var sensorId = $.trim(this.id.split("_")[1]);
