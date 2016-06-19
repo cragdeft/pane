@@ -9,12 +9,12 @@
         span {
             cursor: pointer;
             cursor: hand;
-            font-weight: normal;
-            font-size: small;
+            font-weight: normal!important;
+            font-size: small!important;
         }
 
         .dateTimeSpan {
-            font-size: smaller;
+            font-size: smaller!important;
         }
 
         .grad {
@@ -26,7 +26,7 @@
         }
     </style>
     <div style="position: absolute; padding-left: 10px; margin-top: -520px;">
-        <span>Data Connection Status</span>
+        <span>Connection Status</span>
         @if (@Model[0].LastDataReceived.HasValue && @Model[0].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
         {
             <h4><span id="connectionStatus" class="label label-success">Online</span></h4>
