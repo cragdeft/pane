@@ -29,17 +29,17 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             log.Info("Sensor Data process has started for Id : " + message.SensorDataLogId);
             using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
-                ProcessRepository repo = new ProcessRepository(WMSUnitOfWork.CurrentObjectContext);
-                DataLog dataLog = repo.GetDataLogById(message.SensorDataLogId);
+                //ProcessRepository repo = new ProcessRepository(WMSUnitOfWork.CurrentObjectContext);
+                //DataLog dataLog = repo.GetDataLogById(message.SensorDataLogId);
 
-                if (dataLog.Topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
-                {
-                    //repo.ParseNStoreSensorData(dataLog);
-                }
-                if (dataLog.Topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
-                {
-                    //repo.ParseNStoreConfigurationData(dataLog);
-                }
+                //if (dataLog.Topic.Replace("/", String.Empty) == JsonMessageType.sensordata.ToString())
+                //{
+                //    //repo.ParseNStoreSensorData(dataLog);
+                //}
+                //if (dataLog.Topic.Replace("/", String.Empty) == JsonMessageType.configuration.ToString())
+                //{
+                //    //repo.ParseNStoreConfigurationData(dataLog);
+                //}
                 //try
                 //{
                 //    WMSUnitOfWork.CurrentObjectContext.SaveChanges();

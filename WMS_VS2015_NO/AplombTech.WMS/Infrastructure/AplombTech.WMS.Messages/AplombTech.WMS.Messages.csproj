@@ -47,6 +47,7 @@
     <Compile Include="Commands\MotorAlertMessage.cs" />
     <Compile Include="Commands\ProcessSensorData.cs" />
     <Compile Include="Commands\SensorAlertMessage.cs" />
+    <Compile Include="Commands\SummaryGenerationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

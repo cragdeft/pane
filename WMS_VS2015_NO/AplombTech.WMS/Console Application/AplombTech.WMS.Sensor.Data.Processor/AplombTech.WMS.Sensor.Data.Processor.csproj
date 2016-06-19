@@ -145,6 +145,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBus.cs" />
+    <Compile Include="SummarGenerator.cs" />
     <Compile Include="UnityActivator.cs" />
     <Compile Include="UnityConfig.cs" />
     <Compile Include="WMSBatchRunner.cs" />

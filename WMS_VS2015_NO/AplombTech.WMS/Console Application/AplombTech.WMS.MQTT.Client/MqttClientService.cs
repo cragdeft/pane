@@ -120,9 +120,9 @@ namespace AplombTech.WMS.MQTT.Client
             DhakaWasaMqtt.MqttMsgPublishReceived += ReceivedMessage_MQTT;//received message.
             DhakaWasaMqtt.ConnectionClosed += ConnectionClosed_MQTT;
 
-            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "wasa/configuration", "/command", "/feedback", "wasa/sensor_data" },
+            ushort submsgId = DhakaWasaMqtt.Subscribe(new string[] { "wasa/configuration", "wasa/sensor_data" },
                               new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
-                                      MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                                      MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
 
         }
         private void HandleReconnect()
@@ -258,11 +258,29 @@ namespace AplombTech.WMS.MQTT.Client
                 Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
                 if (sensor!=null && sensor.IsActive)
                 {
-                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);
+                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);                    
+                    PublishMessageForSummaryGeneration(data, messageObject.SensorLoggedAt, sensor);
                     PublishSensorAlertMessage(data.Value, sensor);
                 }
             }
         }
+
+        private void PublishMessageForSummaryGeneration(SensorValue data, DateTime loggedAt, Sensor sensor)
+        {
+            if (sensor is FlowSensor || sensor is EnergySensor)
+            {
+                var cmd = new SummaryGenerationMessage
+                {
+                    SensorId = sensor.SensorId,
+                    SensorUUID = data.SensorUUID,
+                    Value = Convert.ToDecimal(data.Value),
+                    DataLoggedAt = loggedAt,
+                    MessageDateTime = DateTime.Now
+                };
+                ServiceBus.Bus.Send(cmd);
+            }
+        }
+
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
         {
             if (sensor is EnergySensor || sensor is ACPresenceDetector || sensor is BatteryVoltageDetector) return;
@@ -430,7 +448,11 @@ namespace AplombTech.WMS.MQTT.Client
             this.framework = objframework;
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
+#if DEBUG
+            MqttClientInstance(false);
+#else
             MqttClientInstance(true);
+#endif
             log.Info("MQTT listener has been started");
         }       
     }
