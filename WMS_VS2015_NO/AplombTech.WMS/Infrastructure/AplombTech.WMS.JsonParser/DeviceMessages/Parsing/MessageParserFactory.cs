@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AplombTech.WMS.JsonParser.DeviceMessages.Parsing
 {
-    internal class MessageParserFactory : IMessageParserFactory
+    public class MessageParserFactory : IMessageParserFactory
     {
         public IDeviceMessageParser<DeviceMessage> CreateMessageParser(TopicType topic)
         {

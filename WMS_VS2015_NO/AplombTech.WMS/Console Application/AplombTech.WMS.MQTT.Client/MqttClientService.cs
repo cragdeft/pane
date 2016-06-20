@@ -41,9 +41,10 @@ namespace AplombTech.WMS.MQTT.Client
         public IAsyncService AsyncService { private get; set; }
         #endregion
 
-        public MqttClientService(ITopicClassifier topicClassifier)
+        public MqttClientService(ITopicClassifier topicClassifier, IMessageParserFactory messageParserFactory)
         {
             _topicClassifier = topicClassifier;
+            _messageParserFactory = messageParserFactory;
         }
         public enum JsonMessageType
         {
