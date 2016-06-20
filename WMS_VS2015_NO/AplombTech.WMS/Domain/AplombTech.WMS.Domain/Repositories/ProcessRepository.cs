@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Motors;
 using Camera = AplombTech.WMS.QueryModel.Devices.Camera;
+using AplombTech.WMS.JsonParser.DeviceMessages;
 
 namespace AplombTech.WMS.Domain.Repositories
 {
@@ -20,25 +21,14 @@ namespace AplombTech.WMS.Domain.Repositories
         public AreaRepository AreaRepository { set; protected get; }
         #endregion
 
-        public void ParseNStoreConfigurationData(DataLog dataLog)
+        public void ParseNStoreConfigurationData(ConfigurationMessage messageObject)
         {
-            if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
-            {
-                ConfigurationMessage messageObject = JsonManager.GetConfigurationObject(dataLog.Message);
-
-                AddCameras(messageObject);
-
-                AddPumpMotor(messageObject);
-
-                AddCholorineMotor(messageObject);
-
-                //AddRouter(messageObject);
-
-                AddSensor(messageObject);
-
-                dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
-            }
+            AddCameras(messageObject);
+            AddPumpMotor(messageObject);
+            AddCholorineMotor(messageObject);
+            AddSensor(messageObject);
         }
+
         private void AddCameras(ConfigurationMessage messageObject)
         {
             foreach (var camera in messageObject.Cameras)
@@ -163,9 +153,24 @@ namespace AplombTech.WMS.Domain.Repositories
             data.ProcessAt = DateTime.Now;
 
             UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
-            UpdateCumulativeDataOfSensor(data.Value, sensor);
           
             Container.Persist(ref data);            
+        }        
+        private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
+        {
+            if (sensor.LastDataReceived != null)
+            {
+                if (sensor.LastDataReceived < loggedAt)
+                {                   
+                    sensor.CurrentValue = value;                    
+                    sensor.LastDataReceived = loggedAt;
+                }
+            }
+            else
+            {
+                sensor.CurrentValue = value;
+                sensor.LastDataReceived = loggedAt;
+            }
         }
         public void CreateNewMotorData(MotorValue data, DateTime loggedAt, Motor motor)
         {
@@ -187,33 +192,6 @@ namespace AplombTech.WMS.Domain.Repositories
             motor.Controllable = data.Controllable;
             motor.MotorStatus = data.MotorStatus;
             motor.LastDataReceived = loggedAt;
-        }
-        private void UpdateCumulativeDataOfSensor(decimal value, Sensor sensor)
-        {
-            if (sensor is EnergySensor)
-            {
-                ((EnergySensor)sensor).CumulativeValue += value;
-            }
-            if (sensor is FlowSensor)
-            {
-                ((FlowSensor)sensor).CumulativeValue += value;
-            }
-        }
-        private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
-        {
-            if (sensor.LastDataReceived != null)
-            {
-                if (sensor.LastDataReceived < loggedAt)
-                {
-                    sensor.CurrentValue = value;
-                    sensor.LastDataReceived = loggedAt;
-                }
-            }
-            else
-            {
-                sensor.CurrentValue = value;
-                sensor.LastDataReceived = loggedAt;
-            }
-        }
+        }        
     }
 }

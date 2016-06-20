@@ -172,7 +172,6 @@ namespace AplombTech.WMS.Domain.Facade
             FlowSensor sensor = new FlowSensor();
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
             sensor.Name = "Flow Transmitter";
             sensor.Model = "APL-FT";
             sensor.Version = "1.1a";
@@ -230,7 +229,6 @@ namespace AplombTech.WMS.Domain.Facade
             EnergySensor sensor = new EnergySensor();
             sensor.UUID = uuid;
             sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
             sensor.IsActive = true;
             sensor.PumpStation = station;
             sensor.Name = "Energy Transmitter";

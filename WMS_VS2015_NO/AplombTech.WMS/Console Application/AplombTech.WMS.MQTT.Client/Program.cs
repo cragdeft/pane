@@ -5,6 +5,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and limitations under the License.
 
+using AplombTech.WMS.JsonParser.Topics.Classification;
 using Microsoft.Practices.Unity;
 using NakedObjects.Architecture.Component;
 using System;
@@ -16,7 +17,7 @@ namespace AplombTech.WMS.MQTT.Client {
         private static void Main(string[] args) {
             UnityActivator.Start();
 
-            UnityConfig.GetConfiguredContainer().Resolve<IWMSBatchRunner>().Run(new MqttClientService());
+            UnityConfig.GetConfiguredContainer().Resolve<IWMSBatchRunner>().Run(new MqttClientService(new TopicClassifier()));
             
             UnityActivator.Shutdown();
         }

@@ -4,7 +4,11 @@ using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.JsonParser;
+using AplombTech.WMS.JsonParser.DeviceMessages;
+using AplombTech.WMS.JsonParser.DeviceMessages.Parsing;
 using AplombTech.WMS.JsonParser.Entity;
+using AplombTech.WMS.JsonParser.Topics;
+using AplombTech.WMS.JsonParser.Topics.Classification;
 using AplombTech.WMS.Messages.Commands;
 using AplombTech.WMS.Utility;
 using NakedObjects;
@@ -20,6 +24,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -29,15 +34,17 @@ namespace AplombTech.WMS.MQTT.Client
     {
         #region Injected Services
         private INakedObjectsFramework framework;
+        private readonly ITopicClassifier _topicClassifier;
+        private readonly IMessageParserFactory _messageParserFactory;
         public AreaRepository AreaRepository { set; protected get; }
         public ProcessRepository ProcessRepository { set; protected get; }
         public IAsyncService AsyncService { private get; set; }
         #endregion
 
-        public MqttClientService()
+        public MqttClientService(ITopicClassifier topicClassifier)
         {
-            
-        }       
+            _topicClassifier = topicClassifier;
+        }
         public enum JsonMessageType
         {
             configuration,
@@ -162,29 +169,39 @@ namespace AplombTech.WMS.MQTT.Client
                         log.Error(string.Format("Could not disconnect to MQTT broker: {1}", ex.Message));
                     }
                 }
-                throw new Exception("Could not stablished connection to MQTT broker");
+                //throw new Exception("Could not stablished connection to MQTT broker");
+                MakeConnection();
             }
         }
         private void ProcessMessage(string topic, string message)
-        {
+        {            
             DataLog dataLog = LogSensorData(topic, message);
 
             if (dataLog != null)
             {
                 if (dataLog.ProcessingStatus == DataLog.ProcessingStatusEnum.None)
                 {
-                    //PublishMessage(dataLog);
                     try
                     {
+                        var topicType = _topicClassifier.GetTopicType(topic);
+                        var messageParser = _messageParserFactory.CreateMessageParser(topicType);
+                        var parsedMessage = messageParser.ParseMessage(message);
                         framework.TransactionManager.StartTransaction();
-                        if (topic.Replace("wasa/", String.Empty).Replace("_", string.Empty) == JsonMessageType.sensordata.ToString())
+                        switch (topicType)
                         {
-                            ParseSensorDataFromMessage(dataLog);
+                            case TopicType.SensorData:
+                                var deviceDataMessage = (SensorMessage)parsedMessage;
+                                ProcessSensorData(deviceDataMessage);
+                                ProcessMotorData(deviceDataMessage);                            
+                                break;
+                            case TopicType.Configuration:
+                                var configDataMessage = (ConfigurationMessage)parsedMessage;
+                                ProcessRepository.ParseNStoreConfigurationData(configDataMessage);
+                                break;
+                            default:
+                                throw new InvalidTopicException();
                         }
-                        if (topic.Replace("wasa/", String.Empty) == JsonMessageType.configuration.ToString())
-                        {
-                            ProcessRepository.ParseNStoreConfigurationData(dataLog);
-                        }
+                        dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
                         framework.TransactionManager.EndTransaction();
                     }
                     catch (Exception ex)
@@ -199,19 +216,7 @@ namespace AplombTech.WMS.MQTT.Client
                 }
             }
         }
-        private void ParseSensorDataFromMessage(DataLog dataLog)
-        {
-            if (dataLog.ProcessingStatus != DataLog.ProcessingStatusEnum.None) return;
-
-            SensorMessage messageObject = JsonManager.GetSensorObject(dataLog.Message);
-
-
-            if (messageObject == null) return;
-
-            ProcessSensorData(messageObject);
-            ProcessMotorData(messageObject);
-            dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
-        }
+       
         private void ProcessMotorData(SensorMessage messageObject)
         {
             foreach (MotorValue data in messageObject.Motors)
@@ -219,7 +224,7 @@ namespace AplombTech.WMS.MQTT.Client
                 Motor motor = AreaRepository.FindMotorByUuid(data.MotorUid);
                 if (motor != null && motor.IsActive)
                 {
-                    ProcessRepository.CreateNewMotorData(data, messageObject.SensorLoggedAt, motor);
+                    ProcessRepository.CreateNewMotorData(data, messageObject.LoggedAt, motor);
                     if(motor is PumpMotor && data.MotorStatus == Motor.OFF)
                         PublishMotorAlertMessage(data, motor);
                 }
@@ -258,13 +263,12 @@ namespace AplombTech.WMS.MQTT.Client
                 Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
                 if (sensor!=null && sensor.IsActive)
                 {
-                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.SensorLoggedAt, sensor);                    
-                    PublishMessageForSummaryGeneration(data, messageObject.SensorLoggedAt, sensor);
+                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.LoggedAt, sensor);                    
+                    PublishMessageForSummaryGeneration(data, messageObject.LoggedAt, sensor);
                     PublishSensorAlertMessage(data.Value, sensor);
                 }
             }
         }
-
         private void PublishMessageForSummaryGeneration(SensorValue data, DateTime loggedAt, Sensor sensor)
         {
             if (sensor is FlowSensor || sensor is EnergySensor)
@@ -280,7 +284,6 @@ namespace AplombTech.WMS.MQTT.Client
                 ServiceBus.Bus.Send(cmd);
             }
         }
-
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
         {
             if (sensor is EnergySensor || sensor is ACPresenceDetector || sensor is BatteryVoltageDetector) return;
@@ -378,18 +381,6 @@ namespace AplombTech.WMS.MQTT.Client
                 return null;
             }
         }
-        private void PublishMessage(DataLog datalog)
-        {
-            var cmd = new ProcessSensorData
-            {
-                SensorDataLogId = datalog.SensorDataLogID,
-                Topic = datalog.Topic,
-                Message = datalog.Message,
-                LoggedAtSensor = datalog.LoggedAtSensor
-            };
-
-            ServiceBus.Bus.Send(cmd);
-        }
         private string Publish(string messgeTopic, string publishMessage)
         {
             if (DhakaWasaMqtt != null)
@@ -443,6 +434,7 @@ namespace AplombTech.WMS.MQTT.Client
             log.Info("Connection has been closed");
         }
         #endregion
+
         public void Execute(INakedObjectsFramework objframework)
         {
             this.framework = objframework;

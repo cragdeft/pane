@@ -73,7 +73,7 @@
 
             if (@sensor is EnergySensor)
             {
-                <p style="text-align: right"><strong>ET</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor) sensor).CumulativeValue) @sensor.UnitName</span></p>
+                <p style="text-align: right"><strong>ET</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(sensor.CurrentValue) @sensor.UnitName</span></p>
             }
         }
 
@@ -165,7 +165,7 @@
         {
             if (@sensor is FlowSensor)
             {
-                <p><strong>FT @sensor.UUID</strong> <span id="FT_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).CumulativeValue) Metre</span></p>
+                <p><strong>FT @sensor.UUID</strong> <span id="FT_@sensor.UUID" class="label label-primary"> @(sensor.CurrentValue) Metre</span></p>
             }
         }
     </div>

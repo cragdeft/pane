@@ -84,6 +84,7 @@ namespace AplombTech.MQTTLib
                 
                 //don't leave the client connected
                 if (DhakaWasaMQTT != null && DhakaWasaMQTT.IsConnected)
+                {
                     try
                     {
                         DhakaWasaMQTT.Disconnect();
@@ -92,6 +93,8 @@ namespace AplombTech.MQTTLib
                     {
                         Logger.LogError(ex, string.Format("Could not disconnect to MQ broker: {1}", ex.Message));
                     }
+                }
+                MakeConnection();
             }
         }       
         public string Publish(string messgeTopic, string publishMessage)

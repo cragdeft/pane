@@ -239,10 +239,10 @@ namespace AplombTech.WMS.Site.Controllers
             foreach (var sensor in sensorList)
             {
                 if (sensor is FlowSensor)
-                    dictornary.Add("FT"+sensor.UUID, ((FlowSensor)sensor).CumulativeValue.ToString());
+                    dictornary.Add("FT"+sensor.UUID, (sensor).CurrentValue.ToString());
 
                 if (sensor is EnergySensor)
-                    dictornary.Add("ET" + sensor.UUID, ((EnergySensor)sensor).CumulativeValue.ToString());
+                    dictornary.Add("ET" + sensor.UUID, (sensor).CurrentValue.ToString());
 
                 if (sensor is PressureSensor)
                     dictornary.Add("PT" + sensor.UUID, sensor.CurrentValue.ToString());
