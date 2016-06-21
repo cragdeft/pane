@@ -11,6 +11,7 @@ using AplombTech.WMS.JsonParser.Topics;
 using AplombTech.WMS.JsonParser.Topics.Classification;
 using AplombTech.WMS.Messages.Commands;
 using AplombTech.WMS.Utility;
+using AplombTech.WMS.Utility.NakedObjects;
 using NakedObjects;
 using NakedObjects.Architecture.Component;
 using NakedObjects.Async;
@@ -34,6 +35,7 @@ namespace AplombTech.WMS.MQTT.Client
     {
         #region Injected Services
         private INakedObjectsFramework framework;
+        private TransactionRunner _transactionRunner;
         private readonly ITopicClassifier _topicClassifier;
         private readonly IMessageParserFactory _messageParserFactory;
         public AreaRepository AreaRepository { set; protected get; }
@@ -197,7 +199,8 @@ namespace AplombTech.WMS.MQTT.Client
                                 break;
                             case TopicType.Configuration:
                                 var configDataMessage = (ConfigurationMessage)parsedMessage;
-                                ProcessRepository.ParseNStoreConfigurationData(configDataMessage);
+                                _transactionRunner.RunTransaction(
+                                () => ProcessRepository.StoreConfigurationData(configDataMessage));
                                 break;
                             default:
                                 throw new InvalidTopicException();
@@ -439,6 +442,7 @@ namespace AplombTech.WMS.MQTT.Client
         public void Execute(INakedObjectsFramework objframework)
         {
             this.framework = objframework;
+            _transactionRunner = new TransactionRunner(framework.TransactionManager);
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
 #if DEBUG

@@ -21,7 +21,7 @@ namespace AplombTech.WMS.Domain.Repositories
         public AreaRepository AreaRepository { set; protected get; }
         #endregion
 
-        public void ParseNStoreConfigurationData(ConfigurationMessage messageObject)
+        public void StoreConfigurationData(ConfigurationMessage messageObject)
         {
             AddCameras(messageObject);
             AddPumpMotor(messageObject);
