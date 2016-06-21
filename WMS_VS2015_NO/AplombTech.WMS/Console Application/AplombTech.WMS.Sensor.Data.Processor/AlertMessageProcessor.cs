@@ -23,7 +23,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             IList<AlertRecipient> recipients = new List<AlertRecipient>();
             using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
-                AlertConfigurationRepository repo = new AlertConfigurationRepository(WMSUnitOfWork.CurrentObjectContext);
+                AlertConfigurationRepository repo = new AlertConfigurationRepository(uow.CurrentObjectContext);
                 alertMessage = repo.GetMessageByAlertMessageTypeId(message.AlertMessageType);
                 recipients = repo.GetReceipientsByAlertTypeId(message.AlertMessageType);
             }

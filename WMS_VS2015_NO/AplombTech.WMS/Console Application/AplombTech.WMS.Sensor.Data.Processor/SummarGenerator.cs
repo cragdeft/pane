@@ -16,9 +16,9 @@ namespace AplombTech.WMS.Sensor.Data.Processor
         {
             using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
-                ProcessRepository repo = new ProcessRepository(WMSUnitOfWork.CurrentObjectContext);
+                ProcessRepository repo = new ProcessRepository(uow.CurrentObjectContext);
                 repo.GenerateSummary(message);
-                WMSUnitOfWork.CurrentObjectContext.SaveChanges();
+                uow.CurrentObjectContext.SaveChanges();
             }
         }
     }

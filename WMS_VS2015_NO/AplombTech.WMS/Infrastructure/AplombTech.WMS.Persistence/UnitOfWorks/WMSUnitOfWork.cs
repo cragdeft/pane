@@ -29,10 +29,8 @@ namespace AplombTech.WMS.Persistence.UnitOfWorks
         /// Returns a reference to the CMSObjectContext that is created
         /// for the current scope. If no scope currently exists, null is returned.
         /// </summary>
-        public static WMSDBContext CurrentObjectContext
-        {
-            get { return _currentScope != null ? _currentScope._objectContext : null; }
-        }
+        
+        public WMSDBContext CurrentObjectContext => _currentScope?._objectContext;
 
         /// <summary>
         /// Default constructor. Object changes are not automatically saved
