@@ -39,7 +39,21 @@ namespace AplombTech.WMS.Persistence.Repositories
             {
                 if (loggedAt > hourlySummary.ProcessAt)
                 {
-                    hourlySummary.DataValue = dataValue;
+                    SensorSummaryDataHourly lastDaySummary = GetHourlySummary(sensor.SensorId, summaryDate, summaryHour - 1);
+                    if (lastDaySummary != null)
+                    {
+                        lastDaySummary = GetHourlySummary(sensor.SensorId, summaryDate.AddDays(-1), 23);
+                    }
+                    hourlySummary.ReceivedValue = dataValue;
+                    if (lastDaySummary != null)
+                    {
+                        hourlySummary.DataValue = dataValue - lastDaySummary.ReceivedValue;
+                    }
+                    else
+                    {
+                        hourlySummary.DataValue = dataValue;
+                    }
+                    hourlySummary.DataCount += 1;
                     hourlySummary.ProcessAt = loggedAt;
                 }
             }
@@ -54,9 +68,20 @@ namespace AplombTech.WMS.Persistence.Repositories
 
             if (dailySummary != null)
             {
+                SensorSummaryDataDaily lastDaySummary = GetDailySummary(sensor.SensorId, summaryDate.AddDays(-1));
                 if (loggedAt > dailySummary.ProcessAt)
                 {
-                    dailySummary.DataValue = dataValue;
+                    if (lastDaySummary != null)
+                    {
+                        dailySummary.ReceivedValue = dataValue;
+                        dailySummary.DataValue = dataValue - lastDaySummary.DataValue;
+                    }
+                    else
+                    {
+                        dailySummary.ReceivedValue = dataValue;
+                        dailySummary.DataValue = dataValue;
+                    }
+                    dailySummary.DataCount += 1;
                     dailySummary.ProcessAt = loggedAt;
                 }
             }
@@ -81,15 +106,16 @@ namespace AplombTech.WMS.Persistence.Repositories
 
             data.DataDate = summaryDate;
             data.DataHour = hour;
+            data.ReceivedValue = value;
             if (lastDaySummary != null)
             {
-                data.DataValue = value - lastDaySummary.DataValue;
+                data.DataValue = value - lastDaySummary.ReceivedValue;
             }
             else
             {
                 data.DataValue = value;
             }
-            
+            data.DataCount += 1;
             data.Sensor = sensor;
             data.ProcessAt = loggedAt;
 
@@ -98,19 +124,20 @@ namespace AplombTech.WMS.Persistence.Repositories
         private void CreateDailySummarySensorData(DateTime summaryDate, decimal value, Sensor sensor, DateTime loggedAt)
         {
             SensorSummaryDataDaily data = new SensorSummaryDataDaily();
-
             SensorSummaryDataDaily lastDaySummary = GetDailySummary(sensor.SensorId, summaryDate.AddDays(-1));
 
             data.DataDate = summaryDate;
             if (lastDaySummary != null)
             {
-                data.DataValue = value - lastDaySummary.DataValue;
+                data.ReceivedValue = value;
+                data.DataValue = value - lastDaySummary.ReceivedValue;
             }
             else
             {
+                data.ReceivedValue = value;
                 data.DataValue = value;
             }
-            
+            data.DataCount = 1;
             data.Sensor = sensor;
             data.ProcessAt = loggedAt;
 

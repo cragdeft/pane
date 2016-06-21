@@ -18,7 +18,9 @@ namespace AplombTech.WMS.Domain.SummaryData
         public virtual int SensorHourlyDataId { get; set; }
         public virtual DateTime DataDate { get; set; }
         public virtual int DataHour { get; set; }
+        public virtual decimal ReceivedValue { get; set; }
         public virtual decimal DataValue { get; set; }
+        public virtual int DataCount { get; set; }
         public virtual DateTime ProcessAt { get; set; }
 
         #endregion

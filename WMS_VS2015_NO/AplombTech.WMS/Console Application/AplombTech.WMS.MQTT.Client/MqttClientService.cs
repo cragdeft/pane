@@ -275,20 +275,24 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void PublishMessageForSummaryGeneration(SensorValue data, DateTime loggedAt, Sensor sensor)
         {
-            if (sensor is FlowSensor || sensor is EnergySensor)
+            var cmd = new SummaryGenerationMessage
             {
-                var cmd = new SummaryGenerationMessage
-                {
-                    SensorId = sensor.SensorId,
-                    SensorUUID = data.SensorUUID,
-                    Value = Convert.ToDecimal(data.Value),
-                    DataLoggedAt = loggedAt,
-                    MessageDateTime = DateTime.Now
-                };
+                SensorId = sensor.SensorId,
+                SensorUUID = data.SensorUUID,
+                Value = Convert.ToDecimal(data.Value),
+                DataLoggedAt = loggedAt,
+                MessageDateTime = DateTime.Now
+            };
+            if (sensor is FlowSensor || sensor is EnergySensor)
+            {               
                 if (cmd.Value > 0)
                 {
                     ServiceBus.Bus.Send(cmd);
                 }               
+            }
+            else
+            {
+                ServiceBus.Bus.Send(cmd);
             }
         }
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
