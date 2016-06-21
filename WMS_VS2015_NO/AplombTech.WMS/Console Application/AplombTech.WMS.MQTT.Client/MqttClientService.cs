@@ -242,7 +242,7 @@ namespace AplombTech.WMS.MQTT.Client
                 MotorName = GetMotorName(motor),             
                 MotorStatus = data.MotorStatus,
                 PumpStationName = motor.PumpStation.Name,
-                AlertMessageType = (int)AlertType.AlertTypeEnum.PumpOnOff,
+                AlertMessageType = (int)AlertType.AlertTypeEnum.OnOff,
                 MessageDateTime = DateTime.Now
             };
             ServiceBus.Bus.Send(cmd);
@@ -285,7 +285,10 @@ namespace AplombTech.WMS.MQTT.Client
                     DataLoggedAt = loggedAt,
                     MessageDateTime = DateTime.Now
                 };
-                ServiceBus.Bus.Send(cmd);
+                if (cmd.Value > 0)
+                {
+                    ServiceBus.Bus.Send(cmd);
+                }               
             }
         }
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
@@ -311,11 +314,19 @@ namespace AplombTech.WMS.MQTT.Client
             
             if (value == 0)
             {
-                SendSensorAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.DataMissing, sensor);               
+                if (sensor is ChlorinePresenceDetector)
+                {
+                    SendSensorAlertMessage(value, sensorName, (int)AlertType.AlertTypeEnum.OnOff, sensor);
+                }
+                else
+                {
+                    SendSensorAlertMessage(value, sensorName, (int)AlertType.AlertTypeEnum.DataMissing, sensor);
+                }
+                
                 return;
             }
 
-            if (!(sensor is ChlorinePresenceDetector) && !(sensor is ACPresenceDetector) && !(sensor is BatteryVoltageDetector))
+            if (!(sensor is ChlorinePresenceDetector))
             {
                 if (value < sensor.MinimumValue)
                 {

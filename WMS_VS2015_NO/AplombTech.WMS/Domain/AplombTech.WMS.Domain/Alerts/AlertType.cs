@@ -47,7 +47,7 @@ namespace AplombTech.WMS.Domain.Alerts
 
         public enum AlertTypeEnum
         {
-            PumpOnOff = 1,
+            OnOff = 1,
             UnderThreshold = 2,
             DataMissing = 3
         }
