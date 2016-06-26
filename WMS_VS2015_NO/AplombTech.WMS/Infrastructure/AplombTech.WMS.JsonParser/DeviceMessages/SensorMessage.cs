@@ -1,20 +1,19 @@
-﻿using System;
+﻿using AplombTech.WMS.JsonParser.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplombTech.WMS.JsonParser.Entity
+namespace AplombTech.WMS.JsonParser.DeviceMessages
 {
-    public class SensorMessage
+    public class SensorMessage : DeviceMessage
     {
         public SensorMessage()
         {
             Sensors = new List<SensorValue>();
             Motors = new List<MotorValue>();
         }
-        public int PumpStationId { get; set; }
-        public DateTime SensorLoggedAt { get; set; }
         public bool SensorDataComplete { get; set; }
         public int LogCount { get; set; }
         public IList<SensorValue> Sensors { get; set; }

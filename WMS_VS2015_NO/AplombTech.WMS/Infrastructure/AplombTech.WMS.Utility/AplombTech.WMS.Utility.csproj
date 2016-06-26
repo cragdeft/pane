@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="EmailSender.cs" />
     <Compile Include="PasswordHash.cs" />
+    <Compile Include="PingBroker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmsSender.cs" />
   </ItemGroup>

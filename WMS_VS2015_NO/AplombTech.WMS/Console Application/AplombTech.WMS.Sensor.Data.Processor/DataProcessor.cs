@@ -60,7 +60,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
                 //    }
                 //    throw;
                 //}
-                WMSUnitOfWork.CurrentObjectContext.SaveChanges();
+                uow.CurrentObjectContext.SaveChanges();
                 log.Info("Sensor Data process has ended for Id : " + message.SensorDataLogId);
             }         
         }

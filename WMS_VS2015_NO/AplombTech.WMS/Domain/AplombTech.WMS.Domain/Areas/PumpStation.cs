@@ -65,7 +65,7 @@ namespace AplombTech.WMS.Domain.Areas
         [MemberOrder(70), NotMapped]
         [Eagerly(EagerlyAttribute.Do.Rendering)]
         [DisplayName("Sensors")]
-        [TableView(true, "CurrentValue", "CumulativeValue", "LastDataReceived")]
+        [TableView(true, "CurrentValue", "LastDataReceived")]
         public IList<Sensor> Sensors
         {
             get
@@ -248,7 +248,6 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.Model = model;
             sensor.UnitName = unit;
             sensor.Version = version;
-            //sensor.CumulativeValue = 0;
             sensor.PumpStation = this;
 
             Container.Persist(ref sensor);
@@ -261,7 +260,6 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
             sensor.DataType =  dataType;
             sensor.Model = model;
             sensor.UnitName = unit;
@@ -278,7 +276,6 @@ namespace AplombTech.WMS.Domain.Areas
             sensor.MinimumValue = minValue;
             sensor.MaximumValue = maxValue;
             sensor.CurrentValue = 0;
-            sensor.CumulativeValue = 0;
             sensor.DataType = dataType;
             sensor.Model = model;
             sensor.UnitName = unit;
@@ -320,7 +317,6 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref sensor);
         }
-
         private void CreateBatteryVoltageDetector(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             PressureSensor sensor = Container.NewTransientInstance<PressureSensor>();
@@ -337,7 +333,6 @@ namespace AplombTech.WMS.Domain.Areas
 
             Container.Persist(ref sensor);
         }
-
         private void CreatePressureSensor(string uuid, decimal minValue, decimal maxValue, Sensor.Data_Type dataType, string model, string version, string unit)
         {
             PressureSensor sensor = Container.NewTransientInstance<PressureSensor>();

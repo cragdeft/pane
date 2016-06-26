@@ -23,7 +23,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             IList<AlertRecipient> recipients = new List<AlertRecipient>();
             using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
-                AlertConfigurationRepository repo = new AlertConfigurationRepository(WMSUnitOfWork.CurrentObjectContext);
+                AlertConfigurationRepository repo = new AlertConfigurationRepository(uow.CurrentObjectContext);
                 alertMessage = repo.GetMessageByAlertMessageTypeId(message.AlertMessageType);
                 recipients = repo.GetReceipientsByAlertTypeId(message.AlertMessageType);
             }
@@ -61,6 +61,22 @@ namespace AplombTech.WMS.Sensor.Data.Processor
                 case (int)AlertType.AlertTypeEnum.UnderThreshold:
                     SendUnderThresholdMessage(message, alertMessage, recipients);
                     return;
+                case (int)AlertType.AlertTypeEnum.OnOff:
+                    SendOnOffMessage(message, alertMessage, recipients);
+                    return;
+            }
+        }
+        private void SendOnOffMessage(SensorAlertMessage objmessage, string alertMessage, IList<AlertRecipient> recipients)
+        {
+            string[] messageList = alertMessage.Split('|');
+            string message = objmessage.SensorName + " " + messageList[0] + " " + objmessage.PumpStationName + messageList[1];
+
+            foreach (AlertRecipient recipient in recipients)
+            {
+                if (recipient.Email.Trim().Length > 0)
+                    EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Data Missing", message);
+                if (recipient.MobileNo.Trim().Length > 0)
+                    SmsSender.SendSMS(recipient.MobileNo, message);
             }
         }
         private void SendDataMissingMessage(SensorAlertMessage objmessage, string alertMessage, IList<AlertRecipient> recipients)

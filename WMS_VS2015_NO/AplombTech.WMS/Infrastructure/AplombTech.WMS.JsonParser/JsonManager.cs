@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AplombTech.WMS.QueryModel.Devices;
 using AplombTech.WMS.QueryModel.Motors;
 using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.JsonParser.DeviceMessages;
 
 namespace AplombTech.WMS.JsonParser
 {
@@ -56,6 +57,7 @@ namespace AplombTech.WMS.JsonParser
             int stationId = Convert.ToInt32(pumpStationId);
             return stationId;
         }
+        
         public static SensorMessage GetSensorObject(string message)
         {
             SensorMessage sensorObject = new SensorMessage();
@@ -64,7 +66,7 @@ namespace AplombTech.WMS.JsonParser
                 JObject o = JObject.Parse(message);
                 //o["Sensor"][0]["uid"],o["Sensor"][0]["value"]
                 sensorObject.PumpStationId = GetPumpStationIDFromJson(message);
-                sensorObject.SensorLoggedAt = GetSensorLoggedAtTime(message);
+                sensorObject.LoggedAt = GetSensorLoggedAtTime(message);
                 //for (int i = 0; i < o["PumpStation"]["Sensors"]["PT"].Count(); i++)
                 //{
                 //    configurationObject.Sensors.Add(GetSensor(o, i, "PT"));
@@ -124,7 +126,7 @@ namespace AplombTech.WMS.JsonParser
             ConfigurationMessage configurationObject = new ConfigurationMessage();
 
             configurationObject.PumpStationId = GetPumpStationIDFromJson(message);
-            configurationObject.ConfigurationLoggedAt = GetConfigurationLoggedAtTime(message);
+            configurationObject.LoggedAt = GetConfigurationLoggedAtTime(message);
 
             //for (int i = 0; i < o["PumpStation"]["Camera"].Count(); i++)
             //{

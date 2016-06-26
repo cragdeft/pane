@@ -1,15 +1,15 @@
-﻿using System;
+﻿using AplombTech.WMS.QueryModel.Devices;
+using AplombTech.WMS.QueryModel.Motors;
+using AplombTech.WMS.QueryModel.Sensors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AplombTech.WMS.QueryModel.Devices;
-using AplombTech.WMS.QueryModel.Motors;
-using AplombTech.WMS.QueryModel.Sensors;
 
-namespace AplombTech.WMS.JsonParser.Entity
+namespace AplombTech.WMS.JsonParser.DeviceMessages
 {
-    public class ConfigurationMessage
+    public class ConfigurationMessage : DeviceMessage
     {
         public ConfigurationMessage()
         {
@@ -19,12 +19,9 @@ namespace AplombTech.WMS.JsonParser.Entity
             PumpMotor = new PumpMotor();
             ChlorineMotor = new ChlorineMotor();
         }
-        public int PumpStationId { get; set; }
-        public DateTime ConfigurationLoggedAt { get; set; }
         public IList<Camera> Cameras { get; set; }
         public Router Router { get; set; }
         public PumpMotor PumpMotor { get; set; }
-
         public ChlorineMotor ChlorineMotor { get; set; }
         public IList<Sensor> Sensors { get; set; }
     }

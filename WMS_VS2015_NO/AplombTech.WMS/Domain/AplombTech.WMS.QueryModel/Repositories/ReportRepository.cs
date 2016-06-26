@@ -379,11 +379,11 @@ namespace AplombTech.WMS.QueryModel.Repositories
             data.name = model.TransmeType.ToString().Replace("_", " ") + "-" + sensor.UUID;
             if (sensor is EnergySensor)
             {
-                data.data = new List<double>() { (double)((EnergySensor)sensor).CumulativeValue };
+                data.data = new List<double>() { (double)sensor.CurrentValue };
             }
             else if (sensor is FlowSensor)
             {
-                data.data = new List<double>() { (double)((FlowSensor)sensor).CumulativeValue };
+                data.data = new List<double>() { (double)sensor.CurrentValue };
             }
             else
                 data.data = new List<double>() { (double)sensor.CurrentValue };

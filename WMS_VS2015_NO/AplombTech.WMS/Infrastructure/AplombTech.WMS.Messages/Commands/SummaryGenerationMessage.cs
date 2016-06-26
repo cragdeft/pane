@@ -9,9 +9,7 @@ namespace AplombTech.WMS.Messages.Commands
 {
     public class SummaryGenerationMessage : ICommand
     {
-        public int SensorId { get; set; }
-        public string SensorUUID { get; set; }
-        public decimal Value { get; set; }
+        public string Uid { get; set; }
         public DateTime DataLoggedAt { get; set; }
         public DateTime MessageDateTime { get; set; }
     }
