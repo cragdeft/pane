@@ -1,8 +1,6 @@
 ﻿using AplombTech.WMS.Domain.Sensors;
-using NakedObjects;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace AplombTech.WMS.Domain.SummaryData
 {
-    public class SensorSummaryDataDaily
+    [Table("SensorDailySummaryData")]
+    public class SensorDailySummaryData : SummaryData
     {
         #region Primitive Properties
-        [Key, NakedObjectsIgnore]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public virtual int SensorDailyDataId { get; set; }
-        public virtual DateTime DataDate { get; set; }
         public virtual decimal ReceivedValue { get; set; }
         public virtual decimal DataValue { get; set; }
-        public virtual int DataCount { get; set; }
-        public virtual DateTime ProcessAt { get; set; }
-
         #endregion
 
         #region  Navigation Properties

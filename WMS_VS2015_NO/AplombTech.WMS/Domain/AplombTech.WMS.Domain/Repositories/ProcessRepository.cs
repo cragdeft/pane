@@ -152,8 +152,21 @@ namespace AplombTech.WMS.Domain.Repositories
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
-          
+            if (sensor is FlowSensor)
+            {
+                ((FlowSensor) sensor).CumulativeValue = data.Value;
+                sensor.LastDataReceived = loggedAt;
+            }
+            else if (sensor is EnergySensor)
+            {
+                ((EnergySensor)sensor).CumulativeValue = data.Value;
+                sensor.LastDataReceived = loggedAt;
+            }
+            else
+            {
+                UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
+            }
+                     
             Container.Persist(ref data);            
         }        
         private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)

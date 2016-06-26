@@ -34,7 +34,7 @@ namespace AplombTech.WMS.MQTT.Client
     public class MqttClientService: IWMSBatchStartPoint
     {
         #region Injected Services
-        private INakedObjectsFramework framework;
+        private INakedObjectsFramework _framework;
         private TransactionRunner _transactionRunner;
         private readonly ITopicClassifier _topicClassifier;
         private readonly IMessageParserFactory _messageParserFactory;
@@ -189,7 +189,7 @@ namespace AplombTech.WMS.MQTT.Client
                         var topicType = _topicClassifier.GetTopicType(topic);
                         var messageParser = _messageParserFactory.CreateMessageParser(topicType);
                         var parsedMessage = messageParser.ParseMessage(message);
-                        framework.TransactionManager.StartTransaction();
+                        _framework.TransactionManager.StartTransaction();
                         switch (topicType)
                         {
                             case TopicType.SensorData:
@@ -206,16 +206,16 @@ namespace AplombTech.WMS.MQTT.Client
                                 throw new InvalidTopicException();
                         }
                         dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
-                        framework.TransactionManager.EndTransaction();
+                        _framework.TransactionManager.EndTransaction();
                     }
                     catch (Exception ex)
                     {
                         log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
-                        framework.TransactionManager.AbortTransaction();
-                        framework.TransactionManager.StartTransaction();
+                        _framework.TransactionManager.AbortTransaction();
+                        _framework.TransactionManager.StartTransaction();
                         dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
                         dataLog.Remarks = "Error Occured in ProcessMessage method. Error: " + ex.ToString();
-                        framework.TransactionManager.EndTransaction();
+                        _framework.TransactionManager.EndTransaction();
                     }
                 }
             }
@@ -229,7 +229,8 @@ namespace AplombTech.WMS.MQTT.Client
                 if (motor != null && motor.IsActive)
                 {
                     ProcessRepository.CreateNewMotorData(data, messageObject.LoggedAt, motor);
-                    if(motor is PumpMotor && data.MotorStatus == Motor.OFF)
+                    PublishMessageForMotorSummaryGeneration(data, messageObject.LoggedAt, motor);
+                    if (motor is PumpMotor && data.MotorStatus == Motor.OFF)
                         PublishMotorAlertMessage(data, motor);
                 }
             }
@@ -268,17 +269,16 @@ namespace AplombTech.WMS.MQTT.Client
                 if (sensor!=null && sensor.IsActive)
                 {
                     ProcessRepository.CreateNewSensorData(data.Value, messageObject.LoggedAt, sensor);                    
-                    PublishMessageForSummaryGeneration(data, messageObject.LoggedAt, sensor);
+                    PublishSensorMessageForSummaryGeneration(data, messageObject.LoggedAt, sensor);
                     PublishSensorAlertMessage(data.Value, sensor);
                 }
             }
         }
-        private void PublishMessageForSummaryGeneration(SensorValue data, DateTime loggedAt, Sensor sensor)
+        private void PublishSensorMessageForSummaryGeneration(SensorValue data, DateTime loggedAt, Sensor sensor)
         {
-            var cmd = new SummaryGenerationMessage
+            var cmd = new SensorSummaryGenerationMessage
             {
-                SensorId = sensor.SensorId,
-                SensorUUID = data.SensorUUID,
+                Uid = data.SensorUUID,
                 Value = Convert.ToDecimal(data.Value),
                 DataLoggedAt = loggedAt,
                 MessageDateTime = DateTime.Now
@@ -294,6 +294,20 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 ServiceBus.Bus.Send(cmd);
             }
+        }
+        private void PublishMessageForMotorSummaryGeneration(MotorValue data, DateTime loggedAt, Motor motor)
+        {
+            var cmd = new MotorSummaryGenerationMessage
+            {
+                Uid = data.MotorUid,
+                MotorStatus = data.MotorStatus,
+                DataLoggedAt = loggedAt,
+                MessageDateTime = DateTime.Now
+            };
+            if (motor is PumpMotor)
+            {
+                ServiceBus.Bus.Send(cmd);
+            }            
         }
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
         {
@@ -387,16 +401,16 @@ namespace AplombTech.WMS.MQTT.Client
         {
             try
             {
-                framework.TransactionManager.StartTransaction();
+                _framework.TransactionManager.StartTransaction();
                 DataLog dataLog = ProcessRepository.LogData(topic, message);
-                framework.TransactionManager.EndTransaction();
+                _framework.TransactionManager.EndTransaction();
 
                 return dataLog;
             }
             catch (Exception ex)
             {
                 log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
-                framework.TransactionManager.AbortTransaction();
+                _framework.TransactionManager.AbortTransaction();
                 return null;
             }
         }
@@ -456,8 +470,8 @@ namespace AplombTech.WMS.MQTT.Client
 
         public void Execute(INakedObjectsFramework objframework)
         {
-            this.framework = objframework;
-            _transactionRunner = new TransactionRunner(framework.TransactionManager);
+            this._framework = objframework;
+            _transactionRunner = new TransactionRunner(_framework.TransactionManager);
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
 #if DEBUG
