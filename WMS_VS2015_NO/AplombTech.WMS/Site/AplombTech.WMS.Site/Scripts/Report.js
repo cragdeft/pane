@@ -463,6 +463,11 @@ function validate() {
         $("#Hour").addClass("valid");
         $("#hourvalid").text("");
     }
+
+    $('#chartContainer').empty();
+    $('#chart_div').empty();
+    clearInterval(interval);
+
     return valid;
 }
 

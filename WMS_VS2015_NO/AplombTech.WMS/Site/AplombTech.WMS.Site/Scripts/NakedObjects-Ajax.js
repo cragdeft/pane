@@ -306,7 +306,7 @@
             }
             // check if we were doing a ajax call - if not ignore - must have been a validate 
             if (endSubmitFeedBack() || endLinkFeedBack()) {}
-            errorDialog('Ajax Error', "Error in: " + settings.url + " \n" + "error:\n" + xhr.responseText);
+            //errorDialog('Ajax Error', "Error in: " + settings.url + " \n" + "error:\n" + xhr.responseText);
         });
     };
 

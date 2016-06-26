@@ -105,7 +105,7 @@ namespace AplombTech.MQTTLib
                         ushort msgId = DhakaWasaMQTT.Publish(messgeTopic, // topic
                                           Encoding.UTF8.GetBytes(publishMessage), // message body
                                           MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, // QoS level
-                                          true);
+                                          false);
                         return "Success";
                     }
                 }

@@ -9,12 +9,12 @@
         span {
             cursor: pointer;
             cursor: hand;
-            font-weight: normal!important;
-            font-size: small!important;
+            font-weight: normal !important;
+            font-size: small !important;
         }
 
         .dateTimeSpan {
-            font-size: smaller!important;
+            font-size: smaller !important;
         }
 
         .grad {
@@ -29,15 +29,15 @@
         <span>Connection Status</span>
         @if (@Model[0].LastDataReceived.HasValue && @Model[0].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
         {
-            <h4><span id="connectionStatus" class="label label-success">Online</span></h4>
+        <h4><span id="connectionStatus" class="label label-success">Online</span></h4>
         }
         else
         {
-            <h4><span id="connectionStatus" class="label label-danger">Offline</span></h4>
+        <h4><span id="connectionStatus" class="label label-danger">Offline</span></h4>
         }
 
 
-        <span class="label label-primary dateTimeSpan">@Model[0].LastDataReceived</span>
+        <span class="label label-primary dateTimeSpan" id="connectionStatusTime">@Model[0].LastDataReceived</span>
     </div>
     <div style="position: absolute; padding-left: 10px; margin-top: -280px;" class="grad">
         <h4>General</h4>
@@ -47,33 +47,33 @@
             {
                 if (@sensor.CurrentValue <= 0)
                 {
-                    <p style="text-align: right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>
+        <p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>
                 }
                 else
                 {
-                    <p style="text-align: right"><strong>Cholorination</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>
+        <p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>
                 }
             }
 
             if (@sensor is BatteryVoltageDetector)
             {
-                <p style="text-align: right"><strong>BV</strong> <span id="BV_@sensor.UUID" class="label label-primary">@(((BatteryVoltageDetector) sensor).CurrentValue) @sensor.UnitName</span></p>
+        <p style="text-align: right"><strong>Battery Voltage</strong> <span id="BV_@sensor.UUID" class="label label-primary">@(((BatteryVoltageDetector) sensor).CurrentValue) @sensor.UnitName</span></p>
             }
             if (@sensor is ACPresenceDetector)
             {
                 if (@sensor.CurrentValue <= 0)
                 {
-                    <p style="text-align: right"><strong>ACP</strong> <span id="ACP_@sensor.UUID" class="label label-danger">Off</span></p>
+        <p style="text-align: right"><strong>Main Power</strong> <span id="ACP_@sensor.UUID" class="label label-danger">Off</span></p>
                 }
                 else
                 {
-                    <p style="text-align: right"><strong>ACP</strong> <span id="ACP_@sensor.UUID" class="label label-success">On</span></p>
+        <p style="text-align: right"><strong>Main Power</strong> <span id="ACP_@sensor.UUID" class="label label-success">On</span></p>
                 }
             }
 
             if (@sensor is EnergySensor)
             {
-                <p style="text-align: right"><strong>ET</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor) sensor).CumulativeValue) @sensor.UnitName</span></p>
+        <p style="text-align: right"><strong>Energy</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor) sensor).CurrentValue) kw-hr</span></p>
             }
         }
 
@@ -84,30 +84,39 @@
 
     <div id="motorInfo" style="padding-left: 10px; margin-left: 180px; text-align: right; position: absolute; margin-top: -280px;" class="grad">
         <h4 style="text-align: left">Pump Motor </h4>
+
         @for (int i = 0; i < @ViewBag.MotorDataList.Count; i++)
         {
-            if (@ViewBag.MotorDataList[i].Auto)
+
+            if (@ViewBag.MotorDataList[i] != null && i == 0)
             {
-                <p style="margin-bottom: 2px;">
-                    <strong>Motor Status</strong>
-                    @if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
+        <p style="margin-bottom: 2px;">
+            <strong>Motor Status</strong>
+            @if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
                     {
-                        <span id="motorswitch" class="label label-success">ON</span>
+                    <span id="motorswitch" class="label label-success">ON</span>
                     }
                     else
                     {
-                        <span id="motorswitch" class="label label-danger">OFF</span>
+                    <span id="motorswitch" class="label label-danger">OFF</span>
                     }
-                    <span id="motorswitchStatus"></span>
-                </p>
+            <span id="motorswitchStatus"></span>
+
+        </p>
             }
             if (@ViewBag.MotorDataList[i] != null && i == 0)
             {
+        <p style="margin-bottom: 2px; margin-top: 15px;" id="pautoarea">
+            <strong>Mode</strong>
+            @{string autoValue = (ViewBag.MotorDataList[i].Auto) ? "Auto" : "Manual";}
+            <span id="pmotorAuto" class="label label-primary ">@autoValue</span>
+        </p>
+        <p style="margin-bottom: 2px; width: 150px; /* border: groove; */border-bottom: groove; padding-bottom: 5px; border-top: groove; margin-top: 10px;">
+            <strong>Last Command time</strong>
 
-                <p style="margin-bottom: 2px;">
-                    <strong>Last Command time</strong>
-                </p>
-                <span id="pmotorCommandTime" class="label label-primary dateTimeSpan">@ViewBag.MotorDataList[i].LastCommandTime</span>
+
+            <span id="pmotorCommandTime" class="label label-primary dateTimeSpan">@ViewBag.MotorDataList[i].LastCommandTime</span>
+        </p>
 
 
 
@@ -115,25 +124,25 @@
 
             if (@ViewBag.MotorDataList[i] != null && i == 1)
             {
-                <h4>Cholorine Motor </h4>
+        <h4 style="text-align: left;">Cholorine Motor</h4>
                 if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
                 {
-                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-success">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+        <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-success">@ViewBag.MotorDataList[i].MotorStatus</span></p>
 
                 }
                 else if (@ViewBag.MotorDataList[i].MotorStatus == "OFF")
                 {
-                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-danger">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+        <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-danger">@ViewBag.MotorDataList[i].MotorStatus</span></p>
 
                 }
                 else
                 {
-                    <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-default">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+        <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-default">@ViewBag.MotorDataList[i].MotorStatus</span></p>
                 }
 
-                <p style="margin-bottom: 2px;"><strong>Last Command time</strong>
-                </p>
-                <span id="cmotorCommandTime" class="label label-primary dateTimeSpan">@ViewBag.MotorDataList[i].LastCommandTime</span>
+        @*<p style="margin-bottom: 2px;"><strong>Last Command time</strong>
+            </p>
+            <span id="cmotorCommandTime" class="label label-primary dateTimeSpan">@ViewBag.MotorDataList[i].LastCommandTime</span>*@
             }
         }
     </div>
@@ -143,7 +152,7 @@
         {
             if (@sensor is PressureSensor)
             {
-                <p><strong>PT @sensor.UUID</strong> <span id="PT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Bar</span></p>
+        <p><strong>PT-@sensor.UUID</strong> <span id="PT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Bar</span></p>
             }
         }
     </div>
@@ -153,7 +162,7 @@
         {
             if (@sensor is LevelSensor)
             {
-                <p><strong>LT @sensor.UUID</strong> <span id="LT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Metre</span></p>
+                <p><strong>LT-@sensor.UUID</strong> <span id="LT_@sensor.UUID" class="label label-primary"> @sensor.CurrentValue Metre</span></p>
                 <p id="ltvalue" style="display: none;">@sensor.CurrentValue</p>
             }
         }
@@ -165,20 +174,28 @@
         {
             if (@sensor is FlowSensor)
             {
-                <p><strong>FT @sensor.UUID</strong> <span id="FT_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).CumulativeValue) Metre</span></p>
+                <p><strong>FT-@sensor.UUID</strong> <span id="FT_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CurrentValue) Litre</span></p>
             }
         }
     </div>
 </div>
+@if (Model[0].PumpStation.AreaId == 4)
+{
+    @*@Html.ActionLink("Camera Output", "http://192.169.244.37:8080/rtmp-publisher/player.html" , new { target = "_blank" })*@
+    <div id="cameraPortion" style="border: groove; margin-left: 680px; position: absolute; margin-top: -515px;">
+        <a href="http://192.169.244.37:8080/rtmp-publisher/player.html" target="_blank">Camera Output</a>
+    </div>
 
-<div class="modal fade" id="chartModal" role="dialog" style="padding: 0px;">
+}
+
+<div class="modal fade" id="chartModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Live Chart</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 0px !important;">
                 <div>
                     <div id="chart_div">
 
@@ -195,6 +212,8 @@
     </div><!-- /.modal-dialog -->
 </div>
 
+<span id="pmotorCommandSent" style="visibility:hidden"></span>
+
 <script>
     var graphInterval;
     var unit = parseInt($('#ltvalue').text());
@@ -204,18 +223,21 @@
     $("#waterlevel").css("height", height - (100 - (1.35 * unit)) + "px");
     $("#waterlevel").css("margin-top", margin + (100 - (1.35 * unit)) + "px");
 
-    $('#motorswitch').on('click', function () {
 
+    $('#motorswitch').on('click', function () {
+        if ($('#pmotorAuto').text() == "Manual") {
+            return;
+        }
         if ($('#motorswitchStatus').text() == "Processing...") {
             return;
         }
         var state;
         if ($('#motorswitch').text() == 'ON') {
-            state = "ON";
-        }
-        else
             state = "OFF";
+        } else
+            state = "ON";
         $('#motorswitchStatus').text('Processing...');
+        $('#pmotorCommandSent').text(new Date().toLocaleString());
 
         $.ajax({
             type: "POST",
@@ -236,7 +258,6 @@
                     }
                 },
             error: function (e) {
-                alert(e);
             }
         });
 
@@ -266,7 +287,16 @@
 
     });
 
-
-
-
 </script>
+@*<script src="~/Scripts/swfobject.js"></script>
+<script type="text/javascript">
+    var flashVars = {
+        streamer: 'rtmp://192.169.244.37/myapp',
+        file: 'test'
+    };
+    var params = {};
+    params.allowfullscreen = "true";
+    var attributes = {};
+    swfobject.embedSWF($('#swfUrl').val(), "rtmp-publisher", "480", "360", "9.0.0", null, flashVars, params, attributes);
+</script>*@
+

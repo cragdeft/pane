@@ -64,7 +64,8 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    
     @Html.Hidden("publishCommandUrl", Url.Action("PublishMessage", "ScadaMap"))
     @Html.Hidden("getDmaUrl", Url.Action("GetDmaDropdownData", "ScadaMap"))
     @Html.Hidden("getPumpStationUrl", Url.Action("GetPumpStationDropdownData", "ScadaMap"))
@@ -80,6 +81,7 @@
     @Html.Hidden("getScadaDataUrl", Url.Action("GetScadaData", "ScadaMap"))
     @Html.Hidden("getScadaSensorDataUrl", Url.Action("GetSensorData", "ScadaMap"))
     @Html.Hidden("imageUrl", @Url.Content("~/Images"))
+    @Html.Hidden("swfUrl", Url.Content("~/Images/RtmpPlayer.swf"))
     @RenderSection("Scripts", required: false)
 
 

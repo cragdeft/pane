@@ -84,78 +84,128 @@ function LoadScada() {
 }
 
 function refreshScada() {
-    if (interval != null)
-        clearInterval(interval);
+    var pumpStationId = $('#SelectedPumpStationId').val();
+    if (pumpStationId > 0) {
 
-    interval = setInterval(function () {
-        $.ajax({
-            type: "POST",
-            url: $("#getScadaDataUrl").val(),
-            data: JSON.stringify({ pumpStationId: $('#SelectedPumpStationId').val() }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (data.IsSuccess == true) {
-                    $('#motorswitch *').prop('disabled', false);
-                    $('#connectionStatus').val('Online');
-                    for (var i = 0; i < data.MotorList.length; i++) {
-                        //if the name is what we are looking for return it
-                        if (i % 2 == 0) {
-                            $('#pmotorStatus').val(data.MotorList[i].MotorStatus);
-                            $('#pmotorCommandTime').val(data.MotorList[i].LastCommandTime);
-                            $('#motorswitchStatus').text('');
-                            $('#motorswitch').text(data.MotorList[i].MotorStatus);
-                        }
-                        if (i % 2 == 1) {
-                            $('#cmotorStatus').val(data.MotorList[i].MotorStatus);
-                            $('#cmotorCommandTime').val(data.MotorList[i].LastCommandTime);
-                        }
-                        if (data.MotorList[i].Auto == true);
-                        {
-                            if ($("#motorswitch").length !== 0) {
-                                if (data.MotorList[i].MotorStatus == "ON")
-                                    $("#toggle-one").toggle(true);
-                                else {
-                                    $("#toggle-one").toggle(false);
-                                }
-                            }
-                        }
-                    }
-                    var res = JSON.parse(data.SensorList);
-                    for (var key in res) {
-                        if (res.hasOwnProperty(key)) {
-                                $('#' + key).val(res[key]);
-                                if (res[key].indexOf("CPD") != -1) {
-                                    if (parseFloat(res[key]) > 0) {
-                                        $('#' + key).val("On");
-                                    } else {
-                                        $('#' + key).val("Off");
-                                    }
-                                    
-                            }
+        if (interval != null)
+            clearInterval(interval);
 
-                            else if (res[key].indexOf("ACP") != -1) {
-                                if (parseFloat(res[key]) > 0) {
-                                    $('#' + key).val("On");
+        interval = setInterval(function() {
+            $.ajax({
+                type: "POST",
+                url: $("#getScadaDataUrl").val(),
+                data: JSON.stringify({ pumpStationId: pumpStationId }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function(data) {
+                    if (data.IsSuccess == true) {
+                        $('#motorswitch *').prop('disabled', false);
+                        $('#connectionStatus').val('Online');
+                        for (var i = 0; i < data.MotorList.length; i++) {
+
+                            //if the name is what we are looking for return it
+                            if (i % 2 == 0) {
+                                $('#pmotorStatus').val(data.MotorList[i].MotorStatus);
+                                $('#pmotorCommandTime').val(data.MotorList[i].LastCommandTime);
+                                if (data.MotorList[i].Auto == true) {
+                                    $("#pmotorAuto").text('Auto');
                                 } else {
-                                    $('#' + key).val("Off");
+                                    $("#pmotorAuto").text('Manual');
+                                    $('#pautoarea').show();
                                 }
+
+                                if ($('#motorswitchStatus').text() == 'Processing...') {
+                                    if (data.MotorList[i].MotorStatus != $('#motorswitch').text()) {
+                                        if (data.MotorList[i].MotorStatus == 'ON') {
+                                            $("#motorswitch").removeClass("label-danger");
+                                            $("#motorswitch").addClass("label-success");
+
+                                        }
+
+                                        if (data.MotorList[i].MotorStatus == 'OFF') {
+                                            $("#motorswitch").addClass("label-danger");
+                                            $("#motorswitch").removeClass("label-success");
+                                        }
+                                        $('#motorswitch').text(data.MotorList[i].MotorStatus);
+                                        $('#motorswitchStatus').text('');
+                                        $('#pmotorCommandSent').text('');
+                                    }
+
+                                    if (data.MotorList[i].MotorStatus == $('#motorswitch').text()) {
+                                        var d1 = new Date($('#pmotorCommandSent').text());
+                                        var d2 = new Date(d1);
+                                        d2.setMinutes(d1.getMinutes() + 1);
+                                        if (new Date() > d2) {
+                                            if (data.MotorList[i].MotorStatus == 'ON') {
+                                                $("#motorswitch").removeClass("label-danger");
+                                                $("#motorswitch").addClass("label-success");
+                                            }
+
+                                            if (data.MotorList[i].MotorStatus == 'OFF') {
+                                                $("#motorswitch").addClass("label-danger");
+                                                $("#motorswitch").removeClass("label-success");
+                                            }
+                                            $('#motorswitch').text(data.MotorList[i].MotorStatus);
+                                            $('#motorswitchStatus').text('');
+                                            $('#pmotorCommandSent').text('');
+                                        }
+                                    }
+                                }
+
+
+                            }
+                            if (i % 2 == 1) {
+                                $('#cmotorStatus').val(data.MotorList[i].MotorStatus);
+                                $('#cmotorCommandTime').val(data.MotorList[i].LastCommandTime);
+
+                                if (data.MotorList[i].MotorStatus == 'ON') {
+                                    $("#cmotorStatus").removeClass("label-danger");
+                                    $("#cmotorStatus").addClass("label-success");
+
+                                }
+
+                                if (data.MotorList[i].MotorStatus == 'OFF') {
+                                    $("#cmotorStatus").addClass("label-danger");
+                                    $("#cmotorStatus").removeClass("label-success");
+                                }
+
+                                var d3 = new Date($('#connectionStatusTime').text());
+                                var d4 = new Date(d3);
+
+                                d4.setMinutes(d3.getMinutes() + 1);
+
+                                if (d4 > new Date()) {
+                                    $('#connectionStatus').text('Online');
+                                    $("#connectionStatus").removeClass("label-danger");
+                                    $("#connectionStatus").addClass("label-success");
+                                } else {
+                                    $('#connectionStatus').text('Offline');
+                                    $("#connectionStatus").addClass("label-danger");
+                                    $("#connectionStatus").removeClass("label-success");
+                                }
+                                $('#connectionStatusTime').text(data.LastDataRecived);
+
                             }
 
-                            else  {
-                                $('#' + key).val(res[key]);
-                            }
-                                
                         }
-                    }
+                        var res = JSON.parse(data.SensorList);
+                        for (var key in res) {
+                            if (res.hasOwnProperty(key)) {
+                                $('#' + key).text(res[key]);
 
-                    
+
+                            }
+                        }
+
+
+                    }
+                },
+                failure: function(response) {
                 }
-            },
-            failure: function (response) {
-            }
-        });
-    }, 10000);
+            });
+        }, 5000);
+
+    }
 }
 

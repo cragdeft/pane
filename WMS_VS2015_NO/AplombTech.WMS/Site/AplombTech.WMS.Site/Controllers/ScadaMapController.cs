@@ -165,7 +165,7 @@ namespace AplombTech.WMS.Site.Controllers
                 motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
                 motorDataList = GetMotorDataList(motorDataList);
                 //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
-                return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorDataList, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorDataList, LastDataRecived = sensorList[0].LastDataReceived.ToString(), IsSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -181,6 +181,10 @@ namespace AplombTech.WMS.Site.Controllers
                 if (!string.IsNullOrEmpty(sensorId))
                 {
                     var sensor = _reportRepository.GetPumpSingleSensorByUid(sensorId);
+                    if (sensor is FlowSensor)
+                        sensor.UnitName = "Litre";
+                    if (sensor is EnergySensor)
+                        sensor.UnitName = "KW";
                     if (sensor != null)
                         return Json(new { IsSuccess = true, Unit = sensor.UnitName, Name=GetName(sensor), Value = sensor.CurrentValue }, JsonRequestBehavior.AllowGet);
                 }
@@ -239,24 +243,24 @@ namespace AplombTech.WMS.Site.Controllers
             foreach (var sensor in sensorList)
             {
                 if (sensor is FlowSensor)
-                    dictornary.Add("FT"+sensor.UUID, ((FlowSensor)sensor).CumulativeValue.ToString());
+                    dictornary.Add("FT_"+sensor.UUID, ((FlowSensor)sensor).CurrentValue.ToString()+" Litre");
 
                 if (sensor is EnergySensor)
-                    dictornary.Add("ET" + sensor.UUID, ((EnergySensor)sensor).CumulativeValue.ToString());
+                    dictornary.Add("ET_" + sensor.UUID, ((EnergySensor)sensor).CurrentValue.ToString()+ " kw-hr");
 
                 if (sensor is PressureSensor)
-                    dictornary.Add("PT" + sensor.UUID, sensor.CurrentValue.ToString());
+                    dictornary.Add("PT_" + sensor.UUID, sensor.CurrentValue.ToString()+" "+sensor.UnitName);
 
                 if (sensor is LevelSensor)
-                    dictornary.Add("LT" + sensor.UUID, sensor.CurrentValue.ToString());
+                    dictornary.Add("LT_" + sensor.UUID, sensor.CurrentValue.ToString()+" "+sensor.UnitName);
 
                 if (sensor is BatteryVoltageDetector)
-                    dictornary.Add("BV" + sensor.UUID, sensor.CurrentValue.ToString());
+                    dictornary.Add("BV_" + sensor.UUID, sensor.CurrentValue.ToString() + " " + sensor.UnitName);
 
                 if (sensor is ACPresenceDetector)
-                    dictornary.Add("ACP" + sensor.UUID, sensor.CurrentValue > 0 ? "ON" : "OFF");
+                    dictornary.Add("ACP_" + sensor.UUID, sensor.CurrentValue > 0 ? "On" : "Off");
                 if (sensor is ChlorinePresenceDetector)
-                    dictornary.Add("CPD" + sensor.UUID, sensor.CurrentValue > 0 ? "ON" : "OFF");
+                    dictornary.Add("CPD_" + sensor.UUID, sensor.CurrentValue > 0 ? "On" : "Off");
             }
 
             return dictornary;

@@ -259,7 +259,18 @@ namespace AplombTech.WMS.QueryModel.Repositories
                 {
                     string cholorinationValue = null;
                     cholorinationValue = sensor.CurrentValue == 0 ? "Cholorination on" : "Cholorination off";
-                    dictonary.Add("CT-" + sensor.UUID, cholorinationValue);
+                    dictonary.Add("CPD-" + sensor.UUID, cholorinationValue);
+                }
+                else if (sensor is ACPresenceDetector)
+                {
+                    string acpValue = null;
+                    acpValue = sensor.CurrentValue == 0 ? "ACP on" : "ACP off";
+                    dictonary.Add("ACP-" + sensor.UUID, acpValue);
+                }
+                else if (sensor is BatteryVoltageDetector)
+                {
+                    var unitName = sensor.UnitName;
+                    dictonary.Add("BV-" + sensor.UUID, sensor.CurrentValue + " " + unitName);
                 }
             }
 
@@ -453,7 +464,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
                 if (sensor is EnergySensor && model.TransmeType == Sensor.TransmitterType.ENERGY_TRANSMITTER)
                 {
-                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue, CumulativeValue = ((FlowSensor)sensor).CumulativeValue };
+                    Sensor p = new EnergySensor() { SensorID = sensor.SensorID, UUID = sensor.UUID, CurrentValue = sensor.CurrentValue, MinimumValue = sensor.MinimumValue, CumulativeValue = ((EnergySensor)sensor).CumulativeValue };
                     model.Unit = sensor.UnitName;
                     return (T)p;
                 }

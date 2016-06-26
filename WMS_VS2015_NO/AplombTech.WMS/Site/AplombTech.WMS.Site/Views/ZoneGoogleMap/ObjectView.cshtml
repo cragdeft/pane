@@ -66,10 +66,22 @@
                                                         if (@sensor is ChlorinePresenceDetector)
                                                         {
                                                     <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/CT.png")"}'>
-                                                        CT - @sensor.UUID
+                                                        CPD - @sensor.UUID
                                                     </li>
                                                         }
+                                                    if (@sensor is ACPresenceDetector)
+                                                        {
+                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/CT.png")"}'>
+                                                        ACP - @sensor.UUID
+                                                    </li>
                                                     }
+                                                    if (@sensor is BatteryVoltageDetector)
+                                                    {
+                                                        <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/FT.png")"}'>
+                                                            BV - @sensor.UUID
+                                                        </li>
+                                                    }
+                                                }
                                             </ul>
 
                                         </li>

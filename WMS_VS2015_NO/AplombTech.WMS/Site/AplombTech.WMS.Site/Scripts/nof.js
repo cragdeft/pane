@@ -59,12 +59,21 @@ function LoadMapRelatedScript() {
                             //drawChart(z2marker, model.data, stationName);
                                     
 
-                            if (stationName.includes("CT")) {
+                            if (stationName.includes("CPD")) {
                                 var contentString;
                                 if (model.Value > 0)
                                     contentString = '<h2>Cholorination On</h2>';
                                 else {
                                     contentString = '<h2>Cholorination Off</h2>';
+                                }
+                                drawChart(markers['marker_' + model.PumpStationId], contentString);
+                            }
+                            else if (stationName.includes("ACP")) {
+                                var contentString;
+                                if (model.Value > 0)
+                                    contentString = '<h2>ACP On</h2>';
+                                else {
+                                    contentString = '<h2>ACP Off</h2>';
                                 }
                                 drawChart(markers['marker_' + model.PumpStationId], contentString);
                             } else {
@@ -141,7 +150,7 @@ function showRealChartScada(data2,sensorId) {
                                     }
 
                                 },
-                            error: function (e) { alert(e); }
+                            error: function (e) { }
                         });
 
 
