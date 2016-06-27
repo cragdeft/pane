@@ -171,7 +171,8 @@ namespace AplombTech.WMS.Persistence.Repositories
                 dailySummary.ReceivedValue = dataValue;
                 dailySummary.ProcessAt = loggedAt;
 
-                sensor.CurrentValue = dailySummary.DataValue;
+                sensor.CurrentValue = dataValue - dailySummary.ReceivedValue;
+                sensor.LastDataReceived = loggedAt;
                 if (sensor is FlowSensor)
                 {
                     ((FlowSensor) sensor).CumulativeValue = dailySummary.ReceivedValue;
@@ -230,15 +231,16 @@ namespace AplombTech.WMS.Persistence.Repositories
             if (lastDaySummary != null)
             {
                 data.DataValue = value - lastDaySummary.ReceivedValue;
+                sensor.CurrentValue = value - lastDaySummary.ReceivedValue;
             }
             else
             {
                 data.DataValue = value;
+                sensor.CurrentValue = value;
             }
             data.Sensor = sensor;
             data.ProcessAt = loggedAt;
-
-            sensor.CurrentValue = data.DataValue;
+            
             if (sensor is FlowSensor)
             {
                 ((FlowSensor)sensor).CumulativeValue = data.ReceivedValue;
@@ -247,7 +249,7 @@ namespace AplombTech.WMS.Persistence.Repositories
             {
                 ((EnergySensor)sensor).CumulativeValue = data.ReceivedValue;
             }
-
+            sensor.LastDataReceived = loggedAt;
             _wmsdbcontext.SensorDailySummaryData.Add(data);
         }
         private void CreateDailyAverageSensorData(DateTime summaryDate, decimal value, Sensor sensor, DateTime loggedAt)

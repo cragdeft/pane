@@ -152,16 +152,10 @@ namespace AplombTech.WMS.Domain.Repositories
             data.Sensor = sensor;
             data.ProcessAt = DateTime.Now;
 
-            if (sensor is FlowSensor)
+            if (sensor is FlowSensor || sensor is EnergySensor)
             {
-                ((FlowSensor) sensor).CumulativeValue = data.Value;
-                sensor.LastDataReceived = loggedAt;
-            }
-            else if (sensor is EnergySensor)
-            {
-                ((EnergySensor)sensor).CumulativeValue = data.Value;
-                sensor.LastDataReceived = loggedAt;
-            }
+                //DO NOTHING
+            }            
             else
             {
                 UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
