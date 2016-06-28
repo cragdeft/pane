@@ -31,23 +31,24 @@ namespace AplombTech.WMS.Persistence.Repositories
             if (message is SensorSummaryGenerationMessage)
             {
                 SensorSummaryGenerationMessage sensorMessage = (SensorSummaryGenerationMessage) message;
-                Sensor sensor = GetSensorByUuid(sensorMessage.Uid);                
+                Sensor sensor = GetSensorByUuid(sensorMessage.Uid);
 
                 if (sensor is FlowSensor || sensor is EnergySensor)
                 {
                     GenerateDailySummary(sensor, summaryDate, sensorMessage.Value, sensorMessage.DataLoggedAt);
-                    GenerateHourlySummary(sensor, summaryDate, summaryHour, sensorMessage.Value, sensorMessage.DataLoggedAt);                   
+                    GenerateHourlySummary(sensor, summaryDate, summaryHour, sensorMessage.Value, sensorMessage.DataLoggedAt);
                     return;
                 }
-                //if (sensor is PressureSensor || sensor is LevelSensor || sensor is BatteryVoltageDetector)
-                //{
-                //    GenerateDailyAverageData(sensor, summaryDate, sensorMessage.Value, sensorMessage.DataLoggedAt);
-                //    GenerateHourlyAverageData(sensor, summaryDate, summaryHour, sensorMessage.Value, sensorMessage.DataLoggedAt);
-                //    return;
-                //}
+                if (sensor is PressureSensor || sensor is LevelSensor || sensor is BatteryVoltageDetector)
+                {
+                    GenerateDailyAverageData(sensor, summaryDate, sensorMessage.Value, sensorMessage.DataLoggedAt);
+                    GenerateHourlyAverageData(sensor, summaryDate, summaryHour, sensorMessage.Value, sensorMessage.DataLoggedAt);
+                    return;
+                }
                 if (sensor is ChlorinePresenceDetector || sensor is ACPresenceDetector)
                 {
                     GenerateSensorOnOffSummaryData(sensor, summaryDate, sensorMessage.Value, sensorMessage.DataLoggedAt);
+                    return;
                 }
             }
             if (message is MotorSummaryGenerationMessage)
