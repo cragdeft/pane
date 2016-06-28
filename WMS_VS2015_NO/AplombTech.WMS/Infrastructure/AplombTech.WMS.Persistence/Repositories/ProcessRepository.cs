@@ -45,17 +45,17 @@ namespace AplombTech.WMS.Persistence.Repositories
                 //    GenerateHourlyAverageData(sensor, summaryDate, summaryHour, sensorMessage.Value, sensorMessage.DataLoggedAt);
                 //    return;
                 //}
-                //if (sensor is ChlorinePresenceDetector || sensor is ACPresenceDetector)
-                //{
-                //    GenerateSensorOnOffSummaryData(sensor, summaryDate, sensorMessage.Value, sensorMessage.DataLoggedAt);
-                //}
+                if (sensor is ChlorinePresenceDetector || sensor is ACPresenceDetector)
+                {
+                    GenerateSensorOnOffSummaryData(sensor, summaryDate, sensorMessage.Value, sensorMessage.DataLoggedAt);
+                }
             }
-            //if (message is MotorSummaryGenerationMessage)
-            //{
-            //    MotorSummaryGenerationMessage motorMessage = (MotorSummaryGenerationMessage)message;
-            //    Motor motor = GetMotorByUuid(motorMessage.Uid);
-            //    GenerateMotorOnOffSummaryData(motor, motorMessage.MotorStatus, motorMessage.DataLoggedAt);
-            //}
+            if (message is MotorSummaryGenerationMessage)
+            {
+                MotorSummaryGenerationMessage motorMessage = (MotorSummaryGenerationMessage)message;
+                Motor motor = GetMotorByUuid(motorMessage.Uid);
+                GenerateMotorOnOffSummaryData(motor, motorMessage.MotorStatus, motorMessage.DataLoggedAt);
+            }
         }
 
         private void GenerateMotorOnOffSummaryData(Motor motor, string motorStatus, DateTime dataLoggedAt)
@@ -71,9 +71,10 @@ namespace AplombTech.WMS.Persistence.Repositories
                     onOffData.ProcessAt = dataLoggedAt;
                 }
             }
-            else if (motorStatus == Motor.OFF)
+            else 
             {
-                CreateMotorOnOffSummaryData(motorStatus, motor, dataLoggedAt);
+                if (motorStatus == Motor.OFF)
+                    CreateMotorOnOffSummaryData(motorStatus, motor, dataLoggedAt);
             }
         }
         private void CreateMotorOnOffSummaryData(string motorStatus, Motor motor, DateTime dataLoggedAt)
@@ -88,7 +89,7 @@ namespace AplombTech.WMS.Persistence.Repositories
         }
         private void GenerateSensorOnOffSummaryData(Sensor sensor, DateTime summaryDate, decimal dataValue, DateTime loggedAt)
         {
-            SensorOnOffSummaryData onOffData = GetSensorOnOffData(sensor.SensorId, summaryDate);
+            SensorOnOffSummaryData onOffData = GetSensorOnOffData(sensor.SensorId);
 
             if (onOffData != null)
             {
@@ -99,9 +100,10 @@ namespace AplombTech.WMS.Persistence.Repositories
                     onOffData.ProcessAt = loggedAt;
                 }
             }
-            else if (dataValue == 0)
+            else 
             {
-                CreateSensorOnOffSummaryData(dataValue, sensor, loggedAt);               
+                if (dataValue == 0)
+                    CreateSensorOnOffSummaryData(dataValue, sensor, loggedAt);               
             }          
         }
         private void CreateSensorOnOffSummaryData(decimal dataValue, Sensor sensor, DateTime loggedAt)
@@ -321,7 +323,7 @@ namespace AplombTech.WMS.Persistence.Repositories
                                                     select c).FirstOrDefault();
             return hourlyAverage;
         }
-        private SensorOnOffSummaryData GetSensorOnOffData(int sensorId, DateTime summaryDate)
+        private SensorOnOffSummaryData GetSensorOnOffData(int sensorId)
         {
             SensorOnOffSummaryData onOffDatae = (from c in _wmsdbcontext.SensorOnOffSummaryData
                                                     where c.Sensor.SensorId == sensorId
