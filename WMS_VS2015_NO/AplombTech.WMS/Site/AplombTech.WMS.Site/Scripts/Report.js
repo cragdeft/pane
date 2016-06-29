@@ -37,7 +37,8 @@ $("#show").click(function (e) {
                 }
 
             },
-        error: function(e) {
+       error: function(xhr, status, error) {
+            alert(xhr.responseText);
         }
     });
 
@@ -69,7 +70,7 @@ $("#Month").change(function () {
 $("#SelectedPumpStationId").change(function () {
     validate();
 }); 
-$("#TransmeType").change(function () {
+$("#SelectedSensor_SensorID").change(function () {
     validate();
 });
 
@@ -178,6 +179,7 @@ function showRealChart(data2) {
     });
 }
 $("#ReportType").change(function () {
+    $("#SelectedSensor_SensorID").val(0);
     validate();
     if (interval != null)
         clearInterval(interval);
@@ -189,9 +191,12 @@ $("#ReportType").change(function () {
         $('#Month').show();
         $('#Day').show();
         $('#Hour').show();
-        $("#TransmeType option[value='1']").show();
-        $("#TransmeType option[value='2']").show();
-        $("#TransmeType option[value='5']").show();
+        
+        $('optgroup[label="AC Presence Detector"]').prop('disabled', false);
+        $('optgroup[label="Battery Voltage Detector"]').prop('disabled', false);
+        $('optgroup[label="Chlorine Presence Detector"]').prop('disabled', false);
+        $('optgroup[label="Level Transmitter]"').prop('disabled', false);
+        $('optgroup[label="Pressure Transmitter"]').prop('disabled', false);
     }
     if (reportType == 2) {
         $('#Week').hide();
@@ -224,20 +229,22 @@ $("#ReportType").change(function () {
         $('#Month').show();
         $('#Day').hide();
         $('#inputPanel').hide();
-        $("#TransmeType option[value='1']").show();
-        $("#TransmeType option[value='2']").show();
-        $("#TransmeType option[value='5']").show();
-        $("#TransmeType option[value='6']").show();
-        $("#TransmeType option[value='7']").show();
+
+        $('optgroup[label="AC Presence Detector"]').prop('disabled', false);
+        $('optgroup[label="Battery Voltage Detector"]').prop('disabled', false);
+        $('optgroup[label="Chlorine Presence Detector"]').prop('disabled', false);
+        $('optgroup[label="Level Transmitter]"').prop('disabled', false);
+        $('optgroup[label="Pressure Transmitter"]').prop('disabled', false);
         $('#exp').hide();
     }
 
     if (reportType != 5 && reportType != 1) {
-        $("#TransmeType option[value='1']").hide();
-        $("#TransmeType option[value='2']").hide();
-        $("#TransmeType option[value='5']").hide();
-        $("#TransmeType option[value='6']").hide();
-        $("#TransmeType option[value='7']").hide();
+
+        $('optgroup[label="AC Presence Detector"]').prop('disabled', true);
+        $('optgroup[label="Battery Voltage Detector"]').prop('disabled', true);
+        $('optgroup[label="Chlorine Presence Detector"]').prop('disabled', true);
+        $('optgroup[label="Level Transmitter]"').prop('disabled', true);
+        $('optgroup[label="Pressure Transmitter"]').prop('disabled', true);
     }
 });
 
@@ -250,7 +257,7 @@ function setModel() {
         Day: $('#Day').val(),
         Hour: $('#Hour').val(),
         SelectedPumpStationId: $('#SelectedPumpStationId').val(),
-        TransmeType: $('#TransmeType').val()
+        SelectedSensor: { SensorID: $('#SelectedSensor_SensorID').val() }
     }
 
     return model;
@@ -404,13 +411,13 @@ function validate() {
         $("#reporttypevalid").text("");
     }
 
-    if ($('#TransmeType').val() <= 0) {
-        $("#TransmeType").addClass("input-validation-error");
+    if ($('#SelectedSensor_SensorID').val() <= 0) {
+        $("#SelectedSensor_SensorID").addClass("input-validation-error");
         $("#sensorvalid").text("Sensor Type required");
         valid = false;
 
     } else {
-        $("#TransmeType").addClass("valid");
+        $("#SelectedSensor_SensorID").addClass("valid");
         $("#sensorvalid").text("");
     }
 
@@ -475,3 +482,5 @@ $('#exp').click(function (e) {
     if (!validate())
         e.preventDefault();
 });
+
+

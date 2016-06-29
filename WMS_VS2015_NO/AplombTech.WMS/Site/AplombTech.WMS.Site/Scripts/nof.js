@@ -205,3 +205,52 @@ function showRealChartScada(data2,sensorId) {
 
 
 }
+
+function LoadSensor(pumpStationId) {
+
+    if (!pumpStationId) return;//zoneId = 0;
+    var sensorDropDownList = $('#SelectedSensor_SensorID');
+    $.ajax({
+        type: "POST",
+        url: window.location.origin + "/DrillDown/GetSensorDropdownData",
+        data: JSON.stringify({ pumpstationId: pumpStationId }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            sensorDropDownList.empty();
+            addOptionGroup(data.OptionGroup);
+            var res = JSON.parse(data.Data);
+
+            
+            sensorDropDownList.append($('<option/>', {
+                value: 0,
+                text: "Select Sensor"
+            }));
+
+            for (var key in res) {
+                if (res.hasOwnProperty(key)) {
+                    sensorDropDownList.find('optgroup[label="' + res[key].Name + '"]').append($('<option/>', {
+                        value: res[key].SensorID,
+                        text: res[key].DisplayName
+                    }));
+                    //sensorDropDownList.append($('<option/>', {
+
+                    //    value: res[key].SensorID,
+                    //    text: res[key].Name + '( ' + res[key].Model + '-' + res[key].Version + ' )'
+                    //}));
+                }
+
+            }
+        },
+        failure: function (response) {
+            alert(response);
+        }
+    });
+}
+
+function addOptionGroup(optGroup) {
+    for (var i = 0; i < optGroup.length; i++) {
+        $("#SelectedSensor_SensorID").append('<optgroup label="' + optGroup[i] + '"</optgroup>');
+    }
+}

@@ -38,11 +38,16 @@
                     Model.PumpStations,
                     "AreaID",
                     "Name",
-                    Model.SelectedPumpStationId), "Select Pump Station")
+                    Model.SelectedPumpStationId), "Select Pump Station", new { @onchange = "LoadSensor(this.value)" })
                 <span class="validation-red" id="pumpstationvalid"></span>
                 @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
                 <span class="validation-red" id="reporttypevalid"></span>
-                    @Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")
+                @*@Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")*@
+                @Html.DropDownListFor(model => model.SelectedSensor.SensorID, new SelectList(
+                Enumerable.Empty<SelectListItem>(),
+                "SensorID",
+                "Name",
+                Model.SelectedSensor.SensorID), "Select Sensor")
                 <span class="validation-red" id="sensorvalid"></span>
 
 

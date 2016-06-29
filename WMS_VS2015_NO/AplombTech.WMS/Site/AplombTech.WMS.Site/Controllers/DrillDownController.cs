@@ -109,10 +109,32 @@ namespace AplombTech.WMS.Site.Controllers
                 sendingSensor.Name = sensor.Name;
                 sendingSensor.Model = sensor.Model;
                 sendingSensor.Version = sensor.Version;
+                sendingSensor.DisplayName = GetName(sensor);
                 sendingSensorList.Add(sendingSensor);
+
             }
 
-            return Json(new { Data = JsonConvert.SerializeObject(sendingSensorList),OptionGroup=new List<string>() {"ACP","BV","CPD","ET","FT","PT","LT"}, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { Data = JsonConvert.SerializeObject(sendingSensorList),OptionGroup=new List<string>() { "AC Presence Detector", "Battery Voltage Detector", "Chlorine Presence Detector", "Energy Transmitter", "Flow Transmitter", "Level Transmitter", "Pressure Transmitter" }, IsSuccess = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        private string GetName(Sensor sensor)
+        {
+            if (sensor is PressureSensor)
+                return "PT-" + sensor.UUID;
+            if (sensor is FlowSensor)
+                return "FT-" + sensor.UUID;
+            if (sensor is EnergySensor)
+                return "ET-" + sensor.UUID;
+            if (sensor is LevelSensor)
+                return "LT-" + sensor.UUID;
+            if (sensor is ACPresenceDetector)
+                return "ACP-" + sensor.UUID;
+            if (sensor is BatteryVoltageDetector)
+                return "BV-" + sensor.UUID;
+            if (sensor is ChlorinePresenceDetector)
+                return "CPD-" + sensor.UUID;
+
+            return string.Empty;
         }
     }
 }

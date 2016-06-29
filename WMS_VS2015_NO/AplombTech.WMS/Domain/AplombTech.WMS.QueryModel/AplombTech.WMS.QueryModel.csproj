@@ -164,6 +164,15 @@
     <Compile Include="Shared\ReportType.cs" />
     <Compile Include="Shared\ScadaViewModel.cs" />
     <Compile Include="Shared\Unit.cs" />
+    <Compile Include="SummaryData\AverageData.cs" />
+    <Compile Include="SummaryData\MotorOnOffSummaryData.cs" />
+    <Compile Include="SummaryData\OnOffData.cs" />
+    <Compile Include="SummaryData\SensorDailyAverageData.cs" />
+    <Compile Include="SummaryData\SensorDailySummaryData.cs" />
+    <Compile Include="SummaryData\SensorHourlyAverageData.cs" />
+    <Compile Include="SummaryData\SensorHourlySummaryData.cs" />
+    <Compile Include="SummaryData\SensorOnOffSummaryData.cs" />
+    <Compile Include="SummaryData\SummaryData.cs" />
     <Compile Include="UserAccounts\LoginUser.cs" />
     <Compile Include="UserAccounts\Role.cs" />
     <Compile Include="UserAccounts\UserRoles.cs" />
