@@ -165,7 +165,7 @@ namespace AplombTech.WMS.Site.Controllers
                 motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
                 motorDataList = GetMotorDataList(motorDataList);
                 //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
-                return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorDataList, LastDataRecived = sensorList[0].LastDataReceived.ToString(), IsSuccess = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorDataList, LastDataRecived = sensorList[1].LastDataReceived.ToString(), IsSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -242,11 +242,15 @@ namespace AplombTech.WMS.Site.Controllers
             var dictornary = new Dictionary<string, string>();
             foreach (var sensor in sensorList)
             {
-                if (sensor is FlowSensor)
-                    dictornary.Add("FT_"+sensor.UUID, ((FlowSensor)sensor).CurrentValue.ToString()+" Litre");
+                if (sensor is FlowSensor) { 
+                    dictornary.Add("FTC_"+sensor.UUID, ((FlowSensor)sensor).CurrentValue.ToString()+" Litre");
+                    dictornary.Add("FTQ_" + sensor.UUID, ((FlowSensor)sensor).CumulativeValue.ToString() + " Litre");
+                }
 
-                if (sensor is EnergySensor)
-                    dictornary.Add("ET_" + sensor.UUID, ((EnergySensor)sensor).CurrentValue.ToString()+ " kw-hr");
+                if (sensor is EnergySensor) { 
+                    dictornary.Add("ETC_" + sensor.UUID, ((EnergySensor)sensor).CurrentValue.ToString()+ " kw-hr");
+                    dictornary.Add("ETQ_" + sensor.UUID, ((EnergySensor)sensor).CumulativeValue.ToString() + " kw-hr");
+                }
 
                 if (sensor is PressureSensor)
                     dictornary.Add("PT_" + sensor.UUID, sensor.CurrentValue.ToString()+" "+sensor.UnitName);

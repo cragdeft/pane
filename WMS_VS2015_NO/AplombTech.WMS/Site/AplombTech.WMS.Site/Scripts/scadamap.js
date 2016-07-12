@@ -170,20 +170,7 @@ function refreshScada() {
                                     $("#cmotorStatus").removeClass("label-success");
                                 }
 
-                                var d3 = new Date($('#connectionStatusTime').text());
-                                var d4 = new Date(d3);
-
-                                d4.setMinutes(d3.getMinutes() + 1);
-
-                                if (d4 > new Date()) {
-                                    $('#connectionStatus').text('Online');
-                                    $("#connectionStatus").removeClass("label-danger");
-                                    $("#connectionStatus").addClass("label-success");
-                                } else {
-                                    $('#connectionStatus').text('Offline');
-                                    $("#connectionStatus").addClass("label-danger");
-                                    $("#connectionStatus").removeClass("label-success");
-                                }
+                                
                                 $('#connectionStatusTime').text(data.LastDataRecived);
 
                             }
@@ -199,6 +186,21 @@ function refreshScada() {
                         }
 
 
+                    }
+
+                    var d3 = new Date($('#connectionStatusTime').text());
+                    var d4 = new Date(d3);
+
+                    d4.setMinutes(d3.getMinutes() + 1);
+
+                    if (d4 > new Date()) {
+                        $('#connectionStatus').text('Online');
+                        $("#connectionStatus").removeClass("label-danger");
+                        $("#connectionStatus").addClass("label-success");
+                    } else {
+                        $('#connectionStatus').text('Offline');
+                        $("#connectionStatus").addClass("label-danger");
+                        $("#connectionStatus").removeClass("label-success");
                     }
                 },
                 failure: function(response) {

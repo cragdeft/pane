@@ -24,7 +24,7 @@ namespace AplombTech.WMS.Domain.Sensors
 
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        public virtual int SensorDataLogID { get; set; }
+        public virtual Int64 SensorDataLogID { get; set; }
         [MemberOrder(10), Required]
         public virtual string Topic { get; set; }
         [MemberOrder(20), Required]

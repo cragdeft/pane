@@ -14,7 +14,7 @@ namespace AplombTech.WMS.QueryModel.Sensors
     {
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        public virtual int SensorDataID { get; set; }
+        public virtual Int64 SensorDataID { get; set; }
         [MemberOrder(10), Required]
         public virtual decimal Value { get; set; }
         [MemberOrder(30), Required]

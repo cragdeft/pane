@@ -11,7 +11,7 @@ namespace AplombTech.WMS.QueryModel.Motors
     public class MotorData
     {
         #region Primitive Properties
-        public virtual int MotorDataID { get; set; }
+        public virtual Int64 MotorDataID { get; set; }
         public virtual string MotorStatus { get; set; }
         public virtual string LastCommand { get; set; }
         public virtual string LastCommandTime { get; set; }

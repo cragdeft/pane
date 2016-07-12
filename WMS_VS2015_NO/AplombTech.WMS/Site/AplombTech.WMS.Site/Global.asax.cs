@@ -16,7 +16,7 @@ namespace AplombTech.WMS.Site
         {
             //MqttClientFacade.MQTTClientInstance(false).MakeConnection();
 #if DEBUG
-            MQTTService.MQTTClientInstance(false).MakeConnection();
+            MQTTService.MQTTClientInstance(true).MakeConnection();
 #else
             MQTTService.MQTTClientInstance(true).MakeConnection();
 #endif

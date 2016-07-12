@@ -12,7 +12,7 @@ namespace AplombTech.WMS.Domain.Motors
     {
         #region Primitive Properties
         [Key, NakedObjectsIgnore]
-        public virtual int MotorDataID { get; set; }
+        public virtual Int64 MotorDataID { get; set; }
         [MemberOrder(10), Required]
         public virtual string MotorStatus { get; set; }
         public virtual bool Auto { get; set; }

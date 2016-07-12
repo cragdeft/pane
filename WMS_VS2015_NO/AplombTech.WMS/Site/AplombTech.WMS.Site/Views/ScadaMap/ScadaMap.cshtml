@@ -27,7 +27,7 @@
     </style>
     <div style="position: absolute; padding-left: 10px; margin-top: -520px;">
         <span>Connection Status</span>
-        @if (@Model[0].LastDataReceived.HasValue && @Model[0].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
+        @if (@Model[0].LastDataReceived.HasValue && @Model[1].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
         {
             <h4><span id="connectionStatus" class="label label-success">Online</span></h4>
         }
@@ -35,9 +35,8 @@
         {
             <h4><span id="connectionStatus" class="label label-danger">Offline</span></h4>
         }
+        <span class="label label-primary dateTimeSpan" id="connectionStatusTime">@(@Model[0].LastDataReceived == null ? @DateTime.MinValue : Model[1].LastDataReceived)</span>
 
-
-        <span class="label label-primary dateTimeSpan" id="connectionStatusTime">@Model[0].LastDataReceived</span>
     </div>
     <div style="position: absolute; padding-left: 10px; margin-top: -280px;" class="grad">
         <h4>General</h4>
@@ -73,8 +72,8 @@
 
             if (@sensor is EnergySensor)
             {
-                <p style="text-align: right"><strong>Energy(Q)</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor) sensor).CurrentValue) kw-hr</span></p>
-                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ET_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CumulativeValue) kw-hr</span></p>
+                <p style="text-align: right"><strong>Energy(Q)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@(((EnergySensor) sensor).CumulativeValue) kw-hr</span></p>
+                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CurrentValue) kw-hr</span></p>
             }
         }
 
@@ -176,9 +175,9 @@
             if (@sensor is FlowSensor)
             {
                 <p>
-                    <strong>FT-@sensor.UUID (C)</strong> <span id="FTC1_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).CurrentValue) Litre</span>
+                    <strong>FT-@sensor.UUID (C)</strong> <span id="FTC_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).CurrentValue) Litre</span>
                     <br/><br/>
-                    <strong>FT-@sensor.UUID (Q)</strong> <span id="FTQ1_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CumulativeValue) Litre</span>
+                    <strong>FT-@sensor.UUID (Q)</strong> <span id="FTQ_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CumulativeValue) Litre</span>
                 </p>
             }
         }

@@ -159,7 +159,11 @@ namespace AplombTech.WMS.MQTT.Client
             catch (Exception ex)
             {
                 log.Error("Could not stablished connection to MQTT broker - " + ex.Message);
-                EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "WMS:Could not stablished connection to MQTT broker", ex.Message);
+#if DEBUG
+                
+#else
+            EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "WMS:Could not stablished connection to MQTT broker", ex.Message);
+#endif
                 //don't leave the client connected
                 if (DhakaWasaMqtt != null && DhakaWasaMqtt.IsConnected)
                 {
@@ -285,7 +289,7 @@ namespace AplombTech.WMS.MQTT.Client
             };
             if (sensor is FlowSensor || sensor is EnergySensor)
             {               
-                if (cmd.Value > 0)
+                if (cmd.Value >= 0)
                 {
                     ServiceBus.Bus.Send(cmd);
                 }               
@@ -475,7 +479,7 @@ namespace AplombTech.WMS.MQTT.Client
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
 #if DEBUG
-            MqttClientInstance(false);
+            MqttClientInstance(true);
 #else
             MqttClientInstance(true);
 #endif

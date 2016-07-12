@@ -12,7 +12,7 @@ namespace AplombTech.WMS.QueryModel.SummaryData
     {
         #region Primitive Properties
         [Key]
-        public virtual int SummaryDataId { get; set; }
+        public virtual Int64 SummaryDataId { get; set; }
         public virtual DateTime DataDate { get; set; }
         public virtual DateTime ProcessAt { get; set; }
         #endregion

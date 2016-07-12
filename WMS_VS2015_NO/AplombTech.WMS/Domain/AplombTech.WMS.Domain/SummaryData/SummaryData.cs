@@ -13,7 +13,7 @@ namespace AplombTech.WMS.Domain.SummaryData
         #region Primitive Properties
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public virtual int SummaryDataId { get; set; }
+        public virtual Int64 SummaryDataId { get; set; }
         public virtual DateTime DataDate { get; set; }
         public virtual DateTime ProcessAt { get; set; }
         #endregion

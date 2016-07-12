@@ -9,12 +9,16 @@
     decimal levelSensorValue = 0;
     decimal energySensorValue = 0;
     string cholorinationSensorValue = "On";
+    string ACPSensorValue = "On";
+    string BatteryVoltageValue = "On";
     DateTime lastRecived = DateTime.MinValue;
     bool fsactive = false;
     bool psactive = false;
     bool lsactive = false;
     bool esactive = false;
     bool csactive = false;
+    bool acpactive = false;
+    bool bvactive = false;
 }
 <div id="body">
     <section class="main-content">
@@ -61,6 +65,13 @@
                     <th>
                         <h3>Chlorination</h3> <span>(-)</span>
                     </th>
+                    <th>
+                        <h3>Main Power</h3> <span>(-)</span>
+                    </th>
+
+                    <th>
+                        <h3>Battery</h3> <span>(V)</span>
+                    </th>
                     @*<th><h3>Active</h3></th>*@
 
                     <th>
@@ -76,6 +87,8 @@
                             <td>
                                 <h4>@dma.Name</h4>
                             </td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -122,6 +135,18 @@
                                 if (sensor is ChlorinePresenceDetector)
                                 {
                                     cholorinationSensorValue = (sensor.CurrentValue > 0) ? "On" : "Off";
+                                    csactive = sensor.IsActive;
+                                }
+
+                                if (sensor is ACPresenceDetector)
+                                {
+                                    ACPSensorValue = (sensor.CurrentValue > 0) ? "On" : "Off";
+                                    acpactive = sensor.IsActive;
+                                }
+
+                                if (sensor is BatteryVoltageDetector)
+                                {
+                                    BatteryVoltageValue = sensor.CurrentValue.ToString() ;
                                     csactive = sensor.IsActive;
                                 }
                             }
@@ -179,6 +204,28 @@
                                     else
                                     {
                                         <p>@cholorinationSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (@acpactive)
+                                    {
+                                        <p>@ACPSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p>@ACPSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (@bvactive)
+                                    {
+                                        <p>@BatteryVoltageValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p>@BatteryVoltageValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
                                     }
 
                                 </td>
