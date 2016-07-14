@@ -22,15 +22,16 @@ namespace AplombTech.WMS.Domain.Shared
 
         public virtual void Persisting()
         {
-            this.InsertedBy = Container.Principal.Identity.Name;
-            this.InsertedDateTime = DateTime.Now;
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
+            AuditFields.InsertedBy = Container.Principal.Identity.Name;
+            AuditFields.InsertedDateTime = DateTime.Now;
+            AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         public virtual void Updating()
         {
-            this.LastUpdatedBy = Container.Principal.Identity.Name;
-            this.LastUpdatedDateTime = DateTime.Now;
+            if (Container.Principal.Identity.Name != String.Empty)
+                AuditFields.LastUpdatedBy = Container.Principal.Identity.Name;
+            AuditFields.LastUpdatedDateTime = DateTime.Now;
         }
         #endregion
 
@@ -48,58 +49,58 @@ namespace AplombTech.WMS.Domain.Shared
         public virtual string Zone { get; set; }
         [StringLength(50)]
         public virtual string City { get; set; }
-        #region InsertedBy (String)
-        [MemberOrder(130)]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedBy")]
-        [StringLength(50)]
-        public virtual string InsertedBy { get; set; }
-
-        #endregion
-        #region InsertedDateTime (DateTime)
-        [MemberOrder(140), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedDate")]
-        public virtual DateTime InsertedDateTime { get; set; }
-
-        #endregion
-        #region LastUpdatedBy (String)
-        [MemberOrder(150)]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedBy")]
-        [StringLength(50)]
-        public virtual string LastUpdatedBy { get; set; }
-
-        #endregion
-        #region LastUpdatedDateTime (DateTime)
-        [MemberOrder(160), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedDate")]
-        public virtual System.DateTime LastUpdatedDateTime { get; set; }
-
-        #endregion
-        #endregion
-
-        //#region Complex Properties
-        //#region AuditFields (AuditFields)
-
-        //private AuditFields _auditFields = new AuditFields();
-
-        //[MemberOrder(250)]
-        //[Required]
-        //public virtual AuditFields AuditFields
-        //{
-        //    get
-        //    {
-        //        return _auditFields;
-        //    }
-        //    set
-        //    {
-        //        _auditFields = value;
-        //    }
-        //}
+        //#region InsertedBy (String)
+        //[MemberOrder(130)]
+        //[NakedObjectsIgnore, Required]
+        //[Column("InsertedBy")]
+        //[StringLength(50)]
+        //public virtual string InsertedBy { get; set; }
 
         //#endregion
+        //#region InsertedDateTime (DateTime)
+        //[MemberOrder(140), Mask("g")]
+        //[NakedObjectsIgnore, Required]
+        //[Column("InsertedDate")]
+        //public virtual DateTime InsertedDateTime { get; set; }
+
         //#endregion
+        //#region LastUpdatedBy (String)
+        //[MemberOrder(150)]
+        //[NakedObjectsIgnore, Required]
+        //[Column("LastUpdatedBy")]
+        //[StringLength(50)]
+        //public virtual string LastUpdatedBy { get; set; }
+
+        //#endregion
+        //#region LastUpdatedDateTime (DateTime)
+        //[MemberOrder(160), Mask("g")]
+        //[NakedObjectsIgnore, Required]
+        //[Column("LastUpdatedDate")]
+        //public virtual System.DateTime LastUpdatedDateTime { get; set; }
+
+        //#endregion
+        #endregion
+
+        #region Complex Properties
+        #region AuditFields (AuditFields)
+
+        private AuditFields _auditFields = new AuditFields();
+
+        [MemberOrder(250)]
+        [Required]
+        public virtual AuditFields AuditFields
+        {
+            get
+            {
+                return _auditFields;
+            }
+            set
+            {
+                _auditFields = value;
+            }
+        }
+
+        #endregion
+        #endregion
     }
 }

@@ -13,7 +13,7 @@ namespace AplombTech.WMS.Domain.SummaryData
         #region Primitive Properties
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public virtual int OnOffDataId { get; set; }
+        public virtual Int64 OnOffDataId { get; set; }
         public virtual DateTime OffDateTime { get; set; }
         public virtual DateTime? OnDateTime { get; set; }
         public virtual double Duration { get; set; }
