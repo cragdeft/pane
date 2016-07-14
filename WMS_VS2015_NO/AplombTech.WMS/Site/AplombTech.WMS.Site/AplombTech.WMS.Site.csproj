@@ -591,6 +591,14 @@
       <Project>{53b3230d-c147-4e26-a5e2-2189dc13c9d2}</Project>
       <Name>AplombTech.WMS.QueryModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.BaseDataLayer\AplombTech.WMS.BaseDataLayer.csproj">
+      <Project>{19f6b495-cac3-4467-a109-90452c77cc14}</Project>
+      <Name>AplombTech.WMS.BaseDataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.CompanyDatabase\AplombTech.WMS.CompanyDatabase.csproj">
+      <Project>{34aea7a5-d0df-46f6-8893-458cfbc72f72}</Project>
+      <Name>AplombTech.WMS.CompanyDatabase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj">
       <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
       <Name>AplombTech.MQTTLib</Name>
