@@ -664,11 +664,24 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         private double GetHourlyAverageValue(int sensorId, DateTime to)
         {
-            SensorHourlyAverageData sensorData = Container.Instances<SensorHourlyAverageData>()
-                   .Where(x => (x.Sensor.SensorID == sensorId && x.ProcessAt.Year == to.Year && x.ProcessAt.Month == to.Month && x.ProcessAt.Day == to.Day && x.ProcessAt.Hour == to.Hour)).SingleOrDefault();
+            SensorHourlySummaryData sensorData = null;
+            try
+            {
+                sensorData = Container.Instances<SensorHourlySummaryData>()
+                    .Where(
+                        x =>
+                            (x.Sensor.SensorID == sensorId && x.ProcessAt.Year == to.Year &&
+                             x.ProcessAt.Month == to.Month && x.ProcessAt.Day == to.Day && x.ProcessAt.Hour == to.Hour))
+                    .SingleOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+            }
+
 
             if (sensorData != null)
-                return (double)sensorData.AverageValue;
+                return (double)sensorData.DataValue;
             else
                 return 0;
 
@@ -676,11 +689,21 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         private double GetDailyAverageValue(int sensorId, DateTime to)
         {
-            SensorHourlyAverageData sensorData = Container.Instances<SensorHourlyAverageData>()
-                   .Where(x => (x.Sensor.SensorID == sensorId && x.ProcessAt.Year == to.Year && x.ProcessAt.Month == to.Month && x.ProcessAt.Day == to.Day)).SingleOrDefault();
+            SensorDailySummaryData sensorData = null;
+            try
+            {
+                sensorData = Container.Instances<SensorDailySummaryData>()
+                    .Where(
+                        x =>
+                            (x.Sensor.SensorID == sensorId && x.ProcessAt.Year == to.Year &&
+                             x.ProcessAt.Month == to.Month && x.ProcessAt.Day == to.Day)).SingleOrDefault();
 
+            }
+            catch (Exception ex)
+            {
+            }
             if (sensorData != null)
-                return (double)sensorData.AverageValue;
+                return (double)sensorData.DataValue;
             else
                 return 0;
 
