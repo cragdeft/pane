@@ -254,3 +254,4 @@ function addOptionGroup(optGroup) {
         $("#SelectedSensor_SensorID").append('<optgroup label="' + optGroup[i] + '"</optgroup>');
     }
 }
+

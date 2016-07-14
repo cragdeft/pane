@@ -1,6 +1,9 @@
-﻿function LoadDma(zoneId) {
-    if (interval != null)
-        clearInterval(interval);
+﻿var isLoadScadaRunning = false;
+
+function LoadDma(zoneId) {
+    ClearScada();
+    ClearRecursiveCall();
+    
     if (!zoneId) return;//zoneId = 0;
     var dmaDownList = $('#SelectedDmaId');
     $.ajax({
@@ -33,8 +36,9 @@
 }
 
 function LoadPumpStation(dmaId) {
-    if (interval != null)
-        clearInterval(interval);
+    ClearScada();
+    console.log(interval);
+    ClearRecursiveCall();
     if (!dmaId) return;// dmaId = 0;
     var dmaDownList = $('#SelectedPumpStationId');
     $.ajax({
@@ -77,20 +81,29 @@ function showScada() {
     refreshScada();
 }
 
-function LoadScada() {
+function ClearRecursiveCall() {
     if (interval != null)
         clearInterval(interval);
 
 }
 
+function ClearScada() {
+    $('#searchResults').empty();
+}
+
+$("#SelectedPumpStationId").change(function () {
+    ClearScada();
+    ClearRecursiveCall();
+});
+
 function refreshScada() {
     var pumpStationId = $('#SelectedPumpStationId').val();
     if (pumpStationId > 0) {
 
-        if (interval != null)
-            clearInterval(interval);
-
-        interval = setInterval(function() {
+        ClearRecursiveCall();
+        
+        interval = setInterval(function () {
+            
             $.ajax({
                 type: "POST",
                 url: $("#getScadaDataUrl").val(),
@@ -98,7 +111,7 @@ function refreshScada() {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.IsSuccess == true) {
                         $('#motorswitch *').prop('disabled', false);
                         $('#connectionStatus').val('Online');
@@ -170,7 +183,7 @@ function refreshScada() {
                                     $("#cmotorStatus").removeClass("label-success");
                                 }
 
-                                
+
                                 $('#connectionStatusTime').text(data.LastDataRecived);
 
                             }
@@ -203,10 +216,11 @@ function refreshScada() {
                         $("#connectionStatus").removeClass("label-success");
                     }
                 },
-                failure: function(response) {
+                failure: function (response) {
                 }
             });
         }, 5000);
+
 
     }
 }

@@ -26,35 +26,30 @@ namespace AplombTech.WMS.QueryModel.Shared
         public virtual string Zone { get; set; }
         [StringLength(50)]
         public virtual string City { get; set; }
-        #region InsertedBy (String)
-        [MemberOrder(130)]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedBy")]
-        [StringLength(50)]
-        public virtual string InsertedBy { get; set; }
+        #region Complex Properties
+        #region AuditFields (AuditFields)
 
+        private AuditFields _auditFields = new AuditFields();
+
+        [MemberOrder(250)]
+        [Required]
+        public virtual AuditFields AuditFields
+        {
+            get
+            {
+                return _auditFields;
+            }
+            set
+            {
+                _auditFields = value;
+            }
+        }
+
+        public bool HideAuditFields()
+        {
+            return true;
+        }
         #endregion
-        #region InsertedDateTime (DateTime)
-        [MemberOrder(140), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("InsertedDate")]
-        public virtual DateTime InsertedDateTime { get; set; }
-
-        #endregion
-        #region LastUpdatedBy (String)
-        [MemberOrder(150)]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedBy")]
-        [StringLength(50)]
-        public virtual string LastUpdatedBy { get; set; }
-
-        #endregion
-        #region LastUpdatedDateTime (DateTime)
-        [MemberOrder(160), Mask("g")]
-        [NakedObjectsIgnore, Required]
-        [Column("LastUpdatedDate")]
-        public virtual System.DateTime LastUpdatedDateTime { get; set; }
-
         #endregion
         #endregion
 

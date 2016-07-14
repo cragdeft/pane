@@ -38,7 +38,7 @@ $("#show").click(function (e) {
 
             },
        error: function(xhr, status, error) {
-            alert(xhr.responseText);
+            //alert(xhr.responseText);
         }
     });
 
