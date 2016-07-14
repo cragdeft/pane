@@ -185,6 +185,14 @@
     <None Include="Resources\ca.crt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.AreaRepositories\AplombTech.WMS.AreaRepositories.csproj">
+      <Project>{a0482800-36f9-4192-a158-925987761bc9}</Project>
+      <Name>AplombTech.WMS.AreaRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.DataProcessRepository\AplombTech.WMS.DataProcessRepository.csproj">
+      <Project>{b1b97161-49e8-4d58-87fc-148dd42f9e37}</Project>
+      <Name>AplombTech.WMS.DataProcessRepository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Domain\AplombTech.WMS.Domain\AplombTech.WMS.Domain.csproj">
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
       <Name>AplombTech.WMS.Domain</Name>
@@ -192,6 +200,18 @@
     <ProjectReference Include="..\..\Infrastructure\AplombTech.CryptoLib\AplombTech.CryptoLib.csproj">
       <Project>{ad26b877-4368-418b-a20b-9e796dcf6854}</Project>
       <Name>AplombTech.CryptoLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.AreaBoundedContext\AplombTech.WMS.AreaBoundedContext.csproj">
+      <Project>{89d6ed8f-8011-4e5a-b0d7-5dcb9f629351}</Project>
+      <Name>AplombTech.WMS.AreaBoundedContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.BaseDataLayer\AplombTech.WMS.BaseDataLayer.csproj">
+      <Project>{19f6b495-cac3-4467-a109-90452c77cc14}</Project>
+      <Name>AplombTech.WMS.BaseDataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.DataProcessBoundedContext\AplombTech.WMS.DataProcessBoundedContext.csproj">
+      <Project>{0ca2e7b3-b0aa-4e15-aec8-6eced946bbf7}</Project>
+      <Name>AplombTech.WMS.DataProcessBoundedContext</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.JsonParser\AplombTech.WMS.JsonParser.csproj">
       <Project>{d64fe817-7a39-455e-aa81-ac8201659990}</Project>

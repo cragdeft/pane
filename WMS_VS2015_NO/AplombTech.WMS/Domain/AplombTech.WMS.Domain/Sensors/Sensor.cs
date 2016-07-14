@@ -19,7 +19,6 @@ namespace AplombTech.WMS.Domain.Sensors
     {
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
-        public AreaRepository AreaRepository { set; protected get; }
         public LoggedInUserInfoDomainRepository LoggedInUserInfoDomainRepository { set; protected get; }
         #endregion
 
@@ -156,7 +155,11 @@ namespace AplombTech.WMS.Domain.Sensors
         [PageSize(10)]
         public IQueryable<PumpStation> AutoCompletePumpStation([MinLength(3)] string name)
         {
-            return AreaRepository.FindPumpStation(name);
+            IQueryable<PumpStation> stations = (from z in Container.Instances<PumpStation>()
+                                                where z.Name.Contains(name)
+                                                select z).OrderBy(o => o.Name);
+
+            return stations;
         }
 
         #endregion

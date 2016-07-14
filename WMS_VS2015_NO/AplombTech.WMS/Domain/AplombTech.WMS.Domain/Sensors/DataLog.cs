@@ -1,7 +1,5 @@
 ﻿using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Repositories;
-using AplombTech.WMS.JsonParser;
-using AplombTech.WMS.JsonParser.Entity;
 using NakedObjects;
 using System;
 using System.Collections.Generic;
@@ -18,8 +16,6 @@ namespace AplombTech.WMS.Domain.Sensors
     {
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
-        public AreaRepository AreaRepository { set; protected get; }
-        public ProcessRepository ProcessRepository { set; protected get; }
         #endregion
 
         #region Primitive Properties

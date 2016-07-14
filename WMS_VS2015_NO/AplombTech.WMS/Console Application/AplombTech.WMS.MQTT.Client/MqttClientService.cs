@@ -1,4 +1,6 @@
-﻿using AplombTech.WMS.Domain.Alerts;
+﻿using AplombTech.WMS.AreaRepositories;
+using AplombTech.WMS.DataProcessRepository;
+using AplombTech.WMS.Domain.Alerts;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Repositories;

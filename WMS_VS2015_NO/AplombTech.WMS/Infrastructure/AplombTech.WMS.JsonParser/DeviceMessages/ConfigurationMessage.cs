@@ -1,6 +1,6 @@
-﻿using AplombTech.WMS.QueryModel.Devices;
-using AplombTech.WMS.QueryModel.Motors;
-using AplombTech.WMS.QueryModel.Sensors;
+﻿using AplombTech.WMS.Domain.Devices;
+using AplombTech.WMS.Domain.Motors;
+using AplombTech.WMS.Domain.Sensors;
 using System;
 using System.Collections.Generic;
 using System.Linq;

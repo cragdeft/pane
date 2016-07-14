@@ -400,7 +400,11 @@ namespace AplombTech.WMS.Domain.Areas
         [PageSize(10)]
         public IQueryable<DMA> AutoCompleteParent([MinLength(3)] string name)
         {
-            return AreaRepository.FindDMA(name);
+            IQueryable<DMA> dmas = (from z in Container.Instances<DMA>()
+                                    where z.Name.Contains(name)
+                                    select z).OrderBy(o => o.Name);
+
+            return dmas;
         }
     }
 }

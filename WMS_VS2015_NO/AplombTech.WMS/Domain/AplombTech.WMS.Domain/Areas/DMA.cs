@@ -163,7 +163,11 @@ namespace AplombTech.WMS.Domain.Areas
         [PageSize(10)]
         public IQueryable<Zone> AutoCompleteParent([MinLength(3)] string name)
         {
-            return AreaRepository.FindZone(name);
+            IQueryable<Zone> zones = (from z in Container.Instances<Zone>()
+                                      where z.Name.Contains(name)
+                                      select z).OrderBy(o => o.Name);
+
+            return zones;
         }
     }
 }

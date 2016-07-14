@@ -15,7 +15,6 @@ namespace AplombTech.WMS.Domain.Areas
     {        
         #region Injected Services
         public IDomainObjectContainer Container { set; protected get; }
-        public AreaRepository AreaRepository { set; protected get; }
         #endregion
 
         #region Life Cycle Methods

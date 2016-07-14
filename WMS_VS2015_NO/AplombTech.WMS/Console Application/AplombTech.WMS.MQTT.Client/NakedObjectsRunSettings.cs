@@ -15,6 +15,10 @@ using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Facade;
 using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.AreaBoundedContext;
+using AplombTech.WMS.AreaRepositories;
+using AplombTech.WMS.DataProcessBoundedContext;
+using AplombTech.WMS.DataProcessRepository;
 
 namespace AplombTech.WMS.MQTT.Client {
 
@@ -69,6 +73,8 @@ namespace AplombTech.WMS.MQTT.Client {
         public static EntityObjectStoreConfiguration EntityObjectStoreConfig() {
             var config = new EntityObjectStoreConfiguration();
             config.UsingCodeFirstContext(() => new CommandModelDatabase());
+            //config.UsingCodeFirstContext(() => new AreaContext());
+            //config.UsingCodeFirstContext(() => new ProcessContext());
             return config;
         }
 

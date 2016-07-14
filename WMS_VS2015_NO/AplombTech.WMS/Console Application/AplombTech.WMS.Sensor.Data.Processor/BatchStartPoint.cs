@@ -6,13 +6,14 @@
 // See the License for the specific language governing permissions and limitations under the License.
 
 using System;
-using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Messages.Commands;
 using NakedObjects;
 using NakedObjects.Architecture.Component;
 using NakedObjects.Async;
 using NServiceBus;
+using AplombTech.WMS.AreaRepositories;
+using AplombTech.WMS.DataProcessRepository;
 
 namespace AplombTech.WMS.Sensor.Data.Processor {
     public class BatchStartPoint : IWMSBatchStartPoint //, IHandleMessages<ProcessSensorData>

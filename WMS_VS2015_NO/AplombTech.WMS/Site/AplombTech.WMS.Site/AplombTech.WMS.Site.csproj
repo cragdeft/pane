@@ -587,6 +587,14 @@
       <Project>{f44c7724-3d28-40e3-b548-5b50f1a95096}</Project>
       <Name>AplombTech.WMS.AlertRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.AreaRepositories\AplombTech.WMS.AreaRepositories.csproj">
+      <Project>{a0482800-36f9-4192-a158-925987761bc9}</Project>
+      <Name>AplombTech.WMS.AreaRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.DataProcessRepository\AplombTech.WMS.DataProcessRepository.csproj">
+      <Project>{b1b97161-49e8-4d58-87fc-148dd42f9e37}</Project>
+      <Name>AplombTech.WMS.DataProcessRepository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Domain\AplombTech.WMS.Domain\AplombTech.WMS.Domain.csproj">
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
       <Name>AplombTech.WMS.Domain</Name>
@@ -614,6 +622,10 @@
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.CompanyDatabase\AplombTech.WMS.CompanyDatabase.csproj">
       <Project>{34aea7a5-d0df-46f6-8893-458cfbc72f72}</Project>
       <Name>AplombTech.WMS.CompanyDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.DataProcessBoundedContext\AplombTech.WMS.DataProcessBoundedContext.csproj">
+      <Project>{0ca2e7b3-b0aa-4e15-aec8-6eced946bbf7}</Project>
+      <Name>AplombTech.WMS.DataProcessBoundedContext</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj">
       <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
