@@ -603,6 +603,10 @@
       <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
       <Name>AplombTech.MQTTLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.UserAccount.BoundedContext\AplombTech.WMS.UserAccount.BoundedContext.csproj">
+      <Project>{6e2db615-584c-42c1-a7f3-91611b891cab}</Project>
+      <Name>AplombTech.WMS.UserAccount.BoundedContext</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

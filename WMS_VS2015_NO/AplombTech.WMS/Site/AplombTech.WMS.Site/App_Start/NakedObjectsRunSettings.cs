@@ -26,6 +26,7 @@ using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.UserAccounts;
 using AplombTech.WMS.Domain.Features;
 using AplombTech.WMS.CompanyDatabase;
+using AplombTech.WMS.UserAccount.BoundedContext;
 
 namespace AplombTech.WMS.Site {
 
@@ -117,6 +118,7 @@ namespace AplombTech.WMS.Site {
             var config = new EntityObjectStoreConfiguration();
             //config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
             config.UsingCodeFirstContext(() => new CommandModelDatabase());
+            //config.UsingCodeFirstContext(() => new UserAccountContext());
             config.UsingCodeFirstContext(() => new QueryModelDatabase());
             config.SpecifyTypesNotAssociatedWithAnyContext(() => new[] { typeof(PropertyViewModel), typeof(FindViewModel) });
 			return config;
