@@ -62,11 +62,12 @@ namespace AplombTech.WMS.Domain.Facade
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            #if DEBUG
-                Database.SetInitializer(new SampleAppInitializer());
-            #else
+#if DEBUG
+            Database.SetInitializer<CommandModelDatabase>(null);
+            //Database.SetInitializer(new SampleAppInitializer());    
+#else
                 Database.SetInitializer<CommandModelDatabase>(null);
-            #endif
+#endif
 
             //Mappings
             //Use the Naked Objects > DbMapping template to create mapping classes & reference them thus:
@@ -89,7 +90,7 @@ namespace AplombTech.WMS.Domain.Facade
             //        cs.MapRightKey("CourseRefId");
             //        cs.ToTable("StudentCourse");
             //    });
-            
+
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MinimumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Sensor>().Property(sensor => sensor.MaximumValue).HasPrecision(18, 2);
             modelBuilder.Entity<Motors.PumpMotor>().Property(pump => pump.Capacity).HasPrecision(18, 2);
