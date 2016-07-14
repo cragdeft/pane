@@ -321,7 +321,9 @@ function showGraph(data) {
                             if ($('#ReportType').val() == 2) {
                                 
                                 $("#Hour").val(GetHourValue(this.category));
+                                var sensorval = $('#SelectedSensor_SensorID').val();
                                 $('#ReportType').val('1').change();
+                                $('#SelectedSensor_SensorID').val(sensorval);
                             }
 
                             if ($('#ReportType').val() == 3) {
@@ -330,8 +332,9 @@ function showGraph(data) {
                                 $('#Month').val(date.getMonth() + 1);
 
                                 $("#Day").val(date.getDate());
+                                var sensorval = $('#SelectedSensor_SensorID').val();
                                 $('#ReportType').val('2').change();
-
+                                $('#SelectedSensor_SensorID').val(sensorval);
                             }
 
                             if ($('#ReportType').val() == 4) {
@@ -339,9 +342,12 @@ function showGraph(data) {
                                 var d = new Date(this.category);
                                 var n = d.getDate();
                                 $("#Day").val(n);
+                                var sensorval = $('#SelectedSensor_SensorID').val();
                                 $('#ReportType').val('2').change();
+                                $('#SelectedSensor_SensorID').val(sensorval);
+                                
                             }
-
+                            validate();
                             var model = setModel();
                             $.ajax({
                                 type: "POST",

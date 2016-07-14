@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AplombTech.WMS.QueryModel.Motors;
+using AplombTech.WMS.QueryModel.SummaryData;
 
 namespace AplombTech.WMS.QueryModel.Facade
 {
@@ -35,6 +36,12 @@ namespace AplombTech.WMS.QueryModel.Facade
             FeatureTypes = base.Set<FeatureType>();
             Features = base.Set<Feature>();
             RoleFeatures = base.Set<RoleFeatures>();
+            SensorHourlySummaryData = base.Set<SensorHourlySummaryData>();
+            SensorDailySummaryData = base.Set<SensorDailySummaryData>();
+            SensorHourlyAverageData = base.Set<SensorHourlyAverageData>();
+            SensorDailyAverageData = base.Set<SensorDailyAverageData>();
+            SensorOnOffSummaryData = base.Set<SensorOnOffSummaryData>();
+            MotorOnOffSummaryData = base.Set<MotorOnOffSummaryData>();
         }
 
         public DbSet<Area> Areas { get; private set; }
@@ -57,6 +64,12 @@ namespace AplombTech.WMS.QueryModel.Facade
         public DbSet<FeatureType> FeatureTypes { get; private set; }
         public DbSet<Feature> Features { get; private set; }
         public DbSet<RoleFeatures> RoleFeatures { get; private set; }
+        public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
+        public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; set; }
+        public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; set; }
+        public DbSet<SensorDailyAverageData> SensorDailyAverageData { get; set; }
+        public DbSet<SensorOnOffSummaryData> SensorOnOffSummaryData { get; set; }
+        public DbSet<MotorOnOffSummaryData> MotorOnOffSummaryData { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
