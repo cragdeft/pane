@@ -120,6 +120,7 @@ namespace AplombTech.WMS.Site {
             //config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
             config.UsingCodeFirstContext(() => new CommandModelDatabase());
             //config.UsingCodeFirstContext(() => new UserAccountContext());
+            //config.UsingCodeFirstContext(() => new AlertContext());
             config.UsingCodeFirstContext(() => new QueryModelDatabase());
             config.SpecifyTypesNotAssociatedWithAnyContext(() => new[] { typeof(PropertyViewModel), typeof(FindViewModel) });
 			return config;
@@ -161,8 +162,8 @@ namespace AplombTech.WMS.Site {
             var reportMenu = factory.NewMenu<ReportRepository>();
             ReportRepository.Menu(reportMenu);
 
-            var reportAlert = factory.NewMenu<AlertConfigurationRepository>();
-            AlertConfigurationRepository.Menu(reportAlert);
+            var alert = factory.NewMenu<AlertConfigurationRepository>();
+            AlertConfigurationRepository.Menu(alert);
 
             var userAccounts = factory.NewMenu<UserAccountRepository>();
             UserAccountRepository.Menu(userAccounts);
@@ -171,7 +172,7 @@ namespace AplombTech.WMS.Site {
             return new IMenu[] {
                 //factory.NewMenu<CentralKhelaGharRepository>(true),
                 areaMenu,
-                reportAlert,
+                alert,
                 userAccounts,
                 reportMenu
             };
