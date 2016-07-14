@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.UserAccount.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.AlertBoundedContext", "Infrastructure\AplombTech.WMS.AlertBoundedContext\AplombTech.WMS.AlertBoundedContext.csproj", "{310D2A6A-A651-4A06-8237-65C5D7D2AD00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.AlertRepository", "Domain\AplombTech.WMS.AlertRepository\AplombTech.WMS.AlertRepository.csproj", "{F44C7724-3D28-40E3-B548-5B50F1A95096}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +145,10 @@ Global
 		{310D2A6A-A651-4A06-8237-65C5D7D2AD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{310D2A6A-A651-4A06-8237-65C5D7D2AD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{310D2A6A-A651-4A06-8237-65C5D7D2AD00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F44C7724-3D28-40E3-B548-5B50F1A95096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44C7724-3D28-40E3-B548-5B50F1A95096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44C7724-3D28-40E3-B548-5B50F1A95096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44C7724-3D28-40E3-B548-5B50F1A95096}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -175,5 +181,6 @@ Global
 		{6E2DB615-584C-42C1-A7F3-91611B891CAB} = {183AC6CE-1574-4BD3-BB4A-3365A5A8F73A}
 		{742C9BC8-07A3-485F-9073-7D13A0877972} = {2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}
 		{310D2A6A-A651-4A06-8237-65C5D7D2AD00} = {183AC6CE-1574-4BD3-BB4A-3365A5A8F73A}
+		{F44C7724-3D28-40E3-B548-5B50F1A95096} = {2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}
 	EndGlobalSection
 EndGlobal

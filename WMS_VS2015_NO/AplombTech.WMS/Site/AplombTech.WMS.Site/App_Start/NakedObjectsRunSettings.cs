@@ -17,6 +17,7 @@ using NakedObjects.Web.Mvc.Models;
 using System.Linq;
 using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Core.Objects;
+using AplombTech.WMS.AlertRepository;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.Domain.Facade;
 using AplombTech.WMS.QueryModel.Repositories;
