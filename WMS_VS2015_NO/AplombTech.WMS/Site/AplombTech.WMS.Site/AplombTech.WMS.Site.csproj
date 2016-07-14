@@ -591,6 +591,10 @@
       <Project>{53b3230d-c147-4e26-a5e2-2189dc13c9d2}</Project>
       <Name>AplombTech.WMS.QueryModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.UserAccount.Repository\AplombTech.WMS.UserAccount.Repository.csproj">
+      <Project>{742c9bc8-07a3-485f-9073-7d13a0877972}</Project>
+      <Name>AplombTech.WMS.UserAccount.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.BaseDataLayer\AplombTech.WMS.BaseDataLayer.csproj">
       <Project>{19f6b495-cac3-4467-a109-90452c77cc14}</Project>
       <Name>AplombTech.WMS.BaseDataLayer</Name>

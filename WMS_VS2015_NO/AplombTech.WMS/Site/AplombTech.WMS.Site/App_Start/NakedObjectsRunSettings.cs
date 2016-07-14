@@ -27,6 +27,7 @@ using AplombTech.WMS.Domain.UserAccounts;
 using AplombTech.WMS.Domain.Features;
 using AplombTech.WMS.CompanyDatabase;
 using AplombTech.WMS.UserAccount.BoundedContext;
+using AplombTech.WMS.UserAccount.Repository;
 
 namespace AplombTech.WMS.Site {
 
