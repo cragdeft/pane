@@ -29,6 +29,8 @@ using AplombTech.WMS.Domain.Features;
 using AplombTech.WMS.CompanyDatabase;
 using AplombTech.WMS.UserAccount.BoundedContext;
 using AplombTech.WMS.UserAccount.Repository;
+using AplombTech.WMS.AlertBoundedContext;
+using AplombTech.WMS.AreaBoundedContext;
 
 namespace AplombTech.WMS.Site {
 
@@ -134,6 +136,7 @@ namespace AplombTech.WMS.Site {
             config.UsingCodeFirstContext(() => new CommandModelDatabase());
             //config.UsingCodeFirstContext(() => new UserAccountContext());
             //config.UsingCodeFirstContext(() => new AlertContext());
+            //config.UsingCodeFirstContext(() => new AreaContext());
             config.UsingCodeFirstContext(() => new QueryModelDatabase());
             config.SpecifyTypesNotAssociatedWithAnyContext(() => new[] { typeof(PropertyViewModel), typeof(FindViewModel) });
 			return config;
@@ -183,7 +186,7 @@ namespace AplombTech.WMS.Site {
             
 
             return new IMenu[] {
-                //factory.NewMenu<CentralKhelaGharRepository>(true),
+                //factory.NewMenu<UserAccountRepository>(true),
                 areaMenu,
                 alert,
                 userAccounts,

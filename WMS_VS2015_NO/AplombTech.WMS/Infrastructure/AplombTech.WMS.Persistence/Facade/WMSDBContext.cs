@@ -24,9 +24,9 @@ namespace AplombTech.WMS.Persistence.Facade
         public DbSet<Device> Devices { get; set; }
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<Router> Routers { get; set; }
-        public DbSet<Domain.Motors.Motor> Motors { get; set; }
-        public DbSet<Domain.Motors.PumpMotor> PumpMotors { get; set; }
-        public DbSet<Domain.Motors.ChlorineMotor> ChlorineMotors { get; set; }
+        public DbSet<Motor> Motors { get; set; }
+        public DbSet<PumpMotor> PumpMotors { get; set; }
+        public DbSet<ChlorineMotor> ChlorineMotors { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
         public DbSet<LevelSensor> LevelSensors { get; set; }
         public DbSet<FlowSensor> FlowSensors { get; set; }

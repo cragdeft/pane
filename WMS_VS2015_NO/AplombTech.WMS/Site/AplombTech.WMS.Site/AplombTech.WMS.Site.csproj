@@ -603,6 +603,10 @@
       <Project>{310d2a6a-a651-4a06-8237-65c5d7d2ad00}</Project>
       <Name>AplombTech.WMS.AlertBoundedContext</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.AreaBoundedContext\AplombTech.WMS.AreaBoundedContext.csproj">
+      <Project>{89d6ed8f-8011-4e5a-b0d7-5dcb9f629351}</Project>
+      <Name>AplombTech.WMS.AreaBoundedContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.BaseDataLayer\AplombTech.WMS.BaseDataLayer.csproj">
       <Project>{19f6b495-cac3-4467-a109-90452c77cc14}</Project>
       <Name>AplombTech.WMS.BaseDataLayer</Name>
