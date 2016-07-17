@@ -64,9 +64,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\AplombTech.WMS.Domain\AplombTech.WMS.Domain.csproj">
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.DomainClasses\AplombTech.WMS.DomainClasses.csproj">
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
-      <Name>AplombTech.WMS.Domain</Name>
+      <Name>AplombTech.WMS.DomainClasses</Name>
     </ProjectReference>
     <ProjectReference Include="..\AplombTech.WMS.JsonParser\AplombTech.WMS.JsonParser.csproj">
       <Project>{d64fe817-7a39-455e-aa81-ac8201659990}</Project>

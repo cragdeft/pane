@@ -67,9 +67,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\AplombTech.WMS.Domain\AplombTech.WMS.Domain.csproj">
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.DomainClasses\AplombTech.WMS.DomainClasses.csproj">
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
-      <Name>AplombTech.WMS.Domain</Name>
+      <Name>AplombTech.WMS.DomainClasses</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -155,6 +155,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.AlertRepository\AplombTech.WMS.AlertRepository.csproj">
+      <Project>{f44c7724-3d28-40e3-b548-5b50f1a95096}</Project>
+      <Name>AplombTech.WMS.AlertRepository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Domain\AplombTech.WMS.AreaRepositories\AplombTech.WMS.AreaRepositories.csproj">
       <Project>{a0482800-36f9-4192-a158-925987761bc9}</Project>
       <Name>AplombTech.WMS.AreaRepositories</Name>
@@ -163,9 +167,13 @@
       <Project>{b1b97161-49e8-4d58-87fc-148dd42f9e37}</Project>
       <Name>AplombTech.WMS.DataProcessRepository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Domain\AplombTech.WMS.Domain\AplombTech.WMS.Domain.csproj">
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.DomainClasses\AplombTech.WMS.DomainClasses.csproj">
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
-      <Name>AplombTech.WMS.Domain</Name>
+      <Name>AplombTech.WMS.DomainClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.AlertBoundedContext\AplombTech.WMS.AlertBoundedContext.csproj">
+      <Project>{310d2a6a-a651-4a06-8237-65c5d7d2ad00}</Project>
+      <Name>AplombTech.WMS.AlertBoundedContext</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.AreaBoundedContext\AplombTech.WMS.AreaBoundedContext.csproj">
       <Project>{89d6ed8f-8011-4e5a-b0d7-5dcb9f629351}</Project>

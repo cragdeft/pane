@@ -193,9 +193,9 @@
       <Project>{b1b97161-49e8-4d58-87fc-148dd42f9e37}</Project>
       <Name>AplombTech.WMS.DataProcessRepository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Domain\AplombTech.WMS.Domain\AplombTech.WMS.Domain.csproj">
+    <ProjectReference Include="..\..\Domain\AplombTech.WMS.DomainClasses\AplombTech.WMS.DomainClasses.csproj">
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
-      <Name>AplombTech.WMS.Domain</Name>
+      <Name>AplombTech.WMS.DomainClasses</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.CryptoLib\AplombTech.CryptoLib.csproj">
       <Project>{ad26b877-4368-418b-a20b-9e796dcf6854}</Project>

@@ -44,7 +44,7 @@ namespace AplombTech.WMS.QueryModel.Facade
             //Initialisation
             //Use the Naked Objects > DbInitialiser template to add an initialiser, then reference thus:
            
-            Database.SetInitializer<QueryModelDatabase>(null);
+            //Database.SetInitializer<QueryModelDatabase>(null);
            
             modelBuilder.Ignore<Area>();
             //modelBuilder.Ignore<DMA>();
