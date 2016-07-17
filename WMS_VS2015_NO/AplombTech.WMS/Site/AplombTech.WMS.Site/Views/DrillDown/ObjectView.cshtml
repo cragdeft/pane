@@ -43,11 +43,11 @@
                 @Html.EnumDropDownListFor(m => m.ReportType, "- Select Report Type -")
                 <span class="validation-red" id="reporttypevalid"></span>
                 @*@Html.EnumDropDownListFor(m => m.TransmeType, "- Select Sensor -")*@
-                @Html.DropDownListFor(model => model.SelectedSensor.SensorID, new SelectList(
+                @Html.DropDownListFor(model => model.SelectedSensor.SensorId, new SelectList(
                 Enumerable.Empty<SelectListItem>(),
                 "SensorID",
                 "Name",
-                Model.SelectedSensor.SensorID), "Select Sensor")
+                Model.SelectedSensor.SensorId), "Select Sensor")
                 <span class="validation-red" id="sensorvalid"></span>
 
 

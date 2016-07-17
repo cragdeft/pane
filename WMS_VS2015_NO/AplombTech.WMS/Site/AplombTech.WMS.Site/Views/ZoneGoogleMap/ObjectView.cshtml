@@ -1,7 +1,7 @@
 @using NakedObjects.Facade.Utility;
 @using NakedObjects.Web.Mvc.Html
 @using AplombTech.WMS.QueryModel.Reports
-@using AplombTech.WMS.QueryModel.Sensors
+@using AplombTech.WMS.Domain.Sensors
 @model ZoneGoogleMap
 
 @{
@@ -40,44 +40,44 @@
                                                     {
                                                         if (@sensor is EnergySensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/ET.png")"}'>
+                                                    <li id="device_@sensor.SensorId" data-jstree='{"icon":"@Url.Content("~/Images/Icons/ET.png")"}'>
                                                         ET - @sensor.UUID
                                                     </li>
 
                                                         }
                                                         if (@sensor is PressureSensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/PT.png")"}'>
+                                                    <li id="device_@sensor.SensorId" data-jstree='{"icon":"@Url.Content("~/Images/Icons/PT.png")"}'>
                                                         PT - @sensor.UUID
                                                     </li>
                                                         }
                                                         if (@sensor is FlowSensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/FT.png")"}'>
+                                                    <li id="device_@sensor.SensorId" data-jstree='{"icon":"@Url.Content("~/Images/Icons/FT.png")"}'>
                                                         FT - @sensor.UUID
                                                     </li>
                                                         }
                                                         if (@sensor is LevelSensor)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images")/Icons/LT.png"}'>
+                                                    <li id="device_@sensor.SensorId" data-jstree='{"icon":"@Url.Content("~/Images")/Icons/LT.png"}'>
                                                         LT - @sensor.UUID
                                                     </li>
                                                         }
                                                         if (@sensor is ChlorinePresenceDetector)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/CT.png")"}'>
+                                                    <li id="device_@sensor.SensorId" data-jstree='{"icon":"@Url.Content("~/Images/Icons/CT.png")"}'>
                                                         CPD - @sensor.UUID
                                                     </li>
                                                         }
                                                     if (@sensor is ACPresenceDetector)
                                                         {
-                                                    <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/CT.png")"}'>
+                                                    <li id="device_@sensor.SensorId" data-jstree='{"icon":"@Url.Content("~/Images/Icons/CT.png")"}'>
                                                         ACP - @sensor.UUID
                                                     </li>
                                                     }
                                                     if (@sensor is BatteryVoltageDetector)
                                                     {
-                                                        <li id="device_@sensor.SensorID" data-jstree='{"icon":"@Url.Content("~/Images/Icons/FT.png")"}'>
+                                                        <li id="device_@sensor.SensorId" data-jstree='{"icon":"@Url.Content("~/Images/Icons/FT.png")"}'>
                                                             BV - @sensor.UUID
                                                         </li>
                                                     }

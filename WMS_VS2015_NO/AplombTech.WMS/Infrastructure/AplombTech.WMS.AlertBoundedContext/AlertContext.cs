@@ -15,9 +15,9 @@ namespace AplombTech.WMS.AlertBoundedContext
         public DbSet<Designation> Designations { get; set; }
         public DbSet<AlertRecipient> AlertRecipients { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<AlertContext>(null);
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    Database.SetInitializer<AlertContext>(null);
+        //}
     }
 }

@@ -19,10 +19,10 @@ using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Core.Objects;
 using AplombTech.WMS.AlertRepository;
 using AplombTech.WMS.Domain.Repositories;
-using AplombTech.WMS.Domain.Facade;
+//using AplombTech.WMS.Domain.Facade;
 using AplombTech.WMS.QueryModel.Repositories;
 using AplombTech.WMS.QueryModel.Facade;
-using AplombTech.WMS.QueryModel.Sensors;
+//using AplombTech.WMS.QueryModel.Sensors;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.UserAccounts;
 using AplombTech.WMS.Domain.Features;
@@ -34,6 +34,8 @@ using AplombTech.WMS.AreaBoundedContext;
 using AplombTech.WMS.AreaRepositories;
 using AplombTech.WMS.DataProcessBoundedContext;
 using AplombTech.WMS.DataProcessRepository;
+using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Motors;
 
 namespace AplombTech.WMS.Site {
 
@@ -61,7 +63,6 @@ namespace AplombTech.WMS.Site {
                     typeof(AlertConfigurationRepository),
                     typeof(ProcessRepository),
                     typeof(UserAccountRepository),
-                    typeof(LoggedInUserInfoRepository),
                     typeof(LoggedInUserInfoDomainRepository)
                 };
             }
@@ -76,53 +77,31 @@ namespace AplombTech.WMS.Site {
                     typeof (ActionResultModel<>),
 					typeof (PropertyViewModel),
                     typeof (FindViewModel),
-                    typeof(AplombTech.WMS.Domain.Sensors.Sensor),
-                    typeof(AplombTech.WMS.Domain.Sensors.FlowSensor),
-                    typeof(AplombTech.WMS.Domain.Sensors.ChlorinePresenceDetector),
-                    typeof(AplombTech.WMS.Domain.Sensors.ACPresenceDetector),
-                    typeof(AplombTech.WMS.Domain.Sensors.BatteryVoltageDetector),
-                    typeof(AplombTech.WMS.Domain.Sensors.EnergySensor),
-                    typeof(AplombTech.WMS.Domain.Sensors.LevelSensor),
-                    typeof(AplombTech.WMS.Domain.Sensors.PressureSensor),
-                    typeof(AplombTech.WMS.Domain.Sensors.SensorData),
-                    typeof(AplombTech.WMS.Domain.Sensors.DataLog),
-                    typeof(AplombTech.WMS.Domain.Motors.Motor),
-                    typeof(AplombTech.WMS.Domain.Motors.PumpMotor),
-                    typeof(AplombTech.WMS.Domain.Motors.ChlorineMotor),
-                    typeof(AplombTech.WMS.Domain.Motors.MotorData),
-                    typeof(AplombTech.WMS.Domain.SummaryData.SensorHourlySummaryData),
-                    typeof(AplombTech.WMS.Domain.SummaryData.SensorDailySummaryData),
-                    typeof(AplombTech.WMS.Domain.SummaryData.SensorHourlyAverageData),
-                    typeof(AplombTech.WMS.Domain.SummaryData.SensorDailyAverageData),
-                    typeof(AplombTech.WMS.Domain.SummaryData.SensorOnOffSummaryData),
-                    typeof(AplombTech.WMS.Domain.SummaryData.MotorOnOffSummaryData),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.Sensor),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.FlowSensor),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.ChlorinePresenceDetector),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.ACPresenceDetector),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.BatteryVoltageDetector),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.EnergySensor),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.LevelSensor),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.PressureSensor),
-                    typeof(AplombTech.WMS.QueryModel.Sensors.SensorData),
-                    typeof(AplombTech.WMS.QueryModel.Motors.Motor),
-                    typeof(AplombTech.WMS.QueryModel.Motors.PumpMotor),
-                    typeof(AplombTech.WMS.QueryModel.Motors.ChlorineMotor),
-                    typeof(AplombTech.WMS.QueryModel.Motors.MotorData),
-                    typeof(AplombTech.WMS.QueryModel.UserAccounts.Role),
-                    typeof(AplombTech.WMS.QueryModel.UserAccounts.LoginUser),
-                    typeof(AplombTech.WMS.QueryModel.UserAccounts.UserRoles),
-                    typeof(AplombTech.WMS.QueryModel.Features.RoleFeatures),
-                    typeof(AplombTech.WMS.QueryModel.SummaryData.SensorHourlySummaryData),
-                    typeof(AplombTech.WMS.QueryModel.SummaryData.SensorDailySummaryData),
-                    typeof(AplombTech.WMS.QueryModel.SummaryData.SensorHourlyAverageData),
-                    typeof(AplombTech.WMS.QueryModel.SummaryData.SensorDailyAverageData),
-                    typeof(AplombTech.WMS.QueryModel.SummaryData.SensorOnOffSummaryData),
-                    typeof(AplombTech.WMS.QueryModel.SummaryData.MotorOnOffSummaryData),
-                    typeof(AplombTech.WMS.Domain.UserAccounts.Role),
-                    typeof(AplombTech.WMS.Domain.UserAccounts.LoginUser),
-                    typeof(AplombTech.WMS.Domain.UserAccounts.UserRoles),
-                    typeof(AplombTech.WMS.Domain.Features.RoleFeatures)
+                    typeof(Sensor),
+                    typeof(FlowSensor),
+                    typeof(ChlorinePresenceDetector),
+                    typeof(ACPresenceDetector),
+                    typeof(BatteryVoltageDetector),
+                    typeof(EnergySensor),
+                    typeof(LevelSensor),
+                    typeof(PressureSensor),
+                    typeof(SensorData),
+                    typeof(DataLog),
+                    typeof(Motor),
+                    typeof(PumpMotor),
+                    typeof(ChlorineMotor),
+                    typeof(MotorData),
+                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorHourlySummaryData),
+                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorDailySummaryData),
+                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorHourlyAverageData),
+                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorDailyAverageData),
+                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorOnOffSummaryData),
+                    //typeof(AplombTech.WMS.Domain.SummaryData.MotorOnOffSummaryData),
+                    
+                    typeof(Role),
+                    typeof(LoginUser),
+                    typeof(UserRoles),
+                    typeof(RoleFeatures)
 
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };
@@ -136,12 +115,12 @@ namespace AplombTech.WMS.Site {
         public static EntityObjectStoreConfiguration EntityObjectStoreConfig() {
             var config = new EntityObjectStoreConfiguration();
             //config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
-            config.UsingCodeFirstContext(() => new CommandModelDatabase());
-            //config.UsingCodeFirstContext(() => new UserAccountContext());
-            //config.UsingCodeFirstContext(() => new AlertContext());
-            //config.UsingCodeFirstContext(() => new AreaContext());
+            //config.UsingCodeFirstContext(() => new CommandModelDatabase());
+            config.UsingCodeFirstContext(() => new UserAccountContext());
+            config.UsingCodeFirstContext(() => new AreaContext());
+            config.UsingCodeFirstContext(() => new AlertContext());           
             //config.UsingCodeFirstContext(() => new ProcessContext());
-            config.UsingCodeFirstContext(() => new QueryModelDatabase());
+            //config.UsingCodeFirstContext(() => new QueryModelDatabase());
             config.SpecifyTypesNotAssociatedWithAnyContext(() => new[] { typeof(PropertyViewModel), typeof(FindViewModel) });
 			return config;
         }

@@ -4,6 +4,7 @@ using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
+using AplombTech.WMS.Domain.SummaryData;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,6 +17,9 @@ namespace AplombTech.WMS.AreaBoundedContext
     public class AreaContext : BaseContext<AreaContext>
     {
         public DbSet<Area> Areas { get; set; }
+        //public DbSet<Zone> Zones { get; set; }
+        //public DbSet<DMA> DMAs { get; set; }
+        //public DbSet<PumpStation> PumpStations { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<Router> Routers { get; set; }
@@ -33,9 +37,13 @@ namespace AplombTech.WMS.AreaBoundedContext
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Unit> Units { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<AreaContext>(null);
-        }
+        public DbSet<SensorData> SensorDatas { get; set; }
+        public DbSet<MotorData> MotorDatas { get; set; }
+        public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
+        public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; set; }
+        public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; set; }
+        public DbSet<SensorDailyAverageData> SensorDailyAverageData { get; set; }
+        public DbSet<SensorOnOffSummaryData> SensorOnOffSummaryData { get; set; }
+        public DbSet<MotorOnOffSummaryData> MotorOnOffSummaryData { get; set; }
     }
 }

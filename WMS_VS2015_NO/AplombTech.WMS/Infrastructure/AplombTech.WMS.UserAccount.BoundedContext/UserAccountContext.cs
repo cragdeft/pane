@@ -21,9 +21,9 @@ namespace AplombTech.WMS.UserAccount.BoundedContext
         public DbSet<Feature> Features { get; set; }
         public DbSet<RoleFeatures> RoleFeatures { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<UserAccountContext>(null);
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    Database.SetInitializer<UserAccountContext>(null);
+        //}
     }
 }

@@ -106,7 +106,32 @@ namespace AplombTech.WMS.Domain.Areas
                                          select camera).ToList();
                 return cameras;
             }
-        }       
+        }
+        [DisplayName("CholorineMotor"), NotMapped]
+        [NakedObjectsIgnore]
+        public ChlorineMotor ChlorineMotors
+        {
+            get
+            {
+                ChlorineMotor pumps = (from pump in Container.Instances<ChlorineMotor>()
+                                       where pump.PumpStation.AreaId == this.AreaId
+                                       && pump.IsRemoved == false
+                                       select pump).FirstOrDefault();
+                return pumps;
+            }
+        }
+        [MemberOrder(50), NotMapped]
+        [DisplayName("Pump"), NakedObjectsIgnore]
+        public PumpMotor PumpMotors
+        {
+            get
+            {
+                PumpMotor pumps = (from pump in Container.Instances<PumpMotor>()
+                                   where pump.PumpStation.AreaId == this.AreaId
+                                   select pump).FirstOrDefault();
+                return pumps;
+            }
+        }
         #endregion
 
         #region AddMotor (Action)

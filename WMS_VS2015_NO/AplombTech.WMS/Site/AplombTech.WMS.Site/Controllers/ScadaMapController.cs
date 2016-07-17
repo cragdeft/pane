@@ -9,15 +9,16 @@ using System.Web;
 using System.Web.Mvc;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Motors;
-using AplombTech.WMS.QueryModel.Motors;
 using AplombTech.WMS.QueryModel.Reports;
-using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.Domain.Shared;
 using AplombTech.WMS.QueryModel.Shared;
 using AplombTech.WMS.Site.Models;
 using AplombTech.WMS.Site.MQTT;
 using Newtonsoft.Json;
-using Motor = AplombTech.WMS.QueryModel.Motors.Motor;
-using MotorData = AplombTech.WMS.QueryModel.Motors.MotorData;
+using Motor = AplombTech.WMS.Domain.Motors.Motor;
+using MotorData = AplombTech.WMS.Domain.Motors.MotorData;
+using AplombTech.WMS.Domain.Sensors;
 
 namespace AplombTech.WMS.Site.Controllers
 {
@@ -120,7 +121,7 @@ namespace AplombTech.WMS.Site.Controllers
 
         public JsonResult GetDmaDropdownData(int zoneId)
         {
-            List<AplombTech.WMS.QueryModel.Areas.DMA> dmaList = _reportRepository.GetDmaList(zoneId);
+            List<DMA> dmaList = _reportRepository.GetDmaList(zoneId);
             var dictornaty = new Dictionary<int, string>();
             foreach (var dma in dmaList)
             {
@@ -132,7 +133,7 @@ namespace AplombTech.WMS.Site.Controllers
 
         public JsonResult GetPumpStationDropdownData(int dmaId)
         {
-            List<AplombTech.WMS.QueryModel.Areas.PumpStation> pumpStationList = _reportRepository.GetPumpStationList(dmaId);
+            List<PumpStation> pumpStationList = _reportRepository.GetPumpStationList(dmaId);
             var dictornaty = new Dictionary<int, string>();
             foreach (var pumpStation in pumpStationList)
             {
@@ -145,7 +146,7 @@ namespace AplombTech.WMS.Site.Controllers
         public ActionResult ShowScada(string pumpStationId)
         {
             List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
-            List<QueryModel.Motors.MotorData> motorDataList = new List<QueryModel.Motors.MotorData>();
+            List<MotorData> motorDataList = new List<MotorData>();
             motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
             motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
             ViewBag.MotorDataList = motorDataList;
@@ -160,7 +161,7 @@ namespace AplombTech.WMS.Site.Controllers
                 List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
                 var dictornary = new Dictionary<string, string>();
                 dictornary = ConvertSensorData(sensorList);
-                List<QueryModel.Motors.MotorData> motorDataList = new List<QueryModel.Motors.MotorData>();
+                List<MotorData> motorDataList = new List<MotorData>();
                 motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
                 motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
                 motorDataList = GetMotorDataList(motorDataList);

@@ -11,8 +11,9 @@ using System.Web.Mvc;
 using System.Web.UI;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.QueryModel.Reports;
-using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.Domain.Sensors;
 using Newtonsoft.Json;
+using AplombTech.WMS.Domain.Sensors;
 
 namespace AplombTech.WMS.Site.Controllers
 {
