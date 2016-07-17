@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AplombTech.WMS.QueryModel.Areas;
-using AplombTech.WMS.QueryModel.Sensors;
-using AplombTech.WMS.QueryModel.Shared;
+using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Sensors;
+using AplombTech.WMS.Domain.Shared;
 using NakedObjects;
+using AplombTech.WMS.QueryModel.Shared;
 
 namespace AplombTech.WMS.QueryModel.Reports
 {

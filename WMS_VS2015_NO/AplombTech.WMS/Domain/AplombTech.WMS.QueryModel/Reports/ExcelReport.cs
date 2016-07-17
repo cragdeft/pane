@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AplombTech.WMS.QueryModel.Areas;
-using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Sensors;
 
 namespace AplombTech.WMS.QueryModel.Reports
 {

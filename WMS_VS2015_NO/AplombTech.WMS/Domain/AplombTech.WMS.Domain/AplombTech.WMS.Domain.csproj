@@ -76,8 +76,6 @@
     <Compile Include="Devices\Camera.cs" />
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Devices\Router.cs" />
-    <Compile Include="Facade\CommandModelDatabase.cs" />
-    <Compile Include="Facade\SampleAppInitializer.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\FeatureType.cs" />
     <Compile Include="Features\RoleFeatures.cs" />
@@ -115,7 +113,9 @@
     <Compile Include="UserAccounts\UserLogins.cs" />
     <Compile Include="UserAccounts\UserRoles.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Facade\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

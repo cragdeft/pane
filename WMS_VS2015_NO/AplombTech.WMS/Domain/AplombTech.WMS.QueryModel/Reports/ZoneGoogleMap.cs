@@ -1,4 +1,4 @@
-﻿using AplombTech.WMS.QueryModel.Areas;
+﻿using AplombTech.WMS.Domain.Areas;
 using NakedObjects;
 using System;
 using System.Collections.Generic;

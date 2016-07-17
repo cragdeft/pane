@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using AplombTech.WMS.QueryModel.Areas;
-using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.Domain.Areas;
+using AplombTech.WMS.Domain.Sensors;
 
 namespace AplombTech.WMS.Site.Controllers
 {

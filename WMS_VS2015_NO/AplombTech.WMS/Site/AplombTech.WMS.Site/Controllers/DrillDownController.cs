@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using AplombTech.WMS.QueryModel.Reports;
 using AplombTech.WMS.QueryModel.Repositories;
-using AplombTech.WMS.QueryModel.Sensors;
+using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.QueryModel.Shared;
 using NakedObjects;
 using NakedObjects.Facade;
@@ -100,12 +100,12 @@ namespace AplombTech.WMS.Site.Controllers
 
         public JsonResult GetSensorDropdownData(int pumpstationId)
         {
-            List<AplombTech.WMS.QueryModel.Sensors.Sensor> sensorList = _reportRepository.GetSensorData(pumpstationId);
+            List<Sensor> sensorList = _reportRepository.GetSensorData(pumpstationId);
             var sendingSensorList = new List<dynamic>();
             foreach (var sensor in sensorList)
             {
                 dynamic sendingSensor = new ExpandoObject();
-                sendingSensor.SensorID = sensor.SensorID;
+                sendingSensor.SensorID = sensor.SensorId;
                 sendingSensor.Name = sensor.Name;
                 sendingSensor.Model = sensor.Model;
                 sendingSensor.Version = sensor.Version;

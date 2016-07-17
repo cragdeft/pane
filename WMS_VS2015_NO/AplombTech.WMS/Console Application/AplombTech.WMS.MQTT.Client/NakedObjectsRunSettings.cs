@@ -12,7 +12,7 @@ using NakedObjects.Architecture.Menu;
 using NakedObjects.Menu;
 using NakedObjects.Core.Async;
 using AplombTech.WMS.Domain.Repositories;
-using AplombTech.WMS.Domain.Facade;
+//using AplombTech.WMS.Domain.Facade;
 using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.AreaBoundedContext;
@@ -72,8 +72,8 @@ namespace AplombTech.WMS.MQTT.Client {
 
         public static EntityObjectStoreConfiguration EntityObjectStoreConfig() {
             var config = new EntityObjectStoreConfiguration();
-            config.UsingCodeFirstContext(() => new CommandModelDatabase());
-            //config.UsingCodeFirstContext(() => new AreaContext());
+            //config.UsingCodeFirstContext(() => new CommandModelDatabase());
+            config.UsingCodeFirstContext(() => new AreaContext());
             //config.UsingCodeFirstContext(() => new ProcessContext());
             return config;
         }
