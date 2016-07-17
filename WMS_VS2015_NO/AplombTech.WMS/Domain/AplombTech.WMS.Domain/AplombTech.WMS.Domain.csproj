@@ -113,9 +113,7 @@
     <Compile Include="UserAccounts\UserLogins.cs" />
     <Compile Include="UserAccounts\UserRoles.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Facade\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

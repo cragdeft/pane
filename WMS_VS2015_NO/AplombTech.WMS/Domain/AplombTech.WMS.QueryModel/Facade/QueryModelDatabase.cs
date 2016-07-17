@@ -45,18 +45,13 @@ namespace AplombTech.WMS.QueryModel.Facade
             //Use the Naked Objects > DbInitialiser template to add an initialiser, then reference thus:
            
             Database.SetInitializer<QueryModelDatabase>(null);
-
-            //Mappings
-            //Use the Naked Objects > DbMapping template to create mapping classes & reference them thus:
-            //modelBuilder.Configurations.Add(new EmployeeMapping());
-            //modelBuilder.Configurations.Add(new CustomerMapping());
-
-            //modelBuilder.Entity<Asar>()
-            //.Property(f => f.DateOfEstablishment)
-            //.HasColumnType("datetime2");
-
-            //modelBuilder.Properties<DateTime>()
-            //.Configure(c => c.HasColumnType("datetime2"));
+           
+            modelBuilder.Ignore<Area>();
+            //modelBuilder.Ignore<DMA>();
+            modelBuilder.Ignore<PumpStation>();
+            //modelBuilder.Ignore<Zone>();
+            modelBuilder.Ignore<Sensor>();
+            modelBuilder.Ignore<Motor>();
         }
 
         //public IQueryable<Zone> Zones
