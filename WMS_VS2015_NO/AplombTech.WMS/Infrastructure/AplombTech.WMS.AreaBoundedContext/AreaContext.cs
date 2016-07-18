@@ -36,7 +36,7 @@ namespace AplombTech.WMS.AreaBoundedContext
         public DbSet<PressureSensor> PressureSensors { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Unit> Units { get; set; }
-
+        public DbSet<DataLog> SensorDataLogs { get; set; }
         public DbSet<SensorData> SensorDatas { get; set; }
         public DbSet<MotorData> MotorDatas { get; set; }
         public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
