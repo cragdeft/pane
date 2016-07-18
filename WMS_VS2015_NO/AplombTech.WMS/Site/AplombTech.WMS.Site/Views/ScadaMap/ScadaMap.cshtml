@@ -27,7 +27,7 @@
     </style>
     <div style="position: absolute; padding-left: 10px; margin-top: -520px;">
         <span>Connection Status</span>
-        @if (@Model[0].LastDataReceived.HasValue && @Model[1].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
+        @if (@Model[0].LastDataReceived.HasValue && @Model[0].LastDataReceived.Value.AddMinutes(1) > @DateTime.Now)
         {
             <h4><span id="connectionStatus" class="label label-success">Online</span></h4>
         }
@@ -35,7 +35,7 @@
         {
             <h4><span id="connectionStatus" class="label label-danger">Offline</span></h4>
         }
-        <span class="label label-primary dateTimeSpan" id="connectionStatusTime">@(@Model[0].LastDataReceived == null ? @DateTime.MinValue : Model[1].LastDataReceived)</span>
+        <span class="label label-primary dateTimeSpan" id="connectionStatusTime">@(@Model[0].LastDataReceived == null ? @DateTime.MinValue : Model[0].LastDataReceived)</span>
 
     </div>
     <div style="position: absolute; padding-left: 10px; margin-top: -280px;" class="grad">
