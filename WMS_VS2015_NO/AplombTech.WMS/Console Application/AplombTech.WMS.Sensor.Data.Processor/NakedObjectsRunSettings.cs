@@ -18,6 +18,7 @@ using AplombTech.WMS.DataProcessRepository;
 using AplombTech.WMS.AreaRepositories;
 using AplombTech.WMS.AreaBoundedContext;
 using AplombTech.WMS.DataProcessBoundedContext;
+using AplombTech.WMS.AlertBoundedContext;
 
 namespace AplombTech.WMS.Sensor.Data.Processor {
 
@@ -66,6 +67,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor {
             var config = new EntityObjectStoreConfiguration();
             //config.UsingCodeFirstContext(() => new CommandModelDatabase());
             config.UsingCodeFirstContext(() => new AreaContext());
+            config.UsingCodeFirstContext(() => new AlertContext());
             //config.UsingCodeFirstContext(() => new ProcessContext());
             return config;
         }
