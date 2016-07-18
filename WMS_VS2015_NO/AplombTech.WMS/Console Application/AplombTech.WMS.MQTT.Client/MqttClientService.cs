@@ -481,7 +481,7 @@ namespace AplombTech.WMS.MQTT.Client
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
 #if DEBUG
-            MqttClientInstance(true);
+            MqttClientInstance(false);
 #else
             MqttClientInstance(true);
 #endif
