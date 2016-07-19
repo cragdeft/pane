@@ -16,26 +16,26 @@
                 Model.Zones,
                 "AreaID",
                 "Name",
-                Model.SelectedZoneId), "Select Zone", new {@onchange = "LoadDma(this.value)"})
+                Model.SelectedZoneId), "Select Zone", new {@onchange = "scadModule.LoadDma(this.value)" })
 
             @Html.DropDownListFor(model => model.SelectedDmaId, new SelectList(
                 Enumerable.Empty<SelectListItem>(),
                 "AreaID",
                 "Name",
-                Model.SelectedDmaId), "Select Dma", new {@onchange = "LoadPumpStation(this.value)"})
+                Model.SelectedDmaId), "Select Dma", new {@onchange = "scadModule.LoadPumpStation(this.value)" })
             @Html.DropDownListFor(model => model.SelectedPumpStationId, new SelectList(
                 Enumerable.Empty<SelectListItem>(),
                 "AreaID",
                 "Name",
-                Model.SelectedPumpStationId), "Select Pumpstation")
+                Model.SelectedPumpStationId), "Select Pumpstation", new { @onchange = "scadModule.ClearAllScada()" })
             @*@Html.Partial("~/Views/ScadaMap/ScadaMap.cshtml", Model)*@
 
-            <input type="submit" value="Show" onclick="showScada()" class="btn btn-default"/>
+            <input type="submit" value="Show" onclick="scadModule.ShowScada()" class="btn btn-default"/>
 
             <div id="searchResults"></div>
             @Scripts.Render("~/bundles/scadamap")
             <script>
-                showPreloadedScada();
+                nofModule.ShowPreloadedScada();
             </script>
         </div>
     </section>

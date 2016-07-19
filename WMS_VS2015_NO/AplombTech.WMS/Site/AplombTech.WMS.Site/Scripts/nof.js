@@ -1,6 +1,6 @@
 ﻿var scadachart;
 function LoadMapRelatedScript() {
-    $(function () { $('#legend').jstree({ "themes": { "stripes": true }}); });
+    $(function () { $('#legend').jstree({ "themes": { "stripes": true } }); });
     $('#legend').on("changed.jstree", function (e, data) {
 
         //zone1.setOptions({ strokeColor: 'green' });
@@ -15,7 +15,7 @@ function LoadMapRelatedScript() {
             }
             if (depth == 3) {
                 node_id = node_id.split("_")[1];
-
+                
                 $.ajax({
                     type: "POST",
                     url: $("#pumpStationOverViewUrl").val(),
@@ -23,6 +23,7 @@ function LoadMapRelatedScript() {
                     data: JSON.stringify({ pumpStationId: node_id }),
                     dataType: "json",
                     success: function (model) {
+                        
                         if (model.IsSuccess) {
                             var contentString = '<h2>Overview</h2><hr/> <div >';
                             //drawChart(z2marker, model.data, stationName);
@@ -35,6 +36,7 @@ function LoadMapRelatedScript() {
 
                                 }
                             }
+                            
                             drawChart(markers['marker_' + node_id], contentString + '</div>');
                         }
 
@@ -57,7 +59,6 @@ function LoadMapRelatedScript() {
                         if (model.IsSuccess) {
 
                             //drawChart(z2marker, model.data, stationName);
-                                    
 
                             if (stationName.includes("CPD")) {
                                 var contentString;
@@ -92,7 +93,7 @@ function LoadMapRelatedScript() {
     });
 
     function drawChart(marker, content) {
-
+        
         var infowindow2 = new google.maps.InfoWindow({
             content: content
         });
@@ -100,30 +101,14 @@ function LoadMapRelatedScript() {
         infowindow2.open(marker.getMap(), marker);
     }
 }
-function showPreloadedScada()
-{
-        
-    var zoneId = $('#selectedZone').text();
-    var dmaId = $('#selectedDma').text();
-    var pumpStationId = $('#selectedPumpStation').text();
-    if (dmaId && pumpStationId) {
-        $("#SelectedZoneId").val("1");
-        LoadDma(zoneId);
-        $("#SelectedDmaId").val("2");
-        LoadPumpStation(dmaId);
-        $("#SelectedPumpStationId").val("3");
-        showScada();
-    }
-}
-
-function showRealChartScada(data2,sensorId) {
+function showRealChartScada(data2, sensorId) {
     $('#chartModal').modal('show');
     Highcharts.setOptions({
         global: {
             useUTC: false
         }
     });
-   scadachart = new Highcharts.Chart({
+    scadachart = new Highcharts.Chart({
         chart: {
             renderTo: 'chart_div',
             defaultSeriesType: 'spline',
@@ -197,7 +182,7 @@ function showRealChartScada(data2,sensorId) {
         }
     });
 
-   scadachart.setOptions({
+    scadachart.setOptions({
         global: {
             useUTC: false
         }
@@ -205,53 +190,3 @@ function showRealChartScada(data2,sensorId) {
 
 
 }
-
-function LoadSensor(pumpStationId) {
-
-    if (!pumpStationId) return;//zoneId = 0;
-    var sensorDropDownList = $('#SelectedSensor_SensorID');
-    $.ajax({
-        type: "POST",
-        url: window.location.origin + "/DrillDown/GetSensorDropdownData",
-        data: JSON.stringify({ pumpstationId: pumpStationId }),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            sensorDropDownList.empty();
-            addOptionGroup(data.OptionGroup);
-            var res = JSON.parse(data.Data);
-
-            
-            sensorDropDownList.append($('<option/>', {
-                value: 0,
-                text: "Select Sensor"
-            }));
-
-            for (var key in res) {
-                if (res.hasOwnProperty(key)) {
-                    sensorDropDownList.find('optgroup[label="' + res[key].Name + '"]').append($('<option/>', {
-                        value: res[key].SensorID,
-                        text: res[key].DisplayName
-                    }));
-                    //sensorDropDownList.append($('<option/>', {
-
-                    //    value: res[key].SensorID,
-                    //    text: res[key].Name + '( ' + res[key].Model + '-' + res[key].Version + ' )'
-                    //}));
-                }
-
-            }
-        },
-        failure: function (response) {
-            alert(response);
-        }
-    });
-}
-
-function addOptionGroup(optGroup) {
-    for (var i = 0; i < optGroup.length; i++) {
-        $("#SelectedSensor_SensorID").append('<optgroup label="' + optGroup[i] + '"</optgroup>');
-    }
-}
-

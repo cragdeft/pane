@@ -65,7 +65,7 @@
     <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
-    
+    <script src="~/Scripts/Preloaded.js"></script>
     @Html.Hidden("publishCommandUrl", Url.Action("PublishMessage", "ScadaMap"))
     @Html.Hidden("getDmaUrl", Url.Action("GetDmaDropdownData", "ScadaMap"))
     @Html.Hidden("getPumpStationUrl", Url.Action("GetPumpStationDropdownData", "ScadaMap"))
@@ -80,6 +80,7 @@
     @Html.Hidden("getSingleSensorStatusUrl", Url.Action("GetSingleSensorStatus", "ZoneGoogleMap"))
     @Html.Hidden("getScadaDataUrl", Url.Action("GetScadaData", "ScadaMap"))
     @Html.Hidden("getScadaSensorDataUrl", Url.Action("GetSensorData", "ScadaMap"))
+    @Html.Hidden("getSensorDropdownDataUrl", Url.Action("GetSensorDropdownData", "DrillDown"))
     @Html.Hidden("imageUrl", @Url.Content("~/Images"))
     @Html.Hidden("swfUrl", Url.Content("~/Images/RtmpPlayer.swf"))
     @RenderSection("Scripts", required: false)
