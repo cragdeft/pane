@@ -51,6 +51,7 @@
     <Compile Include="Commands\SensorSummaryGenerationMessage.cs" />
     <Compile Include="Commands\SummaryGenerationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBus.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Events\" />

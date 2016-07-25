@@ -1,4 +1,5 @@
 ﻿using AplombTech.MQTTLib;
+using AplombTech.WMS.Messages;
 using AplombTech.WMS.Site.MQTT;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,11 @@ namespace AplombTech.WMS.Site
         {
             //MqttClientFacade.MQTTClientInstance(false).MakeConnection();
 #if DEBUG
-           // MQTTService.MQTTClientInstance(false).MakeConnection();
+            // MQTTService.MQTTClientInstance(false).MakeConnection();
 #else
             MQTTService.MQTTClientInstance(true).MakeConnection();
 #endif
-
+            //ServiceBus.Initialize("TokenMessageSender");
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

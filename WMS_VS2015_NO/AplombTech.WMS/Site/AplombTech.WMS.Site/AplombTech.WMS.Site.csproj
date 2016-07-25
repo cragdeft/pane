@@ -157,6 +157,9 @@
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NServiceBus.Core">
+      <HintPath>..\..\lib\NServiceBus.Core.dll</HintPath>
+    </Reference>
     <Reference Include="RestfulObjects.Mvc, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RestfulObjects.Mvc.7.1.0\lib\net452\RestfulObjects.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -628,6 +631,10 @@
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.DataProcessBoundedContext\AplombTech.WMS.DataProcessBoundedContext.csproj">
       <Project>{0ca2e7b3-b0aa-4e15-aec8-6eced946bbf7}</Project>
       <Name>AplombTech.WMS.DataProcessBoundedContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Messages\AplombTech.WMS.Messages.csproj">
+      <Project>{5104d6f2-54a9-4c43-b49d-84fa2a4f7cc0}</Project>
+      <Name>AplombTech.WMS.Messages</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.MQTT.Client\AplombTech.MQTTLib.csproj">
       <Project>{34801c75-c666-4783-83ce-f1dfcd4208f4}</Project>
