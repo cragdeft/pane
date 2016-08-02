@@ -20,8 +20,8 @@ namespace AplombTech.WMS.QueryModel.Facade
         public QueryModelDatabase() { }
         public QueryModelDatabase(string name) : base(name)
         {
-            SensorDatas = base.Set<SensorData>();
-            MotorDatas = base.Set<MotorData>();
+            //SensorDatas = base.Set<SensorData>();
+           // MotorDatas = base.Set<MotorData>();
             SensorHourlySummaryData = base.Set<SensorHourlySummaryData>();
             SensorDailySummaryData = base.Set<SensorDailySummaryData>();
             SensorHourlyAverageData = base.Set<SensorHourlyAverageData>();
@@ -30,8 +30,8 @@ namespace AplombTech.WMS.QueryModel.Facade
             MotorOnOffSummaryData = base.Set<MotorOnOffSummaryData>();
         }
 
-        public DbSet<SensorData> SensorDatas { get; private set; }
-        public DbSet<MotorData> MotorDatas { get; private set; }
+        //public DbSet<SensorData> SensorDatas { get; private set; }
+        //public DbSet<MotorData> MotorDatas { get; private set; }
         public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; private set; }
         public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; private set; }
         public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; private set; }

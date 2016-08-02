@@ -146,7 +146,7 @@ namespace AplombTech.WMS.Site.Controllers
         public ActionResult ShowScada(string pumpStationId)
         {
             List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
-            List<MotorData> motorDataList = new List<MotorData>();
+            List<Motor> motorDataList = new List<Motor>();
             motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
             motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
             ViewBag.MotorDataList = motorDataList;
@@ -161,12 +161,12 @@ namespace AplombTech.WMS.Site.Controllers
                 List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
                 var dictornary = new Dictionary<string, string>();
                 dictornary = ConvertSensorData(sensorList);
-                List<MotorData> motorDataList = new List<MotorData>();
-                motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
-                motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
-                motorDataList = GetMotorDataList(motorDataList);
+                List<Motor> motorList = new List<Motor>();
+                motorList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
+                motorList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
+                motorList = GetMotorDataList(motorList);
                 //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
-                return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorDataList, LastDataRecived = sensorList[1].LastDataReceived.ToString(), IsSuccess = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorList, LastDataRecived = sensorList[1].LastDataReceived.ToString(), IsSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -219,20 +219,18 @@ namespace AplombTech.WMS.Site.Controllers
             return string.Empty;
         }
 
-        private List<MotorData> GetMotorDataList(List<MotorData> motorDataList)
+        private List<Motor> GetMotorDataList(List<Motor> motorDataList)
         {
-            List<MotorData> convertedMotorDataList = new List<MotorData>();
+            List<Motor> convertedMotorDataList = new List<Motor>();
             foreach (var motorData in motorDataList)
             {
-                var mdata = new MotorData();
-                mdata.Auto = motorData.Auto;
-                mdata.LastCommand = motorData.LastCommand;
-                mdata.LastCommandTime = motorData.LastCommandTime;
-                mdata.MotorStatus = motorData.MotorStatus;
-                mdata.Motor = new Motor() { MotorID = motorData.Motor.MotorID, UUID = motorData.Motor.UUID };
-                mdata.Motor.MotorID = motorData.Motor.MotorID;
-
-                convertedMotorDataList.Add(mdata);
+                var motor = new Motor();
+                motor.Auto = motorData.Auto;
+                motor.LastCommand = motorData.LastCommand;
+                motor.LastCommandTime = motorData.LastCommandTime;
+                motor.MotorStatus = motorData.MotorStatus;
+                
+                convertedMotorDataList.Add(motor);
             }
 
             return convertedMotorDataList;

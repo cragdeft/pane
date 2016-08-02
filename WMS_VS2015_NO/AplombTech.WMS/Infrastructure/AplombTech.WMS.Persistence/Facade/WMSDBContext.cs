@@ -33,11 +33,11 @@ namespace AplombTech.WMS.Persistence.Facade
         public DbSet<EnergySensor> EnergySensors { get; set; }
         public DbSet<ChlorinePresenceDetector> ChlorinePresenceDetectors { get; set; }
         public DbSet<PressureSensor> PressureSensors { get; set; }
-        public DbSet<SensorData> SensorDatas { get; set; }
-        public DbSet<MotorData> MotorDatas { get; set; }
+        //public DbSet<SensorData> SensorDatas { get; set; }
+        //public DbSet<MotorData> MotorDatas { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Unit> Units { get; set; }
-        public DbSet<DataLog> SensorDataLogs { get; set; }
+        //public DbSet<DataLog> SensorDataLogs { get; set; }
         public DbSet<AlertType> AlertTypes { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<AlertRecipient> AlertRecipients { get; set; }

@@ -69,6 +69,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AplombTech.WMS.SensorDataLogBoundedContext\AplombTech.WMS.SensorDataLogBoundedContext.csproj">
+      <Project>{9d625f54-bae9-49e7-bc05-cfba1af7e20c}</Project>
+      <Name>AplombTech.WMS.SensorDataLogBoundedContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.JsonParser\AplombTech.WMS.JsonParser.csproj">
       <Project>{d64fe817-7a39-455e-aa81-ac8201659990}</Project>
       <Name>AplombTech.WMS.JsonParser</Name>

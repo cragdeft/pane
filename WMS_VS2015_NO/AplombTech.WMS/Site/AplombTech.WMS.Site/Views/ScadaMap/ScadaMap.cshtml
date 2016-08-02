@@ -72,8 +72,8 @@
 
             if (@sensor is EnergySensor)
             {
-                <p style="text-align: right"><strong>Energy(Q)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@(((EnergySensor) sensor).CumulativeValue) kw-hr</span></p>
-                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CurrentValue) kw-hr</span></p>
+                <p style="text-align: right"><strong>Energy(Q)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@((((EnergySensor) sensor).CumulativeValue)) kw-hr</span></p>
+                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).KwPerHourValue) kw-hr</span></p>
             }
         }
 

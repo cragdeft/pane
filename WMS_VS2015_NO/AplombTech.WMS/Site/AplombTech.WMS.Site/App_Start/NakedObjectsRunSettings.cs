@@ -36,6 +36,7 @@ using AplombTech.WMS.DataProcessBoundedContext;
 using AplombTech.WMS.DataProcessRepository;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Motors;
+using AplombTech.WMS.SensorDataLogBoundedContext.Facade;
 
 namespace AplombTech.WMS.Site {
 
@@ -85,19 +86,9 @@ namespace AplombTech.WMS.Site {
                     typeof(EnergySensor),
                     typeof(LevelSensor),
                     typeof(PressureSensor),
-                    typeof(SensorData),
-                    typeof(DataLog),
                     typeof(Motor),
                     typeof(PumpMotor),
-                    typeof(ChlorineMotor),
-                    typeof(MotorData),
-                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorHourlySummaryData),
-                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorDailySummaryData),
-                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorHourlyAverageData),
-                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorDailyAverageData),
-                    //typeof(AplombTech.WMS.Domain.SummaryData.SensorOnOffSummaryData),
-                    //typeof(AplombTech.WMS.Domain.SummaryData.MotorOnOffSummaryData),
-                    
+                    typeof(ChlorineMotor),                 
                     typeof(Role),
                     typeof(LoginUser),
                     typeof(UserRoles),
@@ -114,11 +105,13 @@ namespace AplombTech.WMS.Site {
 
         public static EntityObjectStoreConfiguration EntityObjectStoreConfig() {
             var config = new EntityObjectStoreConfiguration();
-            //config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
-            //config.UsingCodeFirstContext(() => new CommandModelDatabase());
-            config.UsingCodeFirstContext(() => new UserAccountContext());
-            config.UsingCodeFirstContext(() => new AreaContext());
-            config.UsingCodeFirstContext(() => new AlertContext());           
+            config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
+            config.UsingCodeFirstContext(() => new SensorDataLogContext());
+            ////config.UsingCodeFirstContext(() => new CommandModelDatabase());
+
+            //config.UsingCodeFirstContext(() => new UserAccountContext());
+            //config.UsingCodeFirstContext(() => new AreaContext());
+            //config.UsingCodeFirstContext(() => new AlertContext());           
             //config.UsingCodeFirstContext(() => new ProcessContext());
             //config.UsingCodeFirstContext(() => new QueryModelDatabase());
             config.SpecifyTypesNotAssociatedWithAnyContext(() => new[] { typeof(PropertyViewModel), typeof(FindViewModel) });

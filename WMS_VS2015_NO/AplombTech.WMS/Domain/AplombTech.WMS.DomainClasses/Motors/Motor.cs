@@ -56,8 +56,11 @@ namespace AplombTech.WMS.Domain.Motors
         public virtual bool Controllable { get; set; }
         [MemberOrder(65), Disabled]
         public virtual string MotorStatus { get; set; }
+        public virtual string LastCommand { get; set; }
+        public virtual string LastCommandTime { get; set; }
         [MemberOrder(70)]
         public virtual string RemoveRemarks { get; set; }
+
         public bool HideRemoveRemarks()
         {
             if (IsRemoved)

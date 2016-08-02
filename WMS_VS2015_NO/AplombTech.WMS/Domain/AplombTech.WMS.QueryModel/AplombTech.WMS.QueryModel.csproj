@@ -143,6 +143,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AplombTech.WMS.SensorDataLogBoundedContext\AplombTech.WMS.SensorDataLogBoundedContext.csproj">
+      <Project>{9d625f54-bae9-49e7-bc05-cfba1af7e20c}</Project>
+      <Name>AplombTech.WMS.SensorDataLogBoundedContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AplombTech.WMS.DomainClasses\AplombTech.WMS.DomainClasses.csproj">
       <Project>{c2a6f489-7c45-4d49-9c71-7aac936bc724}</Project>
       <Name>AplombTech.WMS.DomainClasses</Name>

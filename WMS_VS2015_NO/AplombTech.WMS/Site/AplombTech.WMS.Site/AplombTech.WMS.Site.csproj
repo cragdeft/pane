@@ -588,6 +588,10 @@
     <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AplombTech.WMS.SensorDataLogBoundedContext\AplombTech.WMS.SensorDataLogBoundedContext.csproj">
+      <Project>{9d625f54-bae9-49e7-bc05-cfba1af7e20c}</Project>
+      <Name>AplombTech.WMS.SensorDataLogBoundedContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Domain\AplombTech.WMS.AlertRepository\AplombTech.WMS.AlertRepository.csproj">
       <Project>{f44c7724-3d28-40e3-b548-5b50f1a95096}</Project>
       <Name>AplombTech.WMS.AlertRepository</Name>

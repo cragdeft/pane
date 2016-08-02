@@ -27,7 +27,7 @@ namespace AplombTech.WMS.Domain.Motors
 
         #region  Navigation Properties
         [MemberOrder(40), Required]
-        public virtual Motor Motor { get; set; }
+        public virtual int MotorId { get; set; }
         #endregion
     }
 }

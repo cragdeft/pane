@@ -17,6 +17,8 @@ using NakedObjects.Core.Util.Enumer;
 using AplombTech.WMS.Domain.SummaryData;
 using AplombTech.WMS.Domain.Repositories;
 using AplombTech.WMS.QueryModel.Shared;
+using AplombTech.WMS.SensorDataLogBoundedContext.Repositories;
+using AplombTech.WMS.SensorDataLogBoundedContext.UnitOfWorks;
 
 namespace AplombTech.WMS.QueryModel.Repositories
 {
@@ -180,26 +182,39 @@ namespace AplombTech.WMS.QueryModel.Repositories
             return pumpStation.Sensors.ToList();
         }
 
-        public MotorData GetPumpMotorData(int pumpStationId)
+        public PumpMotor GetPumpMotorData(int pumpStationId)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            {
+                PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
 
-            PumpMotor motor = pumpStation.PumpMotors;
-            if (motor == null) return null;
-            var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).OrderByDescending(x => x.ProcessAt).FirstOrDefault();
+                PumpMotor motor = pumpStation.PumpMotors;
+                if (motor == null) return null;
+                else return motor;
 
-            return motorData;
+            }
+            
         }
 
-        public MotorData GetCholorineMotorData(int pumpStationId)
+        public ChlorineMotor GetCholorineMotorData(int pumpStationId)
         {
-            PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            {
+                PumpStation pumpStation =
+                    Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
 
-            ChlorineMotor motor = pumpStation.ChlorineMotors;
-            if (motor == null) return null;
-            var motorData = Container.Instances<MotorData>().Where(x => x.Motor.MotorID == motor.MotorID).OrderByDescending(x => x.ProcessAt).FirstOrDefault();
+                ChlorineMotor motor = pumpStation.ChlorineMotors;
+                if (motor == null) return null;
+                else return motor;
+            }
+        }
 
-            return motorData;
+        public Motor GetMotor(int motorId)
+        {
+                return
+                    Container.Instances<Motor>().Where(x => x.MotorID == motorId).FirstOrDefault();
+
+                
         }
 
         public Sensor GetPumpSingleSensor(int SensorId)
@@ -347,7 +362,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         {
             PumpStation pumpStation = Container.Instances<PumpStation>().Where(w => w.AreaId == model.SelectedPumpStationId).First();
             Sensor sensor = GetPumpStationSensor<Sensor>(pumpStation, ref model);
-            model.SensorDatas = GetCurrentDataListWithinTime(sensor, model.FromDateTime, model.ToDateTime);
+            model.UnderThresoldDatas = GetCurrentDataListWithinTime(sensor, model.FromDateTime, model.ToDateTime);
             return model;
         }
 
@@ -371,7 +386,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             data.data = GetDailyData(ref model);
             model.Unit = model.SelectedSensor.UnitName;
             model.Series.Add(data);
-            model.SelectedSensor = new Sensor() { SensorId=model.SelectedSensor.SensorId,MinimumValue=model.SelectedSensor.MinimumValue};
+            model.SelectedSensor = new Sensor() { SensorId = model.SelectedSensor.SensorId, MinimumValue = model.SelectedSensor.MinimumValue };
             return model;
         }
 
@@ -655,13 +670,18 @@ namespace AplombTech.WMS.QueryModel.Repositories
         }
         private double GetTotalDataWithinTime(int SensorId, DateTime from, DateTime to)
         {
-            List<SensorData> sensorDataList = Container.Instances<SensorData>()
-                   .Where(x => (x.Sensor.SensorId == SensorId && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
 
-            if (sensorDataList != null)
-                return (double)sensorDataList.Sum(x => x.Value);
-            else
-                return 0;
+            //using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            //{
+            //    SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
+            //    List<SensorData> sensorDataList = repo.GetSensorDataListWithinTime(SensorId, from, to);
+
+            //    if (sensorDataList != null)
+            //        return (double)sensorDataList.Sum(x => x.Value);
+            //    else
+                    return 0;
+            //}
+
         }
 
         private double GetHourlyAverageValue(int SensorId, DateTime to)
@@ -712,19 +732,39 @@ namespace AplombTech.WMS.QueryModel.Repositories
         }
         private decimal GetCurrentDataWithinTime(int SensorId, DateTime from, DateTime to)
         {
-            SensorData sensorData = Container.Instances<SensorData>()
-                   .Where(x => (x.Sensor.SensorId == SensorId && x.LoggedAt >= from && x.LoggedAt <= to)).FirstOrDefault();
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            {
+                SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
+                SensorData sensorData = repo.GetSensorDataWithinTime(SensorId, from, to);
 
-            if (sensorData != null)
-                return (sensorData.Value);
-            else
-                return 0;
+                if (sensorData != null)
+                    return (sensorData.Value);
+                else
+                    return 0;
+            }
+
         }
-        private List<SensorData> GetCurrentDataListWithinTime(Sensor sensor, DateTime from, DateTime to)
+        private List<UnderThresoldData> GetCurrentDataListWithinTime(Sensor sensor, DateTime from, DateTime to)
         {
-            return Container.Instances<SensorData>()
-                   .Where(x => (x.Sensor.SensorId == sensor.SensorId && x.LoggedAt >= from && x.LoggedAt <= to && (x.Value <= sensor.MinimumValue))).ToList();
+            { 
+            
+                List<UnderThresoldData> sensorDataList = GetSensorDataListWithinTime(sensor.SensorId, from, to, sensor.MinimumValue);
+
+                return null;
+            }
         }
+
+        public List<UnderThresoldData> GetSensorDataListWithinTime(int SensorId, DateTime from, DateTime to, decimal minimumValue)
+        {
+            List<UnderThresoldData> sensorDataList = Container.Instances<UnderThresoldData>()
+                  .Where(x => (x.Sensor.SensorId == SensorId && x.Value <= minimumValue && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
+
+
+            return sensorDataList;
+
+        }
+
+
         #endregion
     }
 }

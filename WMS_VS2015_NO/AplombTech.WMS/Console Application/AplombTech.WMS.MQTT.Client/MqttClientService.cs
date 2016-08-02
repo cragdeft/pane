@@ -28,6 +28,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using AplombTech.WMS.Domain.SummaryData;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -164,7 +165,7 @@ namespace AplombTech.WMS.MQTT.Client
 #if DEBUG
                 
 #else
-            EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "WMS:Could not stablished connection to MQTT broker", ex.Message);
+            EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "(Local Deploy)WMS:Could not stablished connection to MQTT broker", ex.Message);
 #endif
                 //don't leave the client connected
                 if (DhakaWasaMqtt != null && DhakaWasaMqtt.IsConnected)
@@ -391,6 +392,11 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void SendSensorAlertMessage(decimal value, string sensorName, int allertMessageType, Sensor sensor)
         {
+            if (allertMessageType == (int)AlertType.AlertTypeEnum.UnderThreshold)
+            {
+                ProcessRepository.CreateUnderThresoldData(value,sensor);
+            }
+            
             var cmd = new SensorAlertMessage
             {
                 SensorId = sensor.SensorId,
@@ -403,6 +409,9 @@ namespace AplombTech.WMS.MQTT.Client
             };
             ServiceBus.Bus.Send(cmd);
         }
+
+        
+
         private DataLog LogSensorData(string topic, string message)
         {
             try
@@ -481,7 +490,7 @@ namespace AplombTech.WMS.MQTT.Client
             log.Info("MQTT listener is going to start");
             ServiceBus.Init();
 #if DEBUG
-            MqttClientInstance(false);
+            MqttClientInstance(true);
 #else
             MqttClientInstance(true);
 #endif

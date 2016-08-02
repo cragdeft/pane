@@ -44,5 +44,6 @@ namespace AplombTech.WMS.Domain.Sensors
         [MemberOrder(30), Required, Disabled]
         [DisplayName("Total")]
         public virtual decimal CumulativeValue { get; set; }
+        public virtual decimal KwPerHourValue { get; set; }
     }
 }

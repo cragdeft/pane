@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Sensors;
 using AplombTech.WMS.Domain.Shared;
+using AplombTech.WMS.Domain.SummaryData;
 using NakedObjects;
 using AplombTech.WMS.QueryModel.Shared;
 
@@ -29,7 +30,7 @@ namespace AplombTech.WMS.QueryModel.Reports
         public int Hour { get; set; }
         public DateTime ToDateTime { get; set; }
         public DateTime FromDateTime { get; set; }
-        public List<SensorData> SensorDatas { get; set; }
+        public List<UnderThresoldData> UnderThresoldDatas { get; set; }
         public string Title()
         {
             var t = Container.NewTitleBuilder();

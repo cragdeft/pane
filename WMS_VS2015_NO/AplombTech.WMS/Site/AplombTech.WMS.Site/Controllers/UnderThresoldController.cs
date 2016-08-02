@@ -46,16 +46,16 @@ namespace AplombTech.WMS.Site.Controllers
         public void ExportToExcel(UnderThresold m)
         {
             m = _reportRepository.GetUnderThresoldtData(m);
-            Summary model = _reportRepository.Summary();
+            //Summary model = _reportRepository.Summary();
 
             try
             {
                 var grid = new System.Web.UI.WebControls.GridView();
                 
-                grid.DataSource = from d in m.SensorDatas
+                grid.DataSource = from d in m.UnderThresoldDatas
                                   select new
                                   {
-                                      Name = m.TransmeType+"_"+d.Sensor.UUID,
+                                      Name = m.TransmeType,
                                       Value = d.Value,
                                       Unit = m.Unit,
                                       Received = d.LoggedAt

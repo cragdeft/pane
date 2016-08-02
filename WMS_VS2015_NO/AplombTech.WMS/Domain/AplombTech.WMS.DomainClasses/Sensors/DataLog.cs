@@ -44,7 +44,7 @@ namespace AplombTech.WMS.Domain.Sensors
 
         #region  Navigation Properties
         [MemberOrder(60)]
-        public virtual PumpStation PumpStation { get; set; }
+        public virtual int PumpStationId  { get; set; }
         #endregion
     }
 }

@@ -26,7 +26,7 @@ namespace AplombTech.WMS.Domain.Sensors
 
         #region  Navigation Properties
         [MemberOrder(40), Required]
-        public virtual Sensor Sensor { get; set; }       
+        public virtual int SensorId { get; set; }       
         #endregion
     }
 }

@@ -33,6 +33,7 @@ namespace AplombTech.WMS.Domain.Sensors
         [MemberOrder(30), Required, Disabled]
         [DisplayName("Total")]
         public virtual decimal CumulativeValue { get; set; }
+        public virtual decimal LitrePerMinuteValue { get; set; }
         public string Title()
         {
             var t = Container.NewTitleBuilder();

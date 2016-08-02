@@ -13,9 +13,9 @@ namespace AplombTech.WMS.DataProcessBoundedContext
 {
     public class ProcessContext : BaseContext<ProcessContext>
     {
-        public DbSet<DataLog> SensorDataLogs { get; set; }
-        public DbSet<SensorData> SensorDatas { get; set; }
-        public DbSet<MotorData> MotorDatas { get; set; }
+        //public DbSet<DataLog> SensorDataLogs { get; set; }
+        //public DbSet<SensorData> SensorDatas { get; set; }
+        //public DbSet<MotorData> MotorDatas { get; set; }
         public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
         public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; set; }
         public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; set; }

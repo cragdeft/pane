@@ -36,14 +36,15 @@ namespace AplombTech.WMS.AreaBoundedContext
         public DbSet<PressureSensor> PressureSensors { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Unit> Units { get; set; }
-        public DbSet<DataLog> SensorDataLogs { get; set; }
-        public DbSet<SensorData> SensorDatas { get; set; }
-        public DbSet<MotorData> MotorDatas { get; set; }
+        //public DbSet<DataLog> SensorDataLogs { get; set; }
+        //public DbSet<SensorData> SensorDatas { get; set; }
+        //public DbSet<MotorData> MotorDatas { get; set; }
         public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
         public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; set; }
         public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; set; }
         public DbSet<SensorDailyAverageData> SensorDailyAverageData { get; set; }
         public DbSet<SensorOnOffSummaryData> SensorOnOffSummaryData { get; set; }
         public DbSet<MotorOnOffSummaryData> MotorOnOffSummaryData { get; set; }
+        public DbSet<UnderThresoldData> UnderThresoldDatas { get; set; }
     }
 }

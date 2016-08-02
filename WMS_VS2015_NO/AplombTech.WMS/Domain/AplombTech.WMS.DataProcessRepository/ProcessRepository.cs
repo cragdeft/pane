@@ -12,6 +12,9 @@ using AplombTech.WMS.Domain.Devices;
 using AplombTech.WMS.Domain.Motors;
 using AplombTech.WMS.JsonParser.DeviceMessages;
 using AplombTech.WMS.AreaRepositories;
+using AplombTech.WMS.Domain.SummaryData;
+using AplombTech.WMS.SensorDataLogBoundedContext.Repositories;
+using AplombTech.WMS.SensorDataLogBoundedContext.UnitOfWorks;
 
 namespace AplombTech.WMS.DataProcessRepository
 {
@@ -112,56 +115,43 @@ namespace AplombTech.WMS.DataProcessRepository
         }
         private DataLog GetDataLog(string topic, DateTime loggedAtSensor, int stationId)
         {
-            DataLog dataLog = Container.Instances<DataLog>().Where(w => w.PumpStation.AreaId == stationId && w.Topic == topic && w.LoggedAtSensor == loggedAtSensor).FirstOrDefault();
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            {
+                SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
+                DataLog dataLog = repo.GetDataLog(topic, loggedAtSensor, stationId);
+                return dataLog;
+            }
+            
 
-            return dataLog;
+            
         }
         public DataLog CreateDataLog(string topic, string message, DateTime loggedAtSensor, int stationId)
         {
-            DataLog data = Container.NewTransientInstance<DataLog>();
-            PumpStation station = Container.Instances<PumpStation>().Where(w => w.AreaId == stationId).First();
-
-            data.Topic = topic;
-            data.Message = message;
-            data.MessageReceivedAt = DateTime.Now;
-            data.LoggedAtSensor = loggedAtSensor;
-            data.ProcessingStatus = DataLog.ProcessingStatusEnum.None;
-            data.PumpStation = station;
-
-            Container.Persist(ref data);
-
-            return data;
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            {
+                SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
+                DataLog data = repo.CreateDataLog(topic,message,loggedAtSensor,stationId);
+                uow.CurrentObjectContext.SaveChanges();
+                return data;
+            }
         }
         public void CreateNewSensorData(string value, DateTime loggedAt, Sensor sensor)
-        {           
-            SensorData data = Container.NewTransientInstance<SensorData>();
-            if (sensor.DataType == Sensor.Data_Type.Float)
-                data.Value = Convert.ToDecimal(value);
-            if (sensor.DataType == Sensor.Data_Type.Boolean)
+        {
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
             {
-                if (value != null && value.Contains("."))
+                SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
+                SensorData data = repo.CreateNewSensorData(value,loggedAt,sensor);
+                if (sensor is FlowSensor || sensor is EnergySensor)
                 {
-                    data.Value = Convert.ToDecimal(Convert.ToBoolean(Convert.ToDecimal(value)));
+                    //DO NOTHING
                 }
                 else
                 {
-                    data.Value = Convert.ToDecimal(Convert.ToBoolean(Convert.ToDecimal(value)));
+                    UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
                 }
-            }
-            data.LoggedAt = loggedAt;
-            data.Sensor = sensor;
-            data.ProcessAt = DateTime.Now;
 
-            if (sensor is FlowSensor || sensor is EnergySensor)
-            {
-                //DO NOTHING
-            }            
-            else
-            {
-                UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
-            }
-                     
-            Container.Persist(ref data);            
+                uow.CurrentObjectContext.SaveChanges();
+            }       
         }        
         private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
         {
@@ -179,19 +169,24 @@ namespace AplombTech.WMS.DataProcessRepository
                 sensor.LastDataReceived = loggedAt;
             }
         }
-        public void CreateNewMotorData(MotorValue data, DateTime loggedAt, Motor motor)
-        {
-            MotorData motorData = Container.NewTransientInstance<MotorData>();
-            motorData.MotorStatus = data.MotorStatus;
-            motorData.LastCommand = data.LastCommand;
-            motorData.LastCommandTime = data.LastCommandTime;
-            motorData.Auto = data.Auto;
-            motorData.LoggedAt = loggedAt;
-            motorData.ProcessAt = DateTime.Now;
-            motorData.Motor = motor;
-            Container.Persist(ref motorData);
 
-            UpdateLastDataOfMotor(data, motorData.ProcessAt, motor);
+       public void CreateNewMotorData(MotorValue data, DateTime loggedAt, Motor motor)
+        {
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            {
+                SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
+                MotorData motorData = new MotorData();
+                motorData.MotorStatus = data.MotorStatus;
+                motorData.LastCommand = data.LastCommand;
+                motorData.LastCommandTime = data.LastCommandTime;
+                motorData.Auto = data.Auto;
+                motorData.LoggedAt = loggedAt;
+                motorData.ProcessAt = DateTime.Now;
+                motorData.MotorId = motor.MotorID;
+                repo.CreateNewMotorData(motorData);
+                uow.CurrentObjectContext.SaveChanges();
+                UpdateLastDataOfMotor(data, motorData.ProcessAt, motor);
+            }
         }
         private void UpdateLastDataOfMotor(MotorValue data, DateTime loggedAt, Motor motor)
         {
@@ -199,6 +194,19 @@ namespace AplombTech.WMS.DataProcessRepository
             motor.Controllable = data.Controllable;
             motor.MotorStatus = data.MotorStatus;
             motor.LastDataReceived = loggedAt;
-        }        
+            motor.LastCommand = data.LastCommand;
+            motor.LastCommandTime = data.LastCommandTime;
+
+        }
+
+        public void CreateUnderThresoldData(decimal value,Sensor sensor)
+        {
+            UnderThresoldData underThresold = Container.NewTransientInstance<UnderThresoldData>();
+            underThresold.Sensor = sensor;
+            underThresold.Value = value;
+            underThresold.LoggedAt = DateTime.Now;
+            underThresold.Unit = sensor.UnitName;
+            Container.Persist(ref underThresold);
+        }
     }
 }
