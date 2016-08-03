@@ -746,7 +746,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
             
                 List<UnderThresoldData> sensorDataList = GetSensorDataListWithinTime(sensor.SensorId, from, to, sensor.MinimumValue);
 
-                return null;
+                return sensorDataList;
             }
         }
 
