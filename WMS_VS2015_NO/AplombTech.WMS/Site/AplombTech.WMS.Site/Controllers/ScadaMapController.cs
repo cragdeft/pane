@@ -242,12 +242,12 @@ namespace AplombTech.WMS.Site.Controllers
             foreach (var sensor in sensorList)
             {
                 if (sensor is FlowSensor) { 
-                    dictornary.Add("FTC_"+sensor.UUID, ((FlowSensor)sensor).LitrePerMinuteValue.ToString()+" Litre");
+                    dictornary.Add("FTC_"+sensor.UUID, ((FlowSensor)sensor).LitrePerMinuteValue.ToString()+" Litre/Min");
                     dictornary.Add("FTQ_" + sensor.UUID, ((FlowSensor)sensor).CumulativeValue.ToString() + " Litre");
                 }
 
                 if (sensor is EnergySensor) { 
-                    dictornary.Add("ETC_" + sensor.UUID, ((EnergySensor)sensor).KwPerHourValue.ToString()+ " kw-hr");
+                    dictornary.Add("ETC_" + sensor.UUID, ((EnergySensor)sensor).KwPerHourValue.ToString()+ " kw/hr");
                     dictornary.Add("ETQ_" + sensor.UUID, ((EnergySensor)sensor).CumulativeValue.ToString() + " kw-hr");
                 }
 

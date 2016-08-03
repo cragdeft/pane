@@ -753,7 +753,7 @@ namespace AplombTech.WMS.QueryModel.Repositories
         public List<UnderThresoldData> GetSensorDataListWithinTime(int SensorId, DateTime from, DateTime to, decimal minimumValue)
         {
             List<UnderThresoldData> sensorDataList = Container.Instances<UnderThresoldData>()
-                  .Where(x => (x.Sensor.SensorId == SensorId && x.Value <= minimumValue && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
+                  .Where(x => (x.Sensor.SensorId == SensorId  && x.LoggedAt >= from && x.LoggedAt <= to)).ToList();
 
 
             return sensorDataList;
