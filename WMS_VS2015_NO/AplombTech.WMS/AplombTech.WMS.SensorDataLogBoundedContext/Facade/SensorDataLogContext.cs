@@ -17,7 +17,6 @@ namespace AplombTech.WMS.SensorDataLogBoundedContext.Facade
         public DbSet<DataLog> DataLogs { get; set; }
         public DbSet<SensorData> SensorDatas { get; set; }
         public DbSet<MotorData> MotorDatas { get; set; }
-        public DbSet<UnderThresoldData> UnderThresoldDatas { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

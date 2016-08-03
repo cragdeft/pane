@@ -184,15 +184,11 @@ namespace AplombTech.WMS.QueryModel.Repositories
 
         public PumpMotor GetPumpMotorData(int pumpStationId)
         {
-            using (SDLUnitOfWork uow = new SDLUnitOfWork())
-            {
                 PumpStation pumpStation = Container.Instances<PumpStation>().Where(x => x.AreaId == pumpStationId).FirstOrDefault();
 
                 PumpMotor motor = pumpStation.PumpMotors;
                 if (motor == null) return null;
                 else return motor;
-
-            }
             
         }
 

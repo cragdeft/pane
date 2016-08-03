@@ -7,5 +7,7 @@ $("#waterlevel").css("height", height - (100 - (1.35 * unit)) + "px");
 $("#waterlevel").css("margin-top", margin + (100 - (1.35 * unit)) + "px");
 
 
-$('#motorswitch').on('click', scadModule.MotorSwitchFunction());
-$('span').on('click', scadModule.ScadaSpanClick());
+//$('#motorswitch').on('click', scadModule.MotorSwitchFunction());
+//$('span').on('click', scadModule.ScadaSpanClick());
+
+scadModule.Init();

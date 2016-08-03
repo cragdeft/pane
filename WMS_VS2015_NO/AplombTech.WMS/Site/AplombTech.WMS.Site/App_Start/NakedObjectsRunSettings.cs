@@ -105,13 +105,13 @@ namespace AplombTech.WMS.Site {
 
         public static EntityObjectStoreConfiguration EntityObjectStoreConfig() {
             var config = new EntityObjectStoreConfiguration();
-            config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
-            config.UsingCodeFirstContext(() => new SensorDataLogContext());
+            //config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
+            //config.UsingCodeFirstContext(() => new SensorDataLogContext());
             ////config.UsingCodeFirstContext(() => new CommandModelDatabase());
 
-            //config.UsingCodeFirstContext(() => new UserAccountContext());
-            //config.UsingCodeFirstContext(() => new AreaContext());
-            //config.UsingCodeFirstContext(() => new AlertContext());           
+            config.UsingCodeFirstContext(() => new UserAccountContext());
+            config.UsingCodeFirstContext(() => new AreaContext());
+            config.UsingCodeFirstContext(() => new AlertContext());           
             //config.UsingCodeFirstContext(() => new ProcessContext());
             //config.UsingCodeFirstContext(() => new QueryModelDatabase());
             config.SpecifyTypesNotAssociatedWithAnyContext(() => new[] { typeof(PropertyViewModel), typeof(FindViewModel) });

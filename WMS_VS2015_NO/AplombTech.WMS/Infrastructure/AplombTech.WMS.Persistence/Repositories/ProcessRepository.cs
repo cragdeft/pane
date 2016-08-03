@@ -180,12 +180,12 @@ namespace AplombTech.WMS.Persistence.Repositories
                 if (sensor is FlowSensor)
                 {
                    ((FlowSensor) sensor).CumulativeValue = dailySummary.ReceivedValue;
-                   ((FlowSensor)sensor).LitrePerMinuteValue = (dataValue - prevCumulativeValue) / (10 * 60);
+                   ((FlowSensor)sensor).LitrePerMinuteValue = (dataValue - prevCumulativeValue) / (10);
                 }
                 else
                 {
                    ((EnergySensor)sensor).CumulativeValue = dailySummary.ReceivedValue;
-                   ((EnergySensor)sensor).KwPerHourValue = (dataValue - prevCumulativeValue)/(10*3600);
+                   ((EnergySensor)sensor).KwPerHourValue = (dataValue - prevCumulativeValue)/(10);
                 }
             }
             else
@@ -251,12 +251,12 @@ namespace AplombTech.WMS.Persistence.Repositories
             if (sensor is FlowSensor)
             {
                 ((FlowSensor)sensor).CumulativeValue = data.ReceivedValue;
-                ((FlowSensor)sensor).LitrePerMinuteValue = (value - prevCumulativeValue) / (10 * 60);
+                ((FlowSensor)sensor).LitrePerMinuteValue = (value - prevCumulativeValue) / (10 );
             }
             else
             {
                 ((EnergySensor)sensor).CumulativeValue = data.ReceivedValue;
-                ((EnergySensor)sensor).KwPerHourValue = (value - prevCumulativeValue) / (10 * 3600);
+                ((EnergySensor)sensor).KwPerHourValue = (value - prevCumulativeValue) / (10 );
 
             }
             sensor.LastDataReceived = loggedAt;

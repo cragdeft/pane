@@ -76,6 +76,17 @@ namespace AplombTech.WMS.CompanyDatabase
             CreateAcPresenceDetector("79", baridhara2, context);
             CreateBatteryVoltageDetector("78", baridhara2, context);
 
+            PumpStation demo = CreatePumpStation("Demo", dma811, baridhara2PumpBoundary, context);
+            CreatePumpMotor("456", "81", baridhara2, context);
+            CreateCholorineMotor("456", "82", baridhara2, context);
+            CreateFlowTransmitter("84", baridhara2, context, "");
+            CreatePressureTransmitter("85", baridhara2, context, "");
+            CreateLevelTransmitter("86", baridhara2, context, "");
+            CreateEnergySensor("83", baridhara2, context, "");
+            CreateChlorinationSensor("87", baridhara2, context);
+            CreateAcPresenceDetector("89", baridhara2, context);
+            CreateBatteryVoltageDetector("88", baridhara2, context);
+
             CreateDesignation("PO", "Pump Operator", context);
             CreateDesignation("SAE", "Sub Asst. Engineer", context);
             CreateDesignation("SDE/AE", "Sub Divisional Engineer/Asst. Engineer", context);

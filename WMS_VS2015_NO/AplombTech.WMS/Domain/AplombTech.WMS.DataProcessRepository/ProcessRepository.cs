@@ -135,6 +135,17 @@ namespace AplombTech.WMS.DataProcessRepository
                 return data;
             }
         }
+
+        public void UpdateDataLog(long dataLogId, DataLog.ProcessingStatusEnum status, string remarks)
+        {
+            using (SDLUnitOfWork uow = new SDLUnitOfWork())
+            {
+                SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
+                DataLog data = repo.UpdateDataLog(dataLogId,status,remarks);
+                uow.CurrentObjectContext.SaveChanges();
+            }
+        }
+
         public void CreateNewSensorData(string value, DateTime loggedAt, Sensor sensor)
         {
             using (SDLUnitOfWork uow = new SDLUnitOfWork())

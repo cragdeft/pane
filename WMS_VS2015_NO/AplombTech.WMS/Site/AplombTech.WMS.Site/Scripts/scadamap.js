@@ -274,8 +274,8 @@ var scadModule = (function (window, undefined) {
     }
 
     function scadaSpanClick() {
-
         var sensorId = $.trim(this.id.split("_")[1]);
+        if (sensorId == null) return;
         if (graphInterval != null)
             clearInterval(graphInterval);
         $.ajax({
@@ -298,6 +298,15 @@ var scadModule = (function (window, undefined) {
 
     }
 
+    var bindFunctions = function () {
+        $("#motorswitch").on("click", motorSwitchFunction);
+        $('span').on('click', scadaSpanClick);
+    };
+
+    var init = function () {
+        bindFunctions();
+    };
+
     //#endregion 
 
     return {
@@ -305,8 +314,7 @@ var scadModule = (function (window, undefined) {
         LoadPumpStation: loadPumpStation,
         ShowScada: showScada,
         ClearAllScada: clearAllScada,
-        MotorSwitchFunction: motorSwitchFunction,
-        ScadaSpanClick: scadaSpanClick
+        Init: init
     };
     
 })(window);

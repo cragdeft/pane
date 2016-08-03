@@ -41,6 +41,19 @@ namespace AplombTech.WMS.SensorDataLogBoundedContext.Repositories
             return data;
         }
 
+        public DataLog UpdateDataLog(long Id, DataLog.ProcessingStatusEnum status,string remarks)
+        {
+            DataLog data = _sensorDataLogContext.DataLogs.Where(x=>x.SensorDataLogID == Id).SingleOrDefault();
+
+            if (data != null) { 
+                data.ProcessingStatus = status;
+                if (remarks != null)
+                    data.Remarks = remarks;
+
+            }
+            return data;
+        }
+
         public SensorData CreateNewSensorData(string value, DateTime loggedAt, Sensor sensor)
         {
             SensorData data = new SensorData();

@@ -73,7 +73,7 @@
             if (@sensor is EnergySensor)
             {
                 <p style="text-align: right"><strong>Energy(Q)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@((((EnergySensor) sensor).CumulativeValue)) kw-hr</span></p>
-                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).KwPerHourValue) kw-hr</span></p>
+                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).KwPerHourValue) kw/hr</span></p>
             }
         }
 
@@ -100,6 +100,7 @@
                     {
                         <span id="motorswitch" class="label label-danger">OFF</span>
                     }
+                    <br/>
                     <span id="motorswitchStatus"></span>
 
                 </p>
@@ -175,7 +176,7 @@
             if (@sensor is FlowSensor)
             {
                 <p>
-                    <strong>FT-@sensor.UUID (C)</strong> <span id="FTC_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).CurrentValue) Litre</span>
+                    <strong>FT-@sensor.UUID (C)</strong> <span id="FTC_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).LitrePerMinuteValue) Litre/Min</span>
                     <br/><br/>
                     <strong>FT-@sensor.UUID (Q)</strong> <span id="FTQ_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CumulativeValue) Litre</span>
                 </p>

@@ -212,7 +212,8 @@ namespace AplombTech.WMS.MQTT.Client
                             default:
                                 throw new InvalidTopicException();
                         }
-                        dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
+                        UpdateDataLog(dataLog.SensorDataLogID, DataLog.ProcessingStatusEnum.Done,null);
+                        //dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
                         _framework.TransactionManager.EndTransaction();
                     }
                     catch (Exception ex)
@@ -220,14 +221,17 @@ namespace AplombTech.WMS.MQTT.Client
                         log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
                         _framework.TransactionManager.AbortTransaction();
                         _framework.TransactionManager.StartTransaction();
-                        dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
-                        dataLog.Remarks = "Error Occured in ProcessMessage method. Error: " + ex.ToString();
+                        UpdateDataLog(dataLog.SensorDataLogID, DataLog.ProcessingStatusEnum.Failed, "Error Occured in ProcessMessage method. Error: " + ex.ToString());
+                        //dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
+                        //dataLog.Remarks = "Error Occured in ProcessMessage method. Error: " + ex.ToString();
                         _framework.TransactionManager.EndTransaction();
                     }
                 }
             }
         }
-       
+
+        
+
         private void ProcessMotorData(SensorMessage messageObject)
         {
             foreach (MotorValue data in messageObject.Motors)
@@ -429,6 +433,12 @@ namespace AplombTech.WMS.MQTT.Client
                 return null;
             }
         }
+
+        private void UpdateDataLog(long sensorDataLogId, DataLog.ProcessingStatusEnum status,string remarks)
+        {
+            ProcessRepository.UpdateDataLog(sensorDataLogId,status,remarks);
+        }
+
         private string Publish(string messgeTopic, string publishMessage)
         {
             if (DhakaWasaMqtt != null)
