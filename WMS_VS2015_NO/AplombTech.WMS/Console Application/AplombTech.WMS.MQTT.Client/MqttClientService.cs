@@ -213,18 +213,13 @@ namespace AplombTech.WMS.MQTT.Client
                                 throw new InvalidTopicException();
                         }
                         UpdateDataLog(dataLog.SensorDataLogID, DataLog.ProcessingStatusEnum.Done,null);
-                        //dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Done;
                         _framework.TransactionManager.EndTransaction();
                     }
                     catch (Exception ex)
                     {
                         log.Info("Error Occured in ProcessMessage method. Error: " + ex.ToString());
                         _framework.TransactionManager.AbortTransaction();
-                        _framework.TransactionManager.StartTransaction();
                         UpdateDataLog(dataLog.SensorDataLogID, DataLog.ProcessingStatusEnum.Failed, "Error Occured in ProcessMessage method. Error: " + ex.ToString());
-                        //dataLog.ProcessingStatus = DataLog.ProcessingStatusEnum.Failed;
-                        //dataLog.Remarks = "Error Occured in ProcessMessage method. Error: " + ex.ToString();
-                        _framework.TransactionManager.EndTransaction();
                     }
                 }
             }
