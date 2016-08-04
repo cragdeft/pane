@@ -72,11 +72,14 @@
                     <th>
                         <h3>Battery</h3> <span>(V)</span>
                     </th>
+                    
                     @*<th><h3>Active</h3></th>*@
 
                     <th>
                         <h3>Last Received</h3>
                     </th>
+
+                    <th><h3>Active</h3></th>
                 </tr>
                 @foreach (var zone in Model.Zones)
                 {
@@ -87,6 +90,7 @@
                             <td>
                                 <h4>@dma.Name</h4>
                             </td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -111,7 +115,15 @@
                                 if (sensor is PressureSensor)
                                 {
                                     pressureSensorValue = sensor.CurrentValue;
-                                    psactive = sensor.IsActive;
+                                    if (sensor.LastDataReceived.HasValue && sensor.LastDataReceived.Value.AddMinutes(1) > DateTime.Now)
+                                    {
+                                        psactive = true;
+                                    }
+                                    else
+                                    {
+                                        psactive = false;
+                                    }
+
                                 }
 
                                 if (sensor is EnergySensor)
@@ -147,7 +159,7 @@
                                 if (sensor is BatteryVoltageDetector)
                                 {
                                     BatteryVoltageValue = sensor.CurrentValue.ToString() ;
-                                    csactive = sensor.IsActive;
+                                    bvactive = sensor.IsActive;
                                 }
                             }
 
@@ -156,84 +168,58 @@
                                     @pump.Name
                                 </td>
                                 <td>
-                                    @if (@lsactive)
-                                    {
-                                        <p>@levelSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
-                                    }
-                                    else
-                                    {
-                                        <p>@levelSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
-                                    }
+                                    
+                                        <p>@levelSensorValue </p>
                                 </td>
                                 <td>
-                                    @if (@psactive)
-                                    {
-                                        <p>@pressureSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
-                                    }
-                                    else
-                                    {
-                                        <p>@pressureSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
-                                    }
+                                    
+                                        <p>@pressureSensorValue </p>
+                                    
                                 </td>
                                 <td>
-                                    @if (@fsactive)
-                                    {
-                                        <p>@flowSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
-                                    }
-                                    else
-                                    {
-                                        <p>@flowSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
-                                    }
+                                    
+                                        <p>@flowSensorValue </p>
                                 </td>
                                 <td>
-                                    @if (@esactive)
-                                    {
-                                        <p>@energySensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
-                                    }
-                                    else
-                                    {
-                                        <p>@energySensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
-                                    }
+                                    
+                                        <p>@energySensorValue </p>
 
                                 </td>
                                 <td>
-                                    @if (@csactive)
-                                    {
-                                        <p>@cholorinationSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
-                                    }
-                                    else
-                                    {
-                                        <p>@cholorinationSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
-                                    }
+                                    
+                                        <p>@cholorinationSensorValue </p>
+                                    
 
                                 </td>
                                 <td>
-                                    @if (@acpactive)
-                                    {
-                                        <p>@ACPSensorValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
-                                    }
-                                    else
-                                    {
-                                        <p>@ACPSensorValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
-                                    }
+                                    
+                                        <p>@ACPSensorValue </p>
+                                    
 
                                 </td>
                                 <td>
-                                    @if (@bvactive)
-                                    {
-                                        <p>@BatteryVoltageValue <span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
-                                    }
-                                    else
-                                    {
-                                        <p>@BatteryVoltageValue <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
-                                    }
+                                    
+                                        <p>@BatteryVoltageValue </p>
+                                    
 
                                 </td>
+                                
                                 @*<th>
                                 OK
                             </th>*@
                                 <td>
                                     @lastRecived
+                                </td>
+
+                                <td>
+                                    @if (@psactive)
+                                    {
+                                        <p><span><img src="~/Images/Icons/green.png" align="middle" /></span></p>
+                                    }
+                                    else
+                                    {
+                                        <p> <span><img src="~/Images/Icons/red.png" align="middle" /></span></p>
+                                    }
                                 </td>
                             </tr>
                             flowSensorValue = 0;

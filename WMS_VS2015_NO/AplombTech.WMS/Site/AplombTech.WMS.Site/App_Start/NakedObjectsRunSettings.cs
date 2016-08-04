@@ -36,6 +36,7 @@ using AplombTech.WMS.DataProcessBoundedContext;
 using AplombTech.WMS.DataProcessRepository;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Motors;
+using AplombTech.WMS.Domain.SummaryData;
 using AplombTech.WMS.SensorDataLogBoundedContext.Facade;
 
 namespace AplombTech.WMS.Site {
@@ -92,8 +93,9 @@ namespace AplombTech.WMS.Site {
                     typeof(Role),
                     typeof(LoginUser),
                     typeof(UserRoles),
-                    typeof(RoleFeatures)
-
+                    typeof(RoleFeatures),
+                    typeof(SensorDailySummaryData),
+                    typeof(SensorHourlySummaryData)
                     //Add any domain types that cannot be reached by traversing model from the registered services
                 };
             }

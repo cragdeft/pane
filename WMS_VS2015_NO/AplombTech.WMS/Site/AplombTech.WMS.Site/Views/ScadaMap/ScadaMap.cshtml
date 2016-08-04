@@ -72,8 +72,8 @@
 
             if (@sensor is EnergySensor)
             {
-                <p style="text-align: right"><strong>Energy(Q)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@((((EnergySensor) sensor).CumulativeValue)) kw-hr</span></p>
-                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).KwPerHourValue) kw/hr</span></p>
+                <p style="text-align: right"><strong>Energy</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@((((EnergySensor) sensor).KwPerHourValue)) kw/hr</span></p>
+                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CumulativeValue) kw-hr</span></p>
             }
         }
 
@@ -82,7 +82,7 @@
 
     </div>
 
-    <div id="motorInfo" style="padding-left: 10px; margin-left: 180px; text-align: right; position: absolute; margin-top: -280px;" class="grad">
+    <div id="motorInfo" style="padding-left: 10px; margin-left: 200px; text-align: right; position: absolute; margin-top: -280px;" class="grad">
         <h4 style="text-align: left">Pump Motor </h4>
 
         @for (int i = 0; i < @ViewBag.MotorDataList.Count; i++)
@@ -176,22 +176,21 @@
             if (@sensor is FlowSensor)
             {
                 <p>
-                    <strong>FT-@sensor.UUID (C)</strong> <span id="FTC_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).LitrePerMinuteValue) Litre/Min</span>
+                    <strong>FT-@sensor.UUID </strong> <span id="FTQ_@sensor.UUID" class="label label-primary"> @(((FlowSensor) sensor).LitrePerMinuteValue) Litre/Min</span>
                     <br/><br/>
-                    <strong>FT-@sensor.UUID (Q)</strong> <span id="FTQ_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CumulativeValue) Litre</span>
+                    <strong>FT-@sensor.UUID (C)</strong> <span id="FTC_@sensor.UUID" class="label label-primary"> @(((FlowSensor)sensor).CumulativeValue) Litre</span>
                 </p>
             }
         }
     </div>
 </div>
-@if (Model[0].PumpStation.AreaId == 4)
-{
+
     @*@Html.ActionLink("Camera Output", "http://192.169.244.37:8080/rtmp-publisher/player.html" , new { target = "_blank" })*@
     <div id="cameraPortion" style="border: groove; margin-left: 680px; position: absolute; margin-top: -515px;">
-        <a href="http://192.169.244.37:8080/rtmp-publisher/player.html" target="_blank">Camera Output</a>
+        <a href="http://192.169.244.37:8080/rtmp-publisher/player.html?id=@Model[0].PumpStation.AreaId" target="_blank">Camera Output</a>
     </div>
 
-}
+
 
 <div class="modal fade" id="chartModal" role="dialog">
     <div class="modal-dialog">

@@ -139,7 +139,6 @@ namespace AplombTech.WMS.Site.Controllers
                                   select new
                                   {
                                       Name = d.GetType().ToString().Split('.')[4].Split('_')[0],
-                                      Active = d.IsActive,
                                       CurrentValue = d.CurrentValue,
                                       Dma = d.PumpStation.Parent.Name,
                                       PumpStation = d.PumpStation.Name,

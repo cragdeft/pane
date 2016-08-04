@@ -710,11 +710,12 @@ namespace AplombTech.WMS.QueryModel.Repositories
             SensorDailySummaryData sensorData = null;
             try
             {
+                //sensorData = Container.Instances<SensorDailySummaryData>().FirstOrDefault();
                 sensorData = Container.Instances<SensorDailySummaryData>()
-                    .Where(
-                        x =>
-                            (x.Sensor.SensorId == SensorId && x.ProcessAt.Year == to.Year &&
-                             x.ProcessAt.Month == to.Month && x.ProcessAt.Day == to.Day)).SingleOrDefault();
+                .Where(
+                    x =>
+                        (x.Sensor.SensorId == SensorId && x.ProcessAt.Year == to.Year &&
+                         x.ProcessAt.Month == to.Month && x.ProcessAt.Day == to.Day)).SingleOrDefault();
 
             }
             catch (Exception ex)
