@@ -357,7 +357,11 @@ namespace AplombTech.WMS.MQTT.Client
                 decimal minimumValue = GetMinimumValue(sensor.SensorId);
                 if (value < minimumValue)
                 {
-                    sensor.MinimumValue = minimumValue;
+                    if (sensor.MinimumValue != minimumValue)
+                    {
+                        sensor.MinimumValue = minimumValue;
+                    }
+                    
                     SendSensorAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.UnderThreshold, sensor);
                 }
             }
