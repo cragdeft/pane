@@ -31,6 +31,7 @@ using System.Timers;
 using AplombTech.WMS.Domain.SummaryData;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
+using AplombTech.WMS.Persistence.UnitOfWorks;
 
 namespace AplombTech.WMS.MQTT.Client
 {
@@ -352,11 +353,27 @@ namespace AplombTech.WMS.MQTT.Client
 
             if (!(sensor is ChlorinePresenceDetector))
             {
-                if (value < sensor.MinimumValue)
+                //Get the minimum value
+                decimal minimumValue = GetMinimumValue(sensor.SensorId);
+                if (value < minimumValue)
                 {
+                    sensor.MinimumValue = minimumValue;
                     SendSensorAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.UnderThreshold, sensor);
                 }
             }
+        }
+
+        private decimal GetMinimumValue(int sensorId)
+        {
+            decimal minimumValue = 0;
+            using (WMSUnitOfWork uow = new WMSUnitOfWork())
+            {
+                AplombTech.WMS.Persistence.Repositories.ProcessRepository repo = new AplombTech.WMS.Persistence.Repositories.ProcessRepository(uow.CurrentObjectContext);
+                Sensor sensor = repo.GetSensorId(sensorId);
+                minimumValue = sensor.MinimumValue;
+            }
+
+            return minimumValue;
         }
         private string GetSensorName(Sensor sensor)
         {
@@ -389,11 +406,11 @@ namespace AplombTech.WMS.MQTT.Client
             }
             return sensorName;
         }
-        private void SendSensorAlertMessage(decimal value, string sensorName, int allertMessageType, Sensor sensor)
+        private void SendSensorAlertMessage(decimal value,  string sensorName, int allertMessageType, Sensor sensor)
         {
             if (allertMessageType == (int)AlertType.AlertTypeEnum.UnderThreshold)
             {
-                ProcessRepository.CreateUnderThresoldData(value,sensor);
+                ProcessRepository.CreateUnderThresoldData(value, sensor);
             }
             
             var cmd = new SensorAlertMessage

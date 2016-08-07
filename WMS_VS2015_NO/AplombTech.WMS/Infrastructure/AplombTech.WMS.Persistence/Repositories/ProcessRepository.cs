@@ -197,6 +197,10 @@ namespace AplombTech.WMS.Persistence.Repositories
         {
             return (from c in _wmsdbcontext.Sensors where c.UUID == uuid select c).Single(); ;
         }
+        public Sensor GetSensorId(int sensorId)
+        {
+            return (from c in _wmsdbcontext.Sensors where c.SensorId == sensorId select c).Single(); ;
+        }
         private Motor GetMotorByUuid(string uuid)
         {
             return (from c in _wmsdbcontext.Motors where c.UUID == uuid select c).Single(); ;
