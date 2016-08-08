@@ -1212,3 +1212,6 @@ color:#000!important;
     min-width:10px;
     margin-top: -5px;
 }
+.nof-submenu, .nof-menuitems button, .nof-menuitems button:hover {
+     margin-left: 3px
+ }
