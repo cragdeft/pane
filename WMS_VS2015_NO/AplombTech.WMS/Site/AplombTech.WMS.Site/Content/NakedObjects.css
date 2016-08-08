@@ -146,6 +146,10 @@ color: #707adc;
     height: 36px;
     border-bottom: 1px solid #d6d6d6;
     padding-top: 5px;
+    margin-top:5px;
+    border-bottom: 0px;
+    height: 25px;
+    margin-left: 3px;
 }
 
 /*all tabs*/
@@ -1176,12 +1180,7 @@ input[type="text"],select{
     font-size:15px;
     font-weight:bold;    
 }
-/*//History table*/
-.nof-tabbed-history {
-    margin-top:5px;
-    border-bottom: 0px;
-    height: 25px;
-}
+
 
 .nof-tab
 {
@@ -1212,6 +1211,23 @@ color:#000!important;
     min-width:10px;
     margin-top: -5px;
 }
-.nof-submenu, .nof-menuitems button, .nof-menuitems button:hover {
+.nof-edit,
+button[title="Save"],
+.nof-menu,
+.nof-submenu, 
+.nof-menuitems,
+ .nof-menuitems button, 
+ .nof-menuitems button:hover {
      margin-left: 3px
  }
+button[title="Cancel"] {
+    margin-left: 150px
+}
+.nof-objectview .nof-menu .nof-menuitems button[name="InvokeAction"]
+{
+    margin-left:0px
+}
+.nof-objectview .nof-menu  .nof-submenu
+{
+    margin-left:0px
+}
