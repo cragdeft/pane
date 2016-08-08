@@ -1200,6 +1200,14 @@ padding:5px;
 font-size:12px!important;
 color:#000!important;
 }
+.nof-object, .nof-value {
+    font-size: 12px;
+    font-weight: normal;
+    color: #000000;
+}
+.Nof-Warnings {
+    color: #FF0000;/*#696969;*/
+}
 .nof-clear-item {
     min-width:10px;
     margin-top: -5px;
