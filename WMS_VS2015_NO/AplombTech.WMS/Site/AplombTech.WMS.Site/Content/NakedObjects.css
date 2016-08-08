@@ -1231,3 +1231,11 @@ button[title="Cancel"] {
 {
     margin-left:0px
 }
+.nof-servicelist .nof-menu .nof-menuitems  .nof-submenu button[name="InvokeAction"]
+{
+    margin-left:0px
+}
+.nof-servicelist  .nof-menu  .nof-menuitems .nof-submenu .nof-submenuitems .nof-submenu
+{
+    margin-left: 0px
+}
