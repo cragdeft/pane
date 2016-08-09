@@ -1,4 +1,6 @@
-﻿using AplombTech.WMS.MQTT.Client;
+﻿using AplombTech.WMS.JsonParser.DeviceMessages.Parsing;
+using AplombTech.WMS.JsonParser.Topics.Classification;
+using AplombTech.WMS.MQTT.Client;
 using NakedObjects;
 using NakedObjects.Architecture.Component;
 using System;
@@ -29,7 +31,6 @@ namespace NakedObjects.Core.Component
             //EndTransaction();
             while (true)
             {
-
             }
         }
 

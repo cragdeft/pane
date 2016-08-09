@@ -1206,6 +1206,11 @@ color:#000!important;
 }
 .Nof-Warnings {
     color: #FF0000;/*#696969;*/
+    margin-left :3px;
+}
+.Nof-Messages {
+    color: #006400;
+    margin-left :3px;
 }
 .nof-clear-item {
     min-width:10px;
