@@ -350,7 +350,7 @@ button,
 input,
 select[multiple],
 textarea {
-  width: 90px;
+  width: 200px;
 }
 
 a {
