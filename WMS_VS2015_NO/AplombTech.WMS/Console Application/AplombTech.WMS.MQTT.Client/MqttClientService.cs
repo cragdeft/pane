@@ -35,7 +35,7 @@ using AplombTech.WMS.Persistence.UnitOfWorks;
 
 namespace AplombTech.WMS.MQTT.Client
 {
-    public class MqttClientService: IWMSBatchStartPoint
+    public class MqttClientService : IWMSBatchStartPoint
     {
         #region Injected Services
         private INakedObjectsFramework _framework;
@@ -121,7 +121,7 @@ namespace AplombTech.WMS.MQTT.Client
             DhakaWasaMqtt.Connect(GetClientId(), null, null, false, GetBrokerKeepAlivePeriod());
             log.Info("MQTT Client is connected");
         }
-        private void ConnectToBroker(string username,string password)
+        private void ConnectToBroker(string username, string password)
         {
             DhakaWasaMqtt.Connect(GetClientId(), username, password, false, GetBrokerKeepAlivePeriod());
             log.Info("MQTT Client is connected via SSL");
@@ -164,7 +164,7 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 log.Error("Could not stablished connection to MQTT broker - " + ex.Message);
 #if DEBUG
-                
+
 #else
             EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "(Local Deploy)WMS:Could not stablished connection to MQTT broker", ex.Message);
 #endif
@@ -185,7 +185,7 @@ namespace AplombTech.WMS.MQTT.Client
             }
         }
         private void ProcessMessage(string topic, string message)
-        {            
+        {
             DataLog dataLog = LogSensorData(topic, message);
 
             if (dataLog != null)
@@ -203,7 +203,7 @@ namespace AplombTech.WMS.MQTT.Client
                             case TopicType.SensorData:
                                 var deviceDataMessage = (SensorMessage)parsedMessage;
                                 ProcessSensorData(deviceDataMessage);
-                                ProcessMotorData(deviceDataMessage);                            
+                                ProcessMotorData(deviceDataMessage);
                                 break;
                             case TopicType.Configuration:
                                 var configDataMessage = (ConfigurationMessage)parsedMessage;
@@ -213,7 +213,7 @@ namespace AplombTech.WMS.MQTT.Client
                             default:
                                 throw new InvalidTopicException();
                         }
-                        UpdateDataLog(dataLog.SensorDataLogID, DataLog.ProcessingStatusEnum.Done,null);
+                        UpdateDataLog(dataLog.SensorDataLogID, DataLog.ProcessingStatusEnum.Done, null);
                         _framework.TransactionManager.EndTransaction();
                     }
                     catch (Exception ex)
@@ -226,7 +226,7 @@ namespace AplombTech.WMS.MQTT.Client
             }
         }
 
-        
+
 
         private void ProcessMotorData(SensorMessage messageObject)
         {
@@ -247,7 +247,7 @@ namespace AplombTech.WMS.MQTT.Client
             var cmd = new MotorAlertMessage
             {
                 MotorId = motor.MotorID,
-                MotorName = GetMotorName(motor),             
+                MotorName = GetMotorName(motor),
                 MotorStatus = data.MotorStatus,
                 PumpStationName = motor.PumpStation.Name,
                 AlertMessageType = (int)AlertType.AlertTypeEnum.OnOff,
@@ -273,9 +273,9 @@ namespace AplombTech.WMS.MQTT.Client
             foreach (SensorValue data in messageObject.Sensors)
             {
                 Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
-                if (sensor!=null && sensor.IsActive)
+                if (sensor != null && sensor.IsActive)
                 {
-                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.LoggedAt, sensor);                    
+                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.LoggedAt, sensor);
                     PublishSensorMessageForSummaryGeneration(data, messageObject.LoggedAt, sensor);
                     PublishSensorAlertMessage(data.Value, sensor);
                 }
@@ -291,11 +291,11 @@ namespace AplombTech.WMS.MQTT.Client
                 MessageDateTime = DateTime.Now
             };
             if (sensor is FlowSensor || sensor is EnergySensor)
-            {               
+            {
                 if (cmd.Value >= 0)
                 {
                     ServiceBus.Bus.Send(cmd);
-                }               
+                }
             }
             else
             {
@@ -314,7 +314,7 @@ namespace AplombTech.WMS.MQTT.Client
             if (motor is PumpMotor)
             {
                 ServiceBus.Bus.Send(cmd);
-            }            
+            }
         }
         private void PublishSensorAlertMessage(string dataValue, Sensor sensor)
         {
@@ -336,7 +336,7 @@ namespace AplombTech.WMS.MQTT.Client
                     value = Convert.ToDecimal(Convert.ToBoolean(Convert.ToDecimal(dataValue)));
                 }
             }
-            
+
             if (value == 0)
             {
                 if (sensor is ChlorinePresenceDetector)
@@ -347,7 +347,7 @@ namespace AplombTech.WMS.MQTT.Client
                 {
                     SendSensorAlertMessage(value, sensorName, (int)AlertType.AlertTypeEnum.DataMissing, sensor);
                 }
-                
+
                 return;
             }
 
@@ -361,8 +361,8 @@ namespace AplombTech.WMS.MQTT.Client
                     {
                         sensor.MinimumValue = minimumValue;
                     }
-                    
-                    SendSensorAlertMessage(value, sensorName, (int) AlertType.AlertTypeEnum.UnderThreshold, sensor);
+
+                    SendSensorAlertMessage(value, sensorName, (int)AlertType.AlertTypeEnum.UnderThreshold, sensor);
                 }
             }
         }
@@ -410,13 +410,13 @@ namespace AplombTech.WMS.MQTT.Client
             }
             return sensorName;
         }
-        private void SendSensorAlertMessage(decimal value,  string sensorName, int allertMessageType, Sensor sensor)
+        private void SendSensorAlertMessage(decimal value, string sensorName, int allertMessageType, Sensor sensor)
         {
             if (allertMessageType == (int)AlertType.AlertTypeEnum.UnderThreshold)
             {
                 ProcessRepository.CreateUnderThresoldData(value, sensor);
             }
-            
+
             var cmd = new SensorAlertMessage
             {
                 SensorId = sensor.SensorId,
@@ -430,7 +430,7 @@ namespace AplombTech.WMS.MQTT.Client
             ServiceBus.Bus.Send(cmd);
         }
 
-        
+
 
         private DataLog LogSensorData(string topic, string message)
         {
@@ -450,9 +450,9 @@ namespace AplombTech.WMS.MQTT.Client
             }
         }
 
-        private void UpdateDataLog(long sensorDataLogId, DataLog.ProcessingStatusEnum status,string remarks)
+        private void UpdateDataLog(long sensorDataLogId, DataLog.ProcessingStatusEnum status, string remarks)
         {
-            ProcessRepository.UpdateDataLog(sensorDataLogId,status,remarks);
+            ProcessRepository.UpdateDataLog(sensorDataLogId, status, remarks);
         }
 
         private string Publish(string messgeTopic, string publishMessage)
@@ -461,10 +461,10 @@ namespace AplombTech.WMS.MQTT.Client
             {
                 try
                 {
-                        ushort msgId = DhakaWasaMqtt.Publish(messgeTopic, // topic
-                                          Encoding.UTF8.GetBytes(publishMessage), // message body
-                                          MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, // QoS level
-                                          true);
+                    ushort msgId = DhakaWasaMqtt.Publish(messgeTopic, // topic
+                                      Encoding.UTF8.GetBytes(publishMessage), // message body
+                                      MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, // QoS level
+                                      true);
                 }
                 catch (Exception ex)
                 {
@@ -495,7 +495,7 @@ namespace AplombTech.WMS.MQTT.Client
             string message = Encoding.UTF8.GetString(e.Message);
             string topic = e.Topic.ToString();
             log.Info("Message received from topic '" + topic + "' and message is '" + message + "'");
-            ProcessMessage(topic,message);
+            ProcessMessage(topic, message);
             //AsyncService.RunAsync((domainObjectContainer) =>
             //                 ProcessMessage(topic, message));
         }
@@ -521,6 +521,6 @@ namespace AplombTech.WMS.MQTT.Client
             MqttClientInstance(true);
 #endif
             log.Info("MQTT listener has been started");
-        }       
+        }
     }
 }

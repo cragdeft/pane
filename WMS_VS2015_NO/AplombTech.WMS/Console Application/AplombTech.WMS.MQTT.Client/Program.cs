@@ -16,6 +16,7 @@ using System;
 namespace AplombTech.WMS.MQTT.Client {
     internal class Program {
         private static void Main(string[] args) {
+
             UnityActivator.Start();
 
             UnityConfig.GetConfiguredContainer().Resolve<IWMSBatchRunner>().Run(new MqttClientService(new TopicClassifier(), new MessageParserFactory()));
