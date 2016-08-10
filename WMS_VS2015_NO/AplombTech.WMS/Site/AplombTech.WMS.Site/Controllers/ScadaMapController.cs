@@ -247,7 +247,7 @@ namespace AplombTech.WMS.Site.Controllers
                 }
 
                 if (sensor is EnergySensor) { 
-                    dictornary.Add("ETQ_" + sensor.UUID, ((EnergySensor)sensor).KwPerHourValue.ToString()+ " kw/hr");
+                    dictornary.Add("ETQ_" + sensor.UUID, ((EnergySensor)sensor).KwPerHourValue.ToString()+ " kw");
                     dictornary.Add("ETC_" + sensor.UUID, ((EnergySensor)sensor).CumulativeValue.ToString() + " kw-hr");
                 }
 

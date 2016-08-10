@@ -14,7 +14,9 @@ namespace AplombTech.WMS.Utility
         {
             try
             {
-                var httpReq = (HttpWebRequest)WebRequest.Create("http://emailservice.azurewebsites.net/EmailService.svc/SendEmailMessage?to=" + to + "&from=" + from + "&subject=" + subject + "&body=" + body);
+                string smtpAddress = "wasa-noreply@sinepulse.net ";
+                string smtpPassword = "hX3uJtj9";
+                var httpReq = (HttpWebRequest)WebRequest.Create("http://emailservice.azurewebsites.net/EmailService.svc/SendMail?to=" + to + "&from=" + from + "&subject=" + subject + "&body=" + body + "&smtpAddress=" + smtpAddress + "&smtpPassword=" + smtpPassword);
                 httpReq.Method = "POST";
                 httpReq.ContentType = "application/x-www-form-urlencoded";
                 httpReq.ContentLength = 0;
