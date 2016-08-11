@@ -148,21 +148,21 @@ namespace AplombTech.WMS.DataProcessRepository
 
         public void CreateNewSensorData(string value, DateTime loggedAt, Sensor sensor)
         {
+            SensorData data = null;
             using (SDLUnitOfWork uow = new SDLUnitOfWork())
             {
                 SDLRepository repo = new SDLRepository(uow.CurrentObjectContext);
-                SensorData data = repo.CreateNewSensorData(value,loggedAt,sensor);
-                if (sensor is FlowSensor || sensor is EnergySensor)
-                {
-                    //DO NOTHING
-                }
-                else
-                {
-                    UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
-                }
-
+                data = repo.CreateNewSensorData(value,loggedAt,sensor);            
                 uow.CurrentObjectContext.SaveChanges();
-            }       
+            }
+            if (sensor is FlowSensor || sensor is EnergySensor)
+            {
+                //DO NOTHING
+            }
+            else
+            {
+                UpdateLastDataOfSensor(data.Value, data.ProcessAt, sensor);
+            }
         }        
         private void UpdateLastDataOfSensor(decimal value, DateTime loggedAt, Sensor sensor)
         {
