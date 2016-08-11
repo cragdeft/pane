@@ -436,9 +436,7 @@ namespace AplombTech.WMS.MQTT.Client
         {
             try
             {
-                _framework.TransactionManager.StartTransaction();
                 DataLog dataLog = ProcessRepository.LogData(topic, message);
-                _framework.TransactionManager.EndTransaction();
 
                 return dataLog;
             }
