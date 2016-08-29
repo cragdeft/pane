@@ -48,7 +48,7 @@ namespace AplombTech.WMS.SensorDataLogBoundedContext.Repositories
             if (data != null) { 
                 data.ProcessingStatus = status;
                 if (remarks != null)
-                    data.Remarks = remarks;
+                    data.ExceptionMessage = remarks;
 
             }
             return data;
