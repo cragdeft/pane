@@ -172,9 +172,11 @@
     <Compile Include="IWMSBatchStartPoint.cs" />
     <Compile Include="MqttClientService.cs" />
     <Compile Include="MqttClientWrapper.cs" />
+    <Compile Include="PumpStationMessages\Exceptions\SensorMessageException.cs" />
     <Compile Include="PumpStationMessages\Processing\IMessageProcessor.cs" />
     <Compile Include="PumpStationMessages\Processing\MessageProcessor.cs" />
     <Compile Include="PumpStationMessages\Processing\MessageProcessorDbLogDecorator.cs" />
+    <Compile Include="PumpStationMessages\Processing\MessageProcessorExceptionLoggingDecorator.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
