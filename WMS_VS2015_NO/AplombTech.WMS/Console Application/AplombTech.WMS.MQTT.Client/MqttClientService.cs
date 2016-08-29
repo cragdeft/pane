@@ -273,11 +273,14 @@ namespace AplombTech.WMS.MQTT.Client
             foreach (SensorValue data in messageObject.Sensors)
             {
                 Sensor sensor = AreaRepository.FindSensorByUuid(data.SensorUUID);
-                if (sensor != null && sensor.IsActive)
+                if (sensor != null)
                 {
-                    ProcessRepository.CreateNewSensorData(data.Value, messageObject.LoggedAt, sensor);
-                    PublishSensorMessageForSummaryGeneration(data, messageObject.LoggedAt, sensor);
-                    PublishSensorAlertMessage(data.Value, sensor);
+                    if (sensor.IsActive)
+                    {
+                        ProcessRepository.CreateNewSensorData(data.Value, messageObject.LoggedAt, sensor);
+                        PublishSensorMessageForSummaryGeneration(data, messageObject.LoggedAt, sensor);
+                        PublishSensorAlertMessage(data.Value, sensor);
+                    }
                 }
             }
         }
