@@ -17,6 +17,7 @@ namespace AplombTech.WMS.DataProcessBoundedContext
         //public DbSet<SensorData> SensorDatas { get; set; }
         //public DbSet<MotorData> MotorDatas { get; set; }
         public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
+        public DbSet<SensorMinutelySummaryData> SensorMinutelySummaryData { get; set; }
         public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; set; }
         public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; set; }
         public DbSet<SensorDailyAverageData> SensorDailyAverageData { get; set; }

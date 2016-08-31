@@ -41,8 +41,10 @@ namespace AplombTech.WMS.Persistence.Facade
         public DbSet<AlertType> AlertTypes { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<AlertRecipient> AlertRecipients { get; set; }
+        public DbSet<AlertLog> AlertLogs { get; set; }
         public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
         public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; set; }
+        public DbSet<SensorMinutelySummaryData> SensorMinutelySummaryData { get; set; }
         public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; set; }
         public DbSet<SensorDailyAverageData> SensorDailyAverageData { get; set; }
         public DbSet<SensorOnOffSummaryData> SensorOnOffSummaryData { get; set; }

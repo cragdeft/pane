@@ -30,13 +30,14 @@ namespace AplombTech.WMS.Persistence.Repositories
             int summaryHour = message.DataLoggedAt.Hour;
             if (message is SensorSummaryGenerationMessage)
             {
-                SensorSummaryGenerationMessage sensorMessage = (SensorSummaryGenerationMessage) message;
+                SensorSummaryGenerationMessage sensorMessage = (SensorSummaryGenerationMessage)message;
                 Sensor sensor = GetSensorByUuid(sensorMessage.Uid);
 
                 if (sensor is FlowSensor || sensor is EnergySensor)
                 {
                     GenerateDailySummary(sensor, summaryDate, sensorMessage.Value, sensorMessage.DataLoggedAt);
                     GenerateHourlySummary(sensor, summaryDate, summaryHour, sensorMessage.Value, sensorMessage.DataLoggedAt);
+                    GenerateMinutelySummary(sensor, summaryDate, summaryHour, sensorMessage.Value, sensorMessage.DataLoggedAt);
                     return;
                 }
                 if (sensor is PressureSensor || sensor is LevelSensor || sensor is BatteryVoltageDetector)
@@ -72,7 +73,7 @@ namespace AplombTech.WMS.Persistence.Repositories
                     onOffData.ProcessAt = dataLoggedAt;
                 }
             }
-            else 
+            else
             {
                 if (motorStatus == Motor.OFF)
                     CreateMotorOnOffSummaryData(motorStatus, motor, dataLoggedAt);
@@ -101,11 +102,11 @@ namespace AplombTech.WMS.Persistence.Repositories
                     onOffData.ProcessAt = loggedAt;
                 }
             }
-            else 
+            else
             {
                 if (dataValue == 0)
-                    CreateSensorOnOffSummaryData(dataValue, sensor, loggedAt);               
-            }          
+                    CreateSensorOnOffSummaryData(dataValue, sensor, loggedAt);
+            }
         }
         private void CreateSensorOnOffSummaryData(decimal dataValue, Sensor sensor, DateTime loggedAt)
         {
@@ -164,6 +165,44 @@ namespace AplombTech.WMS.Persistence.Repositories
                 CreateHourlySummarySensorData(summaryDate, summaryHour, dataValue, sensor, loggedAt);
             }
         }
+
+        private void GenerateMinutelySummary(Sensor sensor, DateTime summaryDate, int summaryHour, decimal dataValue, DateTime loggedAt)
+        {
+            SensorMinutelySummaryData minutelySummary = GetMinutelySummary(sensor.SensorId, summaryDate, summaryHour);
+
+            if (minutelySummary != null)
+            {
+                if (minutelySummary.DataDate.AddMinutes(5) < DateTime.Now)
+                {
+                    SensorMinutelySummaryData minuteSummary = new SensorMinutelySummaryData();
+                    minuteSummary.Sensor = sensor;
+                    minuteSummary.DataValue = minutelySummary.DataValue + (dataValue - minutelySummary.ReceivedValue);
+                    minuteSummary.ReceivedValue = dataValue;
+                    minuteSummary.DataDate = loggedAt;
+                    minuteSummary.ProcessAt = loggedAt;
+                    _wmsdbcontext.SensorMinutelySummaryData.Add(minuteSummary);
+                    decimal prevCumulativeValue = minuteSummary.ReceivedValue;
+                    if (sensor is EnergySensor)
+                    {
+                        ((EnergySensor)sensor).CumulativeValue = minuteSummary.ReceivedValue;
+                        ((EnergySensor)sensor).KwPerHourValue = (dataValue - prevCumulativeValue) / (decimal)(0.000277778);
+                    }
+                }
+                else
+                {
+                    minutelySummary.DataValue = minutelySummary.DataValue + (dataValue - minutelySummary.ReceivedValue);
+                    minutelySummary.ReceivedValue = dataValue;
+                    minutelySummary.ProcessAt = loggedAt;
+                }
+
+                //minutelySummary.ProcessAt = loggedAt;
+            }
+            else
+            {
+                CreateMinutelySummarySensorData(summaryDate, summaryHour, dataValue, sensor, loggedAt);
+            }
+        }
+
         private void GenerateDailySummary(Sensor sensor, DateTime summaryDate, decimal dataValue, DateTime loggedAt)
         {
             SensorDailySummaryData dailySummary = GetDailySummary(sensor.SensorId, summaryDate);
@@ -175,18 +214,22 @@ namespace AplombTech.WMS.Persistence.Repositories
                 dailySummary.ReceivedValue = dataValue;
                 dailySummary.ProcessAt = loggedAt;
 
-                sensor.CurrentValue = dailySummary.DataValue;
-                sensor.LastDataReceived = loggedAt;
+                if (!(sensor is EnergySensor))
+                {
+                    sensor.CurrentValue = dailySummary.DataValue;
+                    sensor.LastDataReceived = loggedAt;
+                }
+
                 if (sensor is FlowSensor)
                 {
-                   ((FlowSensor) sensor).CumulativeValue = dailySummary.ReceivedValue;
-                   ((FlowSensor)sensor).LitrePerMinuteValue = (dataValue - prevCumulativeValue) * (6);
+                    ((FlowSensor)sensor).CumulativeValue = dailySummary.ReceivedValue;
+                    ((FlowSensor)sensor).LitrePerMinuteValue = (dataValue - prevCumulativeValue) * (6);
                 }
-                else
-                {
-                   ((EnergySensor)sensor).CumulativeValue = dailySummary.ReceivedValue;
-                   ((EnergySensor)sensor).KwPerHourValue = (dataValue - prevCumulativeValue)/(decimal) (0.000277778);
-                }
+                //else
+                //{
+                //   ((EnergySensor)sensor).CumulativeValue = dailySummary.ReceivedValue;
+                //   ((EnergySensor)sensor).KwPerHourValue = (dataValue - prevCumulativeValue)/(decimal) (0.000277778);
+                //}
             }
             else
             {
@@ -208,7 +251,7 @@ namespace AplombTech.WMS.Persistence.Repositories
         private void CreateHourlySummarySensorData(DateTime summaryDate, int hour, decimal value, Sensor sensor, DateTime loggedAt)
         {
             SensorHourlySummaryData data = new SensorHourlySummaryData();
-            SensorHourlySummaryData lastDaySummary = GetHourlySummary(sensor.SensorId, summaryDate, hour-1);       
+            SensorHourlySummaryData lastDaySummary = GetHourlySummary(sensor.SensorId, summaryDate, hour - 1);
 
             if (lastDaySummary == null)
             {
@@ -216,7 +259,7 @@ namespace AplombTech.WMS.Persistence.Repositories
             }
 
             data.DataDate = summaryDate;
-            data.DataHour = hour;         
+            data.DataHour = hour;
             if (lastDaySummary != null)
             {
                 data.DataValue = value - lastDaySummary.ReceivedValue;
@@ -231,8 +274,43 @@ namespace AplombTech.WMS.Persistence.Repositories
 
             _wmsdbcontext.SensorHourlySummaryData.Add(data);
         }
+
+        private void CreateMinutelySummarySensorData(DateTime summaryDate, int hour, decimal value, Sensor sensor, DateTime loggedAt)
+        {
+            SensorMinutelySummaryData data = new SensorMinutelySummaryData();
+            SensorMinutelySummaryData lastDaySummary = GetMinutelySummary(sensor.SensorId, summaryDate, hour - 1);
+
+            data.DataDate = summaryDate;
+            data.ReceivedValue = value;
+
+            if (lastDaySummary == null)
+            {
+                lastDaySummary = GetLast5MinuteSummary(sensor.SensorId, summaryDate.AddHours(-1));
+                
+                sensor.CurrentValue = value;
+            }
+            
+            if (lastDaySummary != null)
+            {
+                data.DataValue = value - lastDaySummary.ReceivedValue;
+            }
+            else
+            {
+                data.DataValue = value;
+                sensor.CurrentValue = value;
+            }
+            data.ReceivedValue = value;
+            data.Sensor = sensor;
+            data.ProcessAt = loggedAt;
+            data.DataDate = loggedAt;
+
+            _wmsdbcontext.SensorMinutelySummaryData.Add(data);
+        }
+
         private void CreateDailySummarySensorData(DateTime summaryDate, decimal value, Sensor sensor, DateTime loggedAt)
         {
+
+
             SensorDailySummaryData data = new SensorDailySummaryData();
             SensorDailySummaryData lastDaySummary = GetDailySummary(sensor.SensorId, summaryDate.AddDays(-1));
             decimal prevCumulativeValue = 0;
@@ -241,30 +319,35 @@ namespace AplombTech.WMS.Persistence.Repositories
             if (lastDaySummary != null)
             {
                 data.DataValue = value - lastDaySummary.ReceivedValue;
-                sensor.CurrentValue = value - lastDaySummary.ReceivedValue;
+                if (!(sensor is EnergySensor))
+                    sensor.CurrentValue = value - lastDaySummary.ReceivedValue;
                 prevCumulativeValue = lastDaySummary.ReceivedValue;
             }
             else
             {
                 data.DataValue = value;
-                sensor.CurrentValue = value;
+
+                if (!(sensor is EnergySensor))
+                    sensor.CurrentValue = value;
             }
             data.Sensor = sensor;
             data.ProcessAt = loggedAt;
-            
+
             if (sensor is FlowSensor)
             {
                 ((FlowSensor)sensor).CumulativeValue = data.ReceivedValue;
-                ((FlowSensor)sensor).LitrePerMinuteValue = (value - prevCumulativeValue) * (6 );
+                ((FlowSensor)sensor).LitrePerMinuteValue = (value - prevCumulativeValue) * (6);
             }
-            else
-            {
-                ((EnergySensor)sensor).CumulativeValue = data.ReceivedValue;
-                ((EnergySensor)sensor).KwPerHourValue = (value - prevCumulativeValue) / (decimal)(0.000277778);
+            //else
+            //{
+            //    ((EnergySensor)sensor).CumulativeValue = data.ReceivedValue;
+            //    ((EnergySensor)sensor).KwPerHourValue = (value - prevCumulativeValue) / (decimal)(0.000277778);
 
-            }
-            sensor.LastDataReceived = loggedAt;
+            //}
+            if (!(sensor is EnergySensor))
+                sensor.LastDataReceived = loggedAt;
             _wmsdbcontext.SensorDailySummaryData.Add(data);
+
         }
         private void CreateDailyAverageSensorData(DateTime summaryDate, decimal value, Sensor sensor, DateTime loggedAt)
         {
@@ -310,13 +393,31 @@ namespace AplombTech.WMS.Persistence.Repositories
                                                      select c).FirstOrDefault();
             return hourlySummary;
         }
+
+        private SensorMinutelySummaryData GetMinutelySummary(int sensorId, DateTime summaryDate, int summaryHour)
+        {
+            SensorMinutelySummaryData minutelySummary = (from c in _wmsdbcontext.SensorMinutelySummaryData
+                                                         where c.Sensor.SensorId == sensorId
+                                                           && c.DataDate == summaryDate
+                                                           && c.DataDate.Hour == summaryHour
+                                                         select c).OrderByDescending(o => o.ProcessAt).FirstOrDefault();
+            return minutelySummary;
+        }
         private SensorHourlySummaryData GetLastHourSummary(int sensorId, DateTime summaryDate)
         {
             SensorHourlySummaryData hourlySummary = (from c in _wmsdbcontext.SensorHourlySummaryData
                                                      where c.Sensor.SensorId == sensorId
                                                            && c.DataDate == summaryDate
-                                                     select c).OrderByDescending(o=>o.DataHour).FirstOrDefault();
+                                                     select c).OrderByDescending(o => o.DataHour).FirstOrDefault();
             return hourlySummary;
+        }
+        private SensorMinutelySummaryData GetLast5MinuteSummary(int sensorId, DateTime summaryDate)
+        {
+            SensorMinutelySummaryData minutelySummary = (from c in _wmsdbcontext.SensorMinutelySummaryData
+                                                         where c.Sensor.SensorId == sensorId
+                                                               && c.DataDate == summaryDate
+                                                         select c).OrderByDescending(o => o.DataDate).FirstOrDefault();
+            return minutelySummary;
         }
         private SensorDailyAverageData GetDailyAverageData(int sensorId, DateTime summaryDate)
         {
@@ -329,25 +430,25 @@ namespace AplombTech.WMS.Persistence.Repositories
         private SensorHourlyAverageData GetHourlyAverageData(int sensorId, DateTime summaryDate, int summaryHour)
         {
             SensorHourlyAverageData hourlyAverage = (from c in _wmsdbcontext.SensorHourlyAverageData
-                                                    where c.Sensor.SensorId == sensorId
-                                                    && c.DataDate == summaryDate
-                                                    && c.DataHour == summaryHour
-                                                    select c).FirstOrDefault();
+                                                     where c.Sensor.SensorId == sensorId
+                                                     && c.DataDate == summaryDate
+                                                     && c.DataHour == summaryHour
+                                                     select c).FirstOrDefault();
             return hourlyAverage;
         }
         private SensorOnOffSummaryData GetSensorOnOffData(int sensorId)
         {
             SensorOnOffSummaryData onOffDatae = (from c in _wmsdbcontext.SensorOnOffSummaryData
-                                                    where c.Sensor.SensorId == sensorId
-                                                    && c.OnDateTime ==null
-                                                     select c).OrderByDescending(o=>o.OffDateTime).FirstOrDefault();
+                                                 where c.Sensor.SensorId == sensorId
+                                                 && c.OnDateTime == null
+                                                 select c).OrderByDescending(o => o.OffDateTime).FirstOrDefault();
             return onOffDatae;
         }
         private MotorOnOffSummaryData GetMotorOnOffData(int motorId)
         {
             MotorOnOffSummaryData onOffDatae = (from c in _wmsdbcontext.MotorOnOffSummaryData
-                                                        where c.Motor.MotorID == motorId
-                                                        && c.OnDateTime == null
+                                                where c.Motor.MotorID == motorId
+                                                && c.OnDateTime == null
                                                 select c).OrderByDescending(o => o.OffDateTime).FirstOrDefault();
             return onOffDatae;
         }

@@ -90,6 +90,15 @@ namespace AplombTech.WMS.SensorDataLogBoundedContext.Repositories
 
         }
 
+        public SensorData GetSensorData(int SensorId)
+        {
+            SensorData sensorData = _sensorDataLogContext.SensorDatas
+                  .Where(x => (x.SensorId == SensorId)).OrderByDescending(o => o.ProcessAt).FirstOrDefault();
+
+            return sensorData;
+
+        }
+
         public void CreateNewMotorData(MotorData motorData)
         {
             _sensorDataLogContext.MotorDatas.Add(motorData);

@@ -1,6 +1,9 @@
 ﻿@using AplombTech.WMS.QueryModel.Reports
 @using AplombTech.WMS.Domain.Sensors
 @model List<AplombTech.WMS.Domain.Sensors.Sensor>
+@{
+    decimal cpdValue = 0;
+}
 
 <div id="imgContainer">
     <img src="@Url.Content("~/Images/scadamap.png")" class="img" alt="Scada map">
@@ -47,10 +50,12 @@
                 if (@sensor.CurrentValue <= 0)
                 {
                     <p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>
+                    cpdValue = 0;
                 }
                 else
                 {
                     <p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>
+                    cpdValue = 1;
                 }
             }
 
@@ -139,6 +144,17 @@
                             else
                             {
                                 <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-default">@ViewBag.MotorDataList[i].MotorStatus</span></p>
+                            }
+
+                            if (@ViewBag.MotorDataList[i].MotorStatus == "ON" && @cpdValue == 1)
+                            {
+                                <p style="margin-bottom: 2px;"><strong>Cholorination</strong> <span class="label label-success">ON</span></p>
+
+                            }
+                            else
+                            {
+                                <p style="margin-bottom: 2px;"><strong>Cholorination</strong> <span class="label label-danger">OFF</span></p>
+
                             }
 
                             @*<p style="margin-bottom: 2px;"><strong>Last Command time</strong>

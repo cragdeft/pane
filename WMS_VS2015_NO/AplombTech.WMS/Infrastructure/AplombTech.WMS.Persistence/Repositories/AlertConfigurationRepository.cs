@@ -26,6 +26,17 @@ namespace AplombTech.WMS.Persistence.Repositories
             return String.Empty;
         }
 
+        public AlertLog GetAlertLog(int alertObjectId,int hour)
+        {
+            return (from c in _wmsdbcontext.AlertLogs where c.AlertGereratedObjectId == alertObjectId && c.MessageDateTime.Hour == hour select c).FirstOrDefault();
+            
+        }
+
+        public void SaveAlertLog(AlertLog alertLog)
+        {
+            _wmsdbcontext.AlertLogs.Add(alertLog);
+        }
+
         public IList<AlertRecipient> GetReceipientsByAlertTypeId(int alertTypeId)
         {
             AlertType type=  (from c in _wmsdbcontext.AlertTypes where c.AlertTypeId == alertTypeId select c).Single();

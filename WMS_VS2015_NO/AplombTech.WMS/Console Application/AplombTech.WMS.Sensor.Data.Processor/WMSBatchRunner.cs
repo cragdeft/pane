@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AplombTech.WMS.Sensor.Data.Processor
@@ -25,7 +26,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             batchStartPoint.Execute(_framework);
             while (true)
             {
-
+                Thread.Sleep(5000);
             }
         }
 

@@ -43,6 +43,7 @@ namespace AplombTech.WMS.CompanyDatabase
         public DbSet<AlertType> AlertTypes { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<AlertRecipient> AlertRecipients { get; set; }
+        public DbSet<AlertLog> AlertLogs { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<LoginUser> LoginUsers { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
@@ -53,6 +54,7 @@ namespace AplombTech.WMS.CompanyDatabase
         public DbSet<RoleFeatures> RoleFeatures { get; set; }
         public DbSet<SensorHourlySummaryData> SensorHourlySummaryData { get; set; }
         public DbSet<SensorDailySummaryData> SensorDailySummaryData { get; set; }
+        public DbSet<SensorMinutelySummaryData> SensorMinutelySummaryData { get; set; }
         public DbSet<SensorHourlyAverageData> SensorHourlyAverageData { get; set; }
         public DbSet<SensorDailyAverageData> SensorDailyAverageData { get; set; }
         public DbSet<SensorOnOffSummaryData> SensorOnOffSummaryData { get; set; }

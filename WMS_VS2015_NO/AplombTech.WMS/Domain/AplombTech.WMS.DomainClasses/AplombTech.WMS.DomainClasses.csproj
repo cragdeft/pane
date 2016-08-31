@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alerts\AlertLog.cs" />
     <Compile Include="Alerts\AlertRecipient.cs" />
     <Compile Include="Alerts\AlertType.cs" />
     <Compile Include="Alerts\Designation.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="SummaryData\MotorOnOffSummaryData.cs" />
     <Compile Include="SummaryData\OnOffData.cs" />
     <Compile Include="SummaryData\SensorDailyAverageData.cs" />
+    <Compile Include="SummaryData\SensorMinutelySummaryData.cs" />
     <Compile Include="SummaryData\SensorDailySummaryData.cs" />
     <Compile Include="SummaryData\SensorHourlyAverageData.cs" />
     <Compile Include="SummaryData\SensorHourlySummaryData.cs" />

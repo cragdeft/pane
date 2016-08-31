@@ -1,5 +1,4 @@
 ﻿using AplombTech.WMS.AreaRepositories;
-using AplombTech.WMS.DataProcessRepository;
 using AplombTech.WMS.Domain.Alerts;
 using AplombTech.WMS.Domain.Areas;
 using AplombTech.WMS.Domain.Motors;
@@ -29,9 +28,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using AplombTech.WMS.Domain.SummaryData;
+using AplombTech.WMS.Persistence.Repositories;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using AplombTech.WMS.Persistence.UnitOfWorks;
+using AplombTech.WMS.SensorDataLogBoundedContext.Repositories;
+using AplombTech.WMS.SensorDataLogBoundedContext.UnitOfWorks;
+using ProcessRepository = AplombTech.WMS.DataProcessRepository.ProcessRepository;
 
 namespace AplombTech.WMS.MQTT.Client
 {
@@ -59,13 +62,40 @@ namespace AplombTech.WMS.MQTT.Client
             feedback
         }
         private MqttClient DhakaWasaMqtt { get; set; }
+        private Timer _Timer { get; set; }
         private bool IsSsl { get; set; }
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public void MqttClientInstance(bool isSSL)
         {
             IsSsl = isSSL;
             MakeConnection();
+            // InitiateTimer();
         }
+
+        private void InitiateTimer()
+        {
+            _Timer = new Timer(10000 * 6); // Set up the timer for 3 seconds
+                                           //
+                                           // Type "_timer.Elapsed += " and press tab twice.
+                                           //
+            _Timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
+            _Timer.Enabled = true;
+        }
+
+        void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                CheckDataConnection();
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
+
+
+
         private void BrokerConnectionWithoutCertificate()
         {
             DhakaWasaMqtt = new MqttClient(GetBrokerAddress(), GetBrokerPort(), false, null, null, MqttSslProtocols.None, null);
@@ -166,7 +196,7 @@ namespace AplombTech.WMS.MQTT.Client
 #if DEBUG
 
 #else
-            EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "(Local Deploy)WMS:Could not stablished connection to MQTT broker", ex.Message);
+                EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "(Local Deploy)WMS:Could not stablished connection to MQTT broker", ex.Message);
 #endif
                 //don't leave the client connected
                 if (DhakaWasaMqtt != null && DhakaWasaMqtt.IsConnected)
@@ -202,8 +232,9 @@ namespace AplombTech.WMS.MQTT.Client
                         {
                             case TopicType.SensorData:
                                 var deviceDataMessage = (SensorMessage)parsedMessage;
-                                ProcessSensorData(deviceDataMessage);
                                 ProcessMotorData(deviceDataMessage);
+                                ProcessSensorData(deviceDataMessage);
+                                
                                 break;
                             case TopicType.Configuration:
                                 var configDataMessage = (ConfigurationMessage)parsedMessage;
@@ -235,10 +266,13 @@ namespace AplombTech.WMS.MQTT.Client
                 Motor motor = AreaRepository.FindMotorByUuid(data.MotorUid);
                 if (motor != null && motor.IsActive)
                 {
+                    string lastMotorStatus = motor.MotorStatus;
                     ProcessRepository.CreateNewMotorData(data, messageObject.LoggedAt, motor);
                     PublishMessageForMotorSummaryGeneration(data, messageObject.LoggedAt, motor);
-                    if (motor is PumpMotor && data.MotorStatus == Motor.OFF)
+                    if (motor is PumpMotor && data.LastCommand != "NA" && data.MotorStatus != lastMotorStatus)
+                    {
                         PublishMotorAlertMessage(data, motor);
+                    }
                 }
             }
         }
@@ -254,6 +288,7 @@ namespace AplombTech.WMS.MQTT.Client
                 MessageDateTime = DateTime.Now
             };
             ServiceBus.Bus.Send(cmd);
+
         }
         private string GetMotorName(Motor motor)
         {
@@ -277,10 +312,23 @@ namespace AplombTech.WMS.MQTT.Client
                 {
                     ProcessRepository.CreateNewSensorData(data.Value, messageObject.LoggedAt, sensor);
                     PublishSensorMessageForSummaryGeneration(data, messageObject.LoggedAt, sensor);
-                    PublishSensorAlertMessage(data.Value, sensor);
+                    if (!IsAlertGeneratedForThisHour(sensor.SensorId))
+                        PublishSensorAlertMessage(data.Value, sensor);
                 }
             }
         }
+
+        private bool IsAlertGeneratedForThisHour(int sensorId)
+        {
+            using (WMSUnitOfWork uow = new WMSUnitOfWork())
+            {
+                AlertConfigurationRepository repo = new AlertConfigurationRepository(uow.CurrentObjectContext);
+                var alertMessage = repo.GetAlertLog(sensorId, DateTime.Now.Hour);
+
+                return alertMessage != null;
+            }
+        }
+
         private void PublishSensorMessageForSummaryGeneration(SensorValue data, DateTime loggedAt, Sensor sensor)
         {
             var cmd = new SensorSummaryGenerationMessage
@@ -379,6 +427,37 @@ namespace AplombTech.WMS.MQTT.Client
 
             return minimumValue;
         }
+
+        private void CheckDataConnection()
+        {
+            SendMailForPumpStation();
+        }
+
+        private void SendMailForPumpStation()
+        {
+
+            CheckAndMail("35");
+            CheckAndMail("45");
+            CheckAndMail("65");
+            CheckAndMail("75");
+        }
+
+        private void CheckAndMail(string sensorId)
+        {
+            var sensor = AreaRepository.FindSensorByUuid(sensorId);
+            if (sensor.LastDataReceived.HasValue && sensor.LastDataReceived.Value.AddMinutes(1) < DateTime.Now)
+            {
+                //#if DEBUG
+
+                //#else
+                EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com",
+                    "mosharraf.hossain@aplombtechbd.com", "Data sending stopped for " + sensor.PumpStation.Name,
+                    "(Local Deploy)WMS:Data sending is off for " + sensor.PumpStation.Name + ". Last datarecived on " +
+                    sensor.LastDataReceived);
+                //#endif
+            }
+        }
+
         private string GetSensorName(Sensor sensor)
         {
             string sensorName = String.Empty;
@@ -499,6 +578,7 @@ namespace AplombTech.WMS.MQTT.Client
         }
         private void ConnectionClosed_MQTT(object sender, EventArgs e)
         {
+            DhakaWasaMqtt = null;
             if (!(sender as MqttClient).IsConnected || DhakaWasaMqtt == null)
             {
                 HandleReconnect();

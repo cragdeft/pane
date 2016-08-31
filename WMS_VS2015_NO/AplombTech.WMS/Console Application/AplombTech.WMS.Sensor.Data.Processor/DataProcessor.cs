@@ -11,13 +11,14 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace AplombTech.WMS.Sensor.Data.Processor
 {
     public class DataProcessor : IHandleMessages<ProcessSensorData>
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        
         public enum JsonMessageType
         {
             configuration,

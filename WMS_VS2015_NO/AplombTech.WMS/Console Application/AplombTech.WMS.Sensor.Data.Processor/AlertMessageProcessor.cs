@@ -19,7 +19,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
         public void Handle(AlertMessage message)
         {
             string alertMessage = String.Empty;
-          
+
             IList<AlertRecipient> recipients = new List<AlertRecipient>();
             using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
@@ -29,7 +29,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             }
             if (message is SensorAlertMessage)
             {
-                HandleSensorMessage((SensorAlertMessage) message, alertMessage, recipients);
+                HandleSensorMessage((SensorAlertMessage)message, alertMessage, recipients);
             }
             if (message is MotorAlertMessage)
             {
@@ -39,16 +39,39 @@ namespace AplombTech.WMS.Sensor.Data.Processor
 
         private void HandleMotorMessage(MotorAlertMessage motorMessage, string alertMessage, IList<AlertRecipient> recipients)
         {
-            string[] messageList = alertMessage.Split('|');
-            string message = motorMessage.MotorName + " " + messageList[0] + " " + motorMessage.PumpStationName + messageList[1];
-
-            foreach (AlertRecipient recipient in recipients)
+            using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
-                if (recipient.Email.Trim().Length > 0)
-                    EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Pump Motor Is Off", message);
+                string[] messageList = alertMessage.Split('|');
 
-                if(recipient.MobileNo.Trim().Length>0)
-                    SmsSender.SendSMS(recipient.MobileNo, message);
+                string message = motorMessage.MotorName + " " + messageList[0] + " " + motorMessage.PumpStationName + " is "+motorMessage.MotorStatus;
+                AlertConfigurationRepository repo = new AlertConfigurationRepository(uow.CurrentObjectContext);
+
+
+                foreach (AlertRecipient recipient in recipients)
+                {
+
+                    AlertLog log = new AlertLog
+                    {
+                        AlertGereratedObjectId = motorMessage.MotorId,
+                        MessageDateTime = DateTime.Now,
+                        AlertMessageType = (int)AlertType.AlertTypeEnum.OnOff
+                    };
+
+                    if (recipient.Email.Trim().Length > 0)
+                    {
+                        log.ReciverEmail = recipient.Email;
+                        EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Pump Motor Is Off",
+                            message);
+                    }
+                    if (recipient.MobileNo.Trim().Length > 0)
+                    {
+                        log.ReciverMobileNo = recipient.MobileNo;
+                        SmsSender.SendSMS(recipient.MobileNo, message);
+                    }
+                    repo.SaveAlertLog(log);
+                }
+
+                uow.CurrentObjectContext.SaveChanges();
             }
         }
         private void HandleSensorMessage(SensorAlertMessage message, string alertMessage, IList<AlertRecipient> recipients)
@@ -71,39 +94,60 @@ namespace AplombTech.WMS.Sensor.Data.Processor
             string[] messageList = alertMessage.Split('|');
             string message = objmessage.SensorName + " " + messageList[0] + " " + objmessage.PumpStationName + messageList[1];
 
-            foreach (AlertRecipient recipient in recipients)
-            {
-                if (recipient.Email.Trim().Length > 0)
-                    EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Data Missing", message);
-                if (recipient.MobileNo.Trim().Length > 0)
-                    SmsSender.SendSMS(recipient.MobileNo, message);
-            }
+            SendSensorMessage(objmessage, recipients, AlertType.AlertTypeEnum.OnOff, "On Off",message);
         }
         private void SendDataMissingMessage(SensorAlertMessage objmessage, string alertMessage, IList<AlertRecipient> recipients)
         {
             string[] messageList = alertMessage.Split('|');
-            string message = messageList[0] + " " + objmessage.SensorName + " " + messageList[1] + " " + objmessage.PumpStationName ;
+            string message = messageList[0] + " " + objmessage.SensorName + " " + messageList[1] + " " + objmessage.PumpStationName;
 
-            foreach (AlertRecipient recipient in recipients)
-            {
-                if(recipient.Email.Trim().Length > 0)
-                    EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", "Data Missing", message);
-                if(recipient.MobileNo.Trim().Length > 0)
-                    SmsSender.SendSMS(recipient.MobileNo, message);
-            }
+            SendSensorMessage(objmessage, recipients, AlertType.AlertTypeEnum.DataMissing, "Data Missing", message);
         }
         private void SendUnderThresholdMessage(SensorAlertMessage objmessage, string alertMessage, IList<AlertRecipient> recipients)
         {
             string[] messageList = alertMessage.Split('|');
-            string message = messageList[0] + " " + objmessage.SensorName + " (Minimum value is " + objmessage.MinimumValue + " BUT received value is " + objmessage.Value + ") " + messageList[1] + " " + objmessage.PumpStationName;
+            string message = messageList[0] + " " + objmessage.SensorName + " (Minimum value is " +
+                             objmessage.MinimumValue + " BUT received value is " + objmessage.Value + ") " +
+                             messageList[1] + " " + objmessage.PumpStationName;
 
-            foreach (AlertRecipient recipient in recipients)
+            SendSensorMessage(objmessage, recipients, AlertType.AlertTypeEnum.UnderThreshold, "Under threshold Data", message);
+        }
+
+        private void SendSensorMessage(SensorAlertMessage objmessage, IList<AlertRecipient> recipients, AlertType.AlertTypeEnum alertType, string mailSubject, string message)
+        {
+            using (WMSUnitOfWork uow = new WMSUnitOfWork())
             {
-                if (recipient.Email.Trim().Length > 0)
-                    EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com","Under threshold Data", message);
-                if(recipient.MobileNo.Trim().Length > 0)
-                    SmsSender.SendSMS(recipient.MobileNo, message);
+                AlertConfigurationRepository repo = new AlertConfigurationRepository(uow.CurrentObjectContext);
+
+                foreach (AlertRecipient recipient in recipients)
+                {
+                    var alertLog = repo.GetAlertLog(objmessage.SensorId, DateTime.Now.Hour);
+                    if (alertLog == null)
+                    {
+                        AlertLog log = new AlertLog
+                        {
+                            AlertGereratedObjectId = objmessage.SensorId,
+                            MessageDateTime = DateTime.Now,
+                            AlertMessageType = (int)alertType
+                        };
+
+                        if (recipient.Email.Trim().Length > 0)
+                        {
+                            log.ReciverEmail = recipient.Email;
+                            EmailSender.SendEmail(recipient.Email, "mosharraf.hossain@aplombtechbd.com", mailSubject,
+                               message);
+                        }
+                        if (recipient.MobileNo.Trim().Length > 0)
+                        {
+                            log.ReciverMobileNo = recipient.MobileNo;
+                            SmsSender.SendSMS(recipient.MobileNo, message);
+                        }
+                        repo.SaveAlertLog(log);
+                    }
+                }
+                uow.CurrentObjectContext.SaveChanges();
             }
         }
+
     }
 }

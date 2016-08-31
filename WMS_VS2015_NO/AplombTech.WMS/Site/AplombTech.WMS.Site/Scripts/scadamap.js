@@ -33,8 +33,8 @@ var scadModule = (function (window, undefined) {
                     async: false,
                     success: function (data) {
                         if (data.IsSuccess == true) {
-                            $('#motorswitch *').prop('disabled', false);
-                            $('#connectionStatus').val('Online');
+                            
+                            //$('#connectionStatus').val('Online');
                             for (var i = 0; i < data.MotorList.length; i++) {
 
                                 //if the name is what we are looking for return it
@@ -42,6 +42,7 @@ var scadModule = (function (window, undefined) {
                                     $('#pmotorStatus').val(data.MotorList[i].MotorStatus);
                                     $('#pmotorCommandTime').val(data.MotorList[i].LastCommandTime);
                                     if (data.MotorList[i].Auto == true) {
+                                        $('#motorswitch *').prop('disabled', false);
                                         $("#pmotorAuto").text('Auto');
                                     } else {
                                         $("#pmotorAuto").text('Manual');

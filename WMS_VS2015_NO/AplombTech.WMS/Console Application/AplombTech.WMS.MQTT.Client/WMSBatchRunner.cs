@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NakedObjects.Core.Component
@@ -31,6 +32,7 @@ namespace NakedObjects.Core.Component
             //EndTransaction();
             while (true)
             {
+                Thread.Sleep(5000);
             }
         }
 

@@ -14,6 +14,7 @@ namespace AplombTech.WMS.AlertBoundedContext
         public DbSet<AlertType> AlertTypes { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<AlertRecipient> AlertRecipients { get; set; }
+        public DbSet<AlertLog> AlertLogs { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

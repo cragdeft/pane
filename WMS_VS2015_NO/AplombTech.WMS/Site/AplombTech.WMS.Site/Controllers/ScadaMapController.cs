@@ -148,7 +148,57 @@ namespace AplombTech.WMS.Site.Controllers
             List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
             List<Motor> motorDataList = new List<Motor>();
             motorDataList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
-            motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
+            //motorDataList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
+            var cholorineMotorData = _reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId));
+
+            if (cholorineMotorData != null)
+            {
+                if (cholorineMotorData.UUID == "32")
+                {
+                    var sensor = _reportRepository.GetPumpSingleSensorByUid("37");
+                    if (sensor.CurrentValue <= 0)
+                        cholorineMotorData.MotorStatus = "OFF";
+                    else
+                        cholorineMotorData.MotorStatus = "ON";
+                }
+
+                if (cholorineMotorData.UUID == "42")
+                {
+                    var sensor = _reportRepository.GetPumpSingleSensorByUid("47");
+                    if (sensor.CurrentValue <= 0)
+                        cholorineMotorData.MotorStatus = "OFF";
+                    else
+                        cholorineMotorData.MotorStatus = "ON";
+                }
+
+                if (cholorineMotorData.UUID == "62")
+                {
+                    var sensor = _reportRepository.GetPumpSingleSensorByUid("67");
+                    if (sensor.CurrentValue <= 0)
+                        cholorineMotorData.MotorStatus = "OFF";
+                    else
+                        cholorineMotorData.MotorStatus = "ON";
+                }
+
+                if (cholorineMotorData.UUID == "72")
+                {
+                    var sensor = _reportRepository.GetPumpSingleSensorByUid("77");
+                    if (sensor.CurrentValue <= 0)
+                        cholorineMotorData.MotorStatus = "OFF";
+                    else
+                        cholorineMotorData.MotorStatus = "ON";
+                }
+
+                if (cholorineMotorData.UUID == "82")
+                {
+                    var sensor = _reportRepository.GetPumpSingleSensorByUid("87");
+                    if (sensor.CurrentValue <= 0)
+                        cholorineMotorData.MotorStatus = "OFF";
+                    else
+                        cholorineMotorData.MotorStatus = "ON";
+                }
+            }
+            motorDataList.Add(cholorineMotorData);
             ViewBag.MotorDataList = motorDataList;
             //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
             return PartialView("~/Views/ScadaMap/ScadaMap.cshtml", sensorList);
@@ -163,7 +213,57 @@ namespace AplombTech.WMS.Site.Controllers
                 dictornary = ConvertSensorData(sensorList);
                 List<Motor> motorList = new List<Motor>();
                 motorList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
-                motorList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
+                //motorList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
+                var cholorineMotorData = _reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId));
+
+                if (cholorineMotorData != null)
+                {
+                    if (cholorineMotorData.UUID == "32")
+                    {
+                       var sensor = _reportRepository.GetPumpSingleSensorByUid("37");
+                        if (sensor.CurrentValue <= 0)
+                            cholorineMotorData.MotorStatus = "OFF";
+                        else
+                            cholorineMotorData.MotorStatus = "ON";
+                    }
+
+                    if (cholorineMotorData.UUID == "42")
+                    {
+                        var sensor = _reportRepository.GetPumpSingleSensorByUid("47");
+                        if (sensor.CurrentValue <= 0)
+                            cholorineMotorData.MotorStatus = "OFF";
+                        else
+                            cholorineMotorData.MotorStatus = "ON";
+                    }
+
+                    if (cholorineMotorData.UUID == "62")
+                    {
+                        var sensor = _reportRepository.GetPumpSingleSensorByUid("67");
+                        if (sensor.CurrentValue <= 0)
+                            cholorineMotorData.MotorStatus = "OFF";
+                        else
+                            cholorineMotorData.MotorStatus = "ON";
+                    }
+
+                    if (cholorineMotorData.UUID == "72")
+                    {
+                        var sensor = _reportRepository.GetPumpSingleSensorByUid("77");
+                        if (sensor.CurrentValue <= 0)
+                            cholorineMotorData.MotorStatus = "OFF";
+                        else
+                            cholorineMotorData.MotorStatus = "ON";
+                    }
+
+                    if (cholorineMotorData.UUID == "82")
+                    {
+                        var sensor = _reportRepository.GetPumpSingleSensorByUid("87");
+                        if (sensor.CurrentValue <= 0)
+                            cholorineMotorData.MotorStatus = "OFF";
+                        else
+                            cholorineMotorData.MotorStatus = "ON";
+                    }
+                }
+                motorList.Add(cholorineMotorData);
                 motorList = GetMotorDataList(motorList);
                 //ScadaViewModel model = new ScadaViewModel() {SensorList = sensorList,MotorDataList = motorDataList };
                 return Json(new { SensorList = JsonConvert.SerializeObject(dictornary), MotorList = motorList, LastDataRecived = sensorList[1].LastDataReceived.ToString(), IsSuccess = true }, JsonRequestBehavior.AllowGet);
@@ -187,7 +287,7 @@ namespace AplombTech.WMS.Site.Controllers
                     if (sensor is EnergySensor)
                         sensor.UnitName = "KW";
                     if (sensor != null)
-                        return Json(new { IsSuccess = true, Unit = sensor.UnitName, Name=GetName(sensor), Value = sensor.CurrentValue }, JsonRequestBehavior.AllowGet);
+                        return Json(new { IsSuccess = true, Unit = sensor.UnitName, Name = GetName(sensor), Value = sensor.CurrentValue }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception)
@@ -229,7 +329,7 @@ namespace AplombTech.WMS.Site.Controllers
                 motor.LastCommand = motorData.LastCommand;
                 motor.LastCommandTime = motorData.LastCommandTime;
                 motor.MotorStatus = motorData.MotorStatus;
-                
+
                 convertedMotorDataList.Add(motor);
             }
 
@@ -241,21 +341,23 @@ namespace AplombTech.WMS.Site.Controllers
             var dictornary = new Dictionary<string, string>();
             foreach (var sensor in sensorList)
             {
-                if (sensor is FlowSensor) { 
-                    dictornary.Add("FTQ_"+sensor.UUID, ((FlowSensor)sensor).LitrePerMinuteValue.ToString()+" Litre/Min");
+                if (sensor is FlowSensor)
+                {
+                    dictornary.Add("FTQ_" + sensor.UUID, ((FlowSensor)sensor).LitrePerMinuteValue.ToString() + " Litre/Min");
                     dictornary.Add("FTC_" + sensor.UUID, ((FlowSensor)sensor).CumulativeValue.ToString() + " Litre");
                 }
 
-                if (sensor is EnergySensor) { 
-                    dictornary.Add("ETQ_" + sensor.UUID, ((EnergySensor)sensor).KwPerHourValue.ToString()+ " kw");
+                if (sensor is EnergySensor)
+                {
+                    dictornary.Add("ETQ_" + sensor.UUID, ((EnergySensor)sensor).KwPerHourValue.ToString() + " kw");
                     dictornary.Add("ETC_" + sensor.UUID, ((EnergySensor)sensor).CumulativeValue.ToString() + " kw-hr");
                 }
 
                 if (sensor is PressureSensor)
-                    dictornary.Add("PT_" + sensor.UUID, sensor.CurrentValue.ToString()+" "+sensor.UnitName);
+                    dictornary.Add("PT_" + sensor.UUID, sensor.CurrentValue.ToString() + " " + sensor.UnitName);
 
                 if (sensor is LevelSensor)
-                    dictornary.Add("LT_" + sensor.UUID, sensor.CurrentValue.ToString()+" "+sensor.UnitName);
+                    dictornary.Add("LT_" + sensor.UUID, sensor.CurrentValue.ToString() + " " + sensor.UnitName);
 
                 if (sensor is BatteryVoltageDetector)
                     dictornary.Add("BV_" + sensor.UUID, sensor.CurrentValue.ToString() + " " + sensor.UnitName);
@@ -293,12 +395,15 @@ namespace AplombTech.WMS.Site.Controllers
             {
                 state = "\"" + state + "\"";
                 string commandTime = "\"" + DateTime.Now.ToString() + "\"";
-                string message = @"{""PumpStation_Id"": """+pumpStationId+@""",""Pump_Motor"": [{""Command"": " + state + @",""Command_Time"": " + commandTime + @"}]}";
+                string message = @"{""PumpStation_Id"": """ + pumpStationId + @""",""Pump_Motor"": [{""Command"": " + state + @",""Command_Time"": " + commandTime + @"}]}";
                 message.Replace(" ", string.Empty);
                 m2mMessageViewModel model = new m2mMessageViewModel();
                 model.MessgeTopic = "wasa/command/" + pumpStationId;
                 model.PublishMessage = message;
                 model.PublishMessageStatus = MQTTService.MQTTClientInstance(true).Publish(model.MessgeTopic, model.PublishMessage);
+                if (model.PublishMessageStatus == "Success")
+                {
+                }
                 return Json(new { Data = model.PublishMessageStatus, IsSuccess = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

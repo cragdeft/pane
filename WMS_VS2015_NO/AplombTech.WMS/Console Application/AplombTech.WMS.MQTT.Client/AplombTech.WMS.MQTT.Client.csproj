@@ -185,6 +185,10 @@
     <None Include="Resources\ca.crt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AplombTech.WMS.SensorDataLogBoundedContext\AplombTech.WMS.SensorDataLogBoundedContext.csproj">
+      <Project>{9d625f54-bae9-49e7-bc05-cfba1af7e20c}</Project>
+      <Name>AplombTech.WMS.SensorDataLogBoundedContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Domain\AplombTech.WMS.AreaRepositories\AplombTech.WMS.AreaRepositories.csproj">
       <Project>{a0482800-36f9-4192-a158-925987761bc9}</Project>
       <Name>AplombTech.WMS.AreaRepositories</Name>
