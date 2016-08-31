@@ -39,7 +39,7 @@ namespace AplombTech.WMS.Domain.Sensors
             Failed = 3
         }
         [MemberOrder(50), Optionally]
-        public virtual string Remarks { get; set; }
+        public virtual string ExceptionMessage { get; set; }
         #endregion
 
         #region  Navigation Properties

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain Layer", "Domain Layer", "{2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}"
 EndProject
@@ -76,6 +76,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.DomainClasses", "Domain\AplombTech.WMS.DomainClasses\AplombTech.WMS.DomainClasses.csproj", "{C2A6F489-7C45-4D49-9C71-7AAC936BC724}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.SensorDataLogBoundedContext", "AplombTech.WMS.SensorDataLogBoundedContext\AplombTech.WMS.SensorDataLogBoundedContext.csproj", "{9D625F54-BAE9-49E7-BC05-CFBA1AF7E20C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplombTech.WMS.Utility.Db", "Infrastructure\AplombTech.WMS.Utility.Db\AplombTech.WMS.Utility.Db.csproj", "{02331E59-5AD0-45F3-8CCE-308125D6BB14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -179,6 +181,10 @@ Global
 		{9D625F54-BAE9-49E7-BC05-CFBA1AF7E20C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D625F54-BAE9-49E7-BC05-CFBA1AF7E20C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D625F54-BAE9-49E7-BC05-CFBA1AF7E20C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02331E59-5AD0-45F3-8CCE-308125D6BB14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02331E59-5AD0-45F3-8CCE-308125D6BB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02331E59-5AD0-45F3-8CCE-308125D6BB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02331E59-5AD0-45F3-8CCE-308125D6BB14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,5 +223,6 @@ Global
 		{B1B97161-49E8-4D58-87FC-148DD42F9E37} = {2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}
 		{C2A6F489-7C45-4D49-9C71-7AAC936BC724} = {2C9EA76F-3605-49D7-BB5C-5A6F412DCE05}
 		{9D625F54-BAE9-49E7-BC05-CFBA1AF7E20C} = {183AC6CE-1574-4BD3-BB4A-3365A5A8F73A}
+		{02331E59-5AD0-45F3-8CCE-308125D6BB14} = {50E37B12-BA6B-4105-88B0-B1B35174B837}
 	EndGlobalSection
 EndGlobal

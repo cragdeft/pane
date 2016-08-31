@@ -162,10 +162,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchStartPoint.cs" />
+    <Compile Include="Configuring\MqttConfiguration.cs" />
+    <Compile Include="Configuring\MqttConfigurationLoader.cs" />
+    <Compile Include="ConnectionHandling\IMqttConnectionHandler.cs" />
+    <Compile Include="ConnectionHandling\MqttConnectionHandler.cs" />
+    <Compile Include="EventListening\IMqttEventListener.cs" />
+    <Compile Include="EventListening\MqttEventListener.cs" />
     <Compile Include="IWMSBatchRunner.cs" />
     <Compile Include="IWMSBatchStartPoint.cs" />
     <Compile Include="MqttClientService.cs" />
     <Compile Include="MqttClientWrapper.cs" />
+    <Compile Include="PumpStationMessages\Exceptions\SensorMessageException.cs" />
+    <Compile Include="PumpStationMessages\Processing\IMessageProcessor.cs" />
+    <Compile Include="PumpStationMessages\Processing\MessageProcessor.cs" />
+    <Compile Include="PumpStationMessages\Processing\MessageProcessorDbLogDecorator.cs" />
+    <Compile Include="PumpStationMessages\Processing\MessageProcessorExceptionLoggingDecorator.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -228,6 +239,10 @@
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Persistence\AplombTech.WMS.Persistence.csproj">
       <Project>{07383ccc-b5ab-499d-ac1c-25bfa183c9b3}</Project>
       <Name>AplombTech.WMS.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Utility.Db\AplombTech.WMS.Utility.Db.csproj">
+      <Project>{02331e59-5ad0-45f3-8cce-308125d6bb14}</Project>
+      <Name>AplombTech.WMS.Utility.Db</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.Utility.NakedObjects\AplombTech.WMS.Utility.NakedObjects.csproj">
       <Project>{79a83dc9-f113-437a-972c-fb42b59798a3}</Project>
