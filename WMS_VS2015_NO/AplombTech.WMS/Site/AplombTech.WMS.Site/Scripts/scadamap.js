@@ -2,13 +2,13 @@
 var scadModule = (function (window, undefined) {
     //#region Variables
     var isLoadScadaRunning = false;
-    var interval;
+    var scadaInterval;
     //#endregion 
 
     //#region Private Methods
     function clearRecursiveCall() {
-        if (interval != null)
-            clearInterval(interval);
+        if (scadaInterval != null)
+            clearInterval(scadaInterval);
 
     }
 
@@ -22,7 +22,7 @@ var scadModule = (function (window, undefined) {
 
             clearRecursiveCall();
 
-            interval = setInterval(function () {
+            scadaInterval = setInterval(function () {
 
                 $.ajax({
                     type: "POST",
@@ -186,7 +186,6 @@ var scadModule = (function (window, undefined) {
 
     function loadPumpStation(dmaId) {
         clearScada();
-        console.log(interval);
         clearRecursiveCall();
         if (!dmaId) return;// dmaId = 0;
         var dmaDownList = $('#SelectedPumpStationId');

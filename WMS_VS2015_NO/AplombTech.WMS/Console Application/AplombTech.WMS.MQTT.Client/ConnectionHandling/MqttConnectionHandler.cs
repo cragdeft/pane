@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AplombTech.WMS.Utility;
 using uPLibrary.Networking.M2Mqtt;
 
 namespace AplombTech.WMS.MQTT.Client.ConnectionHandling
@@ -88,11 +89,13 @@ namespace AplombTech.WMS.MQTT.Client.ConnectionHandling
             {
                 Log.Error("Could not established connection to MQTT broker - " + ex.Message);
 #if DEBUG
+                EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "SmartMeter:Could not stablished connection to MQTT broker", ex.Message);
+
 #else
                 EmailSender.SendEmail("mosharraf.hossain@aplombtechbd.com;sumon.kumar@aplombtechbd.com", "mosharraf.hossain@aplombtechbd.com", "SmartMeter:Could not stablished connection to MQTT broker", ex.Message);
 #endif
-                //don't leave the client connected
-                if (MqttClient != null && MqttClient.IsConnected)
+        //don't leave the client connected
+        if (MqttClient != null && MqttClient.IsConnected)
                 {
                     try
                     {

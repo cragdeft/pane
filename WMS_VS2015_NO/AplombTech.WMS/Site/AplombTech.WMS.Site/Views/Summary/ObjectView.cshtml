@@ -61,7 +61,7 @@
                         <h3>Flow</h3> <span>(litre/min)</span>
                     </th>
                     <th>
-                        <h3>Energy</h3> <span>(kw/h)</span>
+                        <h3>Energy</h3> <span>(kw)</span>
                     </th>
                     <th>
                         <h3>Chlorination</h3> <span>(-)</span>
@@ -136,7 +136,16 @@
 
                                 if (sensor is EnergySensor)
                                 {
-                                    energySensorValue = sensor.CurrentValue;
+                                    if (motorValue == "OFF")
+                                    {
+                                        energySensorValue = 0;
+                                    }
+
+                                    else
+                                    {
+                                        energySensorValue = ((EnergySensor)sensor).KwPerHourValue;
+
+                                    }
                                     esactive = sensor.IsActive;
                                 }
 
@@ -148,7 +157,7 @@
 
                                 if (sensor is FlowSensor)
                                 {
-                                    flowSensorValue = sensor.CurrentValue;
+                                    flowSensorValue = ((FlowSensor)sensor).LitrePerMinuteValue;
                                     fsactive = sensor.IsActive;
                                 }
 

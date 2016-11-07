@@ -26,9 +26,9 @@ namespace AplombTech.WMS.Persistence.Repositories
             return String.Empty;
         }
 
-        public AlertLog GetAlertLog(int alertObjectId,int hour)
+        public AlertLog GetAlertLog(int alertObjectId,int year,int month,int day,int hour)
         {
-            return (from c in _wmsdbcontext.AlertLogs where c.AlertGereratedObjectId == alertObjectId && c.MessageDateTime.Hour == hour select c).FirstOrDefault();
+            return (from c in _wmsdbcontext.AlertLogs where c.AlertGereratedObjectId == alertObjectId && c.MessageDateTime.Year == year && c.MessageDateTime.Month == month && c.MessageDateTime.Day == day  && c.MessageDateTime.Hour == hour select c).FirstOrDefault();
             
         }
 

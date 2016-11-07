@@ -121,7 +121,7 @@ namespace AplombTech.WMS.Sensor.Data.Processor
 
                 foreach (AlertRecipient recipient in recipients)
                 {
-                    var alertLog = repo.GetAlertLog(objmessage.SensorId, DateTime.Now.Hour);
+                    var alertLog = repo.GetAlertLog(objmessage.SensorId, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour);
                     if (alertLog == null)
                     {
                         AlertLog log = new AlertLog

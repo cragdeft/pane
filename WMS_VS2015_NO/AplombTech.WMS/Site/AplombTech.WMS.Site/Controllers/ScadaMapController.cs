@@ -209,10 +209,21 @@ namespace AplombTech.WMS.Site.Controllers
             try
             {
                 List<Sensor> sensorList = _reportRepository.GetSensorData(Convert.ToInt32(pumpStationId));
-                var dictornary = new Dictionary<string, string>();
-                dictornary = ConvertSensorData(sensorList);
+                
                 List<Motor> motorList = new List<Motor>();
                 motorList.Add(_reportRepository.GetPumpMotorData(Convert.ToInt32(pumpStationId)));
+                if (motorList[0].MotorStatus == "OFF")
+                {
+                    foreach (var sensor in sensorList)
+                    {
+                        if (sensor is EnergySensor)
+                        {
+                            ((EnergySensor) sensor).KwPerHourValue = 0;
+                        }
+                    }
+                }
+                var dictornary = new Dictionary<string, string>();
+                dictornary = ConvertSensorData(sensorList);
                 //motorList.Add(_reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId)));
                 var cholorineMotorData = _reportRepository.GetCholorineMotorData(Convert.ToInt32(pumpStationId));
 

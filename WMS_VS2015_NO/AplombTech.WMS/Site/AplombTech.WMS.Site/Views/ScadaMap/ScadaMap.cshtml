@@ -3,6 +3,7 @@
 @model List<AplombTech.WMS.Domain.Sensors.Sensor>
 @{
     decimal cpdValue = 0;
+    decimal etValue = 0;
 }
 
 <div id="imgContainer">
@@ -49,12 +50,12 @@
             {
                 if (@sensor.CurrentValue <= 0)
                 {
-                    <p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>
+                    @*<p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-danger">Off</span></p>*@
                     cpdValue = 0;
                 }
                 else
                 {
-                    <p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>
+                    @*<p style="text-align: right"><strong>Chlorine Presence</strong> <span id="CPD_@sensor.UUID" class="label label-success">On</span></p>*@
                     cpdValue = 1;
                 }
             }
@@ -77,8 +78,17 @@
 
             if (@sensor is EnergySensor)
             {
-                <p style="text-align: right"><strong>Energy</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@((((EnergySensor) sensor).KwPerHourValue)) kw</span></p>
-                <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CumulativeValue) kw-hr</span></p>
+                if (@ViewBag.MotorDataList[0].MotorStatus == "OFF")
+                {
+                    <p style="text-align: right"><strong>Energy</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">0 kw</span></p>
+
+                }
+                else
+                {
+                    <p style="text-align: right"><strong>Energy</strong> <span id="ETQ_@sensor.UUID" class="label label-primary">@((((EnergySensor)sensor).KwPerHourValue)) kw</span></p>
+
+                }
+               <p style="text-align: right"><strong>Energy(C)</strong> <span id="ETC_@sensor.UUID" class="label label-primary">@(((EnergySensor)sensor).CumulativeValue) kw-hr</span></p>
             }
         }
 
@@ -130,8 +140,8 @@
 
                         if (@ViewBag.MotorDataList[i] != null && i == 1)
                         {
-                            <h4 style="text-align: left;">Cholorine Motor</h4>
-                            if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
+                            <h4 style="text-align: left;">Chlorine System</h4>
+                            @*if (@ViewBag.MotorDataList[i].MotorStatus == "ON")
                             {
                                 <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-success">@ViewBag.MotorDataList[i].MotorStatus</span></p>
 
@@ -145,15 +155,15 @@
                             {
                                 <p style="margin-bottom: 2px;"><strong>Motor Status</strong> <span id="cmotorStatus" class="label label-default">@ViewBag.MotorDataList[i].MotorStatus</span></p>
                             }
-
+                            <br/>*@
                             if (@ViewBag.MotorDataList[i].MotorStatus == "ON" && @cpdValue == 1)
                             {
-                                <p style="margin-bottom: 2px;"><strong>Cholorination</strong> <span class="label label-success">ON</span></p>
+                                <p style="margin-bottom: 2px;"><strong>Chlorination</strong> <span class="label label-success">ON</span></p>
 
                             }
                             else
                             {
-                                <p style="margin-bottom: 2px;"><strong>Cholorination</strong> <span class="label label-danger">OFF</span></p>
+                                <p style="margin-bottom: 2px;"><strong>Chlorination</strong> <span class="label label-danger">OFF</span></p>
 
                             }
 
