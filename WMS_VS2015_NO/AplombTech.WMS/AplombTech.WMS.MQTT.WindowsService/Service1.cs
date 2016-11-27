@@ -24,8 +24,28 @@ namespace AplombTech.WMS.MQTT.WindowsService
         KillOldProcess();
         Log.WriteLog("Going To Start Wasa MqTT");
         Log.WriteLog(" Wasa MqTT Started");
-        System.Diagnostics.Process.Start(@"G:\DWasa\WMS_VS2015_NO\AplombTech.WMS\Console Application\AplombTech.WMS.MQTT.Client\bin\Release\AplombTech.WMS.MQTT.Client.exe");
-        System.Diagnostics.Process.Start(@"G:\DWasa\WMS_VS2015_NO\AplombTech.WMS\Console Application\AplombTech.WMS.Sensor.Data.Processor\bin\Release\AplombTech.WMS.Sensor.Data.Processor.exe");
+        ProcessStartInfo info = new ProcessStartInfo(@"G:\consoleapp\MQTT\AplombTech.WMS.MQTT.Client.exe");
+
+        try
+        {
+          Process.Start(info);
+        }
+        catch (System.ComponentModel.Win32Exception ex)
+        {
+          Log.WriteLog(ex.Message);
+        }
+        //System.Diagnostics.Process.Start(@"G:\consoleapp\MQTT\AplombTech.WMS.MQTT.Client.exe");
+        //System.Diagnostics.Process.Start(@"G:\consoleapp\DP\AplombTech.WMS.Sensor.Data.Processor.exe");
+        info = new ProcessStartInfo(@"G:\consoleapp\DP\AplombTech.WMS.Sensor.Data.Processor.exe");
+
+        try
+        {
+          Process.Start(info);
+        }
+        catch (System.ComponentModel.Win32Exception ex)
+        {
+          Log.WriteLog(ex.Message);
+        }
         Log.WriteLog("Going To Start Wasa Data Processor");
         Log.WriteLog("Wasa Data Processor started");
       }

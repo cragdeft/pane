@@ -339,7 +339,7 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td>{67DAFAF8-F5D7-4460-A6AE-0E9913ED6B00}</td><td>INSTALLDIR</td><td>2</td><td/><td>aplombtech.wms.mqtt.windowss</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td>{0BDCA9A1-16F4-4035-AFB4-D6F288CDABEF}</td><td>INSTALLDIR</td><td>2</td><td/><td>aplombtech.wms.mqtt.windowss</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{5DD99C7A-CD18-4C98-8440-BC3836DB84BF}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
@@ -1880,7 +1880,6 @@
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>aplombtech.wms.mqtt.windowss</td><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td>APLOMB~1.EXE|AplombTech.WMS.MQTT.WindowsService.exe</td><td>0</td><td/><td/><td/><td>1</td><td>G:\DWasa\WMS_VS2015_NO\AplombTech.WMS\AplombTech.WMS.MQTT.WindowsService\bin\Release\AplombTech.WMS.MQTT.WindowsService.exe</td><td>1</td><td/></row>
 		<row><td>aplombtech.wms.mqtt.windowss1</td><td>ISX_DEFAULTCOMPONENT</td><td>APLOMB~1.CON|AplombTech.WMS.MQTT.WindowsService.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>G:\DWasa\WMS_VS2015_NO\AplombTech.WMS\AplombTech.WMS.MQTT.WindowsService\bin\Release\AplombTech.WMS.MQTT.WindowsService.exe.config</td><td>1</td><td/></row>
-		<row><td>aplombtech.wms.mqtt.windowss2</td><td>ISX_DEFAULTCOMPONENT</td><td>APLOMB~1.PDB|AplombTech.WMS.MQTT.WindowsService.pdb</td><td>0</td><td/><td/><td/><td>1</td><td>G:\DWasa\WMS_VS2015_NO\AplombTech.WMS\AplombTech.WMS.MQTT.WindowsService\bin\Release\AplombTech.WMS.MQTT.WindowsService.pdb</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2022,7 +2021,7 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td/><td/><td>_E860225B_535A_44F3_83D7_21CCCCC52A37_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td/><td/><td>_B94340DC_16C2_4E2A_A431_FC7CC775786A_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_8F33EDE8_2E20_4897_8EAD_B6006911FFBD_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
@@ -2611,7 +2610,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>Your Company Name</td><td>0</td><td/><td>497321386</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>Your Company Name</td><td>0</td><td/><td>1168401387</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>497297994</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>497297994</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>497297994</td></row>
@@ -3427,6 +3426,7 @@
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>LAUNCH~1.EXE|Launch AplombTech.WMS.MQTT.WindowsService.exe</td><td>0</td><td/><td>497307082</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1033</td><td>LAUNCH~1.EXE|Launch AplombTech.WMS.MQTT.WindowsService.exe</td><td>0</td><td/><td>497331658</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME4</td><td>1033</td><td>LAUNCH~1.EXE|Launch AplombTech.WMS.MQTT.WindowsService.exe</td><td>0</td><td/><td>497332747</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME5</td><td>1033</td><td>LAUNCH~1.EXE|Launch AplombTech.WMS.MQTT.WindowsService.exe</td><td>0</td><td/><td>1168391179</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>497297994</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>497297994</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>497297994</td></row>
@@ -3716,8 +3716,8 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>497297994</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>497297994</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>497304138</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>http://www.YourCompanyName.com</td><td>0</td><td/><td>497321386</td></row>
-		<row><td>ID_STRING3</td><td>1033</td><td>Your Company Name</td><td>0</td><td/><td>497321386</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>http://www.YourCompanyName.com</td><td>0</td><td/><td>1168401387</td></row>
+		<row><td>ID_STRING3</td><td>1033</td><td>Your Company Name</td><td>0</td><td/><td>1168401387</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>497297994</td></row>
 	</table>
 
@@ -4415,7 +4415,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
-		<row><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td/><td>setup2</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -4501,7 +4500,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td>setup2</td><td>##IDS_SHORTCUT_DISPLAY_NAME4##</td><td>AplombTech.WMS.MQTT.WindowsService.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>AplombTech.WMS.MQT_99B8951881A24FE6AE5281B605B0E5D1.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
