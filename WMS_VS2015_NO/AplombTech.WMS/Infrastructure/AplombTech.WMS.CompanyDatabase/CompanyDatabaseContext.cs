@@ -67,7 +67,7 @@ namespace AplombTech.WMS.CompanyDatabase
 #if DEBUG
             Database.SetInitializer(new SampleDbInitializer());
 #else
-            Database.SetInitializer(new ProductionDbInitializer());
+            //Database.SetInitializer(new ProductionDbInitializer());
             //Database.SetInitializer<CommandModelDatabase>(null);
 #endif           
         }

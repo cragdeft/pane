@@ -27,11 +27,12 @@ namespace AplombTech.WMS.Site.Controllers
     {
       nakedObjectsFramework.DomainObjectInjector.InjectInto(this);
     }
-    
+
     public ActionResult Index()
     {
       return View();
     }
+  
 
     public ActionResult About()
     {
