@@ -21,7 +21,7 @@ namespace AplombTech.WMS.SensorDataLogBoundedContext.Facade
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 #if DEBUG
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SensorDataLogContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SensorDataLogContext>());
 #else
             Database.SetInitializer<SensorDataLogContext>(null);
 #endif

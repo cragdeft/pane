@@ -191,7 +191,9 @@
     <Compile Include="UnityConfig.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Resources\ca.crt" />
   </ItemGroup>
@@ -223,6 +225,10 @@
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.BaseDataLayer\AplombTech.WMS.BaseDataLayer.csproj">
       <Project>{19f6b495-cac3-4467-a109-90452c77cc14}</Project>
       <Name>AplombTech.WMS.BaseDataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.CompanyDatabase\AplombTech.WMS.CompanyDatabase.csproj">
+      <Project>{34aea7a5-d0df-46f6-8893-458cfbc72f72}</Project>
+      <Name>AplombTech.WMS.CompanyDatabase</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\AplombTech.WMS.DataProcessBoundedContext\AplombTech.WMS.DataProcessBoundedContext.csproj">
       <Project>{0ca2e7b3-b0aa-4e15-aec8-6eced946bbf7}</Project>
