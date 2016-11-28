@@ -65,9 +65,9 @@ namespace AplombTech.WMS.CompanyDatabase
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 #if DEBUG
-            Database.SetInitializer(new SampleDbInitializer());
+            //Database.SetInitializer(new SampleDbInitializer());
 #else
-            Database.SetInitializer(new ProductionDbInitializer());
+            //Database.SetInitializer(new ProductionDbInitializer());
             //Database.SetInitializer<CommandModelDatabase>(null);
 #endif           
         }

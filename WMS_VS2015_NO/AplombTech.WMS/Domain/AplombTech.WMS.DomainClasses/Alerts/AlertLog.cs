@@ -12,17 +12,21 @@ using System.Threading.Tasks;
 
 namespace AplombTech.WMS.Domain.Alerts
 {
-    public class AlertLog
-    {
-        #region Primitive Properties
-        [Key, NakedObjectsIgnore]
-        public virtual int AlertLogId { get; set; }
-        public virtual string ReciverEmail { get; set; }
-        public virtual string ReciverMobileNo { get; set; }
-        public int AlertMessageType { get; set; }
-        public DateTime MessageDateTime { get; set; }
-        public int AlertGereratedObjectId { get; set; }
-        #endregion
- 
-    }
+	public class AlertLog
+	{
+		#region Primitive Properties
+
+		[Key, NakedObjectsIgnore]
+		public virtual int AlertLogId { get; set; }
+		[StringLength(50)]
+		public virtual string ReciverEmail { get; set; }
+		[StringLength(50)]
+		public virtual string ReciverMobileNo { get; set; }
+		public int AlertMessageType { get; set; }
+		public DateTime MessageDateTime { get; set; }
+		public int AlertGereratedObjectId { get; set; }
+
+		#endregion
+
+	}
 }

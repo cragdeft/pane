@@ -108,7 +108,7 @@ namespace AplombTech.WMS.Site {
         public static EntityObjectStoreConfiguration EntityObjectStoreConfig() {
             var config = new EntityObjectStoreConfiguration();
             config.UsingCodeFirstContext(() => new CompanyDatabaseContext());
-            //config.UsingCodeFirstContext(() => new SensorDataLogContext());
+            config.UsingCodeFirstContext(() => new SensorDataLogContext());
             ////config.UsingCodeFirstContext(() => new CommandModelDatabase());
 
             //config.UsingCodeFirstContext(() => new UserAccountContext());
